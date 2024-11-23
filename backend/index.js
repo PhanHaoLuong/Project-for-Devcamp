@@ -1,10 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import bcryptjs from "bcryptjs";
 
 import { connectDB } from "./config/db.js";
 
 import user from './models/user.model.js';
+import { signToken } from "./utils/signToken.js";
 
 dotenv.config()
 const PORT = process.env.PORT
@@ -18,9 +20,14 @@ app.listen(PORT, () => {
 })
 
 app.get('/', async (req, res) =>{
-    const newUser = new user(req.body)
+    const { name, password } = req.body
+    const hashedPass = await bcryptjs.hash(password, 10)
+    const newUser = new user({
+        name,
+        password:hashedPass
+    })
+    console.log(await signToken(req.body))
     try {
-        
         await newUser.save()
         res.status(200).send('Success')
     } catch (error) {
@@ -28,17 +35,4 @@ app.get('/', async (req, res) =>{
     }
 })
 
-app.get('/:username', async (req, res) => {
-    const { username } = req.params
-    const { name } = req.body
-
-
-    try {
-        const usr = await user.findOne({name: username})
-        usr.followers.push(`${name}`)
-        await usr.save();
-        console.log(usr.followers)
-    } catch (error) {
-        console.log(error.message)
-    }
-})
+// app.use('/login', loginRoute)

@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    name:String,
-    password:String,
-    followers:Array
+    name: {
+        type: String,
+        unique: true
+    },
+    password:String
 })
 
 const user = mongoose.model('User', userSchema)
