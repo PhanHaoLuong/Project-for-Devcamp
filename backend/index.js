@@ -1,12 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import bcryptjs from "bcryptjs";
 
 import { connectDB } from "./config/db.js";
 
-import user from './models/user.model.js';
-import { signToken } from "./utils/signToken.js";
+import loginRoute from "./routes/login.route.js"
+import post from "./models/post.model.js";
 
 dotenv.config()
 const PORT = process.env.PORT
@@ -19,20 +18,15 @@ app.listen(PORT, () => {
     console.log(`Listening at PORT ${PORT}`)
 })
 
-app.get('/', async (req, res) =>{
-    const { name, password } = req.body
-    const hashedPass = await bcryptjs.hash(password, 10)
-    const newUser = new user({
-        name,
-        password:hashedPass
-    })
-    console.log(await signToken(req.body))
-    try {
-        await newUser.save()
-        res.status(200).send('Success')
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
-})
+app.use('/login', loginRoute)
 
-// app.use('/login', loginRoute)
+app.post('/upload', async (req, res) => {
+    const newPost = new post(req.body)
+    try {
+        await newPost.save();
+        res.status(200).send("OK")
+    } catch (error) {
+        console.error(error.message)
+    }
+    
+})
