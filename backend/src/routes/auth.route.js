@@ -6,14 +6,14 @@ import { signToken } from "../utils/signToken.js";
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/signup', async (req, res) => {
     const { name, password } = req.body
     const hashedPass = await bcryptjs.hash(password, 10)
     const newUser = new user({
         name,
         password:hashedPass
     })
-    console.log(await signToken(req.body))
+    console.log(await signToken(name))
     try {
         await newUser.save()
         res.status(200).send('Success')
