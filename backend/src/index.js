@@ -14,7 +14,7 @@ const app = express()
 app.use(express.json())
 
 app.listen(PORT, () => {
-    connectDB();
+/*     connectDB(); */
     console.log(`Listening at PORT ${PORT}`)
 })
 
