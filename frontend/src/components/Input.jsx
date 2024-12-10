@@ -1,8 +1,8 @@
 import React from 'react';
 
-function Input({ type, placeholder, onChange, value }) {
+function Input({ id, type, children, placeholder, onChange, value, className="input-field" }) {
   return (
-    <input type={type} placeholder={placeholder} onChange={onChange} value={value} />
+    <input type={type} id={id} placeholder={placeholder} onChange={onChange} value={value} className={className}>{children}</input>
   );
 }
 
