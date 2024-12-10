@@ -1,3 +1,8 @@
+img {
+    width: 20px;
+    height: 20px;
+}
+
 .page-content {
     display: flex;
     flex-direction: column;
@@ -14,19 +19,19 @@
 }
   
 .login-window {
-    color:white;
+    color:#BBC7DD;
     display: flex;
     background: none;
 
     flex-direction: column; 
     align-items: center; 
     justify-content: center;
-    overflow-x: hidden;
     border: solid white;
     height:100%;
     width: auto;
-
+    box-sizing: border-box;
 }
+
 
 .login-form {
     background-color: #192233;
@@ -37,16 +42,29 @@
 
     height: 50%;
     width: 50%;
+    min-height: 300px;
+    min-width: 400px;
     border: 1px solid rgb(255, 255, 255);
 }
 
 .login-body {
     display: flex;
-    flex-direction: column;;
-    height: 80%;
+    flex-direction: column;
+    align-items: stretch;
+    height: 90%;
     width: 67%;
-    align-items: center;
-    justify-content: space-between;
+    gap: 2%;
+}
+
+#login-title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+
+.login-body > .input-field {
+    width: 100%; /* Ensure elements take full width */
+    margin: 0;
 }
 
 .login-body * {
@@ -54,21 +72,98 @@
 }
 
 .input-container {
+    position: relative;
+    height: 100%;
     width: 100%
+}
+
+.login-options-container {
+    display: flex;
+    height: 50%;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .login-options {
     display: flex;
+    height: 50%;
     width: 100%;
     justify-content: space-between;
 }
 
-.input-field {
+.input-box {
+    display: flex;
+    justify-content: center;
+    border-radius: 100px;
+    height:40%;
+    background-color: #2B3547;
     width: inherit;
+    position: relative;  /* Added this */
+}
+
+.input-field {
+    color: #BBC7DD;
+    background: none;
+    border: 0;
+    height: 100%;
+    width: 95%
+}
+
+.input-field:focus {
+    border: 0;
+    outline: 0;
+}
+
+.pw-field-container {
+    position: relative;
+    width: inherit;
+    height: 100%;
+}
+
+.field-title{
+    position: relative;
+    bottom:2px;
+    font-size:70%;
+    
+}
+
+#pw-title {
+    /* font-family: serif; */
 }
 
 .login-extra {
     background-color: white;
     color: black;
     width: 50%;
+}
+
+.showhide-pw {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 100%;
+    top: 50%;  /* Changed from 45% to 50% */
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+#showhide-icon {
+    height: 20%;
+    
+}
+
+#pw-input {
+}
+
+.login-button-container {
+    height: 40%;
+    width: 100%;
+}
+
+#login-button {
+    height: 50%;
 }

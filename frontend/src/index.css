@@ -1,4 +1,11 @@
 html, body {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: -1px;
+  min-width: 600px;
+  min-height: 800px;
   height: 100%;
   margin: 0;
   padding: 0;

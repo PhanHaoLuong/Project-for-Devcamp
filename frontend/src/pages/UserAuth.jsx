@@ -1,9 +1,19 @@
+
+/*import modules */
 import React, { useState } from 'react';
+import sanitizeInput from '../utils/sanitizeInput';
+
+/* import Components */
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import Input from '../components/Input';
+
+/* import assets */
+import HiddenPw from '../assets/eye-off.png';
+import RevealedPw from '../assets/eye.png';
+
+/* import style */
 import '../styles/UserAuth.css';
-import HidePassword from '../assets/eye-off.png'
 
 const url = "http://localhost:3000/login";
 
@@ -11,6 +21,7 @@ const UserAuth = () => {
     const [name, setName] = useState("");
     const [pw, setPw] = useState("");
     const [isRmb, setIsRmb] = useState(false);
+    const [isHidden, setIsHidden] = useState(true);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -43,6 +54,7 @@ const UserAuth = () => {
         }
     };
 
+
     return (
         <>
             <div className="page-content">
@@ -50,32 +62,42 @@ const UserAuth = () => {
                 <div className="login-window">
                     <form onSubmit={handleSubmit} className="login-form">
                     <div className="login-body">
-                        <h1>login</h1>
+                        <div className="login-title">
+                            <h1 id="login-title">login</h1>
+                        </div>
                         <div className="input-container">
                             <span class="field-title">
                                 <h2 id="user-title">username</h2>
                             </span>
-                            <Input type="text" id="user-input" className="input-field" value={name} onChange={(n) => { setName(n.target.value) }} />
+                            <div className="input-box">
+                                <Input type="text" id="user-input" className="input-field" value={name} onChange={(n) => { setName(sanitizeInput(n.target.value)) }} />
+                            </div>
                         </div>
                         <div className="input-container">
                             <span class="field-title">
                                 <h2 id="pw-title">password</h2>
                             </span>
-                            <Input type="password" id="pw-input" className="input-field" value={pw} onChange={(p) => { setPw(p.target.value) }} />
+                            <div className="input-box">
+                                <Input type={isHidden ? "password" : "text"} id="pw-input" className="input-field" value={pw} onChange={(p) => { setPw(sanitizeInput(p.target.value)) }} />
+                            </div>
                             <span class="showhide-pw">
-                                <img src={HidePassword} id="showhide-icon"></img>
+                                <img src={isHidden ? HiddenPw : RevealedPw} id="showhide-icon" onClick={()=>{setIsHidden(!isHidden)}}></img>
                             </span>
                         </div>
-                        <div className="login-options">
-                            <div className="rmb-container">
-                                <input type="checkbox" className="" value=""></input>
-                                <label>Remember me</label>
-                            </div>
-                            <div>
-                                <a href="">Forgot password?</a>
+                        <div className="login-options-container">
+                            <div className="login-options">
+                                <div className="rmb-container">
+                                    <input type="checkbox" className="" value=""></input>
+                                    <label>Remember me</label>
+                                </div>
+                                <div>
+                                    <a href="">Forgot password?</a>
+                                </div>
                             </div>
                         </div>
-                        <Button children="Login" onClick={() => { }} type="submit" className="login-button" />
+                        <div className="login-button-container">
+                            <Button children="Login" onClick={() => { }} type="submit" id="login-button" />
+                        </div>
                     </div>
                     </form>
                     <div className="login-extra">bbbb</div>
