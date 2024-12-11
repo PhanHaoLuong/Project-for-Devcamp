@@ -61,46 +61,53 @@ const UserAuth = () => {
                 <Navbar />
                 <div className="login-window">
                     <form onSubmit={handleSubmit} className="login-form">
-                    <div className="login-body">
-                        <div className="login-title">
-                            <h1 id="login-title">login</h1>
-                        </div>
-                        <div className="input-container">
-                            <span class="field-title">
-                                <h2 id="user-title">username</h2>
-                            </span>
-                            <div className="input-box">
-                                <Input type="text" id="user-input" className="input-field" value={name} onChange={(n) => { setName(sanitizeInput(n.target.value)) }} />
+                        <div className="login-body">
+                            <div className="login-title">
+                                <h1 id="login-title">login</h1>
                             </div>
-                        </div>
-                        <div className="input-container">
-                            <span class="field-title">
-                                <h2 id="pw-title">password</h2>
-                            </span>
-                            <div className="input-box">
-                                <Input type={isHidden ? "password" : "text"} id="pw-input" className="input-field" value={pw} onChange={(p) => { setPw(sanitizeInput(p.target.value)) }} />
-                            </div>
-                            <span class="showhide-pw">
-                                <img src={isHidden ? HiddenPw : RevealedPw} id="showhide-icon" onClick={()=>{setIsHidden(!isHidden)}}></img>
-                            </span>
-                        </div>
-                        <div className="login-options-container">
-                            <div className="login-options">
-                                <div className="rmb-container">
-                                    <input type="checkbox" className="" value=""></input>
-                                    <label>Remember me</label>
-                                </div>
-                                <div>
-                                    <a href="">Forgot password?</a>
+                            <div className="input-container">
+                                <span class="field-title">
+                                    <h2 id="user-title">username</h2>
+                                </span>
+                                <div className="input-box">
+                                    <Input type="text" id="user-input" className="input-field" value={name} onChange={(n) => { setName(sanitizeInput(n.target.value)) }} />
                                 </div>
                             </div>
+                            <div className="input-container">
+                                <span class="field-title">
+                                    <h2 id="pw-title">password</h2>
+                                </span>
+                                <div className="input-box">
+                                    <Input type={isHidden ? "password" : "text"} id="pw-input" className="input-field" value={pw} onChange={(p) => { setPw(sanitizeInput(p.target.value)) }} />
+                                    <span class="showhide-pw">
+                                        <img src={isHidden ? HiddenPw : RevealedPw} id="showhide-icon" onClick={()=>{setIsHidden(!isHidden)}}></img>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div className="login-options-container">
+                                <div className="login-options">
+                                    <div className="rmb-container">
+                                        <input type="checkbox" id="rmb-checkbox" value=""></input>
+                                        <span className="checkmark"></span>
+                                        <label id="rmb-label">Remember me</label>
+                                    </div>
+                                    <div>
+                                        <a href="" id="forgot-pw">Forgot password?</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="login-button-container">
+                                <Button children="Login" onClick={() => { }} type="submit" id="login-button" />
+                            </div>
                         </div>
-                        <div className="login-button-container">
-                            <Button children="Login" onClick={() => { }} type="submit" id="login-button" />
+                    </form>
+                    <div className="login-extra">
+                        <div className="signup-container">
+                            <p id="new-user-text">new user?</p>
+                            <a href="" id="signup-link">sign up!</a>
                         </div>
                     </div>
-                    </form>
-                    <div className="login-extra">bbbb</div>
                 </div>
                 
             </div>

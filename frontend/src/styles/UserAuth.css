@@ -4,6 +4,7 @@ img {
 }
 
 .page-content {
+    font-size: 16px;
     display: flex;
     flex-direction: column;
     width: auto;
@@ -32,6 +33,17 @@ img {
     box-sizing: border-box;
 }
 
+.login-window a {
+    color: #008B8B;
+    text-decoration: none;
+    transition: all 0.1s ease-in-out;
+
+}
+
+.login-window a:active {
+    color: #0baca9;
+    transition: all 0.05s ease-in-out;
+}
 
 .login-form {
     background-color: #192233;
@@ -40,26 +52,30 @@ img {
     justify-content: center;
     align-items: center;
 
-    height: 50%;
+    height: auto;
     width: 50%;
     min-height: 300px;
     min-width: 400px;
-    border: 1px solid rgb(255, 255, 255);
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;;
+
+    box-sizing: border-box;
 }
+
 
 .login-body {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    height: 90%;
+    height: auto;
     width: 67%;
-    gap: 2%;
+    gap: 20px;
 }
 
 #login-title {
-    font-size: 1.5rem;
+    margin: 10px 0 0;
+    font-size: 1.3rem;
     text-align: center;
-    margin: 0 0 20px 0;
 }
 
 .login-body > .input-field {
@@ -73,15 +89,19 @@ img {
 
 .input-container {
     position: relative;
+    flex-direction: column;
+    display: flex;
     height: 100%;
-    width: 100%
+    align-items: stretch;
+    gap: 5px;
+    margin: 0;
 }
 
 .login-options-container {
+    position: relative;
     display: flex;
     height: 50%;
     flex-direction: column;
-    align-items: flex-start;
     width: 100%;
 }
 
@@ -89,25 +109,30 @@ img {
     display: flex;
     height: 50%;
     width: 100%;
-    justify-content: space-between;
+    position: absolute;
+    top: 2px;
 }
 
+
 .input-box {
-    display: flex;
-    justify-content: center;
+
     border-radius: 100px;
-    height:40%;
+
+    height:30px;
     background-color: #2B3547;
-    width: inherit;
-    position: relative;  /* Added this */
+
+    position: relative;
+    box-sizing: border-box;
 }
 
 .input-field {
+    transform:translateX(2%);
+    border: 0;
     color: #BBC7DD;
     background: none;
-    border: 0;
+
     height: 100%;
-    width: 95%
+    width: 85%;
 }
 
 .input-field:focus {
@@ -123,32 +148,53 @@ img {
 
 .field-title{
     position: relative;
+
     bottom:2px;
     font-size:70%;
     
 }
 
-#pw-title {
-    /* font-family: serif; */
-}
 
 .login-extra {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     background-color: white;
     color: black;
     width: 50%;
+    min-width: 400px;
+    height: 5%;
+    
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.signup-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    width: 67%;
+}
+
+#signup-link {
+    padding-left: 5px;
 }
 
 .showhide-pw {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     position: absolute;
-    height: 100%;
-    top: 50%;  /* Changed from 45% to 50% */
     right: 10px;
+    top: 50%;
     transform: translateY(-50%);
+    height: 300%;
     cursor: pointer;
+
 }
 
 #showhide-icon {
@@ -156,14 +202,50 @@ img {
     
 }
 
-#pw-input {
-}
 
 .login-button-container {
-    height: 40%;
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    height: 50%;
     width: 100%;
 }
 
 #login-button {
-    height: 50%;
+    margin: 15px 0 10px 0;
+    background-color:#008B8B;
+    font: inherit;
+    font-size: 100%;
+    position: relative;
+    border-radius: 10px;
+    border: 0;
+    top: 0;
+    width: 25%;
+    height: 35px;
+    z-index: 1;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+#login-button:active {
+    background-color:#0baca9;
+    transition: all 0.05s ease-in-out;
+}
+
+#forgot-pw {
+    position: absolute;
+    right: 0;
+}
+
+
+#rmb-label{
+    padding-left: 5px;
+}
+
+#rmb-checkbox {
+    color: black;
+}
+
+#rmb-checkbox:checked {
+    color: black;
 }
