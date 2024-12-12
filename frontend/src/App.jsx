@@ -3,12 +3,19 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import UserAuth from './pages/UserAuth';
+import UserSignUp from './pages/UserSignUp'
 /* import './App.css' */
 
 function App() {
   return (
     <>
-      <UserAuth />
+      <Router>
+        <Routes>
+          <Route path="/" element={<><h1 style={{color:'white'}}>homepage placeholder</h1><a href="/login">login</a></>}/>
+          <Route path="login" element={<UserAuth />} />
+          <Route path="signup" element={<UserSignUp />} />
+        </Routes>
+      </Router>
     </>
   )
 }

@@ -15,6 +15,8 @@ import RevealedPw from '../assets/eye.png';
 /* import style */
 import '../styles/UserAuth.css';
 
+
+/* Placeholder POST logic, to be implemented */
 const url = "http://localhost:3000/login";
 
 const UserAuth = () => {
@@ -90,22 +92,22 @@ const UserAuth = () => {
                                     <div className="rmb-container">
                                         <input type="checkbox" id="rmb-checkbox" value=""></input>
                                         <span className="checkmark"></span>
-                                        <label id="rmb-label">Remember me</label>
+                                        <label id="rmb-label">remember me</label>
                                     </div>
                                     <div>
-                                        <a href="" id="forgot-pw">Forgot password?</a>
+                                        <a href="" id="forgot-pw">forgot password?</a>
                                     </div>
                                 </div>
                             </div>
                             <div className="login-button-container">
-                                <Button children="Login" onClick={() => { }} type="submit" id="login-button" />
+                                <Button children="log in" onClick={() => { }} type="submit" id="login-button" />
                             </div>
                         </div>
                     </form>
                     <div className="login-extra">
                         <div className="signup-container">
                             <p id="new-user-text">new user?</p>
-                            <a href="" id="signup-link">sign up!</a>
+                            <a href="/signup" id="signup-link">sign up!</a>
                         </div>
                     </div>
                 </div>
