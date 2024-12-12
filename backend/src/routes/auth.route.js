@@ -1,25 +1,19 @@
 import express from "express";
 import bcryptjs from "bcryptjs";
 
-import user from "../models/user.model.js";
-import { signToken } from "../utils/signToken.js";
+import { authenticateUser, signup } from "../controllers/auth.controller.js";
 
 const router = express.Router();
 
-router.get('/signup', async (req, res) => {
+router.get('/signup', signup
+)
+
+router.get('/login', async (req, res) => {
     const { name, password } = req.body
-    const hashedPass = await bcryptjs.hash(password, 10)
-    const newUser = new user({
-        name,
-        password:hashedPass
-    })
-    console.log(await signToken(name))
-    try {
-        await newUser.save()
-        res.status(200).send('Success')
-    } catch (error) {
-        res.status(500).send(error.message)
+    
+    const user = await authenticateUser(name, password)
+    if (user) {
+        res.status(200).json(user.name)
     }
 })
-
 export default router
