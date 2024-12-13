@@ -20,10 +20,11 @@ import '../styles/UserSignUp.css';
 const url = "http://localhost:3000/login";
 
 const UserSignUp = () => {
+    const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [pw, setPw] = useState("");
-    const [email, setEmail] = useState("");
-    const [isHidden, setIsHidden] = useState(true);
+    const [cfpw, setCfpw] = useState("");
+
 
     
 
@@ -32,23 +33,17 @@ const UserSignUp = () => {
             <div className="page-content">
                 <Navbar />
                 <div className="signup-window">
-                    <form onSubmit={()=>{}} className="signup-form">
+                    <form onSubmit={()=>{}} className="signup-form" autoComplete="off">
                         <div className="signup-body">
                             <div className="signup-title">
                                 <h1 id="signup-title">signup</h1>
                             </div>
-                            <div className="required-container">
-                                <div id="required-details">
-                                    <sup className="required-asterisk">*</sup>
-                                    <h2>required details</h2>
-                                </div>
-                            </div>
                             <div className="input-container">
                                 <span class="field-title">
-                                    <h2 id="email-title">email<sup className="required-asterisk">*</sup></h2>
+                                    <h2 id="email-title">email</h2>
                                 </span>
                                 <div className="input-box">
-                                    <Input type="text" id="user-input" className="input-field" value={name} onChange={(n) => { setName(sanitizeInput(n.target.value)) }} />
+                                    <Input type="email" id="user-input" className="input-field" value={email} onChange={(n) => { setEmail(sanitizeInput(n.target.value))}}/>
                                 </div>
                             </div>
                             <div className="input-container">
@@ -61,35 +56,23 @@ const UserSignUp = () => {
                             </div>
                             <div className="input-container">
                                 <span class="field-title">
-                                    <h2 id="user-title">username</h2>
+                                    <h2 id="user-title">password</h2>
                                 </span>
                                 <div className="input-box">
-                                    <Input type="text" id="user-input" className="input-field" value={name} onChange={(n) => { setName(sanitizeInput(n.target.value)) }} />
+                                    <Input type="password" id="user-input" className="input-field" value={pw} onChange={(n) => { setPw(sanitizeInput(n.target.value)) }} />
                                 </div>
                             </div>
                             <div className="input-container">
                                 <span class="field-title">
-                                    <h2 id="user-title">username</h2>
+                                    <h2 id="user-title">confirm password</h2>
                                 </span>
                                 <div className="input-box">
-                                    <Input type="text" id="user-input" className="input-field" value={name} onChange={(n) => { setName(sanitizeInput(n.target.value)) }} />
-                                </div>
-                            </div>
-                            
-                            <div className="signup-options-container">
-                                <div className="signup-options">
-                                    <div className="rmb-container">
-                                        <input type="checkbox" id="rmb-checkbox" value=""></input>
-                                        <span className="checkmark"></span>
-                                        <label id="rmb-label">Remember me</label>
-                                    </div>
-                                    <div>
-                                        <a href="" id="forgot-pw">Forgot password?</a>
-                                    </div>
+                                    <Input type="password" id="user-input" className="input-field" value={cfpw} onChange={(n) => { setCfpw(sanitizeInput(n.target.value)) }} />
                                 </div>
                             </div>
                             <div className="signup-button-container">
-                                <Button children="Login" onClick={() => { }} type="submit" id="login-button" />
+                                <a id="to-login-button">&lt; Back to login </a>
+                                <Button children="sign up" onClick={() => { }} type="submit" id="login-button" />
                             </div>
                         </div>
                     </form>

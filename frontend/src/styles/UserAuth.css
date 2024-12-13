@@ -72,8 +72,7 @@ img {
     width: 50%;
     min-height: 300px;
     min-width: 400px;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;;
+    border-radius: 10px;
 
     box-sizing: border-box;
 }
@@ -172,18 +171,19 @@ img {
 
 
 .login-extra {
-    font-weight: 20;
+    font-weight: 10;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: white;
+    background-color: #D9D9D9;
     color: black;
     width: 50%;
     min-width: 400px;
     height: 5%;
     
-    font-size: 0.8em;
+    font-size: 1em;
+    letter-spacing: 0px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -276,4 +276,5 @@ img {
 
 #new-user-text {
     color: #192233;
+
 }
