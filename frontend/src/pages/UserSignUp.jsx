@@ -22,7 +22,7 @@ const url = "http://localhost:3000/login";
 const UserSignUp = () => {
     const [name, setName] = useState("");
     const [pw, setPw] = useState("");
-    const [isRmb, setIsRmb] = useState(false);
+    const [email, setEmail] = useState("");
     const [isHidden, setIsHidden] = useState(true);
 
     
@@ -93,12 +93,7 @@ const UserSignUp = () => {
                             </div>
                         </div>
                     </form>
-                    <div className="signup-extra">
-                        <div className="signup-container">
-                            <p id="new-user-text">new user?</p>
-                            <a href="/signup" id="signup-link">sign up!</a>
-                        </div>
-                    </div>
+
                 </div>
                 
             </div>

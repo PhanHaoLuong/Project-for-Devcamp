@@ -11,8 +11,8 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<><h1 style={{color:'white'}}>homepage placeholder</h1><a href="/login">login</a></>}/>
-          <Route path="login" element={<UserAuth />} />
+          <Route path="/" element={<><h1 style={{color:'white'}}>homepage placeholder</h1><a href="/auth/login">login</a></>}/>
+          <Route path="/auth/login" element={<UserAuth />} />
           <Route path="signup" element={<UserSignUp />} />
         </Routes>
       </Router>
