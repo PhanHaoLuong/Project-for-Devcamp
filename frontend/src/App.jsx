@@ -4,7 +4,7 @@ import UserInfo from "./components/UserInfo";
 
 function App() {
   return (
-    <Router>
+    <Router> {/* Used to mark active route */}
       <Navbar />
       <UserInfo />
     </Router>
