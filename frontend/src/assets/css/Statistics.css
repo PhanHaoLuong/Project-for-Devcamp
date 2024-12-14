@@ -1,26 +1,28 @@
-.statistics {
-    margin: 0 0.25rem;
-    padding: 1rem;
-    border-radius: 10px;
-    display: inline-block;
-    width: 22%;
-    height: 8rem;
+.stat {
+    display: flex;
+    flex-direction: column; /* Default vertical layout */
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    width: 22%; /* Approx four items per row on large screens */
+    padding: 1rem;
     background-color: var(--box-bg-color);
     color: var(--font-color);
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
 }
 
-.statistics .statistics-icon {
+.statistics-icon {
     font-size: 3rem;
     margin-bottom: 0.5rem;
 }
 
-.statistics p {
-    margin: 0;
+.stat p {
+    margin: 0.5rem 0;
     font-size: 16px;
 }
 
-.statistics h4 {
+.stat h4 {
     margin-top: 0.5rem;
     font-size: 1.2rem;
     font-weight: bold;

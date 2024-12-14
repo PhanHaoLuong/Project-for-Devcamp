@@ -1,5 +1,5 @@
-import Navbar from "./components/Navbar";
-import UserInfo from "./components/UserInfo";
+import Navbar from "../components/Navbar";
+import UserInfo from "../components/UserInfo";
 
 function App() {
   return (
