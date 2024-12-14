@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";  // Import useLocation
 import "../assets/css/navbar.css";
 import "../assets/fonts/themify-icons/themify-icons.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const location = useLocation(); // Get the current URL location
 
   useEffect(() => {
     const handleResize = () => {
@@ -23,6 +25,9 @@ const Navbar = () => {
     setMenuOpen(!menuOpen);
   };
 
+  // Helper function to check if the link is active
+  const isActive = (path) => location.pathname === path;
+
   return (
     <nav className="navbar">
       <div className="navbar-logo">
@@ -31,15 +36,35 @@ const Navbar = () => {
       <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
         {menuOpen && (
           <>
-            <li><a href="/search"><i className="ti-search"></i> search</a></li>
+            <li>
+              <a href="/search" className={isActive("/search") ? "active" : ""}>
+                <i className="ti-search"></i> search
+              </a>
+            </li>
           </>
         )}
-        <li><a href="/home">home</a></li>
-        <li><a href="/forum">forum</a></li>
-        <li><a href="/help">help</a></li>
+        <li>
+          <a href="/home" className={isActive("/home") ? "active" : ""}>
+            home
+          </a>
+        </li>
+        <li>
+          <a href="/forum" className={isActive("/forum") ? "active" : ""}>
+            forum
+          </a>
+        </li>
+        <li>
+          <a href="/help" className={isActive("/help") ? "active" : ""}>
+            help
+          </a>
+        </li>
         {menuOpen && (
           <>
-            <li><a href="/contact"><i className="ti-email"></i> contact us</a></li>
+            <li>
+              <a href="/contact" className={isActive("/contact") ? "active" : ""}>
+                <i className="ti-email"></i> contact us
+              </a>
+            </li>
           </>
         )}
       </ul>
