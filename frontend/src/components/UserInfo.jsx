@@ -1,3 +1,8 @@
+// TODO: Create smple database using MongoDB, with 1 collection named "users", each user has username, realname, bio, reputation, totalPosts, comments, views
+// TODO: Create a simple API to fetch user data from the database using Node.js and Express.js
+// TODO: Fetch user data from the server and display it on the page
+// TODO: Change the statistics color
+
 import React from "react";
 import "../assets/css/userinfo.css";
 import Statistics from "./Statistics";
@@ -27,10 +32,10 @@ const UserInfo = () => {
         </div>
         <div className="user-stats">
           {/* Handle request statistics later*/}
-          <Statistics class="stat" iconClass="ti-medall reputation" label="Reputation" value="6969" />
-          <Statistics class="stat" iconClass="ti-medall posts" label="Total Posts" value="666" />
-          <Statistics class="stat" iconClass="ti-medall comments" label="Comments" value="2024" />
-          <Statistics class="stat" iconClass="ti-medall views" label="Views" value="255" />
+          <Statistics class="stat" iconClass="ti-medall reputation" label="Reputation" value="6969" color="color1" />
+          <Statistics class="stat" iconClass="ti-medall posts" label="Total Posts" value="666" color="color2" />
+          <Statistics class="stat" iconClass="ti-medall comments" label="Comments" value="2024" color="color3" />
+          <Statistics class="stat" iconClass="ti-medall views" label="Views" value="255" color="color4" />
         </div>
         <div className="contributions">
           <h3>Contributions</h3>

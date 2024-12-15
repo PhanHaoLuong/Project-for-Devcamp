@@ -1,3 +1,7 @@
+// TODO: Create smple database using MongoDB, with 1 collection named "users", each user has username, realname, bio, reputation, totalPosts, comments, views
+// TODO: Create a simple API to fetch user data from the database using Node.js and Express.js
+// TODO: Fetch user data from the server and display it on the page
+
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";  // Import useLocation
 import "../assets/css/navbar.css";
@@ -10,7 +14,13 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 450);
+      const smallScreen = window.innerWidth < 450;
+      setIsSmallScreen(smallScreen);
+
+      // Close menu and reset state if returning to large screen
+      if (!smallScreen) {
+        setMenuOpen(false);
+      }
     };
 
     handleResize(); // Check initial width
