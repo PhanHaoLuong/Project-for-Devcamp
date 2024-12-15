@@ -2,6 +2,7 @@
 /*import modules */
 import React, { useState } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
+import * as pageAddress from './page-address.json';
 
 /* import Components */
 import Navbar from '../components/Navbar';
@@ -36,7 +37,7 @@ const UserSignUp = () => {
                     <form onSubmit={()=>{}} className="signup-form" autoComplete="off">
                         <div className="signup-body">
                             <div className="signup-title">
-                                <h1 id="signup-title">signup</h1>
+                                <h1 id="signup-title">create new account</h1>
                             </div>
                             <div className="input-container">
                                 <span class="field-title">
@@ -71,7 +72,7 @@ const UserSignUp = () => {
                                 </div>
                             </div>
                             <div className="signup-button-container">
-                                <a id="to-login-button">&lt; Back to login </a>
+                                <a href={pageAddress.login} id="to-login-button">&lt; back to login </a>
                                 <Button children="sign up" onClick={() => { }} type="submit" id="login-button" />
                             </div>
                         </div>

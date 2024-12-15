@@ -2,6 +2,7 @@
 /*import modules */
 import React, { useState } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
+import * as pageAddress from './page-address.json';
 
 /* import Components */
 import Navbar from '../components/Navbar';
@@ -107,7 +108,7 @@ const UserAuth = () => {
                     <div className="login-extra">
                         <div className="signup-container">
                             <p id="new-user-text">new user?</p>
-                            <a href="/signup" id="signup-link">sign up!</a>
+                            <a href={pageAddress.signup} id="signup-link">create new account!</a>
                         </div>
                     </div>
                 </div>
