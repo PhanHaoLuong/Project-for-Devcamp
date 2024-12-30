@@ -1,9 +1,9 @@
 
 /*import modules */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
+import { valName, valPw } from '../utils/validateInput';
 import * as pageAddress from './page-address.json';
-
 
 /* import Components */
 import Navbar from '../components/Navbar';
@@ -27,7 +27,20 @@ const UserAuth = () => {
     const [RmbMe, setRmbMe] = useState(false);
     const [isHidden, setIsHidden] = useState(true);
 
+    // handle empty field
+    const [hasEmptyRequired, setHasEmptyRequired] = useState(true);
 
+    // gray-out signup button state
+    const [isHover, setHover] = useState(true); 
+
+    useEffect(() => {
+        if (name && pw){ 
+            setHasEmptyRequired(false);
+        } else {
+            setHasEmptyRequired(true);
+        }
+
+    }, [name, pw]); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -78,6 +91,11 @@ const UserAuth = () => {
                                 <div className="input-box">
                                     <Input type="text" id="user-input" className="input-field" value={name} onChange={(n) => { setName(sanitizeInput(n.target.value)) }} />
                                 </div>
+                                {/* <div className="error-container" id="invalid-name-container">
+                                    {isInvalName ? 
+                                        (<p className="error-message" id="invalid-name">emails must be a valid email address.</p>) : ('')
+                                    }
+                                </div> */}
                             </div>
                             <div className="input-container">
                                 <span class="field-title">
@@ -104,7 +122,19 @@ const UserAuth = () => {
                                 </div>
                             </div>
                             <div className="login-button-container">
-                                <Button children="log in" onClick={() => { }} type="submit" id="login-button" />
+                                <Button children="log in" type="submit" id="login-button" onClick={
+                                    !(hasEmptyRequired) ? handleSubmit : (event) => {
+                                        event.preventDefault();
+                                    }
+                                }
+                                onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} 
+                                style={(hasEmptyRequired) ? {
+                                    "background-color":"grey",
+                                    "color": "#262626",
+                                    "cursor": "not-allowed",
+                                    "outline": "0",
+                                    "box-shadow": "none"
+                                } : {}} />
                             </div>
                         </div>
                     </form>

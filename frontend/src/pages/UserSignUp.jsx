@@ -69,7 +69,7 @@ const UserSignUp = () => {
             }
         }, 800);
           
-            return () => clearTimeout(timeoutId); 
+        return () => clearTimeout(timeoutId); 
     }, [email, name, pw, cfpw]); 
 
     const hasInvalidInput = [isInvalEmail, isInvalName, isInvalPw, isUnmatchedPw].some((isErr) => isErr === true);
