@@ -38,38 +38,38 @@ const UserSignUp = () => {
 
     // validation handling
     useEffect(() => {
+        if (email && name && pw && cfpw){ 
+            setHasEmptyRequired(false);
+        } else {
+            setHasEmptyRequired(true);
+        }
         const timeoutId = setTimeout(() => {
-            if (email && name && pw && cfpw){ 
-                setHasEmptyRequired(false);
-                if (!valEmail(email)) {
-                    setInvalEmail(true);
-                } else {
-                    setInvalEmail(false);
-                }
-
-                if (!valName(name)) {
-                    setInvalName(true);
-                } else {
-                    setInvalName(false);
-                }
-
-                if (!valPw(pw)) {
-                    setInvalPw(true);
-                } else {
-                    setInvalPw(false);
-                }
-
-                if (cfpw !== pw) {
-                    setUnmatchedPw(true);
-                } else {
-                    setUnmatchedPw(false);
-                }   
-            } else {
-                setHasEmptyRequired(true);
+            if (email && !valEmail(email)) {
+                setInvalEmail(true);
+             } else {
+                setInvalEmail(false);
             }
+
+            if (name && !valName(name)) {
+                setInvalName(true);
+            } else {
+                setInvalName(false);
+            }
+
+            if (pw && !valPw(pw)) {
+                setInvalPw(true);
+            } else {
+                setInvalPw(false);
+            }
+
+            if (cfpw && cfpw !== pw) {
+                setUnmatchedPw(true);
+            } else {
+                setUnmatchedPw(false);
+            }   
         }, 800);
           
-        return () => clearTimeout(timeoutId); 
+            return () => clearTimeout(timeoutId); 
     }, [email, name, pw, cfpw]); 
 
     const hasInvalidInput = [isInvalEmail, isInvalName, isInvalPw, isUnmatchedPw].some((isErr) => isErr === true);
