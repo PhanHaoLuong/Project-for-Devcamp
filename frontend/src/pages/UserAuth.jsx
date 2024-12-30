@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
 import * as pageAddress from './page-address.json';
 
+
 /* import Components */
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
@@ -23,8 +24,10 @@ const url = "http://localhost:3000/login";
 const UserAuth = () => {
     const [name, setName] = useState("");
     const [pw, setPw] = useState("");
-    const [isRmb, setIsRmb] = useState(false);
+    const [RmbMe, setRmbMe] = useState(false);
     const [isHidden, setIsHidden] = useState(true);
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,7 +38,7 @@ const UserAuth = () => {
                 headers: {
                   'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name, pw, isRmb })
+                body: JSON.stringify({ name, pw, RmbMe })
               });
             if (response) {
                 if (response.ok) {
@@ -91,7 +94,7 @@ const UserAuth = () => {
                             <div className="login-options-container">
                                 <div className="login-options">
                                     <div className="rmb-container">
-                                        <input type="checkbox" id="rmb-checkbox" value=""></input>
+                                        <input type="checkbox" id="rmb-checkbox" value="" onClick={() => {setRmbMe(true)}}></input>
                                         <span className="checkmark"></span>
                                         <label id="rmb-label">remember me</label>
                                     </div>
