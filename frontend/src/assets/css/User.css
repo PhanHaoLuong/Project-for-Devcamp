@@ -13,7 +13,8 @@
     color: var(--font-color);
     width: 100%;
     max-width: 600px;
-    box-sizing: border-box; /* Prevent padding from affecting width */
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .user-info .header {

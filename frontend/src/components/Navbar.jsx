@@ -1,11 +1,7 @@
-// TODO: Create smple database using MongoDB, with 1 collection named "users", each user has username, realname, bio, reputation, totalPosts, comments, views
-// TODO: Create a simple API to fetch user data from the database using Node.js and Express.js
-// TODO: Fetch user data from the server and display it on the page
-
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";  // Import useLocation
+import { useLocation } from "react-router-dom";
 import "../assets/css/navbar.css";
-import "../assets/fonts/themify-icons/themify-icons.css";
+import Avatar from "./Avatar";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,13 +13,12 @@ const Navbar = () => {
       const smallScreen = window.innerWidth < 450;
       setIsSmallScreen(smallScreen);
 
-      // Close menu and reset state if returning to large screen
       if (!smallScreen) {
         setMenuOpen(false);
       }
     };
 
-    handleResize(); // Check initial width
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -35,7 +30,7 @@ const Navbar = () => {
     setMenuOpen(!menuOpen);
   };
 
-  // Helper function to check if the link is active
+  // Check if the link is active
   const isActive = (path) => location.pathname === path;
 
   return (
@@ -81,7 +76,9 @@ const Navbar = () => {
       <div className="navbar-actions">
         {!menuOpen && !isSmallScreen && <i className="ti-search search-btn"></i>}
         {!menuOpen && !isSmallScreen && <i className="ti-email email-btn"></i>}
-        <div className="profile-circle"></div>
+        <a href="/user">
+          <Avatar user={{ name: "test" }} />
+        </a>
         <div className="hamburger-menu" onClick={toggleMenu}>
           <span className="line"></span>
           <span className="line"></span>

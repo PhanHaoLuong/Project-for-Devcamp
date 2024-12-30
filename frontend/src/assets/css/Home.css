@@ -1,0 +1,54 @@
+.welcome {
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 20px auto;
+    background: url('../img/welcome.png') no-repeat center / cover;
+    color: var(--font-color);
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+}
+
+.welcome h1 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.welcome p {
+    font-size: 0.8rem;
+    font-weight: lighter;
+    line-height: 1.2;
+}
+
+.dashboard {
+    margin: 50px auto;
+    background-color: var(--background-color);
+    border-radius: 10px;
+    color: var(--font-color);
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.dashboard .header {
+    min-height: 8%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dashboard .body {
+    padding: 1rem;
+    background-color: var(--body-bg-color);
+}
+
+.dashboard h1 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}

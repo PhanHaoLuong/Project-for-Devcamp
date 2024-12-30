@@ -18,16 +18,16 @@
 
 .statistics-icon {
     font-size: 3rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 .stat p {
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
     font-size: 16px;
 }
 
 .stat h4 {
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
     font-size: 1.2rem;
     font-weight: bold;
 }

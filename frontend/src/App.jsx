@@ -1,12 +1,19 @@
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from "./components/Navbar";
-import UserInfo from "./components/UserInfo";
+import User from "./pages/User";
+import Home from "./pages/Home"; 
+import Saved from "./pages/Saved";
 
 function App() {
   return (
-    <Router> {/* Used to mark active route */}
+    <Router>
       <Navbar />
-      <UserInfo />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/user" element={<User username="Username" realname="Real name" bio="Bio goes here" />} />
+        <Route path="/saved" element={<Saved />} />
+      </Routes>
     </Router>
   );
 }

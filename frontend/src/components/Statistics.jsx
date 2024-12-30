@@ -4,7 +4,7 @@ import '../assets/css/statistics.css';
 const Statistics = ({ iconClass, label, value, color }) => {
   return (
     <div className={`stat ${color}`}>
-      <div className={`statistics-icon ${iconClass}`}></div>
+      <i className={`statistics-icon ${iconClass}`}></i>
       <div>
         <p>{label}</p>
         <h4>{value}</h4>
