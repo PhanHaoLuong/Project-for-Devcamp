@@ -17,7 +17,7 @@ import RevealedPw from '../assets/eye.png';
 /* import style */
 import '../styles/UserAuth.css';
 
-const url = `${process.env.API_BASE_URL}${pageAddress.login}`;
+const url = `${pageAddress.login}`;
 
 const UserAuth = () => {
     const [name, setName] = useState("");

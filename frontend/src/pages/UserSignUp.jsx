@@ -18,7 +18,7 @@ import RevealedPw from '../assets/eye.png';
 import '../styles/UserSignUp.css';
 import { useNavigate } from 'react-router-dom';
 
-const url = `${process.env.API_BASE_URL}${pageAddress.signup}`;
+const url = `${pageAddress.signup}`;
 
 const UserSignUp = () => {
     // declare input states
