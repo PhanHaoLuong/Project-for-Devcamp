@@ -187,11 +187,11 @@ const UserSignUp = () => {
                                 }
                                 onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} 
                                 style={(hasEmptyRequired || hasInvalidInput) ? {
-                                    "background-color":"grey",
+                                    "backgroundColor":"grey",
                                     "color": "#262626",
                                     "cursor": "not-allowed",
                                     "outline": "0",
-                                    "box-shadow": "none"
+                                    "boxShadow": "none"
                                 } : {}} />
                             </div>
                         </div>
