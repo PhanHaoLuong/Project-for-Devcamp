@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
 import { useNavigate } from 'react-router-dom';
+import * as dotenv from 'dotenv';
 import * as pageAddress from './page-address.json';
 
 /* import Components */
@@ -17,9 +18,8 @@ import RevealedPw from '../assets/eye.png';
 /* import style */
 import '../styles/UserAuth.css';
 
-
-/* Placeholder POST logic, to be implemented */
-const url = "http://localhost:3000/login";
+dotenv.config();
+const url = `${process.env.API_BASE_URL}${pageAddress.login}`;
 
 const UserAuth = () => {
     const [name, setName] = useState("");
@@ -35,7 +35,7 @@ const UserAuth = () => {
 
     // authenticate state
     const [isAuth, setAuth] = useState(false);
-    const navigate = useNavigate;
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (name && pw){ 
@@ -50,7 +50,7 @@ const UserAuth = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('', {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ const UserAuth = () => {
             console.error('Error logging in: ', error);
         }
         if (isAuth) {
-            useNavigate("/");
+           navigate("/");
         }
     };
 
@@ -93,7 +93,7 @@ const UserAuth = () => {
                                 <h1 id="login-title">login</h1>
                             </div>
                             <div className="input-container">
-                                <span class="field-title">
+                                <span className="field-title">
                                     <h2 id="user-title">username</h2>
                                 </span>
                                 <div className="input-box">
@@ -101,12 +101,12 @@ const UserAuth = () => {
                                 </div>
                             </div>
                             <div className="input-container">
-                                <span class="field-title">
+                                <span className="field-title">
                                     <h2 id="pw-title">password</h2>
                                 </span>
                                 <div className="input-box">
                                     <Input type={isHidden ? "password" : "text"} id="pw-input" className="input-field" value={pw} onChange={(p) => { setPw(sanitizeInput(p.target.value)) }} />
-                                    <span class="showhide-pw">
+                                    <span className="showhide-pw">
                                         <img src={isHidden ? HiddenPw : RevealedPw} id="showhide-icon" onClick={()=>{setIsHidden(!isHidden)}}></img>
                                     </span>
                                 </div>

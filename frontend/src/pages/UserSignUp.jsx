@@ -2,6 +2,7 @@
 /*import modules */
 import React, { useState, useEffect } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
+import * as dotenv from 'dotenv';
 import * as pageAddress from './page-address.json';
 import { valEmail, valName, valPw } from '../utils/validateInput';
 
@@ -16,8 +17,10 @@ import RevealedPw from '../assets/eye.png';
 
 /* import style */
 import '../styles/UserSignUp.css';
+import { useNavigate } from 'react-router-dom';
 
-const url = "http://localhost:3000/login";
+dotenv.config();
+const url = `${process.env.API_BASE_URL}${pageAddress.signup}`;
 
 const UserSignUp = () => {
     // declare input states
@@ -38,6 +41,8 @@ const UserSignUp = () => {
 
     // auth state
     const [isAuth, setAuth] = useState(false);
+
+    const navigate = useNavigate();
 
     // validation handling
     useEffect(() => {
@@ -77,8 +82,6 @@ const UserSignUp = () => {
 
     const hasInvalidInput = [isInvalEmail, isInvalName, isInvalPw, isUnmatchedPw].some((isErr) => isErr === true);
 
-    console.log('hasInvalidInput: '+ hasInvalidInput);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -110,7 +113,7 @@ const UserSignUp = () => {
             console.error('Error logging in: ', error);
         }
         if (isAuth) {
-            useNavigate("/");
+            navigate("/");
         }
     };
 
