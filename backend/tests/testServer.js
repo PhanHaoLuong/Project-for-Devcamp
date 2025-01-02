@@ -2,10 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
-import { connectDB } from "./config/db.js";
-
-import authRoute from "./routes/auth.route.js"
-import post from "./models/post.model.js";
+import loginRoute from "./login.route.js"
+import post from "../models/post.model.js";
 
 dotenv.config()
 const PORT = process.env.PORT
@@ -14,11 +12,11 @@ const app = express()
 app.use(express.json())
 
 app.listen(PORT, () => {
-/*     connectDB(); */
+    connectDB();
     console.log(`Listening at PORT ${PORT}`)
 })
 
-app.use('/auth', authRoute)
+app.use('/login', loginRoute)
 
 app.post('/upload', async (req, res) => {
     const newPost = new post(req.body)
