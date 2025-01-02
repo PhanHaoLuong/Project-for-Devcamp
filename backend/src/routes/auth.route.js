@@ -1,19 +1,20 @@
 import express from "express";
 import bcryptjs from "bcryptjs";
 
-import { authenticateUser, signup } from "../controllers/auth.controller.js";
+import { login, logout, signup } from "../controllers/auth.controller.js";
+import { verifyToken } from "../utils/token.js";
 
 const router = express.Router();
 
-router.get('/signup', signup
-)
+router.post('/signup', signup)
 
-router.get('/login', async (req, res) => {
-    const { name, password } = req.body
-    
-    const user = await authenticateUser(name, password)
-    if (user) {
-        res.status(200).json(user.name)
-    }
+//test route
+router.get('/verify', async (req, res) => {
+    req.headers['Authorization'] = "Bearer " + "abc"
+    res.status(200).send(req.headers.Authorization)
 })
+
+router.post('/login', login)
 export default router
+
+router.post('/logout', logout)
