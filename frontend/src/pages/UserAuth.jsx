@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
 import { useNavigate } from 'react-router-dom';
-import * as dotenv from 'dotenv';
 import * as pageAddress from './page-address.json';
 
 /* import Components */
@@ -18,7 +17,6 @@ import RevealedPw from '../assets/eye.png';
 /* import style */
 import '../styles/UserAuth.css';
 
-dotenv.config();
 const url = `${process.env.API_BASE_URL}${pageAddress.login}`;
 
 const UserAuth = () => {

@@ -2,7 +2,6 @@
 /*import modules */
 import React, { useState, useEffect } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
-import * as dotenv from 'dotenv';
 import * as pageAddress from './page-address.json';
 import { valEmail, valName, valPw } from '../utils/validateInput';
 
@@ -19,7 +18,6 @@ import RevealedPw from '../assets/eye.png';
 import '../styles/UserSignUp.css';
 import { useNavigate } from 'react-router-dom';
 
-dotenv.config();
 const url = `${process.env.API_BASE_URL}${pageAddress.signup}`;
 
 const UserSignUp = () => {
