@@ -8,14 +8,14 @@ import { signToken } from "../utils/token.js";
 dotenv.config()
 
 export const signup = async (req, res) => {
-    const { name, password } = req.body
+    const { name, pw } = req.body
     try{
 
-        if (!name || !password) {
+        if (!name || !pw) {
             return res.status(400).json({message:'Please fill in all fields'})
         }
 
-        if (password.length < 6) {
+        if (pw.length < 6) {
             return res.status(400).json({message:'Password must be at least 6 characters'});
         }
 
@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
         if (usr) return res.status(400).json({message:'User already exists'})
         
 
-        const hashedPass = await bcryptjs.hash(password, 10)
+        const hashedPass = await bcryptjs.hash(pw, 10)
         const newUser = new user({
         name,
         password:hashedPass})
@@ -51,14 +51,14 @@ export const signup = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-    const { name, password } = req.body
+    const { name, pw } = req.body
     try{
         const userExist = await user.findOne({name})
 
         if (!userExist) {
             return res.status(404).json({message:'User not found'})
         } else {
-            const validPass = await bcryptjs.compare(password, userExist.password)
+            const validPass = await bcryptjs.compare(pw, userExist.password)
             if (!validPass) {
                 return res.status(400).json({message:'Invalid password'})
             }
