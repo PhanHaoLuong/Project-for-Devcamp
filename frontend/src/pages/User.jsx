@@ -1,7 +1,10 @@
-import React from "react";
+/* import styles */
 import "../assets/css/User.css";
+
+/* import components */
 import Statistics from "../components/Statistics";
 import Avatar from "../components/Avatar";
+import Post from "../components/Post";
 
 const User = ({username, realname, bio}) => {
   return (
@@ -28,9 +31,7 @@ const User = ({username, realname, bio}) => {
         </div>
         <div className="contributions">
           <h3>Contributions</h3>
-          <div className="contribution-item">
-            <p className="title">Posts sharing: comming soon...</p>
-          </div>
+          <Post />
         </div>
       </div>
     </div>

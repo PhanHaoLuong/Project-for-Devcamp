@@ -23,5 +23,9 @@
 .saved .body {
     padding: 1rem;
     background-color: var(--body-bg-color);
+}
 
+.saved .body h1 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
 }

@@ -12,10 +12,6 @@
     transition: transform 0.2s ease-in-out;
 }
 
-.stat:hover {
-    background-color: var(--hover-color);
-}
-
 .statistics-icon {
     font-size: 3rem;
     margin-bottom: 0.25rem;

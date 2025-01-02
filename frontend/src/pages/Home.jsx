@@ -1,4 +1,7 @@
+/* import components */
 import Post from '../components/Post'
+
+/* import styles */
 import '../assets/css/Home.css';
 
 const Home = ({username, realname, bio}) => {
@@ -17,7 +20,10 @@ const Home = ({username, realname, bio}) => {
         <div className="header">
           <i className="ti-angle-right">_</i> dashboard
         </div>
-        <Post />
+        <div className="body post">
+          <h1>Recent Posts</h1>
+          <Post />
+        </div>
       </div>
     </div>
   );

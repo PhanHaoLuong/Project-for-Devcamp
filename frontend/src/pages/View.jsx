@@ -1,12 +1,16 @@
+/* import components */
 import Post from "../components/Post";
 
 const View = () => {
     return (
         <div className="dashboard"> 
             <div className="header">
-            <i className="ti-angle-right">_</i> Recent posts
+            <i className="ti-angle-right"></i> Recent posts
             </div>
-            <Post />
+            <div className="body post">
+                <h1>Recent Posts</h1>
+                <Post />
+            </div>
         </div>
     );
 }
