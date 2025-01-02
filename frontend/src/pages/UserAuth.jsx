@@ -2,7 +2,7 @@
 /*import modules */
 import React, { useState, useEffect } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
-import { valName, valPw } from '../utils/validateInput';
+import { useNavigate } from 'react-router-dom';
 import * as pageAddress from './page-address.json';
 
 /* import Components */
@@ -33,6 +33,10 @@ const UserAuth = () => {
     // gray-out signup button state
     const [isHover, setHover] = useState(true); 
 
+    // authenticate state
+    const [isAuth, setAuth] = useState(false);
+    const navigate = useNavigate;
+
     useEffect(() => {
         if (name && pw){ 
             setHasEmptyRequired(false);
@@ -59,6 +63,7 @@ const UserAuth = () => {
             
                     if (data.success) {
                         console.log('Login successful');
+                        setAuth(true);
                     } else {
                         console.error('Login failed:', data.error);
                     }
@@ -70,6 +75,9 @@ const UserAuth = () => {
             }
         } catch (error) {
             console.error('Error logging in: ', error);
+        }
+        if (isAuth) {
+            useNavigate("/");
         }
     };
 
@@ -91,11 +99,6 @@ const UserAuth = () => {
                                 <div className="input-box">
                                     <Input type="text" id="user-input" className="input-field" value={name} onChange={(n) => { setName(sanitizeInput(n.target.value)) }} />
                                 </div>
-                                {/* <div className="error-container" id="invalid-name-container">
-                                    {isInvalName ? 
-                                        (<p className="error-message" id="invalid-name">emails must be a valid email address.</p>) : ('')
-                                    }
-                                </div> */}
                             </div>
                             <div className="input-container">
                                 <span class="field-title">
@@ -122,18 +125,20 @@ const UserAuth = () => {
                                 </div>
                             </div>
                             <div className="login-button-container">
-                                <Button children="log in" type="submit" id="login-button" onClick={
+                                <Button children="log in" type="submit" id={`login-button`}
+                                onClick={
                                     !(hasEmptyRequired) ? handleSubmit : (event) => {
                                         event.preventDefault();
                                     }
                                 }
                                 onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} 
                                 style={(hasEmptyRequired) ? {
-                                    "background-color":"grey",
-                                    "color": "#262626",
+                                    "backgroundColor":"grey",
+                                    "color": "#282828",
                                     "cursor": "not-allowed",
                                     "outline": "0",
-                                    "box-shadow": "none"
+                                    "boxShadow": "none",
+                                    "transition": "all 0.2s ease-in-out"
                                 } : {}} />
                             </div>
                         </div>

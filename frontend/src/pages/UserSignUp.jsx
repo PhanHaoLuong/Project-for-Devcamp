@@ -36,6 +36,9 @@ const UserSignUp = () => {
     // gray-out signup button state
     const [isHover, setHover] = useState(true); 
 
+    // auth state
+    const [isAuth, setAuth] = useState(false);
+
     // validation handling
     useEffect(() => {
         if (email && name && pw && cfpw){ 
@@ -62,7 +65,7 @@ const UserSignUp = () => {
                 setInvalPw(false);
             }
 
-            if (cfpw && cfpw !== pw) {
+            if (cfpw &&cfpw !== pw) {
                 setUnmatchedPw(true);
             } else {
                 setUnmatchedPw(false);
@@ -93,6 +96,7 @@ const UserSignUp = () => {
             
                     if (data.success) {
                         console.log('Sign up successful');
+                        setAuth(true);
                     } else {
                         console.error('Sign up failed:', data.error);
                     }
@@ -105,10 +109,14 @@ const UserSignUp = () => {
         } catch (error) {
             console.error('Error logging in: ', error);
         }
+        if (isAuth) {
+            useNavigate("/");
+        }
     };
 
     return (
         <>
+
             <div className="page-content">
                 <Navbar />
                 <div className="signup-window">
