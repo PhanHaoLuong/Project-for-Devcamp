@@ -1,3 +1,4 @@
+import Post from '../components/Post'
 import '../assets/css/Home.css';
 
 const Home = ({username, realname, bio}) => {
@@ -16,12 +17,7 @@ const Home = ({username, realname, bio}) => {
         <div className="header">
           <i className="ti-angle-right">_</i> dashboard
         </div>
-        <div className="body">
-          <h1>Recent Posts</h1>
-          <div className="contribution-item">
-            <p className="title">Posts sharing: comming soon...</p>
-          </div>
-        </div>
+        <Post />
       </div>
     </div>
   );
