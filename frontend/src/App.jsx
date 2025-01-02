@@ -19,7 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<View />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/user" element={<User username="Username" realname="Real name" bio="Bio goes here" />} />
+        <Route path="/user" element={<User />} />
         <Route path="/saved" element={<Saved />} />
       </Routes>
     </Router>
