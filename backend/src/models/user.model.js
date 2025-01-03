@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    password:String,
+    password: String,
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
