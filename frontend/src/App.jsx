@@ -1,5 +1,15 @@
-/* import modules */
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+// import modules
+import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+
+// import assets
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+
+//import pages
+import UserAuth from './pages/UserAuth';
+import UserSignUp from './pages/UserSignUp'
+/* import './App.css' */
 
 /* import components */
 import Navbar from "./components/Navbar";
@@ -12,17 +22,24 @@ import Saved from "./pages/Saved";
 
 function App() {
   return (
-    <Router>
-      <Navbar />
+    <>
+      <Router>
+        <Navbar />
+          <Routes>
+            <Route path="/" element={<><h1 style={{color:'white'}}>homepage placeholder</h1><a href="/auth/login">login</a></>}/>
+            <Route path="/auth/login" element={<UserAuth />} />
+            <Route path="/signup" element={<UserSignUp />} />
+          </Routes>
 
-      {/* Render different pages based on the URL */}
-      <Routes>
-        <Route path="/" element={<View />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/saved" element={<Saved />} />
-      </Routes>
-    </Router>
+        {/* Render different pages based on the URL */}
+        <Routes>
+          <Route path="/" element={<View />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/saved" element={<Saved />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
