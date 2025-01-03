@@ -9,7 +9,8 @@ import viteLogo from '/vite.svg'
 //import pages
 import UserAuth from './pages/UserAuth';
 import UserSignUp from './pages/UserSignUp'
-/* import './App.css' */
+
+import * as pageAddress from './pages/page-address.json'
 
 /* import components */
 import Navbar from "./components/Navbar";
@@ -25,14 +26,11 @@ function App() {
     <>
       <Router>
         <Navbar />
-          <Routes>
-            <Route path="/" element={<><h1 style={{color:'white'}}>homepage placeholder</h1><a href="/auth/login">login</a></>}/>
-            <Route path="/auth/login" element={<UserAuth />} />
-            <Route path="/signup" element={<UserSignUp />} />
-          </Routes>
-
         {/* Render different pages based on the URL */}
         <Routes>
+          <Route path={pageAddress.home} element={<><h1 style={{color:'white'}}>homepage placeholder</h1><a href="/auth/login">login</a></>}/>
+          <Route path={pageAddress.login} element={<UserAuth />} />
+          <Route path={pageAddress.signup} element={<UserSignUp />} />
           <Route path="/" element={<View />} />
           <Route path="/home" element={<Home />} />
           <Route path="/user" element={<User />} />
