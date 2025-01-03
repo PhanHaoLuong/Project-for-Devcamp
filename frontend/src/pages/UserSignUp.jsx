@@ -119,7 +119,7 @@ const UserSignUp = () => {
         <>
 
             <div className="page-content">
-                <Navbar />
+                {/* <Navbar /> */}
                 <div className="signup-window">
                     <form onSubmit={()=>{}} className="signup-form" autoComplete="off">
                         <div className="signup-body">

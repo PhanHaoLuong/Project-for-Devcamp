@@ -1,0 +1,29 @@
+.stat {
+    display: flex;
+    flex-direction: column; /* Default vertical layout */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 22%; /* Approx four items per row on large screens */
+    padding: 1rem;
+    background-color: var(--box-bg-color);
+    color: var(--font-color);
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.statistics-icon {
+    font-size: 3rem;
+    margin-bottom: 0.25rem;
+}
+
+.stat p {
+    margin: 0.25rem 0;
+    font-size: 16px;
+}
+
+.stat h4 {
+    margin-top: 0.25rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}

@@ -12,14 +12,14 @@ img {
     flex-grow: 1;
     height:100vh;
 }
-
+/* 
 .navbar {
     background-color: rgb(2, 2, 2);
     color: white;
     border: solid white;
     min-height: 60px;
     z-index: 3;
-}
+} */
   
 .login-window {
     position: relative;

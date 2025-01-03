@@ -1,0 +1,15 @@
+.avatar {
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    max-width: 36px;
+    max-height: 36px;
+}
+
+.user-info .avatar {
+    height: auto;
+    object-fit: cover;
+    max-width: 6rem;
+    max-height: 6rem;
+}

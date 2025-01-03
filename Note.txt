@@ -1,0 +1,2 @@
+Download themify icon if needed: https://themify.me/themify-icons
+Install router-dom for Navber.jsx: npm install react-router-dom
