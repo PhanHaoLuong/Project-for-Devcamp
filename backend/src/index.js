@@ -8,8 +8,8 @@ import { connectDB } from "./config/db.js";
 import authRoute from "./routes/auth.route.js"
 import post from "./models/post.model.js";
 
-dotenv.config()
-const PORT = process.env.PORT
+dotenv.config();
+const PORT = process.env.PORT;
 
 const corsoptions = { origin: "http://localhost:5173" }
 

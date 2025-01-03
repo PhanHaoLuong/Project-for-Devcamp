@@ -33,17 +33,22 @@ const UserSignUp = () => {
     const [isInvalPw, setInvalPw] = useState(false);
     const [isUnmatchedPw, setUnmatchedPw] = useState(false);
     const [hasEmptyRequired, setHasEmptyRequired] = useState(true);
+    const [hasInvalInput, setHasInvalInput] = useState(true);
+    const [userExists, setUserExists] = useState(false);
+    const [hasSignupErr, setHasSignupErr] = useState(false);
 
     // gray-out signup button state
     const [isHover, setHover] = useState(true); 
 
     // auth state
+    const [authMsg, setAuthMsg] = useState("");
     const [isAuth, setAuth] = useState(false);
 
     const navigate = useNavigate();
 
     // validation handling
     useEffect(() => {
+        setHasSignupErr(false);
         if (email && name && pw && cfpw){ 
             setHasEmptyRequired(false);
         } else {
@@ -68,7 +73,7 @@ const UserSignUp = () => {
                 setInvalPw(false);
             }
 
-            if (cfpw &&cfpw !== pw) {
+            if (cfpw && cfpw !== pw) {
                 setUnmatchedPw(true);
             } else {
                 setUnmatchedPw(false);
@@ -78,7 +83,22 @@ const UserSignUp = () => {
             return () => clearTimeout(timeoutId); 
     }, [email, name, pw, cfpw]); 
 
-    const hasInvalidInput = [isInvalEmail, isInvalName, isInvalPw, isUnmatchedPw].some((isErr) => isErr === true);
+    useEffect(() => {
+        setHasInvalInput([isInvalEmail, isInvalName, isInvalPw, isUnmatchedPw].some((isErr) => isErr === true));
+    }, [isInvalEmail, isInvalName, isInvalPw, isUnmatchedPw])
+
+    useEffect(() => {
+        setUserExists(false);
+    }, [name])
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if (isAuth){
+                navigate("/");
+            }
+        }, 2000);
+        return () => {clearTimeout(timeoutId)};
+    }, [isAuth]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -92,27 +112,29 @@ const UserSignUp = () => {
                 body: JSON.stringify({ email, name, pw })
               });
             if (response) {
-                if (response.status === 201) {
-                    const data = await response.json();
-            
-                    if (data.success) {
-                        console.log('Sign up successful');
-                        setAuth(true);
-                    } else {
-                        console.error('Sign up failed:', data.error);
+                const { message } =  await response.json();
+                setAuthMsg(message.toLowerCase());
+                if (!response.ok) {
+                    setHasSignupErr(true);
+                    setAuth(false);
+                    if (response.status === 409) {
+                        setUserExists(true);
                     }
-                } else {
-                    console.error('HTTP error:', response.status, response.statusText);
                 }
+                if (response.status === 201) {
+                    setHasSignupErr(false);
+                    setAuth(true);
+                }
+
             } else {
-                console.error('No response received');
+                setAuthMsg('No response received.');
             }
         } catch (error) {
-            console.error('Error logging in: ', error);
+            console.error('Error signing up: ', error);
         }
-        if (isAuth) {
-            navigate("/");
-        }
+
+
+
     };
 
     return (
@@ -130,7 +152,12 @@ const UserSignUp = () => {
                                 <span className="field-title">
                                     <h2 id="email-title">email</h2>
                                 </span>
-                                <div className="input-box">
+                                <div className="input-box" style={
+                                isInvalEmail ? {
+                                    "outline": "1px solid #e03f42",
+                                    "boxShadow": "0 0 4px #e03f42",
+                                    "transition": "all 0.2s ease-in-out"
+                                } : {}}>
                                     <Input type="email" id="email-input" className="input-field" value={email} onChange={(n) => { setEmail(sanitizeInput(n.target.value))}}/>
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
@@ -143,7 +170,12 @@ const UserSignUp = () => {
                                 <span className="field-title">
                                     <h2 id="user-title">username</h2>
                                 </span>
-                                <div className="input-box">
+                                <div className="input-box" style={
+                                (isInvalName || userExists) ? {
+                                    "outline": "1px solid #e03f42",
+                                    "boxShadow": "0 0 4px #e03f42",
+                                    "transition": "all 0.2s ease-in-out"
+                                } : {}}>
                                     <Input type="text" id="user-input" className="input-field" value={name} onChange={(n) => { setName(sanitizeInput(n.target.value)) }} />
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
@@ -156,7 +188,12 @@ const UserSignUp = () => {
                                 <span className="field-title">
                                     <h2 id="user-title">password</h2>
                                 </span>
-                                <div className="input-box">
+                                <div className="input-box" style={
+                                isInvalPw ? {
+                                    "outline": "1px solid #e03f42",
+                                    "boxShadow": "0 0 4px #e03f42",
+                                    "transition": "all 0.2s ease-in-out"
+                                } : {}}>
                                     <Input type="password" id="pw-input" className="input-field" value={pw} onChange={(n) => { setPw(sanitizeInput(n.target.value)) }} />
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
@@ -169,7 +206,12 @@ const UserSignUp = () => {
                                 <span className="field-title">
                                     <h2 id="user-title">confirm password</h2>
                                 </span>
-                                <div className="input-box">
+                                <div className="input-box" style={
+                                isUnmatchedPw ? {
+                                    "outline": "1px solid #e03f42",
+                                    "boxShadow": "0 0 4px #e03f42",
+                                    "transition": "all 0.2s ease-in-out"
+                                } : {}}>
                                     <Input type="password" id="cfpw-input" className="input-field" value={cfpw} onChange={(n) => { setCfpw(sanitizeInput(n.target.value)) }} />
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
@@ -178,15 +220,22 @@ const UserSignUp = () => {
                                     }
                                 </div>
                             </div>
+                            {isAuth || hasSignupErr ? (
+                                <div className="global-msg-container" id={`${isAuth ? "success" : "error"}-container`}>
+                                    <p className="global-msg" id={`global-${isAuth ? "success" : "error"}-message`}>
+                                        {`${isAuth ? "sign up successful. redirecting..." : authMsg}`}
+                                    </p>
+                                </div>
+                            ) : ("")}
                             <div className={`signup-button-container ${(isHover ? "hover" : "")}`}>
                                 <a href={pageAddress.login} id="to-login-button">&lt; back to login </a>
                                 <Button children="sign up" type="submit" id="signup-button" onClick={
-                                    !(hasInvalidInput || hasEmptyRequired) ? handleSubmit : (event) => {
+                                    !(hasInvalInput || hasEmptyRequired) ? handleSubmit : (event) => {
                                         event.preventDefault();
                                     }
                                 }
                                 onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} 
-                                style={(hasEmptyRequired || hasInvalidInput) ? {
+                                style={(hasEmptyRequired || hasInvalInput) ? {
                                     "backgroundColor":"grey",
                                     "color": "#262626",
                                     "cursor": "not-allowed",

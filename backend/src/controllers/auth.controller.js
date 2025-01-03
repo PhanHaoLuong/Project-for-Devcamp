@@ -11,18 +11,15 @@ export const signup = async (req, res) => {
     const { name, pw } = req.body
     try{
 
-        if (!name || !pw) {
-            return res.status(400).json({message:'Please fill in all fields'})
-        }
-
-        if (pw.length < 6) {
-            return res.status(400).json({message:'Password must be at least 6 characters'});
+        if ( !name || !pw || name.length < 4 || pw.length < 8 ) {
+            return res.status(400).json({message:'Input error'});
         }
 
         const usr = await user.findOne({name})
 
-        if (usr) return res.status(400).json({message:'User already exists'})
-        
+        if (usr) {
+            return res.status(409).json({message:'User already exists'})
+        }
 
         const hashedPass = await bcryptjs.hash(pw, 10)
         const newUser = new user({
@@ -56,11 +53,11 @@ export const login = async (req, res) => {
         const userExist = await user.findOne({name})
 
         if (!userExist) {
-            return res.status(404).json({message:'User not found'})
+            return res.status(404).json({message:'User does not exist'})
         } else {
             const validPass = await bcryptjs.compare(pw, userExist.password)
             if (!validPass) {
-                return res.status(400).json({message:'Invalid password'})
+                return res.status(400).json({message:'Incorrect password'})
             }
             signToken(userExist._id, res)
             res.status(200).json({message:'User logged in successfully', user:userExist.name})

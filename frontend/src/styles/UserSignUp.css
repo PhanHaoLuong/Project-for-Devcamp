@@ -166,6 +166,7 @@ img {
 
     position: relative;
     box-sizing: border-box;
+    transition: all 0.2s ease-in-out
 }
 
 .input-field {
@@ -312,6 +313,27 @@ img {
     letter-spacing: 0;
     margin: 5px;
     overflow: auto;
+}
+
+.global-msg-container {
+    position: relative;
+    width: 100%;
+}
+.global-msg-container .global-msg {
+    position: absolute;
+    right:0;
+
+    font-size: 1rem;
+    letter-spacing: 0;
+    font-weight: 100;
+}
+
+#global-success-message {
+    color:#0baca9;
+}
+
+#global-error-message {
+    color:#e03f42;
 }
 
 #to-login-button {

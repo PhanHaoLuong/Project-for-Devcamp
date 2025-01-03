@@ -274,6 +274,24 @@ img {
     color: black;
 }
 
+.global-msg-container {
+    margin-top: 10px;
+    position: relative;
+    width: 100%;
+}
+.global-msg-container .global-msg {
+    position: absolute;
+    right:0;
+
+    font-size: 1rem;
+    letter-spacing: 0;
+    font-weight: 100;
+}
+
+#global-success-message {
+    color:#0baca9;
+}
+
 #new-user-text {
     color: #192233;
 

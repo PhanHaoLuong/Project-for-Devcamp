@@ -9,16 +9,17 @@ import viteLogo from '/vite.svg'
 //import pages
 import UserAuth from './pages/UserAuth';
 import UserSignUp from './pages/UserSignUp'
-/* import './App.css' */
+
+import * as pageAddress from './pages/page-address.json'
 
 function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<><h1 style={{color:'white'}}>homepage placeholder</h1><a href="/auth/login">login</a></>}/>
-          <Route path="/auth/login" element={<UserAuth />} />
-          <Route path="/signup" element={<UserSignUp />} />
+          <Route path={pageAddress.home} element={<><h1 style={{color:'white'}}>homepage placeholder</h1><a href="/auth/login">login</a></>}/>
+          <Route path={pageAddress.login} element={<UserAuth />} />
+          <Route path={pageAddress.signup} element={<UserSignUp />} />
         </Routes>
       </Router>
     </>
