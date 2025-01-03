@@ -2,7 +2,7 @@
 import Post from '../components/Post'
 
 /* import styles */
-import '../assets/css/Home.css';
+import '../styles/Home.css';
 
 const Home = ({username, realname, bio}) => {
   return (

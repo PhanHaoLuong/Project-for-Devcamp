@@ -1,5 +1,4 @@
-import React from 'react';
-import '../assets/css/statistics.css';
+import '../styles/statistics.css';
 
 const Statistics = ({ iconClass, label, value, color }) => {
   return (
