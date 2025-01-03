@@ -2,5 +2,5 @@
     "home":"/",
     "login":"/auth/login",
     "signup":"/signup",
-    "post":"/post"
+    "postView":"/post"
 }

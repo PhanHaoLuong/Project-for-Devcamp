@@ -1,5 +1,6 @@
 // import modules
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // import assets
 import HashIcon from '../assets/hash.png';
@@ -14,8 +15,10 @@ import '../styles/Post.css';
 export default function Post({ isComment }){
     return (
         <>
-            <div className="post-window">
-                
+            <div className="app-window">
+                <div className="title-bar">
+                    
+                </div>
             </div>
         </>
     );
