@@ -12,14 +12,14 @@ img {
     flex-grow: 1;
     height:100vh;
 }
-
+/* 
 .navbar {
     background-color: rgb(2, 2, 2);
     color: white;
     border: solid white;
     min-height: 60px;
     z-index: 3;
-}
+} */
   
 .login-window {
     position: relative;
@@ -272,6 +272,24 @@ img {
 
 #rmb-checkbox:checked {
     color: black;
+}
+
+.global-msg-container {
+    margin-top: 10px;
+    position: relative;
+    width: 100%;
+}
+.global-msg-container .global-msg {
+    position: absolute;
+    right:0;
+
+    font-size: 1rem;
+    letter-spacing: 0;
+    font-weight: 100;
+}
+
+#global-success-message {
+    color:#0baca9;
 }
 
 #new-user-text {
