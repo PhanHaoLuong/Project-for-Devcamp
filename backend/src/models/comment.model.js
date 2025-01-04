@@ -12,6 +12,16 @@ const commentSchema = new mongoose.Schema({
         ref: 'Post',
         required: true
     },
+    accepted: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
+    votes: {
+        type: Number,
+        default: 0,
+        required: true
+    },
     content: {
         type: String,
         required: true
@@ -26,5 +36,5 @@ const commentSchema = new mongoose.Schema({
     }
 });
 
-const Comment = mongoose.model('Comment', commentSchema);
-export default Comment;
+const comment = mongoose.model('Comment', commentSchema);
+export default comment;
