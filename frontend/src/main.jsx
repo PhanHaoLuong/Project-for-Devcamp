@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './assets/css/styles.css'
+import "./styles/styles.css"
 import "./assets/fonts/themify-icons/themify-icons.css";
 import App from './App.jsx'
 

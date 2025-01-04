@@ -2,7 +2,7 @@
     padding: 1.5rem;
     border-radius: 10px;
     margin: 20px auto;
-    background: url('../img/welcome.png') no-repeat center / cover;
+    background: url('../assets/img/welcome.png') no-repeat center / cover;
     color: var(--font-color);
     width: 100%;
     max-width: 600px;
