@@ -1,8 +1,8 @@
 /* import components */
-import Post from '../components/Post'
+import Post from '../components/FullPost'
 
 /* import styles */
-import '../assets/css/Home.css';
+import '../styles/s'
 
 const Home = ({username, realname, bio}) => {
   return (

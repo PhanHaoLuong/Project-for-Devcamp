@@ -1,5 +1,5 @@
 /* import styles */
-import '../assets/css/Saved.css';
+import '../styles/Saved.css';
 
 /* import components */
 import Post from '../components/Post';

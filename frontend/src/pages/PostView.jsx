@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-export default PostView = () => {
+const PostView = () => {
     return (
         <>
+            <div></div>
         </>
     )    
 }
+
+export default PostView;
