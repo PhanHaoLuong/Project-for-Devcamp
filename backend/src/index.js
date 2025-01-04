@@ -1,12 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 import cors from "cors";
 
 import { connectDB } from "./config/db.js";
 
 import authRoute from "./routes/auth.route.js"
-import post from "./models/post.model.js";
+import postRoute from "./routes/post.route.js"
+
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -24,14 +24,4 @@ app.listen(PORT, () => {
 })
 
 app.use('/auth', authRoute)
-
-app.post('/upload', async (req, res) => {
-    const newPost = new post(req.body)
-    try {
-        await newPost.save();
-        res.status(200).send("OK")
-    } catch (error) {
-        console.error(error.message)
-    }
-    
-})
+app.use('/post', postRoute)

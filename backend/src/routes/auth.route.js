@@ -15,6 +15,6 @@ router.get('/verify', async (req, res) => {
 })
 
 router.post('/login', login)
+router.post('/logout', logout) //to be implemented
 export default router
 
-router.post('/logout', logout)
