@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../assets/css/avatar.css';
+import '../styles/Avatar.css';
 import defaultAvatar from '../assets/profile_pictures/default.png';
 
 const Avatar = ({ user }) => {

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 /* import styles */
-import "../assets/css/User.css";
+import "../styles/User.css";
 
 /* import components */
 import Statistics from "../components/Statistics";

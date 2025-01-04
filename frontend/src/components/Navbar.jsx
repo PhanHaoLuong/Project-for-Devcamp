@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import "../assets/css/navbar.css";
+import "../styles/Navbar.css";
 import Avatar from "./Avatar";
 
 const Navbar = () => {
