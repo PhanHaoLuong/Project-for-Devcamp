@@ -23,6 +23,7 @@ import Home from "./pages/Home";
 import User from "./pages/User";
 import Saved from "./pages/Saved";
 import FullPost from './components/FullPost';
+import FileItem from './components/FileItem';
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
           <Route path="/saved" element={<Saved />} />
           {/* Placeholder post route */}
           <Route path="/post/nutcracker69" element={<FullPost />}/>
-          <Route path="/component-test" element={<Vote voteCount=""/>} />
+          <Route path="/component-test" element={<><FileItem isFolder="true"/><FileItem /></>}/>
         </Routes>
       </Router>
     </>

@@ -14,7 +14,7 @@ img {
     flex-direction: column;;
     min-height: 60vh;
     width: 50vw;
-    min-width: 25vw;
+    min-width: 600px;
     height: auto;
 }
 
@@ -142,6 +142,7 @@ img {
 }
 
 .post-properties-side {
+    min-width: 25%;
     width: 25%;
     height: auto;
     background-color: #192233;
@@ -163,9 +164,11 @@ img {
 }
 
 .vote-container {
+    height:inherit;
     justify-items: center;
     width: 100%;
 }
+
 
 .tag-container {
     display: flex;
@@ -176,18 +179,121 @@ img {
 }
 
 .tag {
+    cursor: pointer;
+    text-wrap: wrap;
     text-align: center;
-    width: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin: 5px 5px;
-    padding: 2px 1px;
+    padding: 4px 1px;
     background-color: #334566;
     border-radius: 7px;
-    width: 40%;
-    font-size: 0.8rem;
+    width: 60%;
+    min-width: 70px;
+    font-size: 0.75rem;
+    font-weight: 100;
+    transition: all ease-in-out 0.25s;
+}
+
+.tag:hover {
+    font-size: 0.86rem;
+    width: 70%;
+    background-color: #385c9b;
+    transition: all ease-in-out 0.1s;
 }
 
 .post-content {
+    display: flex;
+    flex-direction: column;
     min-width: 75%;
     background-color: #131925;
-    border: white solid;
+    gap: 5px;
+}
+
+.content-header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+    justify-items: center;
+    height: 1rem;
+    gap: 5px;
+    margin: 10px 20px 
+}
+
+.content-header-logo {
+    height:100%;
+}
+
+.content-header-logo img {
+    height: 100%;
+    width: 100%;
+}
+
+.content-body p {
+    text-wrap: wrap;
+    
+    overflow: hidden;
+    font-weight: 100;
+    font-size: 0.8rem;
+}
+
+.content-body {
+    margin: 5px 20px;
+}
+
+.code-header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+    justify-items: center;
+    height: 1rem;
+    gap: 5px;
+    margin: 10px 20px 
+}
+
+.code-header-logo {
+    height:100%;
+}
+
+.code-header-logo img {
+    height: 100%;
+    width: 100%;
+}
+
+.code-content {
+    border: 1px solid #BBC7DD;
+    padding: 10px 15px;
+    margin: 20px;
+    margin-top: 10px;
+}
+
+.folder-header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+    justify-items: center;
+    height: 1rem;
+    gap: 5px;
+    margin: 10px 20px 
+}
+
+.folder-content {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 20px;
+    padding: 10px;
+    gap: 5px;
+    border: 1px solid #BBC7DD;
+}
+
+.folder-header-logo {
+    height:100%;
+}
+
+.folder-header-logo img {
+    height: 100%;
+    width: 100%;
 }

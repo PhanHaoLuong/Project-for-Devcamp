@@ -1,0 +1,36 @@
+.file-item-container img {
+    height: 20px;
+}
+
+.file-item-container * {
+    color: #BBC7DD;
+    font-size: 1rem;
+}
+
+
+.file-item {
+    background-color: #192233;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+    justify-items: center;
+    height: auto;
+    gap: 5px;
+    padding: 10px;
+    width: 100%;
+    border: 1px #BBC7DD solid;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.file-item-logo {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: auto;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+}

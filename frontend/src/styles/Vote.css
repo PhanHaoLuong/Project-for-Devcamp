@@ -25,7 +25,8 @@
 
 .vote-button {
     position: absolute;
-    height: 60%
+    height: 60%;
+    transition: all 0.5s;
 }
 
 #upvote{
