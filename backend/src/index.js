@@ -7,7 +7,7 @@ import { get_forum_posts } from "./controllers/post.controller.js";
 
 import authRoute from "./routes/auth.route.js"
 import postRoute from "./routes/post.route.js"
-
+import userRoute from "./routes/user.route.js"
 
 
 dotenv.config();
@@ -27,5 +27,6 @@ app.listen(PORT, () => {
 
 app.use('/auth', authRoute)
 app.use('/post', postRoute)
+app.use('/user', userRoute)
 
 app.get('/forum', get_forum_posts)
