@@ -1,0 +1,41 @@
+.vote * {
+    font-size: 0.9rem;
+    color: inherit;
+    font-weight: 100;
+}
+
+.vote img {
+    cursor: pointer;
+}
+
+.vote {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    border: 1px white solid;
+    border-radius: 10px;
+    width: 6.5rem;
+    height: 2rem;
+    gap: 5%;
+    max-width: 50%;
+    min-width: 100px;
+}
+
+.vote-button {
+    position: absolute;
+    height: 60%
+}
+
+#upvote{
+    left: 0
+}
+
+#downvote{
+    right: 0
+}
+
+#downvote {
+    transform: rotate(180deg);
+}

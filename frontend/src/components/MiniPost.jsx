@@ -12,12 +12,14 @@ import VoteIcon from '../assets/vote.svg';
 // import style
 import '../styles/Post.css';
 
-export default function Post({ isComment }){
+export default function MiniPost(){
     return (
         <>
             <div className="app-window">
-                <div className="title-bar">
-                    
+                <div className="container">
+                    <div className="title-bar">
+                        
+                    </div>
                 </div>
             </div>
         </>

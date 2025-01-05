@@ -1,5 +1,5 @@
 /* import components */
-import Post from '../components/Post'
+import MiniPost from '../components/MiniPost'
 
 /* import styles */
 import '../styles/Home.css';
@@ -29,7 +29,7 @@ const Home = ({ username, realname, bio }) => {
         </div>
         <div className="body post">
           <h1>Recent Posts</h1>
-          <Post />
+          <MiniPost />
         </div>
       </div>
     </div>

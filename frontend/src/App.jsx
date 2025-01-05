@@ -15,11 +15,14 @@ import * as pageAddress from './pages/page-address.json'
 /* import components */
 import Navbar from "./components/Navbar";
 
+import Vote from './components/Vote';
+
 /* import pages */
 import View from "./pages/View";
 import Home from "./pages/Home"; 
 import User from "./pages/User";
 import Saved from "./pages/Saved";
+import FullPost from './components/FullPost';
 
 function App() {
   return (
@@ -35,6 +38,9 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/user" element={<User />} />
           <Route path="/saved" element={<Saved />} />
+          {/* Placeholder post route */}
+          <Route path="/post/nutcracker69" element={<FullPost />}/>
+          <Route path="/component-test" element={<Vote voteCount=""/>} />
         </Routes>
       </Router>
     </>
