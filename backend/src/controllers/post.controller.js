@@ -33,9 +33,7 @@ export const get_post = async (req, res, next) => {
             const postid = req.params.postid
             const singlepost = await post.findById(postid)
             .populate('author', 'name')
-            // .populate({path:'comments', populate:{path:'author', select:'name'},select:'content code'})
-        
-            // res.status(200).json(singlepost);
+
             res.locals.singlepost = singlepost
             next()
         }
@@ -66,9 +64,8 @@ export const get_forum_posts = async (req, res) => {
 
 export const create_comment = async (req, res) => {
     const postid = req.params.postid
-    const newComment = new comment(Object.assign(req.body, {parent_post: postid}))
+    const newComment = new post(Object.assign(req.body, {parent_post_id: postid, is_comment: true}))
     try {
-        await post.updateOne({_id: postid}, {$push: {comments: newComment._id}})
         await newComment.save();
         res.status(201).send("OK")
     } catch (error) {
@@ -77,11 +74,9 @@ export const create_comment = async (req, res) => {
 }
 
 export const delete_comment = async (req, res) => {
-    const postid = req.params.postid
     const commentid = req.body.commentid
     try {
-        await post.updateOne({_id: postid}, {$pull: {comments: commentid}}) 
-        await comment.deleteOne({_id: commentid})
+        await post.deleteOne({_id: commentid})
         res.status(200).send("OK")
     } catch (error) {
         res.status(500).send(error.message)
@@ -95,15 +90,28 @@ export const get_post_comments = async (req, res) => {
         const page = req.query.page || 1
         const limit = 5
         const skip = (page - 1) * limit
-
-        const comments = await comment.find(
-            {parent_post: postid},{},
-            {skip: skip, limit: limit, sort: {accepted: -1,createdAt: -1}}
-        )
+        
+        const singlepost = res.locals.singlepost
         if (page == 1) {
-            res.status(200).json(Object.assign(res.locals.singlepost, {comments: comments}))
+            if (singlepost.accepted_comment_id != null) {
+                const accepted_comment = post.find({_id: singlepost.accepted_comment_id})
+                const comments = await comment.find(
+                    {parent_post: postid, _id: {$ne: singlepost.accepted_comment_id}},{},
+                    {skip: skip, limit: limit, sort: {votes: -1}})
+                res.status(200).json({post: res.locals.singlepost, accepted_comment: accepted_comment, comments: comments})
+            }
+            else{
+                const comments = await post.find(
+                    {parent_post_id: postid},{},
+                    {skip: skip, limit: limit, sort: {votes: -1}})
+                console.log(comments)
+                res.status(200).json({post: res.locals.singlepost, comments: comments})
+            }
         }
         else {
+            const comments = await comment.find(
+                {parent_post: postid},
+                {skip: skip, limit: limit, sort: {votes: -1}})
             res.status(200).json(comments)
         }
     } catch (error) {

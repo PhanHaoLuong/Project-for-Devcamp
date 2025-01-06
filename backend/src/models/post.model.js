@@ -6,6 +6,10 @@ const postSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    parent_post_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    },
     title: {
         type: String,
         required: true
@@ -18,11 +22,15 @@ const postSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Code',
     },
-    comments: [{
+    accepted_comment_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Comment',
-        createdAt: {type: Date, default: Date.now}
-    }],
+        ref: 'Post',
+        default: null
+    },
+    is_comment: {
+        type: Boolean,
+        default: false
+    },
     votes: {
         type: Number,
         default: 0
