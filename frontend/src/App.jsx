@@ -20,6 +20,7 @@ import View from "./pages/View";
 import Home from "./pages/Home"; 
 import User from "./pages/User";
 import Saved from "./pages/Saved";
+import Fileupload from './pages/File upload test';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/user" element={<User />} />
           <Route path="/saved" element={<Saved />} />
+          <Route path="/fileupload" element={<Fileupload />} />
         </Routes>
       </Router>
     </>
