@@ -22,12 +22,10 @@ import AcceptedIcon from '../assets/tick.svg'
 // import style
 import '../styles/FullPost.css';
 
-export default function FullPost({ isComment, isAccepted, postId, userId, postTitle, voteCount, postContent, codeContent, folderContent }){
+export default function FullPost({ postId, isComment, isAccepted, createdAt, author, postTags, postTitle, voteCount, postContent, codeContent, folderContent }){
     const [maxLen, setMaxLen] = useState(8);
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
 
-    const [hasCode, setHasCode] = useState(codeContent);
-    const [hasFolder, setHasFolder] = useState(folderContent);
     const [isSaved, setSaved] = useState(false);
     
     // placeholder tags
@@ -53,6 +51,8 @@ export default function FullPost({ isComment, isAccepted, postId, userId, postTi
         }
     })
 
+
+
     return (
         <>
             <div className="app-window" id="post-window">
@@ -71,21 +71,23 @@ export default function FullPost({ isComment, isAccepted, postId, userId, postTi
                             <div className="time-since-post">0 minutes ago</div>
                         ) : ("")}
                     </div>
-                    <div className="share-save-container">
-                        <button className="share-button">
-                            <span className="share-icon"><img src={ShareIcon} ></img></span>
-                            <span className="share-title">share</span>
-                        </button>
-                        <button className={`${isSaved ? "saved" : "save" }-button`}
-                                onClick={() => {
-                                    setSaved(!isSaved);
-                                }}>
-                                <span className="save-icon">
-                                    <img src={isSaved ? FilledSaveIcon : SaveIcon} ></img>
-                                </span>
-                            <span className="save-title">{isSaved ? "saved" : "save" }</span>
-                        </button>
-                    </div>                    
+                    {!isComment ? (
+                        <div className="share-save-container">
+                            <button className="share-button">
+                                <span className="share-icon"><img src={ShareIcon} ></img></span>
+                                <span className="share-title">share</span>
+                            </button>
+                            <button className={`${isSaved ? "saved" : "save" }-button`}
+                                    onClick={() => {
+                                        setSaved(!isSaved);
+                                    }}>
+                                    <span className="save-icon">
+                                        <img src={isSaved ? FilledSaveIcon : SaveIcon} ></img>
+                                    </span>
+                                <span className="save-title">{isSaved ? "saved" : "save" }</span>
+                            </button>
+                        </div>
+                    ) : ("")}                    
                 </div>
                 <div className="post-body">
                     <div className="post-properties-side">
@@ -117,7 +119,7 @@ export default function FullPost({ isComment, isAccepted, postId, userId, postTi
                             </div>
                         ) : ("")}
                     </div>
-                    <div className="post-content">
+                    <div className={`${!isComment ? "post" : "comment"}-content`}>
                         <div className="desc-content">
                             <div className="content-header">
                                 <span className="content-header-logo">
@@ -131,7 +133,7 @@ export default function FullPost({ isComment, isAccepted, postId, userId, postTi
                                 </p>
                             </div>
                         </div>
-                        {hasCode ? (
+                        {codeContent ? (
                             <div className="code">
                                 <div className="code-header">
                                     <span className="code-header-logo">
@@ -149,7 +151,7 @@ export default function FullPost({ isComment, isAccepted, postId, userId, postTi
                                 </div>
                             </div>
                         ) : ("")}
-                        {(hasFolder ? (
+                        {(folderContent ? (
                             <div className="folder">
                                 <div className="folder-header">
                                     <span className="folder-header-logo">

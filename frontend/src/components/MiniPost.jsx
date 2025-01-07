@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ellipsis from "../utils/ellipsis";
+import displayTimeWithUnit from "../utils/displayTime.js";
 
 // import components
 import Tag from './Tag.jsx'
@@ -18,25 +19,26 @@ import ArrowIcon from '../assets/arrow-icon.svg'
 // import style
 import '../styles/Minipost.css';
 
-export default function MiniPost({ topLevelFolder }){
-    const [hasFolder, setHasFolder] = useState(Boolean(topLevelFolder));
+export default function MiniPost({ author, postId, createdAt, postTitle, postContent, postTags, topLevelFolder }){
+
+    const navigate = useNavigate();
 
     return (
         <>
             <div className="minipost-container">
-                <div className="header-bar">
+                <div className="header-bar" onClick={() => {navigate(`/post/${postId}`)}}>
                     <div className="header">
                         <span className="header-logo">
                             <img src={TerminalIcon} alt="T"></img>
                         </span>
                         <span className="header-text">
                             <p className="minipost-title">
-                                sharing title
+                                {postTitle || "defaultTitle"}
                             </p>
                             <div className="minipost-meta">
-                                <span className="minipost-author">user123・</span>
+                                <span className="minipost-author">{author || "defaultUser123"}・</span>
                                 <p className="time-since-post">
-                                    0 minutes ago
+                                    {createdAt? `${displayTimeWithUnit(createdAt)} ago` : "N/A"}
                                 </p>
                             </div>
                         </span>
@@ -46,16 +48,21 @@ export default function MiniPost({ topLevelFolder }){
                     </div>
                 </div>
                 <div className="minipost-description">
-                    {"abc ".repeat(100)}
+                    {ellipsis(postContent || "this post has no description.", 256) }
                 </div>
-                <div className="minipost-folder">
-                    <FileItem isFolder={true} fileName="" />
-                </div>
-                <div className="minipost-tag-container">
-                    <Tag tagName="aaa" />
-                    <Tag tagName="aaa" />
-                    <Tag tagName="aaa" />
-                </div>
+                {topLevelFolder ? (
+                    <div className="minipost-folder">
+                        <FileItem isFolder={true} fileName={topLevelFolder} />
+                    </div>
+                    ) : ("") 
+                }
+                {postTags ? (
+                    <div className="minipost-tag-container">
+                        {postTags.map((tagName) => {
+                            return <Tag tagName={tagName}/>
+                        })}
+                    </div>
+                ) : ("")}
                 
             </div>
 

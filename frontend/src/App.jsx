@@ -24,7 +24,7 @@ import User from "./pages/User";
 import Saved from "./pages/Saved";
 import FullPostPage from './pages/FullPostPage';
 import FileItem from './components/FileItem';
-import MiniPost from './components/MiniPost';
+import Forum from './pages/Forum';
 
 function App() {
   return (
@@ -38,7 +38,7 @@ function App() {
           <Route path={pageAddress.signup} element={<UserSignUp />} />
           <Route path="/" element={<View />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/forum" element={<MiniPost />} />
+          <Route path="/forum" element={<Forum />} />
           <Route path="/user" element={<User />} />
           <Route path="/saved" element={<Saved />} />
           {/* Placeholder post route */}

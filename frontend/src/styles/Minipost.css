@@ -7,11 +7,11 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 80%;
+    width: 95%;
     height: auto;
-    min-height: 200px;
+    min-height: 100px;
     background-color: #222E44;
-    border-radius: 10px;
+    border-radius: 15px;
     padding: 20px 15px;
     transition: all 0.3s;
     cursor: pointer;
@@ -39,6 +39,7 @@
 }
 
 .minipost-title {
+    text-overflow: ellipsis;
     font-weight: 600;
     font-size: 1.2rem;
 }
@@ -71,34 +72,32 @@
 }
 
 .minipost-description {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 .minipost-folder .file-item {
-    border: #BBC7DD solid;
+    padding: 15px 10px;
+    border: 1px #BBC7DD solid;
 }
 
 .minipost-folder .file-item * {
     font-size: 0.9rem;
 }
 
-.minipost-folder .file-item:hover {
-    background-color: #192233;
-}
-
 .minipost-tag-container {
     display: flex;
-    gap: 5px;
+    gap: 8px;
     height: 100%;
 }
 
 .minipost-tag-container > .tag {
-    width: 10%;
+    height: 20px;
+    width: 100px;
     margin: 0;
 }
 
 .minipost-tag-container > .tag:hover {
     font-size: 0.75rem;
-    width: 12.5%;
+    width: 120px;
     transition: all ease-in-out 0.1s;
 }
