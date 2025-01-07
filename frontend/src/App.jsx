@@ -44,7 +44,7 @@ function App() {
           <Route path="/saved" element={<Saved />} />
           <Route path="/fileupload" element={<Fileupload />} />
           {/* Placeholder post route */}
-          <Route path="/post/nutcracker69" element={<FullPostPage />}/>
+          <Route path="/post/:postId" element={<FullPostPage />}/>
           <Route path="/component-test" element={<><FileItem isFolder="true"/><FileItem /></>}/>
         </Routes>
       </Router>
