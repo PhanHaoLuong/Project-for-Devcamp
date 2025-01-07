@@ -1,0 +1,277 @@
+.main-container {
+    position: relative;
+    width: 950px;
+    height: 900px;
+    margin: 0 auto;
+  }
+  .frame {
+    position: absolute;
+    width: 950px;
+    height: 900px;
+    margin: 1.5rem;
+    top: 0;
+    left: 0;
+    background: #192233;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .flex-row-f {
+    position: relative;
+    width: 950px;
+    height: 74px;
+    margin: 0 0 0 0;
+    z-index: 3;
+    overflow: visible auto;
+  }
+  .icon-create-post {
+    position: relative;
+    width: 188px;
+    height: 40px;
+    margin: 14px 0 0 16px;
+    z-index: 3;
+  }
+  .post-icon {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    
+    background: url(../assets/post.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 4;
+    overflow: hidden;
+  }
+  .create-post-text {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: absolute;
+    height: 31px;
+    top: 5px;
+    left: 50px;
+    color: #bbc7dd;
+    font-family: 'Inter', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 31px;
+    text-align: left;
+    white-space: nowrap;
+    letter-spacing: -0.52px;
+    z-index: 5;
+  }
+  .upper-bar {
+    position: absolute;
+    width: 950px;
+    height: 74px;
+    top: 0;
+    left: 0;
+    background: #111722;
+    z-index: 2;
+  }
+  .title {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    width: 60px;
+    height: 30.931px;
+    margin: 19.791px 0 0 36px;
+    color: #bbc7dd;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600; /* Semi Bold */
+    font-size: 26px;
+    line-height: 30.931px;
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 0.52px;
+    z-index: 21;
+  }
+  .title-space {
+    position: relative;
+    width: 869px;
+    height: 69.845px;
+    margin: 13.969px 0 0 38px;
+    background: #323a4c;
+    z-index: 20;
+    border-radius: 10px;
+    color: #bbc7dd;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400; /* Semi Bold */
+    font-size: 20px;
+  }
+  .tags-text {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    width: 70px;
+    height: 31.094px;
+    margin: 12.464px 0 0 36px;
+    color: #bbc7dd;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600; /* Semi Bold */
+    font-size: 26px;
+    line-height: 31.094px;
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 0.52px;
+    z-index: 6;
+  }
+  .tag-adder-button {
+    position: relative;
+    width: 200px;
+    height: 50px;
+    margin: 19px 0 0 30px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    z-index: 7;
+    overflow: hidden; 
+    resize: none; 
+    align-items: center;
+    text-align:  center;
+  }
+  .box-2 {
+    position: relative;
+    width: 101px;
+    height: 40px;
+    margin: 5px 0 0 24px;
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: left;
+    text-overflow: initial;
+    white-space: nowrap;
+    letter-spacing: 0.4px;
+    z-index: 8;
+  }
+  .plus {
+    position: relative;
+    color: #bbc7dd;
+    font-family: Inter, sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 31.2px;
+    text-align: left;
+    letter-spacing: 0.4px;
+  }
+  .tag {
+    position: relative;
+    color: #bbc7dd;
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: left;
+    letter-spacing: 0.4px;
+  }
+  .tag-adder {
+        position: absolute;
+        width: 125px;
+        height: 50px;
+        top: 0;
+        left: 0;
+        background: #323a4c;
+        z-index: 7;
+        border-radius: 10px;
+  }
+  .description-text {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    width: 153px;
+    height: 23px;
+    margin: 30px 0 0 36px;
+    color: #bbc7dd;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600; /* Semi Bold */
+    font-size: 26px;
+    line-height: 23px;
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 0.52px;
+    z-index: 10;
+    vertical-align: top;
+
+  }
+  .description-space {
+    display: block;
+    align-items: flex-start;
+    position: relative;
+    width: 850px;
+    height: 404px;
+    margin: 20px 0 0 36px;
+    background: #323a4c;
+    border-radius: 10px;
+    color: #bbc7dd;
+    font-family: 'Inter', sans-serif;
+    font-weight:400; /* Semi Bold */
+    font-size: 20px;
+    padding: 10px; 
+    text-align: left; 
+    overflow-wrap: break-word;
+    word-wrap: break-word; 
+    white-space: normal;
+    overflow-y: auto;
+  }
+  .flex-row-e {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    width: 313px;
+    height: 40px;
+    margin: 26px 0 0 592px;
+    z-index: 15;
+  }
+  .write-code-button {
+    flex-shrink: 0;
+    position: relative; /* Ensure it's positioned relative to its parent */
+    width: 140px;
+    height: 40px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    background: #008989; /* Button background color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    z-index: 16; /* Ensure it's above other elements */
+    display: flex; /* Flexbox for centering child content */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+  }
+  .write-code-text {
+    color: #bbc7dd; 
+    font-family: Inter, sans-serif; 
+    font-size: 20px; 
+    font-weight: 700; 
+    line-height: normal; 
+    text-align: center;
+    white-space: nowrap; 
+  }
+
+  .add-files-button {
+    flex-shrink: 0;
+    position: relative; /* Ensure it's positioned relative to its parent */
+    width: 140px;
+    height: 40px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    background: #008989; /* Button background color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    z-index: 16; /* Ensure it's above other elements */
+    display: flex; /* Flexbox for centering child content */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+  }
+  .add-files {
+    color: #bbc7dd; /* Text color */
+    font-family: Inter, sans-serif; /* Font family */
+    font-size: 20px; /* Font size */
+    font-weight: 700; /* Bold text */
+    line-height: normal; /* Reset line height for better alignment */
+    text-align: center;
+    white-space: nowrap; /* Prevent text wrapping */
+  }
