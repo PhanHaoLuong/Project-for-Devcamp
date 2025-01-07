@@ -15,12 +15,17 @@ import * as pageAddress from './pages/page-address.json'
 /* import components */
 import Navbar from "./components/Navbar";
 
+import Vote from './components/Vote';
+
 /* import pages */
 import View from "./pages/View";
 import Home from "./pages/Home"; 
 import User from "./pages/User";
 import Saved from "./pages/Saved";
 import Fileupload from './pages/File upload test';
+import FullPostPage from './pages/FullPostPage';
+import FileItem from './components/FileItem';
+import MiniPost from './components/MiniPost';
 
 function App() {
   return (
@@ -34,9 +39,13 @@ function App() {
           <Route path={pageAddress.signup} element={<UserSignUp />} />
           <Route path="/" element={<View />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/forum" element={<MiniPost />} />
           <Route path="/user" element={<User />} />
           <Route path="/saved" element={<Saved />} />
           <Route path="/fileupload" element={<Fileupload />} />
+          {/* Placeholder post route */}
+          <Route path="/post/nutcracker69" element={<FullPostPage />}/>
+          <Route path="/component-test" element={<><FileItem isFolder="true"/><FileItem /></>}/>
         </Routes>
       </Router>
     </>

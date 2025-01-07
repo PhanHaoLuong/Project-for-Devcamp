@@ -1,5 +1,5 @@
 /* import components */
-import Post from "../components/Post";
+import MiniPost from "../components/MiniPost";
 
 const View = () => {
     return (

@@ -2,7 +2,7 @@
 import '../styles/Saved.css';
 
 /* import components */
-import Post from '../components/Post';
+import MiniPost from '../components/MiniPost';
 
 const Saved = () => {
   return (
