@@ -4,7 +4,7 @@ import post from "../models/post.model.js";
 import user from '../models/user.model.js';
 import Comment from '../models/comment.model.js';
 import { create_comment, create_post, delete_comment, delete_post, get_post, get_forum_posts, get_post_comments, accept_comment } from '../controllers/post.controller.js';
-import { upvote } from '../controllers/vote.controller.js';
+import { downvote, upvote } from '../controllers/vote.controller.js';
 
 const router = express.Router();
 
@@ -20,6 +20,7 @@ router.get('/:postid', get_post, get_post_comments)
 router.post('/:postid/accept_comment', accept_comment)
 
 router.post('/:postid/upvote', upvote)
+router.post('/:postid/downvote', downvote)
 
 //to comment on a post, WIP
 router.post('/:postid/comment', create_comment)
