@@ -7,6 +7,7 @@ import ellipsis from "../utils/ellipsis.js";
 import Avatar from "./Avatar.jsx";
 import Vote from "./Vote.jsx"
 import FileItem from "./FileItem.jsx";
+import Tag from './Tag.jsx';
 
 // import assets
 import HashIcon from '../assets/hash.png';
@@ -108,15 +109,8 @@ export default function FullPost({ isComment, isAccepted, postId, userId, postTi
                                 {tagArr.map((tag, index) => {
                                     if (tag) {
                                         return (
-                                        (<div className="tag" 
-                                            onMouseEnter={
-                                                () => {setTagHoverIndex(index)}
-                                            }
-                                            onMouseLeave={
-                                                () => {setTagHoverIndex(null)}
-                                            }>
-                                            {ellipsis(tag, (tagHoverIndex === index ? 24 : 8))}
-                                        </div>)
+                                        (
+                                        <Tag tagName={ellipsis(tag, (tagHoverIndex === index ? 8 : 6))}/>)
                                         )
                                     }
                                 })}

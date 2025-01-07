@@ -193,6 +193,7 @@ img {
 }
 
 .comment-accepted-container {
+    cursor:default;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -200,10 +201,16 @@ img {
     height: auto;
     gap: 5px;
     font-size: 0.8rem;
-    margin: 12px 16%;
+    margin: 12px 24%;
     padding: 5px ;
     border-radius: 11px;
     background-color: #008B8B;
+    transition: all 0.3s;
+}
+
+.comment-accepted-container:hover {
+    background-color: #09a0a0;
+    transition: all 0.1s;
 }
 
 .accepted-icon {
@@ -229,6 +236,8 @@ img {
     align-items: flex-start;
     margin-top: 20px;
 }
+
+
 
 .tag {
     cursor: pointer;

@@ -1,0 +1,21 @@
+.tag {
+    cursor: pointer;
+    text-wrap: wrap;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 5px 5px;
+    padding: 4px 1px;
+    background-color: #334566;
+    border-radius: 7px;
+    min-width: 70px;
+    max-width: 200px;
+    font-size: 0.75rem;
+    font-weight: 100;
+    transition: all ease-in-out 0.25s;
+}
+
+.tag:hover {
+    background-color: #385c9b;
+    transition: all ease-in-out 0.1s;
+}
