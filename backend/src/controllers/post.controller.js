@@ -94,26 +94,36 @@ export const get_post_comments = async (req, res) => {
         const singlepost = res.locals.singlepost
         if (page == 1) {
             if (singlepost.accepted_comment_id != null) {
-                const accepted_comment = post.find({_id: singlepost.accepted_comment_id})
-                const comments = await comment.find(
-                    {parent_post: postid, _id: {$ne: singlepost.accepted_comment_id}},{},
-                    {skip: skip, limit: limit, sort: {votes: -1}})
+                const accepted_comment = await post.find({_id: singlepost.accepted_comment_id})
+                const comments = await post.find(
+                    {parent_post_id: postid, _id: {$ne: singlepost.accepted_comment_id}},{},
+                    {skip: skip, limit: limit - 1, sort: {votes: -1}})
                 res.status(200).json({post: res.locals.singlepost, accepted_comment: accepted_comment, comments: comments})
             }
             else{
                 const comments = await post.find(
                     {parent_post_id: postid},{},
                     {skip: skip, limit: limit, sort: {votes: -1}})
-                console.log(comments)
                 res.status(200).json({post: res.locals.singlepost, comments: comments})
             }
         }
         else {
-            const comments = await comment.find(
-                {parent_post: postid},
+            const comments = await post.find(
+                {parent_post_id: postid},{},
                 {skip: skip, limit: limit, sort: {votes: -1}})
-            res.status(200).json(comments)
+            res.status(200).json({comments: comments})
         }
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
+export const accept_comment = async (req, res) => {
+    const postid = req.params.postid
+    const commentid = req.body.commentid
+    try {
+        await post.updateOne({_id: postid}, {accepted_comment_id: commentid})
+        res.status(200).send("OK")
     } catch (error) {
         res.status(500).send(error.message)
     }
