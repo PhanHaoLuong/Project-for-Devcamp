@@ -1,5 +1,8 @@
 {
-    "home":"/",
+    "index":"/",
+    "home":"/home",
     "login":"/auth/login",
-    "signup":"/auth/signup"
+    "signup":"/auth/signup",
+    "userProfile":"/user",
+    "savedPosts":"/saved"
 }
