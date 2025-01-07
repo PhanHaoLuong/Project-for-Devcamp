@@ -35,6 +35,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/user" element={<User />} />
           <Route path="/saved" element={<Saved />} />
+          <Route path="/create" element={<CreatePost />} />
         </Routes>
       </Router>
     </>
