@@ -15,11 +15,9 @@ import '../styles/Post.css';
 export default function MiniPost(){
     return (
         <>
-            <div className="app-window">
-                <div className="container">
-                    <div className="title-bar">
-                        
-                    </div>
+            <div className="minipost-container">
+                <div>
+                    
                 </div>
             </div>
         </>

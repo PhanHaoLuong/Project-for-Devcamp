@@ -1,10 +1,11 @@
 .file-item-container img {
-    height: 20px;
+    height: 16px;
 }
 
 .file-item-container * {
     color: #BBC7DD;
-    font-size: 1rem;
+    font-size: 0.8rem;
+
 }
 
 
@@ -17,11 +18,17 @@
     justify-items: center;
     height: auto;
     gap: 5px;
-    padding: 10px;
+    padding: 6px;
     width: 100%;
-    border: 1px #BBC7DD solid;
+    border: none;
     border-radius: 10px;
     cursor: pointer;
+    transition: all 0.3s;
+}
+
+.file-item:hover {
+    background-color:#334566;
+    transition: all 0.1s;
 }
 
 .file-item-logo {
@@ -34,3 +41,4 @@
     justify-content: center;
     justify-items: center;
 }
+

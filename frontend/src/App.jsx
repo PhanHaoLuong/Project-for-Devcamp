@@ -22,8 +22,9 @@ import View from "./pages/View";
 import Home from "./pages/Home"; 
 import User from "./pages/User";
 import Saved from "./pages/Saved";
-import FullPost from './components/FullPost';
+import FullPostPage from './pages/FullPostPage';
 import FileItem from './components/FileItem';
+import MiniPost from './components/MiniPost';
 
 function App() {
   return (
@@ -37,10 +38,11 @@ function App() {
           <Route path={pageAddress.signup} element={<UserSignUp />} />
           <Route path="/" element={<View />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/forum" element={<MiniPost />} />
           <Route path="/user" element={<User />} />
           <Route path="/saved" element={<Saved />} />
           {/* Placeholder post route */}
-          <Route path="/post/nutcracker69" element={<FullPost />}/>
+          <Route path="/post/nutcracker69" element={<FullPostPage />}/>
           <Route path="/component-test" element={<><FileItem isFolder="true"/><FileItem /></>}/>
         </Routes>
       </Router>
