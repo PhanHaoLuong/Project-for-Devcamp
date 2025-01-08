@@ -11,7 +11,8 @@ const FullPostPage = () => {
     return (
         /* placeholder post & comments */
         <div className="post-container">
-            <FullPost isComment={false} voteCount={7890} postContent={"abc ".repeat(100)}/>
+            <FullPost isComment={false} voteCount={7890} postTags={['a', 'b', 'c']} postContent={"abc ".repeat(100)}/>
+            <FullPost isComment={true} isAccepted={true} voteCount={1238910} postContent={'bcd '.repeat(100)}/>
             <FullPost isComment={true} isAccepted={true} voteCount={1238910} postContent={'bcd '.repeat(100)}/>
         </div>
     )

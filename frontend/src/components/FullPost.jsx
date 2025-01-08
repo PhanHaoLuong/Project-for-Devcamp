@@ -27,31 +27,22 @@ export default function FullPost({ postId, isComment, isAccepted, createdAt, aut
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
 
     const [isSaved, setSaved] = useState(false);
+
+    useEffect(() => {
+        if (folderContent){
+            folderContent.sort((a, b) => {
+                if (a.isFolder) {
+                    return -1;
+                }
+                if (b.isFolder) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            })
+        }
+    }, [])
     
-    // placeholder tags
-    const tagArr = ['tag1', 'tag2', 'tag3', 'tag4 '.repeat(50)];
-
-    // placeholder files
-    const fileMetadataArr = [
-        {fileName:"file1", fileType: "cpp" /* null if isFolder */, isFolder:false, uploadDate: Date("2024-10-26T10:30:00Z"), userId:"123"},
-        {fileName: "file2", fileType: "js", isFolder: false, uploadDate: Date("2024-11-26T10:45:00Z"), userId: "124"},
-        {fileName: "folder3", fileType: null, isFolder: true, uploadDate: Date("2024-12-26T11:00:00Z"), userId: "125"},
-        {fileName: "file3", fileType: "py", isFolder: false, uploadDate: Date("2024-12-26T11:15:00Z"), userId: "126"},
-        {fileName: "folder4", fileType: null, isFolder: true, uploadDate: Date("2024-12-26T11:30:00Z"), userId: "127"}
-    ]
-
-    fileMetadataArr.sort((a, b) => {
-        if (a.isFolder) {
-            return -1;
-        }
-        if (b.isFolder) {
-            return 1;
-        } else {
-            return 0;
-        }
-    })
-
-
 
     return (
         <>
@@ -106,14 +97,11 @@ export default function FullPost({ postId, isComment, isAccepted, createdAt, aut
                         <div className="vote-container">
                             <Vote voteCount={voteCount || "N/A"}/>
                         </div>
-                        {!isComment ? (
+                        {(!isComment && postTags) ? (
                             <div className="tag-container">
-                                {tagArr.map((tag, index) => {
+                                {postTags.map((tag, index) => {
                                     if (tag) {
-                                        return (
-                                        (
-                                        <Tag tagName={ellipsis(tag, (tagHoverIndex === index ? 8 : 6))}/>)
-                                        )
+                                        return <Tag tagName={ellipsis(tag, (tagHoverIndex === index ? 8 : 6))}/>
                                     }
                                 })}
                             </div>
