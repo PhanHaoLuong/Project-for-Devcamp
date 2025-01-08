@@ -1,4 +1,4 @@
-const displayTimeWithUnit = (timeSec) => {
+const displayTime = (timeSec) => {
     let timeUnit = "seconds";
     let time = 0;
     if (typeof(timeSec) === 'number'){

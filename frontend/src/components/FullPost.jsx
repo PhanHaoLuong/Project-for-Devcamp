@@ -22,26 +22,25 @@ import AcceptedIcon from '../assets/tick.svg'
 // import style
 import '../styles/FullPost.css';
 
-export default function FullPost({ postId, isComment, isAccepted, createdAt, author, postTags, postTitle, voteCount, postContent, codeContent, folderContent }){
+export default function FullPost({ postId, isComment, isAccepted, isSaved ,timeSincePost, author, postTags, postTitle, voteCount, postContent, codeContent, folderContent }){
     const [maxLen, setMaxLen] = useState(8);
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
 
-    const [isSaved, setSaved] = useState(false);
+    const [saveButtonActive, setSaveButtonActive] = useState(false);
 
-    useEffect(() => {
-        if (folderContent){
-            folderContent.sort((a, b) => {
-                if (a.isFolder) {
-                    return -1;
-                }
-                if (b.isFolder) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            })
-        }
-    }, [])
+    if (folderContent){
+        folderContent.sort((a, b) => {
+            if (a.isFolder) {
+                return -1;
+            }
+            if (b.isFolder) {
+                return 1;
+            } else {
+                return 0;
+            }
+        })
+    }
+
     
 
     return (
@@ -68,14 +67,14 @@ export default function FullPost({ postId, isComment, isAccepted, createdAt, aut
                                 <span className="share-icon"><img src={ShareIcon} ></img></span>
                                 <span className="share-title">share</span>
                             </button>
-                            <button className={`${isSaved ? "saved" : "save" }-button`}
+                            <button className={`${saveButtonActive ? "saved" : "save" }-button`}
                                     onClick={() => {
-                                        setSaved(!isSaved);
+                                        setSaveButtonActive(!saveButtonActive);
                                     }}>
                                     <span className="save-icon">
-                                        <img src={isSaved ? FilledSaveIcon : SaveIcon} ></img>
+                                        <img src={saveButtonActive ? FilledSaveIcon : SaveIcon} ></img>
                                     </span>
-                                <span className="save-title">{isSaved ? "saved" : "save" }</span>
+                                <span className="save-title">{saveButtonActive ? "saved" : "save" }</span>
                             </button>
                         </div>
                     ) : ("")}                    
