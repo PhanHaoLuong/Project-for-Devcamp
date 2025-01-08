@@ -1,7 +1,7 @@
 import express from "express";
 import bcryptjs from "bcryptjs";
 
-import { login, logout, signup } from "../controllers/auth.controller.js";
+import { login, logout, protected_route, signup } from "../controllers/auth.controller.js";
 import { verifyToken } from "../utils/token.js";
 
 const router = express.Router();
@@ -15,6 +15,7 @@ router.get('/verify', async (req, res) => {
 })
 
 router.post('/login', login)
+router.post('/test', protected_route, async (req, res) => {res.status(200).json({message: `${res.locals.user.name}`})})
 router.post('/logout', logout) //to be implemented
 export default router
 

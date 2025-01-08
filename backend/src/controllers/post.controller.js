@@ -1,6 +1,5 @@
 import post from '../models/post.model.js'
 import user from '../models/user.model.js'
-import comment from '../models/comment.model.js'
 
 export const create_post = async (req, res) => {
     const author = req.body.author
@@ -52,7 +51,7 @@ export const get_forum_posts = async (req, res) => {
         const skip = (page - 1) * limit
 
         const posts = await post.find(
-            {},{},
+            {parent_post_id: { $exists: 0 }},{},
             {skip: skip, limit: limit, sort: {createdAt: -1}}
         )
 
