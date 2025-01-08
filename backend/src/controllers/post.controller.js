@@ -48,7 +48,7 @@ export const get_post = async (req, res, next) => {
 export const get_forum_posts = async (req, res) => {
     try{
         const page = req.query.page
-        const limit = 10
+        const limit = 20
         const skip = (page - 1) * limit
 
         const posts = await post.find(

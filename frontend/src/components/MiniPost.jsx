@@ -19,7 +19,7 @@ import ArrowIcon from '../assets/arrow-icon.svg'
 // import style
 import '../styles/Minipost.css';
 
-export default function MiniPost({ author, postId, createdAt, postTitle, postContent, postTags, topLevelFolder }){
+export default function MiniPost({ postId, author, timeSincePost, postTitle, postContent, postTags, topLevelFolder }){
 
     const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ export default function MiniPost({ author, postId, createdAt, postTitle, postCon
                             <div className="minipost-meta">
                                 <span className="minipost-author">{author || "defaultUser123"}・</span>
                                 <p className="time-since-post">
-                                    {createdAt? `${displayTimeWithUnit(createdAt)} ago` : "N/A"}
+                                    {timeSincePost? `${timeSincePost} ago` : "N/A"}
                                 </p>
                             </div>
                         </span>

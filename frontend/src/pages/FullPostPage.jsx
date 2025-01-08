@@ -45,10 +45,12 @@ const FullPostPage = () => {
             const data = await fetchPost();
             
             setPostData(data.post);
-            setCommentData({
-                acceptedComments: data.accepted_comment,
-                comments: data.comments
-            });
+            if (data.accepted_comment || data.comments) {
+                setCommentData({
+                    acceptedComments: data.accepted_comment,
+                    comments: data.comments
+                });
+            }
         }
 
         getPostData();
@@ -60,7 +62,6 @@ const FullPostPage = () => {
     const getTimeSincePost = (createdAt) => {
         const now = new Date();
         const creationTime = new Date(createdAt);
-        console.log(displayTime((now.getTime() - creationTime.getTime()) / 1000))
         return (now.getTime() - creationTime.getTime()) / 1000;
     }
 
@@ -70,28 +71,29 @@ const FullPostPage = () => {
                 author={postData.author.name || null} 
                 postTitle={postData.title || null}
                 timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
-                voteCount={postData.votes || null} 
+                voteCount={postData.votes} 
                 postTags={null} /* placeholder */
                 postContent={postData.content || null}
                 codeContent={postData.code || null}
                 folderContent={null} /* placeholder */
             />) : ("")}
-            {postData && commentData ? (
-                [
-                    commentData.acceptedComments.map((comment) => {
-                        return (
-                            <FullPost isComment={true} isAccepted={true}
-                                author={comment.author || "N/A"} 
-                                postTitle={comment.title || "N/A"}
-                                timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
-                                voteCount={comment.votes || "N/A"} 
-                                postTags={null} /* placeholder */
-                                postContent={comment.content || null}
-                                codeContent={comment.code || null}
-                                folderContent={null} /* placeholder */
-                            />
-                        )
-                    }),
+            {commentData && commentData.acceptedComments ? (
+                commentData.acceptedComments.map((comment) => {
+                    return (
+                        <FullPost isComment={true} isAccepted={true}
+                            author={comment.author || "N/A"} 
+                            postTitle={comment.title || "N/A"}
+                            timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
+                            voteCount={comment.votes || "N/A"} 
+                            postTags={null} // placeholder 
+                            postContent={comment.content || null}
+                            codeContent={comment.code || null}
+                            folderContent={null} // placeholder 
+                        />
+                    )
+                })
+            ) : ("")} 
+            {commentData && commentData.comments ? (
                     commentData.comments.map((comment) => {
                         return (
                             <FullPost isComment={true} isAccepted={false}
@@ -99,17 +101,16 @@ const FullPostPage = () => {
                                 postTitle={comment.title || "N/A"}
                                 timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
                                 voteCount={comment.votes || "N/A"} 
-                                postTags={null} /* placeholder */
+                                postTags={null} // placeholder 
                                 postContent={comment.content || null}
                                 codeContent={comment.code || null}
-                                folderContent={null} /* placeholder */
+                                folderContent={null} // placeholder 
                             />
                         )
                     })
-                ]
-                
-                
             ) : ("")} 
+                
+            
         </div>
     )
 }

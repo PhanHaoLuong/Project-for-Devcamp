@@ -21,7 +21,7 @@ const Vote = ({ voteCount }) => {
             setDownvote(false); 
         }
 
-        if (voteCount) {
+        if (voteCount || voteCount === 0) {
             if (isUpvote) {
                 updateVoteCount(voteCount + 1);
             } else if (isDownvote) {
@@ -38,19 +38,19 @@ const Vote = ({ voteCount }) => {
             setUpvote(false); 
         }
 
-        if (voteCount) {
+        if (voteCount || voteCount === 0) {
             if (isUpvote) {
                 updateVoteCount(voteCount + 1);
             } else if (isDownvote) {
                 updateVoteCount(voteCount - 1);
             } else {
-                updateVoteCount(voteCount)
+                updateVoteCount(voteCount);
             }
         }
     }, [isDownvote]);
 
     const handleVote = () => {
-        console.log(`voted`)
+        
     }
 
     return (
@@ -60,15 +60,15 @@ const Vote = ({ voteCount }) => {
                     src={isUpvote ? UpvoteIcon : VoteIcon} 
                     onClick={() => {
                         setUpvote(!isUpvote);
-                        handleVote();
+                        handleVote("upvote");
                     }}
                 ></img>
-                <span className="vote-count">{displayNum(currVoteCount) || "0"}</span>
+                <span className="vote-count">{displayNum(currVoteCount)}</span>
                 <img className="vote-button" id="downvote" 
                     src={isDownvote ? DownvoteIcon : VoteIcon}
                     onClick={() => {
                         setDownvote(!isDownvote);
-                        handleVote();
+                        handleVote("downvote");
                     }}
                 ></img>
             </div>

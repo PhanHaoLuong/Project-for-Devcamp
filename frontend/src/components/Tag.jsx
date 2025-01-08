@@ -6,14 +6,7 @@ import '../styles/Tag.css'
 
 const Tag = ({ tagName }) => {
     return (
-        <div className="tag" 
-            onMouseEnter={
-                () => {setTagHoverIndex(index)}
-            }
-            onMouseLeave={
-                () => {setTagHoverIndex(null)}
-            }
-        >
+        <div className="tag" >
             {tagName}
         </div>
     )
