@@ -1,5 +1,5 @@
 // import modules
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import displayTimeWithUnit from "../utils/displayTime";
 
@@ -15,19 +15,25 @@ const FullPostPage = () => {
     const [commentData, setCommentData] = useState(null);
 
     const { postId } = useParams();
-    const url = `/post/${postId}`;
 
     useEffect(() => {
+ 
         const fetchPost = async () => {
             try {
-                const response = await fetch(url);
+                const response = await fetch(`http://localhost:3000/post/${postId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
                 if (!response.ok) {
                     if (response.status === 404) {
                         console.log('post not found')
                     }
                     return null;
                 } else {
-                    return await response.json();
+                    const data = await response.json()
+                    return data;
                 }
             } catch (error) {
                 console.log('cannot fetch posts. error: ', error);
@@ -36,7 +42,8 @@ const FullPostPage = () => {
         }
 
         const getPostData = async () => {
-            const data = await fetchPost()
+            const data = await fetchPost();
+            
             setPostData(data.post);
             setCommentData({
                 acceptedComments: data.accepted_comment,
@@ -46,18 +53,21 @@ const FullPostPage = () => {
 
         getPostData();
 
-    }, [postId])
+    }, [])
+
+    
 
     const getTimeSincePost = (createdAt) => {
         const now = new Date();
         const creationTime = new Date(createdAt);
+        console.log(displayTime((now.getTime() - creationTime.getTime()) / 1000))
         return (now.getTime() - creationTime.getTime()) / 1000;
     }
 
     return (
         <div className="post-container">
-            <FullPost isComment={false} 
-                author={postData.author || null} 
+            {postData ? (<FullPost isComment={false} 
+                author={postData.author.name || null} 
                 postTitle={postData.title || null}
                 timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
                 voteCount={postData.votes || null} 
@@ -65,8 +75,8 @@ const FullPostPage = () => {
                 postContent={postData.content || null}
                 codeContent={postData.code || null}
                 folderContent={null} /* placeholder */
-            />
-            {commentData ? (
+            />) : ("")}
+            {postData && commentData ? (
                 [
                     commentData.acceptedComments.map((comment) => {
                         return (

@@ -1,12 +1,18 @@
 import express from "express";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 import cors from "cors";
+import fileUpload from "express-fileupload";
 
 import { connectDB } from "./config/db.js";
+import { get_forum_posts } from "./controllers/post.controller.js";
 
 import authRoute from "./routes/auth.route.js"
-import post from "./models/post.model.js";
+import postRoute from "./routes/post.route.js"
+import userRoute from "./routes/user.route.js"
+
+import file from "./models/file.model.js"
+
+
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -24,14 +30,19 @@ app.listen(PORT, () => {
 })
 
 app.use('/auth', authRoute)
+app.use('/post', postRoute)
+app.use('/user', userRoute)
 
-app.post('/upload', async (req, res) => {
-    const newPost = new post(req.body)
-    try {
-        await newPost.save();
-        res.status(200).send("OK")
-    } catch (error) {
-        console.error(error.message)
-    }
+app.get('/forum', get_forum_posts)
+
+app.post('/fileupload', fileUpload({createParentPath: true}),async (req, res) => {
+    const files = req.files
+    console.log(files.file.data)
+    console.log(files.file.data.toString())
+    const save = {'author': '6778ad96d751b1b21cfb06cc', 'data': files.file.data}
     
+    const newFile = new file(save)
+    await newFile.save()
+
+    res.status(200).json({message: 'file uploaded successfully'})
 })

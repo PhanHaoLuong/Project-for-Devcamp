@@ -27,4 +27,4 @@ const displayTime = (timeSec) => {
     }
 }
 
-export default displayTimeWithUnit;
+export default displayTime;

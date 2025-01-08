@@ -14,16 +14,38 @@ import '../styles/Vote.css'
 const Vote = ({ voteCount }) => {
     const [isUpvote, setUpvote] = useState(false);
     const [isDownvote, setDownvote] = useState(false);
+    const [currVoteCount, updateVoteCount] = useState(voteCount);
 
     useEffect(() => {
         if (isUpvote && isDownvote) { 
-          setDownvote(false); 
+            setDownvote(false); 
+        }
+
+        if (voteCount) {
+            if (isUpvote) {
+                updateVoteCount(voteCount + 1);
+            } else if (isDownvote) {
+                updateVoteCount(voteCount - 1);
+            } else {
+                updateVoteCount(voteCount)
+            }
         }
     }, [isUpvote]);
       
       useEffect(() => {
+        updateVoteCount(voteCount);
         if (isUpvote && isDownvote) { 
-          setUpvote(false); 
+            setUpvote(false); 
+        }
+
+        if (voteCount) {
+            if (isUpvote) {
+                updateVoteCount(voteCount + 1);
+            } else if (isDownvote) {
+                updateVoteCount(voteCount - 1);
+            } else {
+                updateVoteCount(voteCount)
+            }
         }
     }, [isDownvote]);
 
@@ -41,7 +63,7 @@ const Vote = ({ voteCount }) => {
                         handleVote();
                     }}
                 ></img>
-                <span className="vote-count">{displayNum(voteCount) || "0"}</span>
+                <span className="vote-count">{displayNum(currVoteCount) || "0"}</span>
                 <img className="vote-button" id="downvote" 
                     src={isDownvote ? DownvoteIcon : VoteIcon}
                     onClick={() => {

@@ -58,7 +58,7 @@ export default function FullPost({ postId, isComment, isAccepted, isSaved ,timeS
                     <div className="title-time-container">
                         <div className="post-title">{!isComment ? (postTitle || "Sharing Title") : "Comment"}</div>
                         {!isComment ? (
-                            <div className="time-since-post">0 minutes ago</div>
+                            <div className="time-since-post">{timeSincePost} ago</div>
                         ) : ("")}
                     </div>
                     {!isComment ? (
@@ -94,7 +94,7 @@ export default function FullPost({ postId, isComment, isAccepted, isSaved ,timeS
                             </div>
                         ):("")}
                         <div className="vote-container">
-                            <Vote voteCount={voteCount || "N/A"}/>
+                            <Vote voteCount={voteCount}/>
                         </div>
                         {(!isComment && postTags) ? (
                             <div className="tag-container">

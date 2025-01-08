@@ -171,6 +171,9 @@ img {
 }
 
 .post-properties-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     min-width: 25%;
     width: 25%;
     height: auto;
@@ -197,11 +200,12 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    justify-items: center;
     height: auto;
+    width: 50%;
+    min-width: 100px;
     gap: 5px;
     font-size: 0.8rem;
-    margin: 12px 24%;
+    margin: 12px 0;
     padding: 5px ;
     border-radius: 11px;
     background-color: #008B8B;
