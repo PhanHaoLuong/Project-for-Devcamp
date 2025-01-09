@@ -1,6 +1,5 @@
 {
-    "index":"/",
-    "home":"/home",
+    "home":"/",
     "login":"/auth/login",
     "signup":"/auth/signup",
     "userProfile":"/user",

@@ -65,12 +65,12 @@ const Navbar = ({ isLoggedIn }) => {
           </>
         )}
         <li>
-          <a href="/home" className={isActive("/home") ? "active" : ""}>
+          <a href="/" className={isActive("/") ? "active" : ""}>
             home
           </a>
         </li>
         <li>
-          <a href="/forum" className={isActive("/forum") ? "active" : ""}>
+          <a href="/forum" className={(isActive("/forum") || isActive("/post/:postId")) ? "active" : ""}>
             forum
           </a>
         </li>

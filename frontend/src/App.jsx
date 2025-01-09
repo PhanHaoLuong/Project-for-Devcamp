@@ -31,7 +31,7 @@ function App() {
           const data = await response.json();
           if (response.ok) {
             setIsLoggedIn(true);
-            setUserData(data); // Save full user data
+            setUserData(data);
           } else {
             console.error('Failed to fetch user data:', data.message);
           }
