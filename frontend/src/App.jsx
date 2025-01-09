@@ -25,6 +25,7 @@ import Saved from "./pages/Saved";
 import Fileupload from './pages/File upload test';
 import FullPostPage from './pages/FullPostPage';
 import FileItem from './components/FileItem';
+// change back when done test
 import Forum from './pages/Forum';
 
 function App() {

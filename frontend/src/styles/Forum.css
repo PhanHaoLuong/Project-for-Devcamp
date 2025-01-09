@@ -1,3 +1,23 @@
+::-webkit-scrollbar {
+    position: absolute;
+    width: 15px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: linear-gradient(to right, #192233, #111722);
+}
+  
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: #2c3952;
+    border-radius: 100px;
+}
+  
+  /* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #344870;
+}
+
 .page-content {
     align-items: center;
     width:100%;
@@ -40,6 +60,13 @@
     flex-direction: column;
     width: 100%;
     gap: 10px;
+}
+.infinite-scroll-component__outerdiv {
+    width: 100%;
+}
+
+.infinite-scroll-component  {
+    width: 100%;
 }
 
 .post-header * {
@@ -134,6 +161,10 @@
     width: 120px;
     background-color: #007070;
     transition: all 0.3s
+}
+
+.sort-post-button-active:hover {
+    background-color: #008B8B
 }
 
 .sort-post-button:hover {

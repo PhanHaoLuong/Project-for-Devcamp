@@ -11,40 +11,44 @@ import AddIcon from "../assets/add.svg";
 
 // import styles
 import "../styles/Forum.css";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Forum = () => {
-    const [forumPostData, setForumPostData] = useState(null);
+    const [forumPostData, setForumPostData] = useState([]);
+    const [fetchPage, setFetchPage] = useState(1);
     const [sortButtonActive, setSortButtonActive] = useState("recent");
 
     const url = "/forum";
 
-    useEffect(() => {
-        const fetchForum = async () => {
-            const response = await fetch(`http://localhost:3000/forum`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            if (!response.ok) {
-                if (response.status === 404) {
-                    console.log("cannot fetch any post.");
-                }
-            } else {
-                return await response.json();
+    const fetchForum = async () => {
+        const response = await fetch(`http://localhost:3000/forum?page=${fetchPage}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (!response.ok) {
+            if (response.status === 404) {
+                console.log("cannot fetch any post.");
             }
-        };
+        } else {
+            return await response.json();
+        }
+    };
 
-        const getForum = async () => {
-            const data = await fetchForum();
-            setForumPostData(data.filter((post) => post.is_comment === false));
-        };
+    const getForum = async () => {
+        const data = await fetchForum();
+        let page = fetchPage;
+        page++;
+        setForumPostData(forumPostData.concat(data));
+        setFetchPage(page);
+    };
 
+    useEffect(() => {
         getForum();
     }, []);
 
     const getTimeSincePost = (createdAt) => {
-        console.log(sortButtonActive === "upvotes");
         const now = new Date();
         const creationTime = new Date(createdAt);
         return (now.getTime() - creationTime.getTime()) / 1000;
@@ -102,28 +106,37 @@ const Forum = () => {
                         </button>
                     </div>
                 </div>
-                {forumPostData ? (
-                    <div className="post-container">
-                        {forumPostData.sort().map((forumPost) => {
-                            return (
-                                <MiniPost
-                                    postId={forumPost._id}
-                                    author={null}
-                                    postTitle={forumPost.title}
-                                    timeSincePost={displayTime(
-                                        getTimeSincePost(forumPost.createdAt)
-                                    )}
-                                    postTags={null}
-                                    postContent={forumPost.content}
-                                    topLevelFolder={null}
-                                />
-                            );
-                        })}
-                        
-                    </div>
-                ) : (
-                    <div>cannot find post</div>
-                )}
+                
+                    {forumPostData ? (
+                        <InfiniteScroll
+                            dataLength={forumPostData.length}
+                            next={getForum}
+                            hasMore={true}
+                            loader={""}
+                            endMessage="lmao"
+                        >
+                            <div className="post-container">
+                                {forumPostData.map((forumPost) => {
+                                    return (
+                                        <MiniPost
+                                            postId={forumPost._id}
+                                            author={null}
+                                            postTitle={forumPost.title}
+                                            timeSincePost={displayTime(
+                                                getTimeSincePost(forumPost.createdAt)
+                                            )}
+                                            postTags={null}
+                                            postContent={forumPost.content}
+                                            topLevelFolder={null}
+                                        />
+                                    );
+                                })}
+                                
+                            </div>
+                        </InfiniteScroll>
+                    ) : (
+                        <div>cannot find post</div>
+                    )}
             </div>
         </div>
     );

@@ -9,7 +9,7 @@ const View = () => {
             </div>
             <div className="body post">
                 <h1>Recent Posts</h1>
-                <Post />
+                <MiniPost />
             </div>
         </div>
     );
