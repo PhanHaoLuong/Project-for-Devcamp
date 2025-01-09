@@ -1,7 +1,7 @@
 {
     "home":"/",
     "login":"/auth/login",
-    "signup":"/signup",
+    "signup":"/auth/signup",
     "userProfile":"/user",
     "savedPosts":"/saved",
     "postView":"/post"
