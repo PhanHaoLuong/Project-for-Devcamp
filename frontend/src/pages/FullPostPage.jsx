@@ -56,7 +56,7 @@ const FullPostPage = () => {
         getPostData();
 
     }, [])
-
+    console.log(commentData);
     
 
     const getTimeSincePost = (createdAt) => {
@@ -64,7 +64,6 @@ const FullPostPage = () => {
         const creationTime = new Date(createdAt);
         return (now.getTime() - creationTime.getTime()) / 1000;
     }
-
     return (
         <div className="post-container">
             {postData ? (<FullPost isComment={false} 
@@ -81,7 +80,7 @@ const FullPostPage = () => {
                 commentData.acceptedComments.map((comment) => {
                     return (
                         <FullPost isComment={true} isAccepted={true}
-                            author={comment.author || "N/A"} 
+                            author={comment.author.name || "N/A"} 
                             postTitle={comment.title || "N/A"}
                             timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
                             voteCount={comment.votes || "N/A"} 
@@ -97,7 +96,7 @@ const FullPostPage = () => {
                     commentData.comments.map((comment) => {
                         return (
                             <FullPost isComment={true} isAccepted={false}
-                                author={comment.author || "N/A"} 
+                                author={comment.author.name || "N/A"} 
                                 postTitle={comment.title || "N/A"}
                                 timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
                                 voteCount={comment.votes || "N/A"} 

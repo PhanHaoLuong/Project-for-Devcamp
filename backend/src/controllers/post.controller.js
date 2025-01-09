@@ -53,7 +53,7 @@ export const get_forum_posts = async (req, res) => {
         const posts = await post.find(
             {parent_post_id: { $exists: 0 }},{},
             {skip: skip, limit: limit, sort: {createdAt: -1}}
-        )
+        ).populate('author', 'name')
 
         res.status(200).json(posts)
     } catch (error) {
@@ -93,16 +93,18 @@ export const get_post_comments = async (req, res) => {
         const singlepost = res.locals.singlepost
         if (page == 1) {
             if (singlepost.accepted_comment_id != null) {
-                const accepted_comment = await post.find({_id: singlepost.accepted_comment_id})
+                const accepted_comment = await post.find({_id: singlepost.accepted_comment_id}).populate('author', 'name')
                 const comments = await post.find(
                     {parent_post_id: postid, _id: {$ne: singlepost.accepted_comment_id}},{},
                     {skip: skip, limit: limit - 1, sort: {votes: -1}})
+                    .populate('author', 'name')
                 res.status(200).json({post: res.locals.singlepost, accepted_comment: accepted_comment, comments: comments})
             }
             else{
                 const comments = await post.find(
                     {parent_post_id: postid},{},
                     {skip: skip, limit: limit, sort: {votes: -1}})
+                    .populate('author', 'name')
                 res.status(200).json({post: res.locals.singlepost, comments: comments})
             }
         }
@@ -110,6 +112,7 @@ export const get_post_comments = async (req, res) => {
             const comments = await post.find(
                 {parent_post_id: postid},{},
                 {skip: skip, limit: limit, sort: {votes: -1}})
+                .populate('author', 'name')
             res.status(200).json({comments: comments})
         }
     } catch (error) {
