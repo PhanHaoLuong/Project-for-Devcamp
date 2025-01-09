@@ -1,13 +1,9 @@
 // import modules
-import { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query'
 
-// import assets
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-
-//import pages
+// import pages
 import UserAuth from './pages/UserAuth';
 import UserSignUp from './pages/UserSignUp'
 
@@ -21,14 +17,14 @@ import Vote from './components/Vote';
 /* import pages */
 import View from "./pages/View";
 import Home from "./pages/Home"; 
+import UserSignUp from './pages/UserSignUp';
+import Home from "./pages/Home";
 import User from "./pages/User";
 import Saved from "./pages/Saved";
-import Fileupload from './pages/File upload test';
-import FullPostPage from './pages/FullPostPage';
-import FileItem from './components/FileItem';
-import MiniPost from './components/MiniPost';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   const { data : authUser, isLoading } = useQuery({
     queryKey: ['authUser'],
@@ -54,8 +50,7 @@ function App() {
   return (
     <>
       <Router>
-        <Navbar />
-        {/* Render different pages based on the URL */}
+        <Navbar isLoggedIn={isLoggedIn} />
         <Routes>
           <Route path={pageAddress.home} element={<><h1 style={{color:'white'}}>homepage placeholder</h1><a href="/auth/login">login</a></>}/>
           <Route path={pageAddress.login} element={!authUser ? <UserAuth /> : <Navigate to="/"/>} />
@@ -69,6 +64,7 @@ function App() {
           {/* Placeholder post route */}
           <Route path="/post/:postId" element={<FullPostPage />}/>
           <Route path="/component-test" element={<><FileItem isFolder="true"/><FileItem /></>}/>
+          <Route path={pageAddress.userProfile} element={<User userId={userData?.id} />} />
         </Routes>
       </Router>
     </>
