@@ -156,16 +156,6 @@
     text-align: left;
     letter-spacing: 0.4px;
   }
-  .tag {
-    position: relative;
-    color: #bbc7dd;
-    font-family: Inter, sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 24px;
-    text-align: left;
-    letter-spacing: 0.4px;
-  }
   .tag-adder {
         position: absolute;
         width: 125px;
