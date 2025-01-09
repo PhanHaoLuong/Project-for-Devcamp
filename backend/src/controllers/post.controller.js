@@ -3,7 +3,7 @@ import user from '../models/user.model.js'
 
 export const create_post = async (req, res) => {
     const author = res.locals.user._id
-    const newPost = new post(req.body)
+    const newPost = new post(Object.assign(req.body, {author: author}))
     try {
         await user.updateOne({_id: author}, {$push: {posts: newPost._id}})
         await newPost.save();

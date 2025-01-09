@@ -27,6 +27,7 @@ import Fileupload from './pages/File upload test';
 import FullPostPage from './pages/FullPostPage';
 import FileItem from './components/FileItem';
 import MiniPost from './components/MiniPost';
+import CodeEditor from './pages/CodeEditor';
 
 function App() {
 
@@ -69,6 +70,7 @@ function App() {
           {/* Placeholder post route */}
           <Route path="/post/:postId" element={<FullPostPage />}/>
           <Route path="/component-test" element={<><FileItem isFolder="true"/><FileItem /></>}/>
+          <Route path="/test" element={<CodeEditor />}/>
         </Routes>
       </Router>
     </>
