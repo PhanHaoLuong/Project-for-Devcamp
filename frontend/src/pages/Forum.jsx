@@ -129,7 +129,7 @@ const Forum = () => {
                                     return (
                                         <MiniPost
                                             postId={forumPost._id}
-                                            author={null}
+                                            author={forumPost.author.name}
                                             postTitle={forumPost.title}
                                             timeSincePost={displayTime(
                                                 getTimeSincePost(forumPost.createdAt)

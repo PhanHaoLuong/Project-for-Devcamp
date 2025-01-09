@@ -83,7 +83,7 @@ export default function FullPost({ postId, isComment, isAccepted, isSaved ,timeS
                     <div className="post-properties-side">
                         <div className="post-user-container">
                             <Avatar user=""/>
-                            <p className="username">username</p>
+                            <p className="username">{author}</p>
                         </div>
                         {(isComment && isAccepted) ? (
                             <div className="comment-accepted-container">
