@@ -3,7 +3,7 @@ import vote from "../models/vote.model.js";
 import { add_vote } from "../utils/vote_queue.js";
 
 export const upvote = async (req, res) => {
-    const postid = req.params.postid
+    const postid = res.locals.user._id
     const author = req.body.author
 
     try {
@@ -31,7 +31,7 @@ export const upvote = async (req, res) => {
 }
 
 export const downvote = async (req, res) => {
-    const postid = req.params.postid
+    const postid = res.locals.user._id
     const author = req.body.author
 
     try {
