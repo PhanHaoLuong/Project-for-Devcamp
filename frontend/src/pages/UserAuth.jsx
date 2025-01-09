@@ -83,6 +83,7 @@ const UserAuth = () => {
                 headers: {
                   'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify({ name, pw })
               });
             if (response) {

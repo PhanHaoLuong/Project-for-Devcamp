@@ -109,6 +109,7 @@ const UserSignUp = () => {
                 headers: {
                   'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify({ email, name, pw })
               });
             if (response) {

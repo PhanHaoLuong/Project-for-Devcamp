@@ -18,7 +18,7 @@ import file from "./models/file.model.js"
 dotenv.config();
 const PORT = process.env.PORT;
 
-const corsoptions = { origin: "http://localhost:5173" }
+const corsoptions = { origin: "http://localhost:5173", credentials: true }
 
 const app = express()
 
