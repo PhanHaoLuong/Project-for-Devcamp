@@ -19,8 +19,7 @@ export default function CreatePost() {
         <span className="tags-text">Tags</span>
         <button className="tag-adder-button">
         <div className="box-2">
-            <span className="plus">+</span>
-            <span className="tag"> Tag</span>
+            <span className="plus">+Tag</span>
           </div>
           <div className="tag-adder" />
         </button>
