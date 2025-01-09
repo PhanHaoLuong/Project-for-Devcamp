@@ -1,22 +1,4 @@
-::-webkit-scrollbar {
-    position: absolute;
-    width: 15px;
-}
-/* Track */
-::-webkit-scrollbar-track {
-    background: linear-gradient(to right, #192233, #111722);
-}
-  
-  /* Handle */
-::-webkit-scrollbar-thumb {
-    background: #2c3952;
-    border-radius: 100px;
-}
-  
-  /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #344870;
-}
+
 
 .page-content {
     align-items: center;
@@ -66,6 +48,9 @@
 }
 
 .infinite-scroll-component  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
 }
 
@@ -170,4 +155,40 @@
 .sort-post-button:hover {
     background-color: #344870;   
     transition: all 0.1s; 
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    height: 200px;
+    min-height: 100px;
+    background-color: #222E44;
+    border-radius: 15px;
+    padding: 20px 15px;
+    margin-top: 10px;
+}
+
+.loading-header {
+    display: flex;
+    gap: 20px
+}
+
+.loading-header * {
+    color:#BBC7DD;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.loading-icon {
+    height: 30px;
+    width: 30px;
+}
+
+.loading-icon img {
+    height: 100%;
+    width: 100%;
 }

@@ -1,0 +1,15 @@
+::-webkit-scrollbar {
+  position: absolute;
+  width: 14px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: linear-gradient(to right, #192233, #111722);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2c3952;
+  border-radius: 100px;
+}
+

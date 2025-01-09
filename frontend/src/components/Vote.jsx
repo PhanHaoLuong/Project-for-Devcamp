@@ -1,6 +1,6 @@
 // import modules
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import displayNum from "../utils/displayNum";
 
 // import assets
@@ -15,6 +15,8 @@ const Vote = ({ voteCount }) => {
     const [isUpvote, setUpvote] = useState(false);
     const [isDownvote, setDownvote] = useState(false);
     const [currVoteCount, updateVoteCount] = useState(voteCount);
+
+    const { postId } = useParams();
 
     useEffect(() => {
         if (isUpvote && isDownvote) { 
@@ -32,7 +34,7 @@ const Vote = ({ voteCount }) => {
         }
     }, [isUpvote]);
       
-      useEffect(() => {
+    useEffect(() => {
         updateVoteCount(voteCount);
         if (isUpvote && isDownvote) { 
             setUpvote(false); 
@@ -49,10 +51,14 @@ const Vote = ({ voteCount }) => {
         }
     }, [isDownvote]);
 
-    const handleVote = () => {
-        
-    }
 
+    const handleVote = async (voteMethod) => {
+        const res = await fetch(`http://localhost:3000/post/${postId}/${voteMethod}`, {
+            method: "POST"
+        })
+        const resMsg = await res.text();
+        console.log(resMsg);
+    }
     return (
         <>
             <div className="vote">

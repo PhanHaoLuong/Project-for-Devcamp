@@ -8,6 +8,7 @@ import MiniPost from "../components/MiniPost";
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
 import AddIcon from "../assets/add.svg";
+import LoadingIcon from "../assets/loading-circle.gif"
 
 // import styles
 import "../styles/Forum.css";
@@ -44,9 +45,9 @@ const Forum = () => {
         setFetchPage(page);
     };
 
-    useEffect(() => {
-        getForum();
-    }, []);
+    useEffect (() => {
+        getForum()
+    }, [])
 
     const getTimeSincePost = (createdAt) => {
         const now = new Date();
@@ -112,8 +113,16 @@ const Forum = () => {
                             dataLength={forumPostData.length}
                             next={getForum}
                             hasMore={true}
-                            loader={""}
-                            endMessage="lmao"
+                            loader={
+                                <div className="loading-container">
+                                    <div className="loading-header">
+                                        <span className="loading-icon">
+                                            <img src={LoadingIcon} alt="T"></img>
+                                        </span>
+                                        <span className="loading-text">loading more posts</span>
+                                    </div>
+                                </div>
+                            }
                         >
                             <div className="post-container">
                                 {forumPostData.map((forumPost) => {
