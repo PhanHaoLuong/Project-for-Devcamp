@@ -1,36 +1,31 @@
 // import modules
-import { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query'
-
-// import assets
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-
-//import pages
-import UserAuth from './pages/UserAuth';
-import UserSignUp from './pages/UserSignUp'
 
 import * as pageAddress from './pages/page-address.json'
 
 /* import components */
 import Navbar from "./components/Navbar";
+import MiniPost from "./components/MiniPost";
+import Fileupload from "./pages/File upload test";
+import FileItem from "./components/FileItem";
 
-import Vote from './components/Vote';
 
 /* import pages */
+import FullPostPage from "./pages/FullPostPage";
 import View from "./pages/View";
-import Home from "./pages/Home"; 
+import UserSignUp from './pages/UserSignUp';
+import UserAuth from './pages/UserAuth';
+import Home from "./pages/Home";
 import User from "./pages/User";
 import Saved from "./pages/Saved";
-import Fileupload from './pages/File upload test';
-import FullPostPage from './pages/FullPostPage';
-import FileItem from './components/FileItem';
-import MiniPost from './components/MiniPost';
 
 function App() {
-  // Fetch the authentication status using React Query
-  const { data: authUser, isLoading } = useQuery({
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
+
+  const { data : authUser, isLoading } = useQuery({
     queryKey: ['authUser'],
     queryFn: async () => {
       try {
@@ -39,28 +34,28 @@ function App() {
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include', // Include cookies for authentication
-        });
-        console.log('response: ', response);
-        return response.json();
+          credentials: 'include'
+        })
+        if (response.status === 200) {
+          return response.json()
+        }
+        else {
+          return null
+        }
       } catch (error) {
         console.error('Error fetching auth user:', error);
         return { error };
       }
-    },
-  });
-
-  // Define isLoggedIn based on authUser data
-  const isLoggedIn = authUser && !authUser.error;
-
-  // Show a loading state while fetching the auth status
-  if (isLoading) return <div>Loading...</div>;
+    }
+  })
+  
+  console.log("authUser: ", authUser)
+  if (isLoading) return null;
 
   return (
     <>
       <Router>
-        <Navbar isLoggedIn={isLoggedIn} />
-        {/* Render different pages based on the URL */}
+        <Navbar isLoggedIn={authUser ? true : false} />
         <Routes>
           <Route
             path={pageAddress.home}
@@ -85,16 +80,10 @@ function App() {
           <Route path="/user" element={<User />} />
           <Route path="/saved" element={<Saved />} />
           <Route path="/fileupload" element={<Fileupload />} />
-          <Route path="/post/:postId" element={<FullPostPage />} />
-          <Route
-            path="/component-test"
-            element={
-              <>
-                <FileItem isFolder="true" />
-                <FileItem />
-              </>
-            }
-          />
+          {/* Placeholder post route */}
+          <Route path="/post/:postId" element={<FullPostPage />}/>
+          <Route path="/component-test" element={<><FileItem isFolder="true"/><FileItem /></>}/>
+          <Route path={pageAddress.userProfile} element={<User userId={userData?.id} />} />
         </Routes>
       </Router>
     </>

@@ -1,5 +1,6 @@
 /* import modules */
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 
 /* import styles */
 import "../styles/User.css";
@@ -12,24 +13,34 @@ import MiniPost from "../components/MiniPost";
 const User = ({ userId }) => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchUserData = async () => {
-      // API needs to be updated to return user data
-      // User data in database should include more columns or split into multiple connected tables
+      if (!userId) {
+        console.error("No userId provided. Redirecting to home...");
+        navigate("/"); // Redirect if no userId is provided
+        return;
+      }
+
       try {
         const response = await fetch(`/api/user/${userId}`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch user data. Status: ${response.status}`);
+        }
+
         const data = await response.json();
         setUserData(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
+        navigate("/"); // Redirect on error
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserData();
-  }, [userId]);
+  }, [userId, navigate]);
 
   if (loading) return <div>Loading...</div>;
   if (!userData) return <div>Error loading user data</div>;
