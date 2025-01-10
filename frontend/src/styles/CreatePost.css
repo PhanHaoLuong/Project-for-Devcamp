@@ -25,7 +25,7 @@
     justify-content: flex-start;
     gap: 5px;
     z-index: 1;
-    margin-top: 100px;
+    margin-top: 50px;
   }
   .post-icon {
     width: 30px; /* Adjust icon size for better alignment */
@@ -156,7 +156,7 @@
   }
   .write-code-button {
     flex-shrink: 0;
-    position: absolute; /* Ensure it's positioned relative to its parent */
+    position: relative; /* Ensure it's positioned relative to its parent */
     width: 140px;
     height: 40px;
     cursor: pointer;
@@ -172,7 +172,7 @@
     font-family: Inter, sans-serif; /* Font family */
     font-size: 20px; /* Font size */
     font-weight: 700; /* Bold text */
-    margin: 820px 0 0 750px
+    margin: 20px 0 0 950px ;
   }
 
   .add-files-button {
@@ -193,5 +193,5 @@
     font-family: Inter, sans-serif; /* Font family */
     font-size: 20px; /* Font size */
     font-weight: 700; /* Bold text */
-    margin: 26px 0 -10px 950px
+    margin: -45px 0 0 800px;
   }
