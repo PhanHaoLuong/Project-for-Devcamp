@@ -17,6 +17,7 @@ import RevealedPw from '../assets/eye.png';
 /* import style */
 import '../styles/UserSignUp.css';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 const url = `${pageAddress.signup}`;
 
@@ -45,6 +46,8 @@ const UserSignUp = () => {
     const [isAuth, setAuth] = useState(false);
 
     const navigate = useNavigate();
+
+    const queryClient = useQueryClient();
 
     // validation handling
     useEffect(() => {
@@ -95,7 +98,7 @@ const UserSignUp = () => {
         const timeoutId = setTimeout(() => {
             if (isAuth){
                 navigate("/");
-                window.location.reload();
+                queryClient.invalidateQueries({queryKey: ['authUser']});
             }
         }, 2000);
         return () => {clearTimeout(timeoutId)};

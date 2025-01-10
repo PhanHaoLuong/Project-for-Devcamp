@@ -1,6 +1,6 @@
 // import modules
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { Suspense, useEffect, useState } from 'react';
+import { BrowserRouter as Router ,Routes, Route, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query'
 
 import * as pageAddress from './pages/page-address.json'
@@ -14,7 +14,6 @@ import FileItem from "./components/FileItem";
 
 /* import pages */
 import FullPostPage from "./pages/FullPostPage";
-import View from "./pages/View";
 import UserSignUp from './pages/UserSignUp';
 import UserAuth from './pages/UserAuth';
 import Home from "./pages/Home";
@@ -37,9 +36,11 @@ function App() {
           credentials: 'include'
         })
         if (response.status === 200) {
-          return response.json()
+          setIsLoggedIn(true);
+          return true //Subjected to change
         }
         else {
+          setIsLoggedIn(false);
           return null
         }
       } catch (error) {
@@ -47,15 +48,18 @@ function App() {
         return { error };
       }
     },
-    staleTime: 2000,
+    staleTime: 1000 * 60 * 60,
   })
   
   if (isLoading) return null;
 
+
+  //Should optimize the way authUser is called 
   return (
     <>
       <Router>
-        <Navbar isLoggedIn={authUser ? true : false} />
+        <Suspense fallback={<div>Loading...</div>} />
+        <Navbar isLoggedIn={isLoggedIn} />
         <Routes>
           <Route
             path={pageAddress.home}
@@ -68,13 +72,12 @@ function App() {
           />
           <Route
             path={pageAddress.login}
-            element={!authUser ? <UserAuth /> : <Navigate to="/" />}
+            element={!isLoggedIn ? <UserAuth /> : <Navigate to="/" />}
           />
           <Route
             path={pageAddress.signup}
-            element={!authUser ? <UserSignUp /> : <Navigate to="/" />}
+            element={!isLoggedIn ? <UserSignUp /> : <Navigate to="/" />}
           />
-          <Route path="/" element={<View />} />
           <Route path="/home" element={<Home />} />
           <Route path="/forum" element={<MiniPost />} />
           <Route path="/user" element={<User />} />
