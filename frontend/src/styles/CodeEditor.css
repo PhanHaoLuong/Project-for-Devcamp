@@ -1,0 +1,10 @@
+.page-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 60vh;
+    width: 800px;
+    margin: 0 auto;
+    min-width: 600px;
+    height: auto;
+}

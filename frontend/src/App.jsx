@@ -50,7 +50,7 @@ function App() {
     }
   })
 
-  if (isLoading) return null;
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <>
