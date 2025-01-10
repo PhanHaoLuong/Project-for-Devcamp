@@ -24,7 +24,7 @@ import User from "./pages/User";
 import Saved from "./pages/Saved";
 import Fileupload from './pages/File upload test';
 import FullPostPage from './pages/FullPostPage';
-import FileItem from './components/FileItem';
+import Test from './pages/Test';
 import Forum from './pages/Forum';
 
 import './App.css'
@@ -47,7 +47,7 @@ function App() {
           <Route path="/fileupload" element={<Fileupload />} />
           {/* Placeholder post route */}
           <Route path="/post/:postId" element={<FullPostPage />}/>
-          <Route path="/component-test" element={<><FileItem isFolder="true"/><FileItem /></>}/>
+          <Route path="/component-test" element={<Test />}/>
         </Routes>
       </Router>
     </>
