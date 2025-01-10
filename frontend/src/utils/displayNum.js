@@ -13,10 +13,10 @@ const displayNum = (num) => {
             return "N/A";
         }
     } else {
-        return num;
+        return NaN;
     }
 }
 
-console.log(displayNum(0))
+console.log(displayNum(3))
 
 export default displayNum;

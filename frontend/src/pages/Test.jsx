@@ -1,9 +1,11 @@
-import FileItem from "../components/FileItem"
+import DisplayUpload from "../components/FileUpload";
+import FileItem from "../components/FileItem";
 
 const Test = () => {
     return (
         <>
-            <FileItem />
+            <DisplayUpload />
+
         </>
     )
 }

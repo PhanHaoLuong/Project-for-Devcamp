@@ -23,7 +23,7 @@ const displayTime = (timeSec) => {
         }
         return `${Math.floor(time)} ${timeUnit}`;
     } else {
-        return "N/A";
+        return NaN;
     }
 }
 
