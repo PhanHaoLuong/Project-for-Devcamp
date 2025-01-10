@@ -1,11 +1,11 @@
-import { LANGUAGE_CONFIG } from "../constants";
+import { LANGUAGE_CONFIG, defineMonacoThemes } from "../constants";
 import { useCodeEditorStore } from "../store/useCodeEditorStore";
 import { useEffect, useState } from "react";
 import { Editor } from "@monaco-editor/react";
 
 
 function EditorPanel() {
-    const { language, editor, fontSize, setEditor } = useCodeEditorStore();
+    const { language, editor, fontSize, setEditor, theme } = useCodeEditorStore();
 
     useEffect(() => {
         const newCode = LANGUAGE_CONFIG[language].defaultCode;
@@ -20,10 +20,11 @@ function EditorPanel() {
             <Editor 
             height="600px"
             language={LANGUAGE_CONFIG[language].monacoLanguage}
-            theme="vs-dark"
+            theme="default"
             onMount={(editor) => setEditor(editor)}
+            beforeMount={defineMonacoThemes}
             options={{
-                minimap: {enabled: true},
+                minimap: { enabled: false },
                 fontSize,
                 automaticLayout: true,
                 scrollBeyondLastLine: false,
@@ -37,7 +38,11 @@ function EditorPanel() {
                 lineHeight: 1.6,
                 letterSpacing: 0.5,
                 roundedSelection: true,
-                
+                lineNumbers: "on",
+                readOnly: false,
+                readOnlyMessage: {
+                    value: null,
+                },
             }}
             />
         </div>
