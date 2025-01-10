@@ -46,10 +46,10 @@ function App() {
         console.error('Error fetching auth user:', error);
         return { error };
       }
-    }
+    },
+    staleTime: 2000,
   })
   
-  console.log("authUser: ", authUser)
   if (isLoading) return null;
 
   return (
@@ -68,11 +68,11 @@ function App() {
           />
           <Route
             path={pageAddress.login}
-            element={!isLoggedIn ? <UserAuth /> : <Navigate to="/" />}
+            element={!authUser ? <UserAuth /> : <Navigate to="/" />}
           />
           <Route
             path={pageAddress.signup}
-            element={!isLoggedIn ? <UserSignUp /> : <Navigate to="/" />}
+            element={!authUser ? <UserSignUp /> : <Navigate to="/" />}
           />
           <Route path="/" element={<View />} />
           <Route path="/home" element={<Home />} />

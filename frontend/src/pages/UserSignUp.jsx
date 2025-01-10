@@ -95,6 +95,7 @@ const UserSignUp = () => {
         const timeoutId = setTimeout(() => {
             if (isAuth){
                 navigate("/");
+                window.location.reload();
             }
         }, 2000);
         return () => {clearTimeout(timeoutId)};
