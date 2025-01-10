@@ -5,7 +5,6 @@ import displayFileSize from "../utils/displayFileSize";
 // import assets
 import FolderIcon from '../assets/folder.svg'
 import FileIcon from '../assets/file.svg';
-import CloseIcon from '../assets/close.svg'
 
 // import styles
 import '../styles/FileItem.css'

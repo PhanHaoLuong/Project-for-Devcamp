@@ -54,14 +54,13 @@
     align-items: center;
     justify-content: flex-end;
     gap: 15px;
-    width: 20%;
+    width: 30%;
 }
 
 .file-size {
     text-align: right;
     font-size: 0.9rem;
-    width: 50%;
-    max-width: 70px;
+    width: 60%;
 }
 
 .remove-file {
