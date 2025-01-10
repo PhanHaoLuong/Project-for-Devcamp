@@ -6,7 +6,7 @@ dotenv.config()
 export const signToken = (userInfo, res) => { //Use to create a token with expiration time of 1 hour
     const token = jsonwebtoken.sign({userInfo}, process.env.secret_key, {expiresIn: "1h"})
 
-    res.cookie('accessToken', token, {httpOnly: true, maxAge: 3600000, sameSite: 'strict', secure: process.env.NODE_ENV !== 'development'})
+    res.cookie('accessToken', token, {httpOnly: true, maxAge: 3600000, sameSite: 'strict', secure: process.env.NODE_ENV === 'production'})
     return token
 }
 

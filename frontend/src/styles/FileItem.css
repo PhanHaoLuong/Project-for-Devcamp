@@ -1,0 +1,44 @@
+.file-item-container img {
+    height: 16px;
+}
+
+.file-item-container * {
+    color: #BBC7DD;
+    font-size: 0.8rem;
+
+}
+
+
+.file-item {
+    background-color: #192233;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+    justify-items: center;
+    height: auto;
+    gap: 5px;
+    padding: 6px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.file-item:hover {
+    background-color:#334566;
+    transition: all 0.1s;
+}
+
+.file-item-logo {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: auto;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+}
+

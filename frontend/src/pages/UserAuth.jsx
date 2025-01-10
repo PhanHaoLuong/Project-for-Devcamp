@@ -17,10 +17,12 @@ import RevealedPw from '../assets/eye.png';
 
 /* import style */
 import '../styles/UserAuth.css';
+import { useQueryClient } from '@tanstack/react-query';
 
 const url = `${pageAddress.login}`;
 
-const UserAuth = () => {
+
+const UserAuth = ({}) => {
     const [name, setName] = useState("");
     const [pw, setPw] = useState("");
     const [RmbMe, setRmbMe] = useState(false);
@@ -39,6 +41,8 @@ const UserAuth = () => {
 
     const [isAuth, setAuth] = useState(false);
     const navigate = useNavigate();
+
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         if (name && pw){ 
@@ -69,6 +73,7 @@ const UserAuth = () => {
         const timeoutId = setTimeout(() => {
             if (isAuth) {
                 navigate("/");
+                queryClient.invalidateQueries({queryKey: ['authUser']});
             }
         }, 2000)
         return (() => {clearTimeout(timeoutId)});
@@ -83,6 +88,7 @@ const UserAuth = () => {
                 headers: {
                   'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify({ name, pw })
               });
             if (response) {
