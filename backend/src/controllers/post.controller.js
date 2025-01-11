@@ -1,13 +1,16 @@
 import post from '../models/post.model.js'
 import user from '../models/user.model.js'
+import file from '../models/file.model.js'
 
 export const create_post = async (req, res) => {
     const author = req.body.author
+    const files = req.body.files.map(File => ({...File, author: author}))
     const newPost = new post(req.body)
     try {
         await user.updateOne({_id: author}, {$push: {posts: newPost._id}})
         await newPost.save();
-        res.status(201).send("OK")
+        await file.insertMany(files)
+        res.status(200).send("OK")
     } catch (error) {
         res.status(500).send(error.message)
     }

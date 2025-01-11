@@ -6,6 +6,11 @@ const fileSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    parent_post_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post',
+        required: true
+    },
     data: {
         type: Buffer,
         required: true

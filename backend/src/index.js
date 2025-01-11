@@ -36,14 +36,3 @@ app.use('/post', postRoute)
 app.use('/user', userRoute)
 
 app.get('/forum', get_forum_posts)
-
-app.post('/fileupload', fileUpload({createParentPath: true}),async (req, res) => {
-    const files = req.files
-    console.log(files.file.data)
-    const save = {'author': '6778ad96d751b1b21cfb06cc', 'data': files.file.data}
-    
-    const newFile = new file(save)
-    await newFile.save()
-
-    res.status(200).json({message: 'file uploaded successfully'})
-})
