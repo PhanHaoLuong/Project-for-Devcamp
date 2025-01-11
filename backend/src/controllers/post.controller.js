@@ -32,6 +32,7 @@ export const get_post = async (req, res, next) => {
             const postid = req.params.postid
             const singlepost = await post.findById(postid)
             .populate('author', 'name')
+            .populate('code', 'language data')
 
             res.locals.singlepost = singlepost
             next()
