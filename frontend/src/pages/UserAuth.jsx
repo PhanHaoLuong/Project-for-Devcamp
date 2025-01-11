@@ -21,7 +21,8 @@ import '../styles/UserAuth.css';
 
 const url = `${pageAddress.login}`;
 
-const UserAuth = ({ }) => {
+
+const UserAuth = ({}) => {
     const [name, setName] = useState("");
     const [pw, setPw] = useState("");
     const [RmbMe, setRmbMe] = useState(false);
@@ -72,7 +73,7 @@ const UserAuth = ({ }) => {
         const timeoutId = setTimeout(() => {
             if (isAuth) {
                 navigate("/");
-                queryClient.invalidateQueries({ queryKey: ['authUser']});
+                queryClient.invalidateQueries({queryKey: ['authUser']});
             }
         }, 2000)
         return (() => {clearTimeout(timeoutId)});

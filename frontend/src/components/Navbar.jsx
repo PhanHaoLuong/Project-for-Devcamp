@@ -32,9 +32,13 @@ const Navbar = ({ isLoggedIn }) => {
   };
 
   // Check if the link is active
-  const isActive = (path) => location.pathname === path;
-
-  // Logic for logged in user and guest user
+  const isActive = (path) => {
+    const currentPath = location.pathname;
+    if (path.includes(":")) {
+      return currentPath.startsWith(path.split(":")[0]);
+    }
+    return currentPath === path;
+  };
   
 
   // Navbar component

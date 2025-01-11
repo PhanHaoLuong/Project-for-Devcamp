@@ -8,7 +8,6 @@ const router = express.Router();
 
 router.post('/signup', signup)
 
-//test route
 router.get('/verify', async (req, res) => {
     try {
         const token = req.cookies.accessToken
