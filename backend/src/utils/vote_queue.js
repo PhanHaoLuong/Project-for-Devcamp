@@ -2,7 +2,7 @@ import post from '../models/post.model.js';
 
 const vote_queue = []; //currently using memory to store votes, can be replaced with a database
 const BATCH_SIZE = 10;
-const BATCH_INTERVAL = 20000;
+const BATCH_INTERVAL = 10000;
 
 const process_votes = async () => {
     if (vote_queue.length === 0) return;

@@ -37,9 +37,11 @@ function App() {
           credentials: 'include'
         })
         if (response.status === 200) {
+          setIsLoggedIn(true)
           return response.json()
         }
         else {
+          setIsLoggedIn(false)
           return null
         }
       } catch (error) {
@@ -47,14 +49,11 @@ function App() {
       }
     }
   })
-  
-  console.log("authUser: ", authUser)
-  if (isLoading) return null;
 
   return (
     <>
       <Router>
-        <Navbar isLoggedIn={authUser ? true : false} />
+        <Navbar isLoggedIn={isLoggedIn} />
         <Routes>
           <Route path={pageAddress.home} element={<><h1 style={{color:'white'}}>homepage placeholder</h1><a href="/auth/login">login</a></>}/>
           <Route path={pageAddress.login} element={!authUser ? <UserAuth /> : <Navigate to="/"/>} />

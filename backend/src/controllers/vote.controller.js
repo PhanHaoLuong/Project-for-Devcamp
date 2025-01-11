@@ -2,9 +2,11 @@ import vote from "../models/vote.model.js";
 
 import { add_vote } from "../utils/vote_queue.js";
 
+
+//Caching to be implemented
 export const upvote = async (req, res) => {
-    const postid = res.locals.user._id
-    const author = req.body.author
+    const postid = req.params.postid
+    const author = res.locals.user._id
 
     try {
         const existingVote = await vote.findOne({ parent_post_id: postid, author: author })
@@ -31,8 +33,8 @@ export const upvote = async (req, res) => {
 }
 
 export const downvote = async (req, res) => {
-    const postid = res.locals.user._id
-    const author = req.body.author
+    const postid = res.params.postid
+    const author = res.locals.user._id
 
     try {
         const existingVote = await vote.findOne({ parent_post_id: postid, author: author })
