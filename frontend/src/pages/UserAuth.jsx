@@ -5,6 +5,7 @@ import sanitizeInput from '../utils/sanitizeInput';
 import { useNavigate } from 'react-router-dom';
 import * as pageAddress from './page-address.json';
 import { valName, valPw } from '../utils/validateInput';
+import { useQueryClient } from '@tanstack/react-query';
 
 /* import Components */
 import Navbar from '../components/Navbar';
@@ -17,7 +18,6 @@ import RevealedPw from '../assets/eye.png';
 
 /* import style */
 import '../styles/UserAuth.css';
-import { useQueryClient } from '@tanstack/react-query';
 
 const url = `${pageAddress.login}`;
 
