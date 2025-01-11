@@ -29,20 +29,35 @@ const DisplayUpload = () => {
         );
     }
 
+    const handleFileSubmit = async () => {
+        if (!fileMetadataArr) {
+            alert("please select a file to upload.");
+        } else {
+            const formData = new FormData();
+        }
+    }
+
     return (
         <>
+            {/* test upload button */}
             <input type="file" onChange={handleFileChange}></input>
-            {fileMetadataArr ? (
-                fileMetadataArr.map((fileMetadata) => {
-                    return (
-                      <FileItem isUploading={true}
-                        fileName={fileMetadata.name}
-                        fileSize={fileMetadata.size}
-                        removeFile={() => handleRemove(fileMetadata.id)}
-                      />  
-                    );
-                })
-            ) : ("")}
+
+            {/* test submit button */}
+            <button></button>
+            <div className="file-container">
+                {fileMetadataArr ? (
+                    fileMetadataArr.map((fileMetadata) => {
+                        return (
+                            <FileItem key={fileMetadata.id}
+                                isUploading={true}
+                                fileName={fileMetadata.name}
+                                fileSize={fileMetadata.size}
+                                removeFile={() => handleRemove(fileMetadata.id)}
+                            />  
+                        );
+                    })
+                ) : ("")}
+            </div>
         </>
     )
 }

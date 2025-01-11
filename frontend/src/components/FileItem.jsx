@@ -26,7 +26,7 @@ const FileItem = ({
                     <span className="file-logo">
                         <img src={isFolder ? FolderIcon : FileIcon}></img>
                     </span>
-                    <span className="file-name">{fileName || (isFolder ? "folder" : "file")}</span>
+                    <div className="file-name">{fileName || (isFolder ? "folder" : "file")}</div>
                 </div>
                 <div className="size-remove-file-container">
                     <div className="file-size">
