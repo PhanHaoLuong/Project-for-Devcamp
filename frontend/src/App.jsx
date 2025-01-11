@@ -70,10 +70,7 @@ function App() {
           <Route
             path={pageAddress.home}
             element={
-              <>
-                <h1 style={{ color: "white" }}>Homepage Placeholder</h1>
-                <a href="/auth/login">Login</a>
-              </>
+              <Home />
             }
           />
           <Route
