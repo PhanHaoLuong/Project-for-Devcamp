@@ -5,15 +5,16 @@ import { useCodeEditorStore } from "../store/useCodeEditorStore"
 
 import '../styles/CodeEditor.css'
 
-const CodeEditor = () => {
-    const {getCode} = useCodeEditorStore();
+const CodeEditor = ({ setCodeContent, setCodeEdit ,codeContent }) => {
+    const { getCode } = useCodeEditorStore();
 
     const handleSubmit = async (e) => { 
         e.preventDefault();
 
         try {
-            const code = await getCode();
-            console.log(code);
+            const code = getCode();
+            setCodeContent(code);
+            setCodeEdit(false);
         } catch (error) {
             console.error('Error : ', error)
         }
@@ -27,7 +28,7 @@ const CodeEditor = () => {
             </button>
             <div className="editor-content">
                 <LanguageSelector />
-                <EditorPanel />
+                <EditorPanel codeContent={codeContent}/>
             </div>
         </>
     )

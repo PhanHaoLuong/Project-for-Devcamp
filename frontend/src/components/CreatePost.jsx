@@ -14,15 +14,26 @@ import "../styles/CreatePost.css";
 
 
 function CreatePost() {
+  const [titleText, setTitleText] = useState(0);
   const [contentText, setContentText] = useState(0);
   const [isCodeEdit, setCodeEdit] = useState(false);
   const [codeContent, setCodeContent] = useState("");
+
+  const handleTitleChange = (event) => {
+    const text = event.target.value;
+    if (text.length <= 100) {
+      setTitleText(event.target.value)
+    }
+  }
 
   const handleContentChange = (event) => {
     const text = event.target.value;
     if (text.length <= 2048) {
       setContentText(event.target.value)
     }
+  }
+
+  const handleSubmit = async () => {
   }
 
   useEffect(() => {
@@ -45,7 +56,7 @@ function CreatePost() {
             <div className="create-post-body">
               <div className="create-title-container">
                 <div className="title-create-text">title</div>
-                <input type="text"></input>
+                <input type="text" onChange={handleTitleChange} value={titleText || ""}></input>
               </div>
                 <div className="add-tag-container">
                 <div className="add-tag-text">tags</div>
@@ -83,7 +94,7 @@ function CreatePost() {
                   <span className="add-code-button-title">add code</span>
                 </button>
                 <button className="submit-button">
-                  <span className="submit-button-title">submit</span>
+                  <span className="submit-button-title" onClick={handleSubmit}>submit</span>
                 </button>
               </div>
             </div>
@@ -97,7 +108,7 @@ function CreatePost() {
             &lt; return to post page
           </button>
 
-          <CodeEditor />
+          <CodeEditor setCodeContent={setCodeContent} codeContent={codeContent} setCodeEdit={setCodeEdit}/>
         </div>
       )}
     </>

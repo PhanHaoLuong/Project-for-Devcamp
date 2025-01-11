@@ -4,13 +4,19 @@ import { useEffect, useState } from "react";
 import { Editor } from "@monaco-editor/react";
 
 
-function EditorPanel() {
-    const { language, editor, fontSize, setEditor, theme } = useCodeEditorStore();
+function EditorPanel({ codeContent }) {
+    const { language, editor, fontSize, setEditor } = useCodeEditorStore();
 
     useEffect(() => {
         const newCode = LANGUAGE_CONFIG[language].defaultCode;
         if(editor) {
-            editor.setValue(newCode);
+            if (!codeContent) {
+                editor.setValue(newCode);}
+            else if (codeContent in LANGUAGE_CONFIG) {
+                editor.setValue(newCode);}
+            else {
+                editor.setValue(codeContent);
+            }
         }
     },[language, editor]);
 
@@ -33,7 +39,7 @@ function EditorPanel() {
                 fontLigatures: true,
                 cursorBlinking: "smooth",
                 smoothScrolling: true,
-                contextmenu: true,
+                contextmenu: false,
                 renderLineHighlight: "all",
                 lineHeight: 1.6,
                 letterSpacing: 0.5,
