@@ -5,7 +5,7 @@ import { useCodeEditorStore } from "../store/useCodeEditorStore"
 
 import '../styles/CodeEditor.css'
 
-const CodeEditor = ({ setCodeContent, setCodeEdit ,codeContent }) => {
+const CodeEditor = ({ setCodeContent, setCodeEdit ,codeContent, setCodeLanguage }) => {
     const { getCode } = useCodeEditorStore();
 
     const handleSubmit = async (e) => { 
@@ -27,7 +27,7 @@ const CodeEditor = ({ setCodeContent, setCodeEdit ,codeContent }) => {
                 submit code
             </button>
             <div className="editor-content">
-                <LanguageSelector />
+                <LanguageSelector setCodeLanguage={setCodeLanguage}/>
                 <EditorPanel codeContent={codeContent}/>
             </div>
         </>

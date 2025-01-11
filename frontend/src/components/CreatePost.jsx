@@ -17,6 +17,7 @@ function CreatePost() {
   const [titleText, setTitleText] = useState(0);
   const [contentText, setContentText] = useState(0);
   const [isCodeEdit, setCodeEdit] = useState(false);
+  const [codeLanguage, setCodeLanguage] = useState("");
   const [codeContent, setCodeContent] = useState("");
 
   const handleTitleChange = (event) => {
@@ -34,6 +35,25 @@ function CreatePost() {
   }
 
   const handleSubmit = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/post/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          title: titleText,
+          content: contentText,
+          codeData: {
+            language: codeLanguage,
+            data: codeContent,}})
+    })
+    const data = await response.json()
+    console.log(data)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   useEffect(() => {
@@ -108,7 +128,7 @@ function CreatePost() {
             &lt; return to post page
           </button>
 
-          <CodeEditor setCodeContent={setCodeContent} codeContent={codeContent} setCodeEdit={setCodeEdit}/>
+          <CodeEditor setCodeContent={setCodeContent} codeContent={codeContent} setCodeEdit={setCodeEdit} setCodeLanguage={setCodeLanguage}/>
         </div>
       )}
     </>

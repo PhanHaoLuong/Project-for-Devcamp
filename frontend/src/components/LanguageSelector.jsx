@@ -5,10 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import "../styles/LanguageSelector.css";
 
-function LanguageSelector() {
+function LanguageSelector({ setCodeLanguage}) {
     const [isOpen, setIsOpen] = useState(false);
 
     const { language, setLanguage } = useCodeEditorStore();
+
     const dropdownRef = useRef(null);
     const currentLanguageObj = LANGUAGE_CONFIG[language];
 
@@ -24,7 +25,7 @@ function LanguageSelector() {
     }, []);
 
     const handleLanguageSelect = (langId) => {
-
+        setCodeLanguage(langId)
         setLanguage(langId);
         setIsOpen(false);
     };

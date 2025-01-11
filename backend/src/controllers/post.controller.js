@@ -1,13 +1,21 @@
 import post from '../models/post.model.js'
 import user from '../models/user.model.js'
+import code from '../models/code.model.js'
 
 export const create_post = async (req, res) => {
     const author = res.locals.user._id
-    const newPost = new post(Object.assign(req.body, {author: author}))
+    const { title, content, codeData} = req.body
+    const postData = JSON.stringify({
+        title: title,
+        content: content,
+    })
+    const newCode = new code(Object.assign(codeData, {author: author}))
+    const newPost = new post(Object.assign(postData, {author: author, code: newCode._id}))
     try {
         await user.updateOne({_id: author}, {$push: {posts: newPost._id}})
+        await newCode.save();
         await newPost.save();
-        res.status(201).send("OK")
+        res.status(201).json({"redirect" : newPost._id})
     } catch (error) {
         res.status(500).send(error.message)
     }
