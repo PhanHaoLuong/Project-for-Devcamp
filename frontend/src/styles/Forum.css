@@ -193,3 +193,11 @@
     height: 100%;
     width: 100%;
 }
+
+.end-message {
+    color:#BBC7DD;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    font-weight: bold;
+    margin-top: 40px;
+}

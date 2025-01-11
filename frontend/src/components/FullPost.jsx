@@ -149,9 +149,10 @@ export default function FullPost({ postId, isComment, isAccepted, isSaved ,timeS
                                 <div className="folder-content">
                                     {fileMetadataArr.map((file, index) => {
                                         return <FileItem 
-                                                isFolder={file.isFolder}
-                                                fileName={file.fileName}
-                                                fileType={file.fileType}/>
+                                                    isFolder={file.isFolder}
+                                                    fileName={file.fileName}
+                                                    fileType={file.fileType}
+                                                />
                                     })}
                                 </div>
                             </div>

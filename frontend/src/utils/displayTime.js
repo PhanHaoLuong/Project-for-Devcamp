@@ -21,7 +21,7 @@ const displayTime = (timeSec) => {
             time = Math.floor(timeSec / (60*60*24*365));
             timeUnit = (time === 1) ? "year" : "years"; 
         }
-        return `${time} ${timeUnit}`;
+        return `${Math.floor(time)} ${timeUnit}`;
     } else {
         return "N/A";
     }

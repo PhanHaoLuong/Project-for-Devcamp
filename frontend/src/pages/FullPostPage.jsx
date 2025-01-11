@@ -5,6 +5,7 @@ import displayTimeWithUnit from "../utils/displayTime";
 
 //import components
 import FullPost from "../components/FullPost";
+import AddIcon from "../assets/add.svg";
 
 // import styles
 import '../styles/FullPostPage.css'
@@ -65,37 +66,22 @@ const FullPostPage = () => {
         return (now.getTime() - creationTime.getTime()) / 1000;
     }
     return (
-        <div className="post-container">
-            {postData ? (<FullPost isComment={false} 
-                author={postData.author.name || null} 
-                postTitle={postData.title || null}
-                timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
-                voteCount={postData.votes} 
-                postTags={null} /* placeholder */
-                postContent={postData.content || null}
-                codeContent={postData.code || null}
-                folderContent={null} /* placeholder */
-            />) : ("")}
-            {commentData && commentData.acceptedComments ? (
-                commentData.acceptedComments.map((comment) => {
-                    return (
-                        <FullPost isComment={true} isAccepted={true}
-                            author={comment.author.name || "N/A"} 
-                            postTitle={comment.title || "N/A"}
-                            timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
-                            voteCount={comment.votes || "N/A"} 
-                            postTags={null} // placeholder 
-                            postContent={comment.content || null}
-                            codeContent={comment.code || null}
-                            folderContent={null} // placeholder 
-                        />
-                    )
-                })
-            ) : ("")} 
-            {commentData && commentData.comments ? (
-                    commentData.comments.map((comment) => {
+        <>
+            <div className="post-container">
+                {postData ? (<FullPost isComment={false} 
+                    author={postData.author.name || null} 
+                    postTitle={postData.title || null}
+                    timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
+                    voteCount={postData.votes} 
+                    postTags={null} /* placeholder */
+                    postContent={postData.content || null}
+                    codeContent={postData.code || null}
+                    folderContent={null} /* placeholder */
+                />) : ("")}
+                {commentData && commentData.acceptedComments ? (
+                    commentData.acceptedComments.map((comment) => {
                         return (
-                            <FullPost isComment={true} isAccepted={false}
+                            <FullPost isComment={true} isAccepted={true}
                                 author={comment.author.name || "N/A"} 
                                 postTitle={comment.title || "N/A"}
                                 timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
@@ -107,10 +93,33 @@ const FullPostPage = () => {
                             />
                         )
                     })
-            ) : ("")} 
+                ) : ("")} 
+                {commentData && commentData.comments ? (
+                        commentData.comments.map((comment) => {
+                            return (
+                                <FullPost isComment={true} isAccepted={false}
+                                    author={comment.author.name || "N/A"} 
+                                    postTitle={comment.title || "N/A"}
+                                    timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
+                                    voteCount={comment.votes || "N/A"} 
+                                    postTags={null} // placeholder 
+                                    postContent={comment.content || null}
+                                    codeContent={comment.code || null}
+                                    folderContent={null} // placeholder 
+                                />
+                            )
+                        })
+                ) : ("")} 
+                    
                 
-            
-        </div>
+            </div>
+            <button className="comment-button">
+                <span className="comment-logo">
+                    <img src={AddIcon}></img>
+                </span>
+                <span className="comment-button-title">comment</span>
+            </button>
+        </>
     )
 }
 
