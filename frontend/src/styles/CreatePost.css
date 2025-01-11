@@ -17,7 +17,7 @@
 .create-post-container {
   display: flex;
   justify-content: center;
-  width: 100vw;
+  width: calc(100vw - 14px);
   margin-top: 50px;
 }
 
@@ -124,7 +124,7 @@
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: lighter;
-  min-height: 250px;
+  min-height: 200px;
   height: auto;
   min-width: 500px;
   width: 100%;
@@ -148,11 +148,62 @@
   margin: 5px 10px;
 }
 
+.code-lang-view-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.code-lang {
+  position: relative;
+  letter-spacing: 2px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #222E44;
+  border-radius: 12px;
+  font-size: 1rem;
+  width: 100%;
+  font-weight: lighter;
+  padding: 15px 30px;
+  border: 1px #BBC7DD solid;
+}
+
+.code-view {
+  cursor: pointer;
+  position: absolute;
+  right: 1px;
+  top: 0;
+  width: 40%;
+  letter-spacing: 1px;
+  text-align: center;
+  flex-grow: 1;
+  background-color: #344870;
+  padding: 15px 30px;
+  font-size: 1rem;
+  border-left: none;
+  border-radius: 12px;
+  transition: all 0.3s;
+}
+
+.code-view:hover {
+  background-color: #395180;
+  transition: all 0.1s;
+}
+
+.code-title {
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
 .buttons-container {
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  gap: 10px
+  gap: 15px;
+  margin-bottom: 10px;
 }
 
 .add-code-button {
@@ -186,40 +237,27 @@
   width: 100%;
 }
 
-.view-code-button {
+.remove-code-button {
+  font-size: 1rem;
   cursor: pointer;
   display: flex;
-  background-color: #007070;
+  background: #222E44;
+  border: #e03f42 solid 2px;
   border-radius: 10px;
   padding: 8px 12px;
+  width: auto;
   gap: 5px;
   transition: all 0.3s;
-  border: none;
 }
 
-.view-code-button:hover {
-  background-color: #008B8B;
+.remove-code-button:hover {
+  background-color: #e03f42;
   transition: all 0.1s;
-}
-
-.view-code-button-title {
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.view-code-button-logo {
-  height: 16px;
-  width: 16px;
-}
-
-.view-code-button-logo img {
-  height: 100%;
-  width: 100%;
 }
 
 .submit-button {
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: bold;
   padding: 8px 12px;
   border-radius: 10px;

@@ -109,6 +109,18 @@ function CreatePost() {
                   </div>
                 </div>
               </div>
+              {codeContent ? (
+                <div className="code-lang-view-container">
+                  <div className="code-title">code</div>
+                  <div className="code-lang-view">
+                    <span className="code-lang">{codeLanguage || "no language detected"}
+                      <div className="code-view"
+                          onClick={() => setCodeEdit(true)}>view code
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              ) : ("")}
               <div className="buttons-container">
                 {!codeContent ? (
                   <button
@@ -122,13 +134,13 @@ function CreatePost() {
                   </button>
                 ) : (
                   <button
-                    className="view-code-button"
-                    onClick={() => setCodeEdit(true)}
+                    className="remove-code-button"
+                    onClick={() => {
+                      setCodeContent("");
+                      setCodeLanguage("");
+                    }}
                   >
-                    <span className="view-code-button-logo">
-                      <img src={AcceptedIcon}></img>
-                    </span>
-                    <span className="view-code-button-title">view code</span>
+                    remove code
                   </button>
                 )}
                 <button className="submit-button">
