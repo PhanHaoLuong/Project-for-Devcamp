@@ -33,7 +33,7 @@ export const upvote = async (req, res) => {
 }
 
 export const downvote = async (req, res) => {
-    const postid = res.params.postid
+    const postid = req.params.postid
     const author = res.locals.user._id
 
     try {

@@ -18,8 +18,6 @@ import RevealedPw from '../assets/eye.png';
 
 /* import style */
 import '../styles/UserSignUp.css';
-import { useNavigate } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
 
 const url = `${pageAddress.signup}`;
 

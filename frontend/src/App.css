@@ -1,0 +1,13 @@
+::-webkit-scrollbar {
+  position: absolute;
+  width: 12px;
+}
+/* Track */
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2c3952;
+  border-radius: 100px;
+  cursor: pointer;
+}
+

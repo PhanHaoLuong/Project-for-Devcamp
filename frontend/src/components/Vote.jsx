@@ -1,6 +1,6 @@
 // import modules
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import displayNum from "../utils/displayNum";
 
 // import assets
@@ -14,23 +14,52 @@ import '../styles/Vote.css'
 const Vote = ({ voteCount }) => {
     const [isUpvote, setUpvote] = useState(false);
     const [isDownvote, setDownvote] = useState(false);
+    const [currVoteCount, updateVoteCount] = useState(voteCount);
+
+    const { postId } = useParams();
 
     useEffect(() => {
         if (isUpvote && isDownvote) { 
-          setDownvote(false); 
+            setDownvote(false); 
+        }
+
+        if (voteCount || voteCount === 0) {
+            if (isUpvote) {
+                updateVoteCount(voteCount + 1);
+            } else if (isDownvote) {
+                updateVoteCount(voteCount - 1);
+            } else {
+                updateVoteCount(voteCount)
+            }
         }
     }, [isUpvote]);
       
-      useEffect(() => {
+    useEffect(() => {
+        updateVoteCount(voteCount);
         if (isUpvote && isDownvote) { 
-          setUpvote(false); 
+            setUpvote(false); 
+        }
+
+        if (voteCount || voteCount === 0) {
+            if (isUpvote) {
+                updateVoteCount(voteCount + 1);
+            } else if (isDownvote) {
+                updateVoteCount(voteCount - 1);
+            } else {
+                updateVoteCount(voteCount);
+            }
         }
     }, [isDownvote]);
 
-    const handleVote = () => {
-        console.log(`voted`)
-    }
 
+    const handleVote = async (voteMethod) => {
+        const res = await fetch(`http://localhost:3000/post/${postId}/${voteMethod}`, {
+            method: "POST",
+            credentials: "include",
+        })
+        const resMsg = await res.text();
+        console.log(resMsg);
+    }
     return (
         <>
             <div className="vote">
@@ -38,15 +67,15 @@ const Vote = ({ voteCount }) => {
                     src={isUpvote ? UpvoteIcon : VoteIcon} 
                     onClick={() => {
                         setUpvote(!isUpvote);
-                        handleVote();
+                        handleVote("upvote");
                     }}
                 ></img>
-                <span className="vote-count">{displayNum(voteCount) || "0"}</span>
+                <span className="vote-count">{displayNum(currVoteCount)}</span>
                 <img className="vote-button" id="downvote" 
                     src={isDownvote ? DownvoteIcon : VoteIcon}
                     onClick={() => {
                         setDownvote(!isDownvote);
-                        handleVote();
+                        handleVote("downvote");
                     }}
                 ></img>
             </div>

@@ -11,12 +11,12 @@ img {
 
 .app-window {
     display: flex;
-    flex-direction: column;;
+    flex-direction: column;
     min-height: 60vh;
     width: 50vw;
     min-width: 600px;
     height: auto;
-    border-bottom: 2px white solid
+    border-bottom: 2px #BBC7DD solid
 }
 
 .post-header {
@@ -40,23 +40,23 @@ img {
 }
 
 .title-bar {
+    padding: 10px 20px;
     position: relative;
     width: auto;
-    height: 3em;
+    height: auto;
+    min-height: 3em;
     background-color: #222E44;
 }
 
 .title-time-container {
-    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
     left: 0;
     top: 0;
     height: 100%;
-    width: auto;
+    width: 70%;
     align-content: start;
-    margin: 0 20px;
     gap: 5%;
 }
 
@@ -69,7 +69,12 @@ img {
     align-items: center;
 }
 
+.share-save-container button {
+    max-height: 40px;
+}
+
 .post-title {
+    width: 100%;
     font-size: 1.15rem;
     margin: left;
     font-weight: 600;
@@ -171,6 +176,9 @@ img {
 }
 
 .post-properties-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     min-width: 25%;
     width: 25%;
     height: auto;
@@ -193,17 +201,25 @@ img {
 }
 
 .comment-accepted-container {
+    cursor:default;
     display: flex;
     align-items: center;
     justify-content: center;
-    justify-items: center;
     height: auto;
+    width: 50%;
+    min-width: 100px;
     gap: 5px;
     font-size: 0.8rem;
-    margin: 12px 16%;
+    margin: 12px 0;
     padding: 5px ;
     border-radius: 11px;
     background-color: #008B8B;
+    transition: all 0.3s;
+}
+
+.comment-accepted-container:hover {
+    background-color: #09a0a0;
+    transition: all 0.1s;
 }
 
 .accepted-icon {
@@ -229,6 +245,8 @@ img {
     align-items: flex-start;
     margin-top: 20px;
 }
+
+
 
 .tag {
     cursor: pointer;
@@ -259,6 +277,14 @@ img {
     flex-direction: column;
     min-width: 75%;
     background-color: #131925;
+    gap: 5px;
+}
+
+.comment-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 75%;
+    background-color: #161E2C;
     gap: 5px;
 }
 
@@ -346,6 +372,44 @@ img {
 }
 
 .folder-header-logo img {
+    height: 100%;
+    width: 100%;
+}
+
+.comment-button {
+    border: none;
+    position: absolute;
+    right: 15%;
+    bottom: 20px;
+    cursor: pointer;
+    display: flex;
+    background-color: #008B8B;
+    border-radius: 10px;
+    padding: 8px 12px;
+    gap: 5px;
+    transition: all 0.3s;
+}
+
+.comment-button * {
+    color:#BBC7DD;
+}
+
+.comment-button:hover {
+    background-color: #007070;
+    transition: all 0.1s;
+}
+
+.comment-button-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.comment-logo {
+    height: 16px;
+    width: 16px;
+}
+
+.comment-logo img {
     height: 100%;
     width: 100%;
 }

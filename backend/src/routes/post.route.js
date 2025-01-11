@@ -6,7 +6,8 @@ import { protected_route } from '../controllers/auth.controller.js';
 
 const router = express.Router();
 
-router.post('/upload', protected_route, create_post)
+//to upload a post, WIP
+router.post('/create', protected_route, create_post)
 
 //WIP
 router.delete('/delete/:postid', delete_post)

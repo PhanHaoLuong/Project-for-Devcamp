@@ -1,13 +1,26 @@
 import post from '../models/post.model.js'
 import user from '../models/user.model.js'
+import code from '../models/code.model.js'
 
 export const create_post = async (req, res) => {
     const author = res.locals.user._id
-    const newPost = new post(req.body)
+    const { title, content, codeData} = req.body
+    let postid = null
     try {
-        await user.updateOne({_id: author}, {$push: {posts: newPost._id}})
-        await newPost.save();
-        res.status(201).send("OK")
+        if (!codeData.data){
+            const newPost = new post(Object.assign({}, {author: author, title: title, content: content}))
+            await user.updateOne({_id: author}, {$push: {posts: newPost._id}})
+            await newPost.save();
+            postid = newPost._id
+        } else{
+            const newCode = new code(Object.assign(codeData, {author: author}))
+            const newPost = new post(Object.assign({}, {author: author, code: newCode._id, title: title, content: content}))
+            await newCode.save();
+            await newPost.save();
+            await user.updateOne({_id: author}, {$push: {posts: newPost._id}})
+            postid = newPost._id
+        }
+        res.status(201).json({"redirect" : postid})
     } catch (error) {
         res.status(500).send(error.message)
     }
@@ -32,6 +45,7 @@ export const get_post = async (req, res, next) => {
             const postid = req.params.postid
             const singlepost = await post.findById(postid)
             .populate('author', 'name')
+            .populate('code', 'language data')
 
             res.locals.singlepost = singlepost
             next()
@@ -47,13 +61,13 @@ export const get_post = async (req, res, next) => {
 export const get_forum_posts = async (req, res) => {
     try{
         const page = req.query.page
-        const limit = 10
+        const limit = 20
         const skip = (page - 1) * limit
 
         const posts = await post.find(
             {parent_post_id: { $exists: 0 }},{},
             {skip: skip, limit: limit, sort: {createdAt: -1}}
-        )
+        ).populate('author', 'name')
 
         res.status(200).json(posts)
     } catch (error) {
@@ -94,16 +108,18 @@ export const get_post_comments = async (req, res) => {
         const singlepost = res.locals.singlepost
         if (page == 1) {
             if (singlepost.accepted_comment_id != null) {
-                const accepted_comment = await post.find({_id: singlepost.accepted_comment_id})
+                const accepted_comment = await post.find({_id: singlepost.accepted_comment_id}).populate('author', 'name')
                 const comments = await post.find(
                     {parent_post_id: postid, _id: {$ne: singlepost.accepted_comment_id}},{},
                     {skip: skip, limit: limit - 1, sort: {votes: -1}})
+                    .populate('author', 'name')
                 res.status(200).json({post: res.locals.singlepost, accepted_comment: accepted_comment, comments: comments})
             }
             else{
                 const comments = await post.find(
                     {parent_post_id: postid},{},
                     {skip: skip, limit: limit, sort: {votes: -1}})
+                    .populate('author', 'name')
                 res.status(200).json({post: res.locals.singlepost, comments: comments})
             }
         }
@@ -111,6 +127,7 @@ export const get_post_comments = async (req, res) => {
             const comments = await post.find(
                 {parent_post_id: postid},{},
                 {skip: skip, limit: limit, sort: {votes: -1}})
+                .populate('author', 'name')
             res.status(200).json({comments: comments})
         }
     } catch (error) {

@@ -7,6 +7,7 @@ import ellipsis from "../utils/ellipsis.js";
 import Avatar from "./Avatar.jsx";
 import Vote from "./Vote.jsx"
 import FileItem from "./FileItem.jsx";
+import Tag from './Tag.jsx';
 
 // import assets
 import HashIcon from '../assets/hash.png';
@@ -21,36 +22,38 @@ import AcceptedIcon from '../assets/tick.svg'
 // import style
 import '../styles/FullPost.css';
 
-export default function FullPost({ isComment, isAccepted, postId, userId, postTitle, voteCount, postContent, codeContent, folderContent }){
-    const [maxLen, setMaxLen] = useState(8);
+export default function FullPost({ 
+    postId, 
+    isComment, 
+    isAccepted, 
+    isSaved, 
+    timeSincePost, 
+    author, 
+    postTags, 
+    postTitle, 
+    voteCount, 
+    postContent, 
+    codeContent, 
+    folderContent 
+}){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
 
-    const [hasCode, setHasCode] = useState(codeContent);
-    const [hasFolder, setHasFolder] = useState(folderContent);
-    const [isSaved, setSaved] = useState(false);
+    const [saveButtonActive, setSaveButtonActive] = useState(false);
+
+    if (folderContent){
+        folderContent.sort((a, b) => {
+            if (a.isFolder) {
+                return -1;
+            }
+            if (b.isFolder) {
+                return 1;
+            } else {
+                return 0;
+            }
+        })
+    }
+
     
-    // placeholder tags
-    const tagArr = ['tag1', 'tag2', 'tag3', 'tag4 '.repeat(50)];
-
-    // placeholder files
-    const fileMetadataArr = [
-        {fileName:"file1", fileType: "cpp" /* null if isFolder */, isFolder:false, uploadDate: Date("2024-10-26T10:30:00Z"), userId:"123"},
-        {fileName: "file2", fileType: "js", isFolder: false, uploadDate: Date("2024-11-26T10:45:00Z"), userId: "124"},
-        {fileName: "folder3", fileType: null, isFolder: true, uploadDate: Date("2024-12-26T11:00:00Z"), userId: "125"},
-        {fileName: "file3", fileType: "py", isFolder: false, uploadDate: Date("2024-12-26T11:15:00Z"), userId: "126"},
-        {fileName: "folder4", fileType: null, isFolder: true, uploadDate: Date("2024-12-26T11:30:00Z"), userId: "127"}
-    ]
-
-    fileMetadataArr.sort((a, b) => {
-        if (a.isFolder) {
-            return -1;
-        }
-        if (b.isFolder) {
-            return 1;
-        } else {
-            return 0;
-        }
-    })
 
     return (
         <>
@@ -67,30 +70,32 @@ export default function FullPost({ isComment, isAccepted, postId, userId, postTi
                     <div className="title-time-container">
                         <div className="post-title">{!isComment ? (postTitle || "Sharing Title") : "Comment"}</div>
                         {!isComment ? (
-                            <div className="time-since-post">0 minutes ago</div>
+                            <div className="time-since-post">{timeSincePost} ago</div>
                         ) : ("")}
                     </div>
-                    <div className="share-save-container">
-                        <button className="share-button">
-                            <span className="share-icon"><img src={ShareIcon} ></img></span>
-                            <span className="share-title">share</span>
-                        </button>
-                        <button className={`${isSaved ? "saved" : "save" }-button`}
-                                onClick={() => {
-                                    setSaved(!isSaved);
-                                }}>
-                                <span className="save-icon">
-                                    <img src={isSaved ? FilledSaveIcon : SaveIcon} ></img>
-                                </span>
-                            <span className="save-title">{isSaved ? "saved" : "save" }</span>
-                        </button>
-                    </div>                    
+                    {!isComment ? (
+                        <div className="share-save-container">
+                            <button className="share-button">
+                                <span className="share-icon"><img src={ShareIcon} ></img></span>
+                                <span className="share-title">share</span>
+                            </button>
+                            <button className={`${saveButtonActive ? "saved" : "save" }-button`}
+                                    onClick={() => {
+                                        setSaveButtonActive(!saveButtonActive);
+                                    }}>
+                                    <span className="save-icon">
+                                        <img src={saveButtonActive ? FilledSaveIcon : SaveIcon} ></img>
+                                    </span>
+                                <span className="save-title">{saveButtonActive ? "saved" : "save" }</span>
+                            </button>
+                        </div>
+                    ) : ("")}                    
                 </div>
                 <div className="post-body">
                     <div className="post-properties-side">
                         <div className="post-user-container">
                             <Avatar user=""/>
-                            <p className="username">username</p>
+                            <p className="username">{author}</p>
                         </div>
                         {(isComment && isAccepted) ? (
                             <div className="comment-accepted-container">
@@ -101,29 +106,19 @@ export default function FullPost({ isComment, isAccepted, postId, userId, postTi
                             </div>
                         ):("")}
                         <div className="vote-container">
-                            <Vote voteCount={voteCount || "N/A"}/>
+                            <Vote voteCount={voteCount}/>
                         </div>
-                        {!isComment ? (
+                        {(!isComment && postTags) ? (
                             <div className="tag-container">
-                                {tagArr.map((tag, index) => {
+                                {postTags.map((tag, index) => {
                                     if (tag) {
-                                        return (
-                                        (<div className="tag" 
-                                            onMouseEnter={
-                                                () => {setTagHoverIndex(index)}
-                                            }
-                                            onMouseLeave={
-                                                () => {setTagHoverIndex(null)}
-                                            }>
-                                            {ellipsis(tag, (tagHoverIndex === index ? 24 : 8))}
-                                        </div>)
-                                        )
+                                        return <Tag tagName={ellipsis(tag, (tagHoverIndex === index ? 8 : 6))}/>
                                     }
                                 })}
                             </div>
                         ) : ("")}
                     </div>
-                    <div className="post-content">
+                    <div className={`${!isComment ? "post" : "comment"}-content`}>
                         <div className="desc-content">
                             <div className="content-header">
                                 <span className="content-header-logo">
@@ -137,7 +132,7 @@ export default function FullPost({ isComment, isAccepted, postId, userId, postTi
                                 </p>
                             </div>
                         </div>
-                        {hasCode ? (
+                        {codeContent ? (
                             <div className="code">
                                 <div className="code-header">
                                     <span className="code-header-logo">
@@ -155,7 +150,7 @@ export default function FullPost({ isComment, isAccepted, postId, userId, postTi
                                 </div>
                             </div>
                         ) : ("")}
-                        {(hasFolder ? (
+                        {(folderContent ? (
                             <div className="folder">
                                 <div className="folder-header">
                                     <span className="folder-header-logo">
@@ -166,9 +161,10 @@ export default function FullPost({ isComment, isAccepted, postId, userId, postTi
                                 <div className="folder-content">
                                     {fileMetadataArr.map((file, index) => {
                                         return <FileItem 
-                                                isFolder={file.isFolder}
-                                                fileName={file.fileName}
-                                                fileType={file.fileType}/>
+                                                    isFolder={file.isFolder}
+                                                    fileName={file.fileName}
+                                                    fileType={file.fileType}
+                                                />
                                     })}
                                 </div>
                             </div>

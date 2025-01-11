@@ -1,60 +1,66 @@
 // import modules
-import React, { Suspense, useEffect, useState } from 'react';
-import { BrowserRouter as Router ,Routes, Route, Navigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query'
+import React, { Suspense, useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
-import * as pageAddress from './pages/page-address.json'
+import * as pageAddress from "./pages/page-address.json";
 
 /* import components */
 import Navbar from "./components/Navbar";
 import MiniPost from "./components/MiniPost";
-import Fileupload from "./pages/File upload test";
 import FileItem from "./components/FileItem";
-
 
 /* import pages */
 import FullPostPage from "./pages/FullPostPage";
-import UserSignUp from './pages/UserSignUp';
-import UserAuth from './pages/UserAuth';
+import UserSignUp from "./pages/UserSignUp";
+import UserAuth from "./pages/UserAuth";
 import Home from "./pages/Home";
 import User from "./pages/User";
 import Saved from "./pages/Saved";
+import CodeEditor from "./pages/CodeEditor";
+import Forum from "./pages/Forum";
+import CreatePost from "./pages/CreatePost";
+
+import "./App.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
-
-  const { data : authUser, isLoading } = useQuery({
-    queryKey: ['authUser'],
+  
+  const { data: authUser, isLoading } = useQuery({
+    queryKey: ["authUser"],
     queryFn: async () => {
       try {
-        const response = await fetch('http://localhost:3000/auth/verify', {
-          method: 'GET',
+        const response = await fetch("http://localhost:3000/auth/verify", {
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          credentials: 'include'
-        })
+          credentials: "include",
+        });
         if (response.status === 200) {
           setIsLoggedIn(true);
-          return true //Subjected to change
-        }
-        else {
+          return true; //Subjected to change
+        } else {
           setIsLoggedIn(false);
-          return null
+          return null;
         }
       } catch (error) {
-        console.error('Error fetching auth user:', error);
+        console.error("Error fetching auth user:", error);
         return { error };
       }
     },
     staleTime: 1000 * 60 * 60,
-  })
-  
+  });
+
   if (isLoading) return null;
 
-
-  //Should optimize the way authUser is called 
+  //Should optimize the way authUser is called
   return (
     <>
       <Router>
@@ -65,7 +71,7 @@ function App() {
             path={pageAddress.home}
             element={
               <>
-                <h1 style={{ color: 'white' }}>Homepage Placeholder</h1>
+                <h1 style={{ color: "white" }}>Homepage Placeholder</h1>
                 <a href="/auth/login">Login</a>
               </>
             }
@@ -79,14 +85,25 @@ function App() {
             element={!isLoggedIn ? <UserSignUp /> : <Navigate to="/" />}
           />
           <Route path="/home" element={<Home />} />
-          <Route path="/forum" element={<MiniPost />} />
+          <Route path="/forum" element={<Forum />} />
           <Route path="/user" element={<User />} />
           <Route path="/saved" element={<Saved />} />
-          <Route path="/fileupload" element={<Fileupload />} />
-          {/* Placeholder post route */}
-          <Route path="/post/:postId" element={<FullPostPage />}/>
-          <Route path="/component-test" element={<><FileItem isFolder="true"/><FileItem /></>}/>
-          <Route path={pageAddress.userProfile} element={<User userId={userData?.id} />} />
+{/*           <Route path="/fileupload" element={<Fileupload />} /> */}
+          <Route path="/post/:postId" element={<FullPostPage />} />
+          <Route
+            path="/component-test"
+            element={
+              <>
+                <FileItem isFolder="true" />
+                <FileItem />
+              </>
+            }
+          />
+          <Route path="/post/create" element={<CreatePost />} />
+          <Route
+            path={pageAddress.userProfile}
+            element={<User userId={userData?.id} />}
+          />
         </Routes>
       </Router>
     </>

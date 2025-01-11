@@ -1,9 +1,11 @@
-import Vote from "../components/Vote"
+import FileItem from "../components/FileItem"
 
-export default Test = () => {
+const Test = () => {
     return (
         <>
-            <Vote />
+            <FileItem />
         </>
     )
 }
+
+export default Test;
