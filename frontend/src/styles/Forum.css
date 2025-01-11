@@ -1,0 +1,195 @@
+
+
+.page-content {
+    align-items: center;
+    width:100%;
+    height: 1px;
+    z-index: -999;
+}
+
+.forum-content {
+    background-color: #192233;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    width: 50%;
+    min-width: 600px;
+    height: auto;
+    margin: 50px 0;
+    padding-bottom: 50px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    justify-content: flex-start;
+    gap: 5px;
+    z-index: 1;
+    animation: fadeSlideIn 0.5s;
+}
+
+@keyframes fadeSlideIn {
+    0% { opacity: 0; top: 12px; }
+    50% { opacity: 0.5; top: -10px; }
+    100% { opacity: 1; top: 0px; }
+}
+
+.post-container {
+    position: absolute;
+    animation: fadeSlideIn 0.5s;
+}
+
+
+.post-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+.infinite-scroll-component__outerdiv {
+    width: 100%;
+}
+
+.infinite-scroll-component  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.post-header * {
+    color: #BBC7DD;
+}
+.post-header {
+    width: 100%;
+    height:3em;
+    background-color: #111722;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+}
+
+.header-icon {
+    margin-left: 20px;
+}
+
+.header-title {
+    font-size: 19px;
+    font-weight: 600;
+    margin: 0 5px;
+}
+
+.post-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.post-options * {
+    border: none;
+    color: #BBC7DD;
+}
+
+.create-post-button {
+    cursor: pointer;
+    display: flex;
+    background-color: #008B8B;
+    border-radius: 10px;
+    padding: 8px 12px;
+    gap: 5px;
+    transition: all 0.3s;
+}
+
+.create-post-button:hover {
+    background-color: #007070;
+    transition: all 0.1s;
+}
+
+.create-post-button-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.create-post-button-logo {
+    height: 16px;
+    width: 16px;
+}
+
+.create-post-button-logo img {
+    height: 100%;
+    width: 100%;
+}
+
+.post-sort-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.sort-post-button {
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 10px;
+    width: 120px;
+    background-color: #2c3952;
+    transition: all 0.3s
+}
+
+.sort-post-button-active {
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 10px;
+    width: 120px;
+    background-color: #007070;
+    transition: all 0.3s
+}
+
+.sort-post-button-active:hover {
+    background-color: #008B8B
+}
+
+.sort-post-button:hover {
+    background-color: #344870;   
+    transition: all 0.1s; 
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    height: 200px;
+    min-height: 100px;
+    background-color: #222E44;
+    border-radius: 15px;
+    padding: 20px 15px;
+    margin-top: 10px;
+}
+
+.loading-header {
+    display: flex;
+    gap: 20px
+}
+
+.loading-header * {
+    color:#BBC7DD;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.loading-icon {
+    height: 30px;
+    width: 30px;
+}
+
+.loading-icon img {
+    height: 100%;
+    width: 100%;
+}

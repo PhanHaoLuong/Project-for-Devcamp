@@ -31,7 +31,7 @@ img {
     align-items: center; 
     justify-content: center;
     height:100%;
-    width: auto;
+    width: 100%;
     box-sizing: border-box;
     right: 0;
     top: 0;
@@ -217,6 +217,7 @@ img {
 
 #showhide-icon {
     height: 20%;
+    width: auto;
     
 }
 

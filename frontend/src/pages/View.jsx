@@ -1,5 +1,5 @@
 /* import components */
-import Post from "../components/Post";
+import MiniPost from "../components/MiniPost";
 
 const View = () => {
     return (
@@ -9,7 +9,7 @@ const View = () => {
             </div>
             <div className="body post">
                 <h1>Recent Posts</h1>
-                <Post />
+                <MiniPost />
             </div>
         </div>
     );

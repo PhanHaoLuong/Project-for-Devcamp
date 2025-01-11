@@ -8,7 +8,7 @@ img {
     font-size: 16px;
     display: flex;
     flex-direction: column;
-    width: auto;
+    width: 100%;
     flex-grow: 1;
     height:100vh;
 }
@@ -35,7 +35,7 @@ img {
     justify-content: center;
     /* border: solid white; */
     height:100%;
-    width: auto;
+    width: 100%;
     box-sizing: border-box;
 }
 

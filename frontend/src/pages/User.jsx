@@ -7,7 +7,7 @@ import "../styles/User.css";
 /* import components */
 import Statistics from "../components/Statistics";
 import Avatar from "../components/Avatar";
-import Post from "../components/Post";
+import MiniPost from "../components/MiniPost";
 
 const User = ({ userId }) => {
   const [userData, setUserData] = useState(null);

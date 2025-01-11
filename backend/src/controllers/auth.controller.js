@@ -7,6 +7,27 @@ import { signToken } from "../utils/token.js";
 
 dotenv.config()
 
+export const protected_route = async (req, res, next) => {
+    try {
+        const token = req.cookies.accessToken
+        if (!token) {
+            return res.status(401).json({message:'Unauthorized'})
+        }
+
+        const decoded = jsonwebtoken.verify(token, process.env.secret_key)
+        if (!decoded) {
+            return res.status(401).json({message:'Unauthorized'})
+        }
+
+        const usr = await user.findById(decoded.userInfo).select('-password')
+        console.log(usr)
+        res.locals.user = usr
+        next()
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+}
+
 export const signup = async (req, res) => {
     const { name, pw } = req.body
     try{
@@ -55,7 +76,7 @@ export const login = async (req, res) => {
         if (!userExist) {
             return res.status(404).json({message:'User does not exist'})
         } else {
-            const validPass = await bcryptjs.compare(pw, userExist.password)
+            const validPass = bcryptjs.compare(pw, userExist.password)
             if (!validPass) {
                 return res.status(400).json({message:'Incorrect password'})
             }
