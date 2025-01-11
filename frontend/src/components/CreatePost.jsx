@@ -2,13 +2,12 @@ import React from "react";
 import "../styles/CreatePost.css";
 import "../assets/post.png";
 
-export default function CreatePost() {
+function CreatePost() {
   return (
     <div className="main-container">
       <div className="frame">
-        <div className="upper-bar1">
-          <div className="icon-create-post">
-            <div className="post-icon" />
+        <div className="header">
+          <div className="create-post-title">
             <span className="create-post-text">create post</span>
           </div>
         </div>
@@ -30,3 +29,5 @@ export default function CreatePost() {
       </div>
   );
 }
+
+export default CreatePost;

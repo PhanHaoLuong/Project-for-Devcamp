@@ -1,5 +1,5 @@
 // import modules
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 // import assets
@@ -20,7 +20,8 @@ import View from "./pages/View";
 import Home from "./pages/Home"; 
 import User from "./pages/User";
 import Saved from "./pages/Saved";
-import CreatePost from './components/CreateCode';
+import CreatePost from './components/CreatePost';
+
 
 function App() {
   return (
@@ -36,7 +37,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/user" element={<User />} />
           <Route path="/saved" element={<Saved />} />
-          <React path="/create" element={<CreatePost />} />
+          <Route path="/post/create" element={<CreatePost />} />
         </Routes>
       </Router>
     </>
