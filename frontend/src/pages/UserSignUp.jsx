@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
 import * as pageAddress from './page-address.json';
 import { valEmail, valName, valPw } from '../utils/validateInput';
+import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 /* import Components */
 import Navbar from '../components/Navbar';
@@ -17,6 +19,7 @@ import RevealedPw from '../assets/eye.png';
 /* import style */
 import '../styles/UserSignUp.css';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 const url = `${pageAddress.signup}`;
 
@@ -45,6 +48,8 @@ const UserSignUp = () => {
     const [isAuth, setAuth] = useState(false);
 
     const navigate = useNavigate();
+
+    const queryClient = useQueryClient();
 
     // validation handling
     useEffect(() => {
@@ -95,6 +100,7 @@ const UserSignUp = () => {
         const timeoutId = setTimeout(() => {
             if (isAuth){
                 navigate("/");
+                queryClient.invalidateQueries({queryKey: ['authUser']});
             }
         }, 2000);
         return () => {clearTimeout(timeoutId)};

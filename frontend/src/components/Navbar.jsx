@@ -3,11 +3,12 @@ import { useLocation } from "react-router-dom";
 import "../styles/Navbar.css";
 import Avatar from "./Avatar";
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const location = useLocation(); // Get the current URL location
 
+  // Ensure responsive design
   useEffect(() => {
     const handleResize = () => {
       const smallScreen = window.innerWidth < 450;
@@ -31,13 +32,32 @@ const Navbar = () => {
   };
 
   // Check if the link is active
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => {
+    const currentPath = location.pathname;
+    if (path.includes(":")) {
+      return currentPath.startsWith(path.split(":")[0]);
+    }
+    return currentPath === path;
+  };
+  
 
+  // Navbar component
   return (
     <nav className="navbar">
+
+      {/* Hamburger menu */}
+      <div className="hamburger-menu" onClick={toggleMenu}>
+          <span className="line"></span>
+          <span className="line"></span>
+          <span className="line"></span>
+      </div>
+
+      {/* App name */}
       <div className="navbar-logo">
         <a href="/">CodeSharing</a>
       </div>
+
+      {/* Navbar links */}
       <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
         {menuOpen && (
           <>
@@ -49,12 +69,12 @@ const Navbar = () => {
           </>
         )}
         <li>
-          <a href="/home" className={isActive("/home") ? "active" : ""}>
+          <a href="/" className={isActive("/") ? "active" : ""}>
             home
           </a>
         </li>
         <li>
-          <a href="/forum" className={isActive("/forum") ? "active" : ""}>
+          <a href="/forum" className={(isActive("/forum") || isActive("/post/:postId")) ? "active" : ""}>
             forum
           </a>
         </li>
@@ -73,17 +93,20 @@ const Navbar = () => {
           </>
         )}
       </ul>
+
       <div className="navbar-actions">
         {!menuOpen && !isSmallScreen && <i className="ti-search search-btn"></i>}
         {!menuOpen && !isSmallScreen && <i className="ti-email email-btn"></i>}
-        <a href="/user">
-          <Avatar user={{ name: "test" }} />
-        </a>
-        <div className="hamburger-menu" onClick={toggleMenu}>
-          <span className="line"></span>
-          <span className="line"></span>
-          <span className="line"></span>
-        </div>
+        {isLoggedIn ? (
+          <a href="/user">
+            <Avatar user={{ name: "test" }} />
+          </a>
+        ) : (
+          <>
+            <a href="/auth/signup" className="auth-btn signup-btn">sign up</a>
+            <a href="/auth/login" className="auth-btn login-btn">login</a>
+          </>
+        )}
       </div>
     </nav>
   );

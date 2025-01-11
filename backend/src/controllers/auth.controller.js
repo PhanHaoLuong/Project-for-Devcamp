@@ -28,7 +28,7 @@ export const protected_route = async (req, res, next) => {
 }
 
 export const signup = async (req, res) => {
-    const { name, pw } = req.body
+    const { name, pw, email } = req.body
     try{
 
         if ( !name || !pw || name.length < 4 || pw.length < 8 ) {
@@ -44,7 +44,8 @@ export const signup = async (req, res) => {
         const hashedPass = await bcryptjs.hash(pw, 10)
         const newUser = new user({
         name,
-        password:hashedPass})
+        password:hashedPass,
+        email})
         await newUser.save()
 
         const token = jsonwebtoken.sign({userInfo:newUser._id}, process.env.secret_key, {expiresIn: '1h'})

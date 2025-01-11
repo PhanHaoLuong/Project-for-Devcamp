@@ -9,21 +9,20 @@ const router = express.Router();
 //to upload a post, WIP
 router.post('/create', protected_route, create_post)
 
-//to delete a post, WIP
+//WIP
 router.delete('/delete/:postid', delete_post)
 
-//to get a single post and then it's comments, WIP
 router.get('/:postid', get_post, get_post_comments)
 
+//WIP
 router.post('/:postid/accept_comment', accept_comment)
 
 router.post('/:postid/upvote', protected_route, upvote)
 router.post('/:postid/downvote', protected_route, downvote)
 
-//to comment on a post, WIP
 router.post('/:postid/comment', protected_route, create_comment)
 
-//to delete a comment, WIP
+//WIP
 router.delete('/:postid/deletecomment', delete_comment)
 
 

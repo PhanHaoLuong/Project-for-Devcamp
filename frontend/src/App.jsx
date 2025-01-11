@@ -1,26 +1,22 @@
 // import modules
-import { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import React, { Suspense, useEffect, useState } from 'react';
+import { BrowserRouter as Router ,Routes, Route, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query'
-
-// import assets
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-
-//import pages
-import UserAuth from './pages/UserAuth';
-import UserSignUp from './pages/UserSignUp'
 
 import * as pageAddress from './pages/page-address.json'
 
 /* import components */
 import Navbar from "./components/Navbar";
+import MiniPost from "./components/MiniPost";
+import Fileupload from "./pages/File upload test";
+import FileItem from "./components/FileItem";
 
-import Vote from './components/Vote';
 
 /* import pages */
-import View from "./pages/View";
-import Home from "./pages/Home"; 
+import FullPostPage from "./pages/FullPostPage";
+import UserSignUp from './pages/UserSignUp';
+import UserAuth from './pages/UserAuth';
+import Home from "./pages/Home";
 import User from "./pages/User";
 import Saved from "./pages/Saved";
 import Fileupload from './pages/File upload test';
@@ -35,6 +31,8 @@ import './App.css'
 
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   const { data : authUser, isLoading } = useQuery({
     queryKey: ['authUser'],
@@ -43,30 +41,53 @@ function App() {
         const response = await fetch('http://localhost:3000/auth/verify', {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
           credentials: 'include'
         })
-        console.log("response: ", response)
-        return response.json()
+        if (response.status === 200) {
+          setIsLoggedIn(true);
+          return true //Subjected to change
+        }
+        else {
+          setIsLoggedIn(false);
+          return null
+        }
       } catch (error) {
-        return { error }
+        console.error('Error fetching auth user:', error);
+        return { error };
       }
-    }
+    },
+    staleTime: 1000 * 60 * 60,
   })
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return null;
 
+
+  //Should optimize the way authUser is called 
   return (
     <>
       <Router>
-        <Navbar />
-        {/* Render different pages based on the URL */}
+        <Suspense fallback={<div>Loading...</div>} />
+        <Navbar isLoggedIn={isLoggedIn} />
         <Routes>
-          <Route path={pageAddress.home} element={<><h1 style={{color:'white'}}>homepage placeholder</h1><a href="/auth/login">login</a></>}/>
-          <Route path={pageAddress.login} element={!authUser ? <UserAuth /> : <Navigate to="/"/>} />
-          <Route path={pageAddress.signup} element={!authUser ? <UserSignUp /> : <Navigate to="/"/>} />
-          <Route path="/" element={<View />} />
+          <Route
+            path={pageAddress.home}
+            element={
+              <>
+                <h1 style={{ color: 'white' }}>Homepage Placeholder</h1>
+                <a href="/auth/login">Login</a>
+              </>
+            }
+          />
+          <Route
+            path={pageAddress.login}
+            element={!isLoggedIn ? <UserAuth /> : <Navigate to="/" />}
+          />
+          <Route
+            path={pageAddress.signup}
+            element={!isLoggedIn ? <UserSignUp /> : <Navigate to="/" />}
+          />
           <Route path="/home" element={<Home />} />
           <Route path="/forum" element={<Forum />} />
           <Route path="/user" element={<User />} />
@@ -76,6 +97,7 @@ function App() {
           <Route path="/post/:postId" element={<FullPostPage />}/>
           <Route path="/component-test" element={<><FileItem isFolder="true"/><FileItem /></>}/>
           <Route path="/post/create" element={<CreatePost />} />
+          <Route path={pageAddress.userProfile} element={<User userId={userData?.id} />} />
         </Routes>
       </Router>
     </>
