@@ -2,8 +2,8 @@ import post from '../models/post.model.js'
 import user from '../models/user.model.js'
 
 export const create_post = async (req, res) => {
-    const author = req.body.author
-    const newPost = new post(req.body)
+    const author = res.locals.user._id
+    const newPost = new post(Object.assign(req.body, {author: author}))
     try {
         await user.updateOne({_id: author}, {$push: {posts: newPost._id}})
         await newPost.save();
@@ -63,7 +63,8 @@ export const get_forum_posts = async (req, res) => {
 
 export const create_comment = async (req, res) => {
     const postid = req.params.postid
-    const newComment = new post(Object.assign(req.body, {parent_post_id: postid, is_comment: true}))
+    const author = res.locals.user._id
+    const newComment = new post(Object.assign(req.body, {author: author, parent_post_id: postid, is_comment: true}))
     try {
         await newComment.save();
         res.status(201).send("OK")

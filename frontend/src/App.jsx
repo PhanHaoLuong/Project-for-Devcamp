@@ -1,6 +1,7 @@
 // import modules
-import React, { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query'
 
 // import assets
 import reactLogo from './assets/react.svg'
@@ -25,13 +26,37 @@ import Saved from "./pages/Saved";
 import Fileupload from './pages/File upload test';
 import FullPostPage from './pages/FullPostPage';
 import FileItem from './components/FileItem';
+import CodeEditor from './pages/CodeEditor';
 import Forum from './pages/Forum';
+import CreatePost from './components/CreatePost';
 
 import './App.css'
-import CreatePost from './components/CreatePost';
+
 
 
 function App() {
+
+  const { data : authUser, isLoading } = useQuery({
+    queryKey: ['authUser'],
+    queryFn: async () => {
+      try {
+        const response = await fetch('http://localhost:3000/auth/verify', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        })
+        console.log("response: ", response)
+        return response.json()
+      } catch (error) {
+        return { error }
+      }
+    }
+  })
+
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <>
       <Router>
@@ -39,8 +64,8 @@ function App() {
         {/* Render different pages based on the URL */}
         <Routes>
           <Route path={pageAddress.home} element={<><h1 style={{color:'white'}}>homepage placeholder</h1><a href="/auth/login">login</a></>}/>
-          <Route path={pageAddress.login} element={<UserAuth />} />
-          <Route path={pageAddress.signup} element={<UserSignUp />} />
+          <Route path={pageAddress.login} element={!authUser ? <UserAuth /> : <Navigate to="/"/>} />
+          <Route path={pageAddress.signup} element={!authUser ? <UserSignUp /> : <Navigate to="/"/>} />
           <Route path="/" element={<View />} />
           <Route path="/home" element={<Home />} />
           <Route path="/forum" element={<Forum />} />

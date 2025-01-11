@@ -3,15 +3,19 @@ import bcryptjs from "bcryptjs";
 
 import { login, logout, protected_route, signup } from "../controllers/auth.controller.js";
 import { verifyToken } from "../utils/token.js";
+import { get } from "mongoose";
 
 const router = express.Router();
 
 router.post('/signup', signup)
 
 //test route
-router.get('/verify', async (req, res) => {
-    req.headers['Authorization'] = "Bearer " + "abc"
-    res.status(200).send(req.headers.Authorization)
+router.get('/verify', protected_route, async (req, res) => {
+    try {
+        res.status(200).json(res.locals.user)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
 })
 
 router.post('/login', login)

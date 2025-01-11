@@ -1,3 +1,14 @@
+@keyframes fadeSlideIn {
+  0% { opacity: 0; top: 12px; }
+  50% { opacity: 0.5; top: -10px; }
+  100% { opacity: 1; top: 0px; }
+}
+
+#create-post-window {
+  position: relative;
+  animation: fadeSlideIn 0.5s;
+}
+
 #create-post-window {
   height: auto;
   border: none;
@@ -24,7 +35,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 20px 20px 50px 20px;
+  padding: 20px 20px 15px 20px;
   gap: 20px;
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
@@ -53,16 +64,63 @@
   letter-spacing: 0.5px;
 }
 
-.create-content-container {
+.add-tag-container {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 10px;
 }
 
+.add-tag-text {
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+.add-tag {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  background-color: #2c3952;
+  border-radius: 10px;
+  padding: 8px 12px;
+  width: 100px;
+  gap: 5px;
+  transition: all 0.3s;
+  border: none;
+}
+
+.add-tag:hover {
+  background-color: #344870;
+  transition: all 0.1s;
+}
+
+.add-tag-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.add-tag-logo {
+  height: 16px;
+  width: 16px;
+}
+
+.add-tag-logo img {
+  height: 100%;
+  width: 100%;
+}
+
+.create-content-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
 .content-textarea {
+  font-family: inherit;
   background-color: #222E44;
-  border: 1px #BBC7DD solid;
+  outline: 1px #BBC7DD solid;
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: lighter;
@@ -87,6 +145,106 @@
 .char-limit {
   position: absolute;
   right: 0;
-  margin: 10px;
+  margin: 5px 10px;
 }
 
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 10px
+}
+
+.add-code-button {
+  cursor: pointer;
+  display: flex;
+  background-color: #2c3952;
+  border-radius: 10px;
+  padding: 8px 12px;
+  gap: 5px;
+  transition: all 0.3s;
+  border: none;
+}
+
+.add-code-button:hover {
+  background-color: #344870;
+  transition: all 0.1s;
+}
+
+.add-code-button-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.add-code-button-logo {
+  height: 16px;
+  width: 16px;
+}
+
+.add-code-button-logo img {
+  height: 100%;
+  width: 100%;
+}
+
+.submit-button {
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 10px;
+  width: 120px;
+  background-color: #007070;
+  transition: all 0.3s;
+  border: none;
+}
+
+.submit-button:hover {
+  background-color: #008B8B;
+}
+
+.code-editor-page {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+  animation: fadeSlideIn 0.5s;
+}
+
+.return-button {
+  cursor: pointer;
+  position:absolute;
+  top: 0;
+  left: 20%;
+  padding: 10px 30px;
+  border-radius: 12px;
+  border: none;
+  color: #BBC7DD;
+  background-color: #192233;
+  transition: all 0.3s;
+}
+
+.return-button:hover {
+  background-color: #2c3952;
+  transition: all 0.1s;
+}
+
+.submit-code-button {
+  cursor: pointer;
+  position:absolute;
+  top: 0;
+  left: calc(20% + 200px);
+  padding: 10px 30px;
+  border-radius: 12px;
+  border: none;
+  color: #BBC7DD;
+  font-weight: bold;
+  background-color: #007070;
+  transition: all 0.3s;
+}
+
+.submit-code-button:hover {
+  background-color: #008B8B;
+  transition: all 0.1s;
+}
