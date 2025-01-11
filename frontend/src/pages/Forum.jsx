@@ -19,6 +19,7 @@ const Forum = () => {
     const [forumPostData, setForumPostData] = useState([]);
     const [fetchPage, setFetchPage] = useState(1);
     const [sortButtonActive, setSortButtonActive] = useState("recent");
+    const [hasMore, setHasMore] = useState(true);
 
     const navigate = useNavigate();
     const url = "/forum";
@@ -42,7 +43,10 @@ const Forum = () => {
 
     const getForum = async () => {
         const data = await fetchForum();
-        let page = fetchPage;
+        let page = fetchPage;        
+        if (data.length < 10) {
+            setHasMore(false);
+        }
         page++;
         setForumPostData(forumPostData.concat(data));
         setFetchPage(page);
@@ -115,7 +119,7 @@ const Forum = () => {
                         <InfiniteScroll
                             dataLength={forumPostData.length}
                             next={getForum}
-                            hasMore={true}
+                            hasMore={hasMore}
                             loader={
                                 <div className="loading-container">
                                     <div className="loading-header">
@@ -124,6 +128,11 @@ const Forum = () => {
                                         </span>
                                         <span className="loading-text">loading more posts</span>
                                     </div>
+                                </div>
+                            }
+                            endMessage={
+                                <div className="end-message">
+                                    you've reached the end! come back later for more
                                 </div>
                             }
                         >
