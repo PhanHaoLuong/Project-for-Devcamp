@@ -54,7 +54,8 @@ const Vote = ({ voteCount }) => {
 
     const handleVote = async (voteMethod) => {
         const res = await fetch(`http://localhost:3000/post/${postId}/${voteMethod}`, {
-            method: "POST"
+            method: "POST",
+            credentials: "include",
         })
         const resMsg = await res.text();
         console.log(resMsg);

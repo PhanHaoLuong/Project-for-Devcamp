@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import EditorPanel from "../components/EditorPanel"
 import LanguageSelector from "../components/LanguageSelector"
 import { useCodeEditorStore } from "../store/useCodeEditorStore"

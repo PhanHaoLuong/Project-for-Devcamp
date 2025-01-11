@@ -5,17 +5,22 @@ import code from '../models/code.model.js'
 export const create_post = async (req, res) => {
     const author = res.locals.user._id
     const { title, content, codeData} = req.body
-    const postData = JSON.stringify({
-        title: title,
-        content: content,
-    })
-    const newCode = new code(Object.assign(codeData, {author: author}))
-    const newPost = new post(Object.assign(postData, {author: author, code: newCode._id}))
+    let postid = null
     try {
-        await user.updateOne({_id: author}, {$push: {posts: newPost._id}})
-        await newCode.save();
-        await newPost.save();
-        res.status(201).json({"redirect" : newPost._id})
+        if (!codeData.data){
+            const newPost = new post(Object.assign({}, {author: author, title: title, content: content}))
+            await user.updateOne({_id: author}, {$push: {posts: newPost._id}})
+            await newPost.save();
+            postid = newPost._id
+        } else{
+            const newCode = new code(Object.assign(codeData, {author: author}))
+            const newPost = new post(Object.assign({}, {author: author, code: newCode._id, title: title, content: content}))
+            await newCode.save();
+            await newPost.save();
+            await user.updateOne({_id: author}, {$push: {posts: newPost._id}})
+            postid = newPost._id
+        }
+        res.status(201).json({"redirect" : postid})
     } catch (error) {
         res.status(500).send(error.message)
     }

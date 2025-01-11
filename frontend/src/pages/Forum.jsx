@@ -1,5 +1,6 @@
 // import modules
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import displayTime from "../utils/displayTime";
 
 // import components
@@ -21,6 +22,8 @@ const Forum = () => {
     const [hasMore, setHasMore] = useState(true);
 
     const url = "/forum";
+
+    const navigate = useNavigate();
 
     const fetchForum = async () => {
         const response = await fetch(`http://localhost:3000/forum?page=${fetchPage}`, {
@@ -73,7 +76,7 @@ const Forum = () => {
                         <span className="create-post-button-logo">
                             <img src={AddIcon}></img>
                         </span>
-                        <span className="create-post-button-title">create post</span>
+                        <span className="create-post-button-title" onClick={() => navigate('/post/create')}>create post</span>
                     </button>
                     <div className="post-sort-buttons">
                         <button

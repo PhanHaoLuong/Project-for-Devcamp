@@ -1,5 +1,6 @@
 // import modules
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // import assets
 import TerminalIcon from '../assets/terminal.svg';
@@ -10,15 +11,14 @@ import CodeEditor from "../pages/CodeEditor";
 
 import "../styles/CreatePost.css";
 
-
-
-
 function CreatePost() {
   const [titleText, setTitleText] = useState(0);
   const [contentText, setContentText] = useState(0);
   const [isCodeEdit, setCodeEdit] = useState(false);
-  const [codeLanguage, setCodeLanguage] = useState("");
+  const [codeLanguage, setCodeLanguage] = useState("javascript");
   const [codeContent, setCodeContent] = useState("");
+
+  const navigate = useNavigate();
 
   const handleTitleChange = (event) => {
     const text = event.target.value;
@@ -49,8 +49,8 @@ function CreatePost() {
             language: codeLanguage,
             data: codeContent,}})
     })
-    const data = await response.json()
-    console.log(data)
+    const { redirect } = await response.json()
+    navigate('/post/' + redirect)
     } catch (error) {
       console.error(error)
     }

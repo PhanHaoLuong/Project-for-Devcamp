@@ -8,7 +8,6 @@ import * as pageAddress from './pages/page-address.json'
 /* import components */
 import Navbar from "./components/Navbar";
 import MiniPost from "./components/MiniPost";
-import Fileupload from "./pages/File upload test";
 import FileItem from "./components/FileItem";
 
 
@@ -20,9 +19,6 @@ import Home from "./pages/Home";
 import User from "./pages/User";
 import Saved from "./pages/Saved";
 import Fileupload from './pages/File upload test';
-import FullPostPage from './pages/FullPostPage';
-import FileItem from './components/FileItem';
-import CodeEditor from './pages/CodeEditor';
 import Forum from './pages/Forum';
 import CreatePost from './components/CreatePost';
 
