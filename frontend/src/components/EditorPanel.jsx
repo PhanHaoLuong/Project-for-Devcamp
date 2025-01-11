@@ -8,14 +8,12 @@ function EditorPanel({ codeContent }) {
     const { language, editor, fontSize, setEditor } = useCodeEditorStore();
 
     useEffect(() => {
-        const newCode = LANGUAGE_CONFIG[language].defaultCode;
         if(editor) {
-            if (!codeContent) {
-                editor.setValue(newCode);}
-            else if (codeContent in LANGUAGE_CONFIG) {
-                editor.setValue(newCode);}
-            else {
+            if(codeContent) {
                 editor.setValue(codeContent);
+            }
+            else{
+                editor.setValue("");
             }
         }
     },[language, editor]);
