@@ -22,8 +22,20 @@ import AcceptedIcon from '../assets/tick.svg'
 // import style
 import '../styles/FullPost.css';
 
-export default function FullPost({ postId, isComment, isAccepted, isSaved ,timeSincePost, author, postTags, postTitle, voteCount, postContent, codeContent, folderContent }){
-    const [maxLen, setMaxLen] = useState(8);
+export default function FullPost({ 
+    postId, 
+    isComment, 
+    isAccepted, 
+    isSaved, 
+    timeSincePost, 
+    author, 
+    postTags, 
+    postTitle, 
+    voteCount, 
+    postContent, 
+    codeContent, 
+    folderContent 
+}){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
 
     const [saveButtonActive, setSaveButtonActive] = useState(false);

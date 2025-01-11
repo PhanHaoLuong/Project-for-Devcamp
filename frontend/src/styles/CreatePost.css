@@ -186,6 +186,37 @@
   width: 100%;
 }
 
+.view-code-button {
+  cursor: pointer;
+  display: flex;
+  background-color: #007070;
+  border-radius: 10px;
+  padding: 8px 12px;
+  gap: 5px;
+  transition: all 0.3s;
+  border: none;
+}
+
+.view-code-button:hover {
+  background-color: #008B8B;
+  transition: all 0.1s;
+}
+
+.view-code-button-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.view-code-button-logo {
+  height: 16px;
+  width: 16px;
+}
+
+.view-code-button-logo img {
+  height: 100%;
+  width: 100%;
+}
+
 .submit-button {
   cursor: pointer;
   font-size: 0.9rem;

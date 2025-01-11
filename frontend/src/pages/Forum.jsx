@@ -19,11 +19,10 @@ const Forum = () => {
     const [forumPostData, setForumPostData] = useState([]);
     const [fetchPage, setFetchPage] = useState(1);
     const [sortButtonActive, setSortButtonActive] = useState("recent");
-    const [hasMore, setHasMore] = useState(true);
-
-    const url = "/forum";
 
     const navigate = useNavigate();
+    const url = "/forum";
+
 
     const fetchForum = async () => {
         const response = await fetch(`http://localhost:3000/forum?page=${fetchPage}`, {
@@ -43,9 +42,6 @@ const Forum = () => {
 
     const getForum = async () => {
         const data = await fetchForum();
-        if (data.length < 10) {
-            setHasMore(false);
-        }
         let page = fetchPage;
         page++;
         setForumPostData(forumPostData.concat(data));
@@ -72,7 +68,7 @@ const Forum = () => {
                     <span className="header-title">sharing</span>
                 </div>
                 <div className="post-options">
-                    <button className="create-post-button">
+                    <button className="create-post-button" onClick={() => navigate('/post/create')}>
                         <span className="create-post-button-logo">
                             <img src={AddIcon}></img>
                         </span>
@@ -119,7 +115,7 @@ const Forum = () => {
                         <InfiniteScroll
                             dataLength={forumPostData.length}
                             next={getForum}
-                            hasMore={hasMore}
+                            hasMore={true}
                             loader={
                                 <div className="loading-container">
                                     <div className="loading-header">
@@ -128,11 +124,6 @@ const Forum = () => {
                                         </span>
                                         <span className="loading-text">loading more posts</span>
                                     </div>
-                                </div>
-                            }
-                            endMessage={
-                                <div className="end-message">
-                                    you've reached the end! come back later for more
                                 </div>
                             }
                         >
