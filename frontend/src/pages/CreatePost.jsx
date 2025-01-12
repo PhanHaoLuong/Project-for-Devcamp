@@ -1,5 +1,6 @@
 // import modules
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
@@ -17,6 +18,8 @@ function CreatePost() {
   const [isCodeEdit, setCodeEdit] = useState(false);
   const [codeLanguage, setCodeLanguage] = useState("");
   const [codeContent, setCodeContent] = useState("");
+
+  const navigate = useNavigate();
 
   const handleTitleChange = (event) => {
     const text = event.target.value;
@@ -47,10 +50,13 @@ function CreatePost() {
             language: codeLanguage,
             data: codeContent,
           },
-        }),
+        }), 
       });
       const data = await response.json();
-      console.log(data);
+      if (response.status === 201) {
+        console.log(data.redirect);
+        navigate(`/post/${data.redirect}`);
+      }
     } catch (error) {
       console.error(error);
     }
