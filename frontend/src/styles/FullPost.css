@@ -341,6 +341,7 @@ img {
 }
 
 .code-content {
+    display: flex;
     border: 1px solid #BBC7DD;
     padding: 10px 15px;
     margin: 20px;

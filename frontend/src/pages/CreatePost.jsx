@@ -54,7 +54,6 @@ function CreatePost() {
       });
       const data = await response.json();
       if (response.status === 201) {
-        console.log(data.redirect);
         navigate(`/post/${data.redirect}`);
       }
     } catch (error) {

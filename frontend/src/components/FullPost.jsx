@@ -8,6 +8,7 @@ import Avatar from "./Avatar.jsx";
 import Vote from "./Vote.jsx"
 import FileItem from "./FileItem.jsx";
 import Tag from './Tag.jsx';
+import EditorPanel from "./EditorPanel.jsx";
 
 // import assets
 import HashIcon from '../assets/hash.png';
@@ -142,11 +143,7 @@ export default function FullPost({
                                 </div>
                                 {/* placeholder, replace with component */}
                                 <div className="code-content">
-                                    <pre>
-                                    <code>
-                                        {'#include <iostream>;\n\nusing namespace std;\n\nint main() {\n\tcout << "Hello, World!" << endl;\n\treturn 0;\n}'}
-                                    </code>
-                                    </pre>
+                                    <EditorPanel codeContent={codeContent.data} codeLanguage={codeContent.language} isViewing={true}/>
                                 </div>
                             </div>
                         ) : ("")}
