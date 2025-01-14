@@ -22,7 +22,7 @@ const DialogBox = ({ mode='info', message, header, visible, onConfirm, onClose }
             <CSSTransition
                 in={visible}
                 timeout={300}
-                classNames="dialog-screen"
+                classNames="dialog"
                 mountOnEnter
                 unmountOnExit
             >

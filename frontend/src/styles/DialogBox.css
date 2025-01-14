@@ -90,20 +90,20 @@
     transition: all 0.1s;
 }
 
-.dialog-screen-enter {
+.dialog-enter {
     opacity: 0;
 }
 
-.dialog-screen-enter-active {
+.dialog-enter-active {
     opacity: 1;
-    transition: opacity 0.1s;
+    transition: opacity 0.2s;
 }
 
-.dialog-screen-exit {
+.dialog-exit {
     opacity: 1;
 }
 
-.dialog-screen-exit-active {
+.dialog-exit-active {
     opacity: 0;
     transition: opacity 0.3s;
 }

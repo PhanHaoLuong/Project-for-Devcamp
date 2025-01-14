@@ -73,15 +73,13 @@ function CreatePost() {
           mode="confirm"
           message="are you sure you want to delete your code?"
           onConfirm={() => {
-              setCodeContent("");
-              setCodeLanguage("");
-              setConfirmRmDialog(false);
-            }
-          }
+            setCodeContent("");
+            setCodeLanguage("");
+            setConfirmRmDialog(false);
+          }}
           onClose={() => {
-              setConfirmRmDialog(false);
-            }
-          }
+            setConfirmRmDialog(false);
+          }}
         />
 
       {!isCodeEdit ? (
