@@ -25,7 +25,7 @@ function EditorPanel({ codeContent, codeLanguage, isViewing, lineCount }) {
     return (
         <div className="editor-panel">
             <Editor 
-            height={lineCount * 19 + "px"}
+            height={isViewing? lineCount * 19 + "px" : "700px"}
             language={codeLanguage || LANGUAGE_CONFIG[language].monacoLanguage}
             theme= {isViewing ? "read-only" : "default"}
             onMount={(editor) => {
@@ -41,13 +41,15 @@ function EditorPanel({ codeContent, codeLanguage, isViewing, lineCount }) {
                 renderWhitespace: "selection",
                 fontFamily: '"Fira Code","Cascadia Code", Consolas, monospace',
                 fontLigatures: true,
+                overviewRulerBorder: isViewing? false : true,
+                hideCursorInOverviewRuler: isViewing? true : false,
                 cursorBlinking: "smooth",
                 smoothScrolling: true,
                 contextmenu: false,
-                renderLineHighlight: "all",
+                renderLineHighlight: "line",
                 lineHeight: 19,
                 letterSpacing: 0.5,
-                roundedSelection: true,
+                roundedSelection: false,
                 lineNumbers: isViewing ? "off" : "on",
                 readOnly: isViewing || false,
                 readOnlyMessage: {
