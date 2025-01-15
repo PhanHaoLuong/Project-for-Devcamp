@@ -30,7 +30,6 @@ function EditorPanel({ codeContent, codeLanguage, isViewing, lineCount }) {
             theme= {isViewing ? "read-only" : "default"}
             onMount={(editor) => {
                 setEditor(editor)
-                console.log(lineCount)
             }}
             beforeMount={defineMonacoThemes}
             options={{
