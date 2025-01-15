@@ -1,16 +1,18 @@
 // import modules
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { CSSTransition } from 'react-transition-group';
 
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
 import AddIcon from "../assets/add.svg";
-import AcceptedIcon from '../assets/tick.svg'
+import AcceptedIcon from '../assets/tick.svg';
 
 //import components
 import CodeEditor from "./CodeEditor";
 
 import "../styles/CreatePost.css";
+import DialogBox from "../components/DialogBox";
 
 function CreatePost() {
   const [titleText, setTitleText] = useState(0);
@@ -21,6 +23,8 @@ function CreatePost() {
   const [lineCount, setLineCount] = useState(0);
 
   const navigate = useNavigate();
+
+  const [confirmRmDialog, setConfirmRmDialog] = useState(false);
 
   const handleTitleChange = (event) => {
     const text = event.target.value;
@@ -71,6 +75,20 @@ function CreatePost() {
 
   return (
     <>
+        <DialogBox 
+          visible={confirmRmDialog}
+          mode="confirm"
+          message="are you sure you want to delete your code?"
+          onConfirm={() => {
+            setCodeContent("");
+            setCodeLanguage("");
+            setConfirmRmDialog(false);
+          }}
+          onClose={() => {
+            setConfirmRmDialog(false);
+          }}
+        />
+
       {!isCodeEdit ? (
         <div className="create-post-container">
           <div className="app-window" id="create-post-window">
@@ -143,8 +161,7 @@ function CreatePost() {
                   <button
                     className="remove-code-button"
                     onClick={() => {
-                      setCodeContent("");
-                      setCodeLanguage("");
+                      setConfirmRmDialog(true);
                     }}
                   >
                     remove code

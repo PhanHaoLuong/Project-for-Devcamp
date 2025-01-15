@@ -393,7 +393,7 @@ img {
 
 .code-content-enter-active {
     opacity: 1;
-    transition: opacity 0.1s;
+    transition: opacity 0.2s;
 }
 
 .code-content-exit {
@@ -402,7 +402,7 @@ img {
 
 .code-content-exit-active {
     opacity: 0;
-    transition: opacity 0.1s;
+    transition: opacity 0.2s;
 }
 
 .slider {

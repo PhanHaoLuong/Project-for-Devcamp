@@ -176,7 +176,7 @@ export default function FullPost({
                                     <CSSTransition
                                         in={isCodeExpanded}
                                         classNames={"code-content"}
-                                        timeout={100}
+                                        timeout={200}
                                         mountOnEnter
                                         unmountOnExit
                                     >

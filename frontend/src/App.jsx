@@ -14,6 +14,7 @@ import * as pageAddress from "./pages/page-address.json";
 import Navbar from "./components/Navbar";
 import MiniPost from "./components/MiniPost";
 import FileItem from "./components/FileItem";
+import DialogBox from "./components/DialogBox";
 
 /* import pages */
 import FullPostPage from "./pages/FullPostPage";
@@ -91,8 +92,12 @@ function App() {
             path="/component-test"
             element={
               <>
-                <FileItem isFolder="true" />
-                <FileItem />
+                <DialogBox 
+                  mode='confirm'
+                  message='error lmao'
+                  header='lmao stfu'
+                  onConfirm={() => {console.log('lmao')}}
+                />
               </>
             }
           />
