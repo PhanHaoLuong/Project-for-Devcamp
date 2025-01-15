@@ -1,6 +1,6 @@
 // import modules
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { CSSTransition } from 'react-transition-group';
 import ellipsis from "../utils/ellipsis.js";
 
 // import components
@@ -136,15 +136,15 @@ export default function FullPost({
                         </div>
                         {codeContent ? (
                             <div className="code">
-                                <div className="code-header" 
-                                    onClick={() => setIsCodeExpanded(!isCodeExpanded)}
-                                >
+                                <div className="code-header">
                                     <span className="code-header-logo">
                                         <img src={CodeIcon}></img>
                                     </span>
                                     <span className="code-header-text">code</span>
                                     {isCodeExpanded ? (
-                                        <button className="code-toggle code-hidden">
+                                        <button className="code-toggle code-hidden"
+                                            onClick={() => setIsCodeExpanded(!isCodeExpanded)}
+                                        >
                                             <span className="code-toggle-text">hide code</span>
                                             <span className="code-toggle-logo">
                                                 <img src={TriangleIcon} 
@@ -157,7 +157,9 @@ export default function FullPost({
                                             </span>
                                         </button>
                                     ) : (
-                                        <button className="code-toggle">                                         
+                                        <button className="code-toggle"
+                                            onClick={() => setIsCodeExpanded(!isCodeExpanded)}
+                                        >                                         
                                             <span className="code-toggle-text">show code</span>
                                             <span className="code-toggle-logo">
                                                 <img src={TriangleIcon} 
@@ -171,16 +173,22 @@ export default function FullPost({
                                         </button>
                                     )}
                                 </div>
-                                {isCodeExpanded && (
-                                    <div className="code-content">
-                                        <EditorPanel 
-                                            codeContent={codeContent.data} 
-                                            codeLanguage={codeContent.language} 
-                                            lineCount={codeContent.lines} 
-                                            isViewing={true}
-                                        />
-                                    </div>
-                                )}
+                                    <CSSTransition
+                                        in={isCodeExpanded}
+                                        classNames={"code-content"}
+                                        timeout={100}
+                                        mountOnEnter
+                                        unmountOnExit
+                                    >
+                                        <div className="code-content">
+                                            <EditorPanel 
+                                                codeContent={codeContent.data} 
+                                                codeLanguage={codeContent.language} 
+                                                lineCount={codeContent.lines} 
+                                                isViewing={true}
+                                            />
+                                        </div>
+                                    </CSSTransition>
                             </div>
                         ) : ("")}
                         {(folderContent ? (

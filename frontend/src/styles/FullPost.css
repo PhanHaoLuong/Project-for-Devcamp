@@ -387,8 +387,25 @@ img {
     margin-top: 10px;
 }
 
+.code-content-enter {
+    opacity: 0;
+}
+
+.code-content-enter-active {
+    opacity: 1;
+    transition: opacity 0.1s;
+}
+
+.code-content-exit {
+    opacity: 1;
+}
+
+.code-content-exit-active {
+    opacity: 0;
+    transition: opacity 0.1s;
+}
+
 .slider {
-    display: none;
 }
 
 .folder-header {
