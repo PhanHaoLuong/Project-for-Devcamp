@@ -19,6 +19,7 @@ import TerminalIcon from '../assets/terminal.svg';
 import FolderIcon from '../assets/folder.svg'
 import FilledSaveIcon from '../assets/save-filled.svg'
 import AcceptedIcon from '../assets/tick.svg'
+import TriangleIcon from '../assets/vote.svg';
 
 // import style
 import '../styles/FullPost.css';
@@ -135,16 +136,49 @@ export default function FullPost({
                         </div>
                         {codeContent ? (
                             <div className="code">
-                                <div className="code-header" onClick={() => setIsCodeExpanded(!isCodeExpanded)}>
+                                <div className="code-header" 
+                                    onClick={() => setIsCodeExpanded(!isCodeExpanded)}
+                                >
                                     <span className="code-header-logo">
                                         <img src={CodeIcon}></img>
                                     </span>
                                     <span className="code-header-text">code</span>
-                                    <span className="code-toggle">{isCodeExpanded ? "▲" : "▼"}</span>
+                                    {isCodeExpanded ? (
+                                        <button className="code-toggle code-hidden">
+                                            <span className="code-toggle-text">hide code</span>
+                                            <span className="code-toggle-logo">
+                                                <img src={TriangleIcon} 
+                                                    style={{
+                                                        "rotate":"0.5turn",
+                                                        "transition":"all ease-in-out 0.1s"
+                                                    }}
+                                                >
+                                                </img>
+                                            </span>
+                                        </button>
+                                    ) : (
+                                        <button className="code-toggle">                                         
+                                            <span className="code-toggle-text">show code</span>
+                                            <span className="code-toggle-logo">
+                                                <img src={TriangleIcon} 
+                                                    style={{
+                                                        "rotate":"0.25turn",
+                                                        "transition":"all ease-in-out 0.2s"
+                                                    }}
+                                                >
+                                                </img>
+                                            </span>
+                                        </button>
+                                    )}
                                 </div>
                                 {isCodeExpanded && (
                                     <div className="code-content">
-                                        <EditorPanel codeContent={codeContent.data} codeLanguage={codeContent.language} lineCount={codeContent.lines} isViewing={true}/>
+                                        <EditorPanel 
+                                            codeContent={codeContent.data} 
+                                            codeLanguage={codeContent.language} 
+                                            lineCount={codeContent.lines} 
+                                            isViewing={true}
+                                        />
                                     </div>
                                 )}
                             </div>
