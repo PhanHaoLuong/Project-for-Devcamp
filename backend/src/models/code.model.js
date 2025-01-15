@@ -14,6 +14,10 @@ const codeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    lines: {
+        type: Number,
+        required: true
+    }
 })
 
 const code = mongoose.model('Code', codeSchema)
