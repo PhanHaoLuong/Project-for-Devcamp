@@ -40,7 +40,7 @@
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
   background-color: #192233;
-  flex-grow: 1;
+
 }
 
 .create-title-container {
@@ -243,7 +243,7 @@
   display: flex;
   background: #222E44;
   border: #e03f42 solid 2px;
-  border-radius: 10px;
+  border-radius: 11px;
   padding: 8px 12px;
   width: auto;
   gap: 5px;
@@ -252,7 +252,7 @@
 
 .remove-code-button:hover {
   background-color: #e03f42;
-  transition: all 0.1s;
+  transition: all 0.2s;
 }
 
 .submit-button {
