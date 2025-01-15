@@ -18,6 +18,7 @@ function CreatePost() {
   const [isCodeEdit, setCodeEdit] = useState(false);
   const [codeLanguage, setCodeLanguage] = useState("");
   const [codeContent, setCodeContent] = useState("");
+  const [lineCount, setLineCount] = useState(0);
 
   const navigate = useNavigate();
 
@@ -49,6 +50,7 @@ function CreatePost() {
           codeData: {
             language: codeLanguage,
             data: codeContent,
+            lines: lineCount,
           },
         }), 
       });
@@ -173,6 +175,7 @@ function CreatePost() {
             codeContent={codeContent}
             setCodeEdit={setCodeEdit}
             setCodeLanguage={setCodeLanguage}
+            setLineCount={setLineCount}
           />
         </div>
       )}

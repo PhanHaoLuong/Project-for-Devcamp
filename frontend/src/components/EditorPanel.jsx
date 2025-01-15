@@ -5,9 +5,8 @@ import { Editor } from "@monaco-editor/react";
 import { use } from "react";
 
 
-function EditorPanel({ codeContent, codeLanguage, isViewing }) {
+function EditorPanel({ codeContent, codeLanguage, isViewing, lineCount }) {
     const { language, editor, fontSize, setEditor } = useCodeEditorStore();
-    const [ editorHeight, setEditorHeight ] = useState("600px");
 
     useEffect(() => {
         if(editor) {
@@ -26,12 +25,12 @@ function EditorPanel({ codeContent, codeLanguage, isViewing }) {
     return (
         <div className="editor-panel">
             <Editor 
-            height= "600px"
+            height={lineCount * 19}
             language={codeLanguage || LANGUAGE_CONFIG[language].monacoLanguage}
             theme= {isViewing ? "read-only" : "default"}
             onMount={(editor) => {
                 setEditor(editor)
-                console.log(editor.getModel().getLineCount())
+                console.log(lineCount)
             }}
             beforeMount={defineMonacoThemes}
             options={{
@@ -46,7 +45,7 @@ function EditorPanel({ codeContent, codeLanguage, isViewing }) {
                 smoothScrolling: true,
                 contextmenu: false,
                 renderLineHighlight: "all",
-                lineHeight: 1.6,
+                lineHeight: 19,
                 letterSpacing: 0.5,
                 roundedSelection: true,
                 lineNumbers: isViewing ? "off" : "on",

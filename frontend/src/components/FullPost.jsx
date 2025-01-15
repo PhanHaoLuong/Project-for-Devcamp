@@ -143,7 +143,7 @@ export default function FullPost({
                                 </div>
                                 {/* placeholder, replace with component */}
                                 <div className="code-content">
-                                    <EditorPanel codeContent={codeContent.data} codeLanguage={codeContent.language} isViewing={true}/>
+                                    <EditorPanel codeContent={codeContent.data} codeLanguage={codeContent.language} lineCount={codeContent.lines} isViewing={true}/>
                                 </div>
                             </div>
                         ) : ("")}
