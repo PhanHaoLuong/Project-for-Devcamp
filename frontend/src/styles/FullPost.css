@@ -346,7 +346,7 @@ img {
     border-radius: 10px;
     border: #BBC7DD 1px solid;
     cursor: pointer;
-    margin-left: 10px;
+    margin-left: auto;
     font-size: 0.8rem;
     transition: all 0.3s;
 }
