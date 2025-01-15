@@ -405,9 +405,6 @@ img {
     transition: opacity 0.2s;
 }
 
-.slider {
-}
-
 .folder-header {
     display: flex;
     align-items: center;
