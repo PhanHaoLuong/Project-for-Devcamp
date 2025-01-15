@@ -331,6 +331,12 @@ img {
     margin: 10px 20px 
 }
 
+.code-toggle {
+    margin-left: auto;
+    padding: 0 10px;
+    font-size: 18px;
+}
+
 .code-header-logo {
     height:100%;
 }

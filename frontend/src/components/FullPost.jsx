@@ -38,8 +38,8 @@ export default function FullPost({
     folderContent 
 }){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
-
     const [saveButtonActive, setSaveButtonActive] = useState(false);
+    const [isCodeExpanded, setIsCodeExpanded] = useState(false);
 
     if (folderContent){
         folderContent.sort((a, b) => {
@@ -135,16 +135,18 @@ export default function FullPost({
                         </div>
                         {codeContent ? (
                             <div className="code">
-                                <div className="code-header">
+                                <div className="code-header" onClick={() => setIsCodeExpanded(!isCodeExpanded)}>
                                     <span className="code-header-logo">
                                         <img src={CodeIcon}></img>
                                     </span>
                                     <span className="code-header-text">code</span>
+                                    <span className="code-toggle">{isCodeExpanded ? "▲" : "▼"}</span>
                                 </div>
-                                {/* placeholder, replace with component */}
-                                <div className="code-content">
-                                    <EditorPanel codeContent={codeContent.data} codeLanguage={codeContent.language} lineCount={codeContent.lines} isViewing={true}/>
-                                </div>
+                                {isCodeExpanded && (
+                                    <div className="code-content">
+                                        <EditorPanel codeContent={codeContent.data} codeLanguage={codeContent.language} lineCount={codeContent.lines} isViewing={true}/>
+                                    </div>
+                                )}
                             </div>
                         ) : ("")}
                         {(folderContent ? (

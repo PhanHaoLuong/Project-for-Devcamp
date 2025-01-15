@@ -25,7 +25,7 @@ function EditorPanel({ codeContent, codeLanguage, isViewing, lineCount }) {
     return (
         <div className="editor-panel">
             <Editor 
-            height={lineCount * 19}
+            height={lineCount * 19 + "px"}
             language={codeLanguage || LANGUAGE_CONFIG[language].monacoLanguage}
             theme= {isViewing ? "read-only" : "default"}
             onMount={(editor) => {
