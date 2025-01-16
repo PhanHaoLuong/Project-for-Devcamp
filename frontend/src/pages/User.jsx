@@ -1,6 +1,6 @@
 /* import modules */
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { useNavigate, useParams } from "react-router-dom";
 
 /* import styles */
 import "../styles/User.css";
@@ -10,9 +10,11 @@ import Statistics from "../components/Statistics";
 import Avatar from "../components/Avatar";
 import MiniPost from "../components/MiniPost";
 
-const User = ({ userId }) => {
+const User = ({ }) => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const userId = useParams().userId;
   const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
@@ -24,7 +26,7 @@ const User = ({ userId }) => {
       }
 
       try {
-        const response = await fetch(`/api/user/${userId}`);
+        const response = await fetch(`http://localhost:3000/user/${userId}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch user data. Status: ${response.status}`);
         }
@@ -40,6 +42,7 @@ const User = ({ userId }) => {
     };
 
     fetchUserData();
+
   }, [userId, navigate]);
 
   if (loading) return <div>Loading...</div>;
@@ -91,11 +94,18 @@ const User = ({ userId }) => {
             color="color4"
           />
         </div>
-        <div className="contributions">
-          <h3>Contributions</h3>
-          {posts?.map((post) => (
-            <Post key={post._id} post={post} />
-          ))}
+        <div className="posts">
+          <h3>Posts</h3>
+          <div className="post">
+            {posts?.map((post) => {
+              return (<MiniPost 
+                postId={post._id}
+                author={name}
+                postTitle={post.title}
+                postTags={null}
+                postContent={post.content} />)
+            })}
+          </div>
         </div>
       </div>
     </div>

@@ -9,10 +9,14 @@
 .user-info {
     margin: 50px auto;
     background-color: var(--background-color);
-    border-radius: 10px;
     color: var(--font-color);
-    width: 100%;
-    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 50%;
+    min-width: 600px;
+    justify-content: flex-start;
+    gap: 5px;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -99,25 +103,25 @@
   }
 }
 
-.contributions {
+.posts {
     margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
-.contributions h3{
+.posts h3{
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 1rem;
 }
 
-.contribution-item {
-    background: hsl(0, 0%, 20%);
-    border-radius: 10px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
-
-.contribution-item .title {
-    font-weight: bold;
+.post {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
 }
 
 @media (max-width: 600px) {

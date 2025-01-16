@@ -103,8 +103,8 @@ function App() {
           />
           <Route path="/post/create" element={<CreatePost />} />
           <Route
-            path={pageAddress.userProfile}
-            element={<User userId={userData?.id} />}
+            path="/user/:userId"
+            element={<User />}
           />
         </Routes>
       </Router>
