@@ -124,8 +124,9 @@ export const THEME_DEFINITONS = {
       { token: "operator", foreground: "ff7b72" },
     ],
     colors: {
-      "editor.background": "#111722",
-      "editor.foreground": "#111722",
+      "editor.background": "#131925",
+      "editor.foreground": "#c9d1d9",
+      "editor.lineHighlightBackground": "#131925",
     },
   },
 };

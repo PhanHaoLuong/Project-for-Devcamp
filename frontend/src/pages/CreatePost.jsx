@@ -1,5 +1,6 @@
 // import modules
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
 
 // import assets
@@ -19,6 +20,9 @@ function CreatePost() {
   const [isCodeEdit, setCodeEdit] = useState(false);
   const [codeLanguage, setCodeLanguage] = useState("");
   const [codeContent, setCodeContent] = useState("");
+  const [lineCount, setLineCount] = useState(0);
+
+  const navigate = useNavigate();
 
   const [confirmRmDialog, setConfirmRmDialog] = useState(false);
 
@@ -50,11 +54,14 @@ function CreatePost() {
           codeData: {
             language: codeLanguage,
             data: codeContent,
+            lines: lineCount,
           },
-        }),
+        }), 
       });
       const data = await response.json();
-      console.log(data);
+      if (response.status === 201) {
+        navigate(`/post/${data.redirect}`);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -185,6 +192,7 @@ function CreatePost() {
             codeContent={codeContent}
             setCodeEdit={setCodeEdit}
             setCodeLanguage={setCodeLanguage}
+            setLineCount={setLineCount}
           />
         </div>
       )}

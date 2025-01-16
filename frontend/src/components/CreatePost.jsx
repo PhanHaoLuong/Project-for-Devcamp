@@ -17,6 +17,7 @@ function CreatePost() {
   const [isCodeEdit, setCodeEdit] = useState(false);
   const [codeLanguage, setCodeLanguage] = useState("javascript");
   const [codeContent, setCodeContent] = useState("");
+  const [lineCount, setLineCount] = useState(0);
 
   const navigate = useNavigate();
 
@@ -47,7 +48,8 @@ function CreatePost() {
           content: contentText,
           codeData: {
             language: codeLanguage,
-            data: codeContent,}})
+            data: codeContent,
+            lines: lineCount}})
     })
     const { redirect } = await response.json()
     navigate('/post/' + redirect)
@@ -128,7 +130,7 @@ function CreatePost() {
             &lt; return to post page
           </button>
 
-          <CodeEditor setCodeContent={setCodeContent} codeContent={codeContent} setCodeEdit={setCodeEdit} setCodeLanguage={setCodeLanguage}/>
+          <CodeEditor setCodeContent={setCodeContent} codeContent={codeContent} setCodeEdit={setCodeEdit} setCodeLanguage={setCodeLanguage} setLineCount={setLineCount}/>
         </div>
       )}
     </>
