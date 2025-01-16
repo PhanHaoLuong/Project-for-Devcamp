@@ -8,4 +8,5 @@
 .user-info .avatar {
     height: auto;
     object-fit: cover;
+    border-radius: 100px;
 }

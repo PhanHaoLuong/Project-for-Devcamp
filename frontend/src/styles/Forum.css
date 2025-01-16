@@ -32,7 +32,7 @@
 }
 
 .post-container {
-    position: absolute;
+    position: relative;
     animation: fadeSlideIn 0.5s;
 }
 
@@ -41,7 +41,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    padding: 0 20px;
     gap: 10px;
 }
 .infinite-scroll-component__outerdiv {

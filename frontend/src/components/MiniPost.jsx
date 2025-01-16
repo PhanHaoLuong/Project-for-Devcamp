@@ -27,7 +27,7 @@ export default function MiniPost({ postId, author, timeSincePost, postTitle, pos
         <>
             <div className="minipost-container">
                 <div className="header-bar" onClick={() => {navigate(`/post/${postId}`)}}>
-                    <div className="header">
+                    <div className="header-content">
                         <span className="header-logo">
                             <img src={TerminalIcon} alt="T"></img>
                         </span>

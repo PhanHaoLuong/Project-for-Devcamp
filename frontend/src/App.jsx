@@ -26,6 +26,7 @@ import Saved from "./pages/Saved";
 import CodeEditor from "./pages/CodeEditor";
 import Forum from "./pages/Forum";
 import CreatePost from "./pages/CreatePost";
+import Test from "./pages/Test";
 
 import "./App.css";
 
@@ -91,14 +92,7 @@ function App() {
           <Route
             path="/component-test"
             element={
-              <>
-                <DialogBox 
-                  mode='confirm'
-                  message='error lmao'
-                  header='lmao stfu'
-                  onConfirm={() => {console.log('lmao')}}
-                />
-              </>
+              <Test />
             }
           />
           <Route path="/post/create" element={<CreatePost />} />
