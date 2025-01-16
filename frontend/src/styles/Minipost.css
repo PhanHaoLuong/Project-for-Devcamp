@@ -101,3 +101,8 @@
     width: 120px;
     transition: all ease-in-out 0.1s;
 }
+
+.minipost-vote-count {
+    display: flex;
+    margin-left: auto;
+}
