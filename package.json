@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
+    "framer-motion": "^11.18.0",
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-transition-group": "^4.4.5",
+    "zustand": "^5.0.3"
+  }
+}

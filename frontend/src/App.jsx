@@ -33,6 +33,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
   
+  // Fetch auth user status
   const { data: authUser, isLoading } = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
@@ -42,11 +43,13 @@ function App() {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include",
+          credentials: "include",  // Send cookies
         });
         if (response.status === 200) {
           setIsLoggedIn(true);
-          return true; //Subjected to change
+          const data = await response.json();  // Assuming the response returns user data
+          setUserData(data);  // Store user data in state
+          return true;
         } else {
           setIsLoggedIn(false);
           return null;
@@ -59,14 +62,14 @@ function App() {
     staleTime: 1000 * 60 * 60,
   });
 
-  if (isLoading) return null;
+  if (isLoading) return <div>Loading...</div>;
 
   //Should optimize the way authUser is called
   return (
     <>
       <Router>
         <Suspense fallback={<div>Loading...</div>} />
-        <Navbar isLoggedIn={isLoggedIn} />
+        <Navbar isLoggedIn={isLoggedIn} user={userData} />
         <Routes>
           <Route
             path={pageAddress.home}

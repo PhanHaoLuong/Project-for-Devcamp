@@ -3,19 +3,22 @@ import '../styles/Avatar.css';
 import defaultAvatar from '../assets/profile_pictures/default.png';
 
 const Avatar = ({ user }) => {
-  const [avatar, setAvatar] = useState('');
+  const [avatar, setAvatar] = useState(defaultAvatar);
+  const [name, setName] = useState('');
 
   useEffect(() => {
-    if (user.avatar) {
-      setAvatar(user.avatar);
-    } else {
-      setAvatar(defaultAvatar);
+    if (user && user.avatar) {
+      setAvatar(user.avatar); 
     }
   }, [user]);
 
   return (
-    <img className="avatar" src={avatar} alt={`${user.name}'s avatar`} />
+    <img
+      className="avatar"
+      src={avatar}
+      alt={`${user.name || "User"}'s avatar`}
+    />
   );
-};
+}
 
 export default Avatar;

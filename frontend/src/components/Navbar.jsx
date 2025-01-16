@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../styles/Navbar.css";
 import Avatar from "./Avatar";
+import DropdownMenu from "./DropdownMenu"; // Import the dropdown menu
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = ({ isLoggedIn, user }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown menu
   const location = useLocation(); // Get the current URL location
 
   // Ensure responsive design
@@ -15,7 +17,7 @@ const Navbar = ({ isLoggedIn }) => {
       setIsSmallScreen(smallScreen);
 
       if (!smallScreen) {
-        setMenuOpen(false);
+        setMenuOpen(false); // Close hamburger menu on large screens
       }
     };
 
@@ -31,6 +33,10 @@ const Navbar = ({ isLoggedIn }) => {
     setMenuOpen(!menuOpen);
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   // Check if the link is active
   const isActive = (path) => {
     const currentPath = location.pathname;
@@ -39,17 +45,14 @@ const Navbar = ({ isLoggedIn }) => {
     }
     return currentPath === path;
   };
-  
 
-  // Navbar component
   return (
     <nav className="navbar">
-
       {/* Hamburger menu */}
       <div className="hamburger-menu" onClick={toggleMenu}>
-          <span className="line"></span>
-          <span className="line"></span>
-          <span className="line"></span>
+        <span className="line"></span>
+        <span className="line"></span>
+        <span className="line"></span>
       </div>
 
       {/* App name */}
@@ -57,7 +60,7 @@ const Navbar = ({ isLoggedIn }) => {
         <a href="/">CodeSharing</a>
       </div>
 
-      {/* Navbar links */}
+      {/* Hamburger navbar links */}
       <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
         {menuOpen && (
           <>
@@ -94,13 +97,16 @@ const Navbar = ({ isLoggedIn }) => {
         )}
       </ul>
 
+      {/* Navbar actions */}
       <div className="navbar-actions">
         {!menuOpen && !isSmallScreen && <i className="ti-search search-btn"></i>}
         {!menuOpen && !isSmallScreen && <i className="ti-email email-btn"></i>}
-        {isLoggedIn ? (
-          <a href="/user">
-            <Avatar user={{ name: "test" }} />
-          </a>
+
+        {(isLoggedIn) ? (
+          <div className="profile-container" onClick={toggleDropdown}>
+            <Avatar user={user} />
+            {dropdownOpen && <DropdownMenu user={user} />}
+          </div>
         ) : (
           <>
             <a href="/auth/signup" className="auth-btn signup-btn">sign up</a>

@@ -15,13 +15,13 @@ const User = ({ }) => {
   const [loading, setLoading] = useState(true);
 
   const userId = useParams().userId;
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (!userId) {
         console.error("No userId provided. Redirecting to home...");
-        navigate("/"); // Redirect if no userId is provided
+        navigate("/");
         return;
       }
 
@@ -35,7 +35,7 @@ const User = ({ }) => {
         setUserData(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        navigate("/"); // Redirect on error
+        navigate("/");
       } finally {
         setLoading(false);
       }
