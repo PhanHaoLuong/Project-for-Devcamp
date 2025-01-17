@@ -4,6 +4,25 @@ import Avatar from "./Avatar";
 import "../styles/DropdownMenu.css";
 
 const DropdownMenu = ({ user }) => {
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (response.ok) {
+        window.location.href = "/";
+      } else {
+        console.error("Failed to logout");
+      }
+    } catch (error) {
+      console.error("Failed to logout:", error);
+    }
+  };
+
   return (
     <div className="dropdown-menu">
       <div className="dropdown-item profile">
@@ -20,10 +39,10 @@ const DropdownMenu = ({ user }) => {
         </Link>
       </div>
       <div className="dropdown-item">
-        <Link to="/auth/logout" className="dropdown-link">
+        <span className="dropdown-link" onClick={handleLogout}>
         <i className="ti-power-off"></i>
           Logout
-        </Link>
+        </span>
       </div>
     </div>
   );
