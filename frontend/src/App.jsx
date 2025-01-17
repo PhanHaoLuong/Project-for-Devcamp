@@ -1,5 +1,5 @@
 // import modules
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState, useMemo } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -62,54 +62,57 @@ function App() {
     staleTime: 1000 * 60 * 60,
   });
 
+  const memoizedNavbar = useMemo(() => <Navbar isLoggedIn={isLoggedIn} user={userData} />, [isLoggedIn, userData]);
+
   if (isLoading) return <div>Loading...</div>;
 
   //Should optimize the way authUser is called
   return (
     <>
       <Router>
-        <Suspense fallback={<div>Loading...</div>} />
-        <Navbar isLoggedIn={isLoggedIn} user={userData} />
-        <Routes>
-          <Route
-            path={pageAddress.home}
-            element={
-              <Home />
-            }
-          />
-          <Route
-            path={pageAddress.login}
-            element={!isLoggedIn ? <UserAuth /> : <Navigate to="/" />}
-          />
-          <Route
-            path={pageAddress.signup}
-            element={!isLoggedIn ? <UserSignUp /> : <Navigate to="/" />}
-          />
-          <Route path="/home" element={<Home />} />
-          <Route path="/forum" element={<Forum />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/saved" element={<Saved />} />
-{/*           <Route path="/fileupload" element={<Fileupload />} /> */}
-          <Route path="/post/:postId" element={<FullPostPage />} />
-          <Route
-            path="/component-test"
-            element={
-              <>
-                <DialogBox 
-                  mode='confirm'
-                  message='error lmao'
-                  header='lmao stfu'
-                  onConfirm={() => {console.log('lmao')}}
-                />
-              </>
-            }
-          />
-          <Route path="/post/create" element={<CreatePost />} />
-          <Route
-            path="/user/:userId"
-            element={<User />}
-          />
-        </Routes>
+        {memoizedNavbar}
+        <Suspense fallback={<div>Loading...</div>} >
+          <Routes>
+            <Route
+              path={pageAddress.home}
+              element={
+                <Home />
+              }
+            />
+            <Route
+              path={pageAddress.login}
+              element={!isLoggedIn ? <UserAuth /> : <Navigate to="/" />}
+            />
+            <Route
+              path={pageAddress.signup}
+              element={!isLoggedIn ? <UserSignUp /> : <Navigate to="/" />}
+            />
+            <Route path="/home" element={<Home />} />
+            <Route path="/forum" element={<Forum />} />
+            <Route path="/user" element={<User />} />
+            <Route path="/saved" element={<Saved />} />
+  {/*           <Route path="/fileupload" element={<Fileupload />} /> */}
+            <Route path="/post/:postId" element={<FullPostPage />} />
+            <Route
+              path="/component-test"
+              element={
+                <>
+                  <DialogBox 
+                    mode='confirm'
+                    message='error lmao'
+                    header='lmao stfu'
+                    onConfirm={() => {console.log('lmao')}}
+                  />
+                </>
+              }
+            />
+            <Route path="/post/create" element={<CreatePost />} />
+            <Route
+              path="/user/:userId"
+              element={<User />}
+            />
+          </Routes>
+        </Suspense>
       </Router>
     </>
   );

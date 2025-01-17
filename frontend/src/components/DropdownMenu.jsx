@@ -26,7 +26,7 @@ const DropdownMenu = ({ user }) => {
   return (
     <div className="dropdown-menu">
       <div className="dropdown-item profile">
-        <Link to={`/user/${user.id}`} className="dropdown-link">
+        <Link to={`/user/${user._id}`} className="dropdown-link">
           <Avatar user={user} />
           <span className="username">{user.name}</span>
         </Link>

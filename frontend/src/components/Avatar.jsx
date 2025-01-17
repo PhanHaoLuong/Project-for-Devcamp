@@ -9,6 +9,7 @@ const Avatar = ({ user }) => {
   useEffect(() => {
     if (user && user.avatar) {
       setAvatar(user.avatar); 
+      setName(user.name);
     }
   }, [user]);
 
@@ -16,7 +17,7 @@ const Avatar = ({ user }) => {
     <img
       className="avatar"
       src={avatar}
-      alt={`${user.name || "User"}'s avatar`}
+      alt={`${name || "User"}'s avatar`}
     />
   );
 }
