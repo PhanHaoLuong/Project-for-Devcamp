@@ -1,0 +1,32 @@
+.change-avatar-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+.popup-content .preview {
+  margin: 10px 0;
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 50%;
+}
+
+.popup-content button {
+  margin: 5px;
+}
+  

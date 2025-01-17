@@ -6,6 +6,7 @@
     text-align: center;
     width: 22%; /* Approx four items per row on large screens */
     padding: 1rem;
+    box-sizing: border-box;
     background-color: var(--box-bg-color);
     color: var(--font-color);
     border-radius: 10px;

@@ -9,3 +9,44 @@
     height: auto;
     object-fit: cover;
 }
+
+img.avatar {
+    width: 35px;
+    height: auto;
+}
+
+.user-profile .avatar {
+    width: 80px;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.user-profile .avatar:hover {
+    cursor: pointer;
+}
+
+.user-profile .avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.user-profile .avatar-overlay i {
+    font-size: 1.5rem;
+    color: var(--font-color);
+}
+
+.user-profile .avatar:hover + .avatar-overlay {
+    opacity: 1;
+}

@@ -9,10 +9,17 @@ import "../styles/User.css";
 import Statistics from "../components/Statistics";
 import Avatar from "../components/Avatar";
 import MiniPost from "../components/MiniPost";
+import ChangeAvatar from "../components/ChangeAvatar";
 
 const User = ({ }) => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(userData);
+  const [isAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false);
+
+  const handleAvatarUpdate = (newAvatarUrl) => {
+    setUser((prev) => ({ ...prev, avatar: newAvatarUrl }));
+  };
 
   const userId = useParams().userId;
   const navigate = useNavigate();
@@ -57,13 +64,27 @@ const User = ({ }) => {
       </div>
       <div className="body">
         <div className="user-profile">
-          <Avatar user={{ name, avatar: "" }} />
+
+          <div className="profile-picture" onClick={() => setIsAvatarPopupOpen(true)} >
+            <Avatar user={user} />
+            <i className="ti-pencil"></i>
+          </div>
+          
+          {isAvatarPopupOpen && (
+            <ChangeAvatar
+              user={user}
+              onAvatarUpdate={handleAvatarUpdate}
+              onClose={() => setIsAvatarPopupOpen(false)}
+            />
+          )}
+
           <div className="profile-details">
             <h3 className="username">{name || "Undefined"}</h3>
-            <p className="realname">{realname || "Anonymous"}</p>
+            <p className="realname">{realname || "Real name is not provided."}</p>
             <p className="bio">{bio || "No bio."}</p>
           </div>
         </div>
+
         <div className="user-stats">
           <Statistics
             className="stat"

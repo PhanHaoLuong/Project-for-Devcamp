@@ -38,7 +38,7 @@ const DropdownMenu = ({ user }) => {
           Settings
         </Link>
       </div>
-      <div className="dropdown-item">
+      <div className="dropdown-item logout">
         <span className="dropdown-link" onClick={handleLogout}>
         <i className="ti-power-off"></i>
           Logout
