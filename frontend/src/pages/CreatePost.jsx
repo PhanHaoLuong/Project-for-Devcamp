@@ -169,7 +169,7 @@ function CreatePost() {
                 )}
                 <button className="submit-button">
                   <span className="submit-button-title" onClick={handleSubmit}>
-                    submit
+                    post
                   </span>
                 </button>
               </div>

@@ -28,6 +28,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
 }
 
 .create-post-body {
@@ -37,8 +39,8 @@
   justify-content: flex-start;
   padding: 20px 20px 15px 20px;
   gap: 20px;
-  border-bottom-right-radius: 20px;
-  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
   background-color: #192233;
 
 }

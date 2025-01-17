@@ -19,14 +19,25 @@ import ArrowIcon from '../assets/arrow-icon.svg'
 // import style
 import '../styles/Minipost.css';
 
-export default function MiniPost({ postId, author, timeSincePost, postTitle, postContent, postTags, topLevelFolder }){
-
+export default function MiniPost({ 
+    postId, 
+    author, 
+    timeSincePost,
+    postTitle, 
+    postContent, 
+    postTags,
+    topLevelFolder,
+    onClickFn,
+    onClickAnnotation
+}){
     const navigate = useNavigate();
+
+    const onClick = onClickFn || (() => {navigate(`/post/${postId}`)});
 
     return (
         <>
             <div className="minipost-container">
-                <div className="header-bar" onClick={() => {navigate(`/post/${postId}`)}}>
+                <div className="header-bar" onClick={onClick}>
                     <div className="header-content">
                         <span className="header-logo">
                             <img src={TerminalIcon} alt="T"></img>
@@ -44,6 +55,8 @@ export default function MiniPost({ postId, author, timeSincePost, postTitle, pos
                         </span>
                     </div>
                     <div className="to-fullpost-button">
+                        {onClickAnnotation && 
+                            <div className="on-click-annotation">{onClickAnnotation}</div>}
                         <img src={ArrowIcon} alr="A"></img>
                     </div>
                 </div>
