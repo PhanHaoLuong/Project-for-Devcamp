@@ -107,9 +107,9 @@ export default function FullPost({
                                 <span className="accepted-text">accepted</span>
                             </div>
                         ):("")}
-                        <div className="vote-container">
+                        {!isComment && <div className="vote-container">
                             <Vote voteCount={voteCount}/>
-                        </div>
+                        </div>}
                         {(!isComment && postTags) ? (
                             <div className="tag-container">
                                 {postTags.map((tag, index) => {

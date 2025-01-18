@@ -388,9 +388,11 @@ img {
 }
 
 .code-content {
+    background-color: #131925;
     display: flex;
     border: 1px solid #BBC7DD;
     padding: 10px 15px;
+    margin: 20px;
     margin-top: 10px;
 }
 

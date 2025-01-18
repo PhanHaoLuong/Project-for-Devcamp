@@ -105,7 +105,7 @@
     width: 100%;
 } 
 
-.minipost-description .post-header, .title-bar {
+.minipost-description .post-header, .minipost-description .title-bar {
     display: none;
 }
 
@@ -118,9 +118,13 @@
     background: none;
 }
 
-.minipost-container .content-header, .content-header *, .code-header, .code-header-text {
+.minipost-container .content-header, .minipost-description .content-header *, .minipost-container .code-header, .minipost-container .code-header-text, .minipost-description .code-content {
     margin: 0;
     font-size: 1.1rem;
+}
+
+.minipost-description .code-content {
+    margin-top: 10px
 }
 
 .minipost-folder .file-item {
