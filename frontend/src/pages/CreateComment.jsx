@@ -71,9 +71,9 @@ function CreateComment() {
         console.log(postId);
     }, []);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async () => { //Can get the data from the post instead of refetching
         try {
-            const response = await fetch("http://localhost:3000/comment/create", {
+            const response = await fetch(`http://localhost:3000/post/${postId}/comment`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -90,7 +90,7 @@ function CreateComment() {
             });
             const data = await response.json();
             if (response.status === 201) {
-                navigate(`/comment/${data.redirect}`);
+                navigate(`/post/${data.redirect}`);
             }
         } catch (error) {
             console.error(error);
