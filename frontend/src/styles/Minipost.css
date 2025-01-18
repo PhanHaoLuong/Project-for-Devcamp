@@ -1,3 +1,7 @@
+:root {
+    interpolate-size: allow-keywords; /* 👈 */
+}
+
 .minipost-container * {
     font-size: 0.7rem;
     color:#BBC7DD;
@@ -7,14 +11,17 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 95%;
+    width: 100%;
     height: auto;
-    min-height: 100px;
     background-color: #222E44;
     border-radius: 15px;
     padding: 20px 15px;
     transition: all 0.3s;
     cursor: pointer;
+}
+
+.expanded {
+    height: auto;
 }
 
 .header-bar:hover {
@@ -33,7 +40,7 @@
     transition: all 0.3s;
 }
 
-.header {
+.header-content {
     display: flex;
     gap: 5px;
 }
@@ -64,6 +71,9 @@
 
 .to-fullpost-button {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px
 }
 
 .to-fullpost-button img {
@@ -71,8 +81,50 @@
     width: 25px;
 }
 
+.on-click-annotation {
+    font-size: 1rem;
+    height: auto;
+}
+
 .minipost-description {
     font-size: 0.9rem;
+}
+
+.minipost-description .app-window {
+    border: none;
+    min-width: 0;
+    min-height: 0;
+    width: 100%;
+}
+
+.minipost-description .post-body {
+    width: 100%;
+}
+
+.minipost-container .post-content {
+    width: 100%;
+} 
+
+.minipost-description .post-header, .minipost-description .title-bar {
+    display: none;
+}
+
+.minipost-description .post-properties-side {
+    position: absolute;
+    display: none;
+}
+
+.minipost-description .post-content {
+    background: none;
+}
+
+.minipost-container .content-header, .minipost-description .content-header *, .minipost-container .code-header, .minipost-container .code-header-text, .minipost-description .code-content {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.minipost-description .code-content {
+    margin-top: 10px
 }
 
 .minipost-folder .file-item {

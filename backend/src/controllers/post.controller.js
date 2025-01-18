@@ -2,7 +2,7 @@ import post from '../models/post.model.js'
 import user from '../models/user.model.js'
 import code from '../models/code.model.js'
 
-export const create_post = async (req, res) => {
+export const create_post = async (req, res) => { //Needs optimization
     const author = res.locals.user._id
     const { title, content, codeData} = req.body
     let postid = null
@@ -75,13 +75,23 @@ export const get_forum_posts = async (req, res) => {
     }
 }
 
-export const create_comment = async (req, res) => {
+export const create_comment = async (req, res) => { //Needs optimization
     const postid = req.params.postid
     const author = res.locals.user._id
-    const newComment = new post(Object.assign(req.body, {author: author, parent_post_id: postid, is_comment: true}))
+    const { content, codeData } = req.body 
     try {
-        await newComment.save();
-        res.status(201).send("OK")
+        if (!codeData.data) {
+            const newComment = new post(Object.assign({}, {author: author, content: content, parent_post_id: postid, is_comment: true, title: "comment"}))
+            await user.updateOne({_id: author}, {$push: {posts: newComment._id}})
+            await newComment.save();
+        } else{
+            const newCode = new code(Object.assign(codeData, {author: author}))
+            const newComment = new post(Object.assign({}, {author: author, code: newCode._id, content: content, parent_post_id: postid, is_comment: true, title: "comment"}))
+            await newCode.save();
+            await newComment.save();
+            await user.updateOne({_id: author}, {$push: {posts: newComment._id}})
+        }
+        res.status(201).json({"redirect" : postid})
     } catch (error) {
         res.status(500).send(error.message)
     }
@@ -120,6 +130,7 @@ export const get_post_comments = async (req, res) => {
                     {parent_post_id: postid},{},
                     {skip: skip, limit: limit, sort: {votes: -1}})
                     .populate('author', 'name')
+                    .populate('code', 'language data lines')
                 res.status(200).json({post: res.locals.singlepost, comments: comments})
             }
         }

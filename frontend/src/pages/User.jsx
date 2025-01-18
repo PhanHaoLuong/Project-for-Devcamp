@@ -1,6 +1,6 @@
 /* import modules */
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { useNavigate, useParams } from "react-router-dom";
 
 /* import styles */
 import "../styles/User.css";
@@ -9,10 +9,14 @@ import "../styles/User.css";
 import Statistics from "../components/Statistics";
 import Avatar from "../components/Avatar";
 import MiniPost from "../components/MiniPost";
+import displayNum from "../utils/displayNum";
+import displayTime from "../utils/displayTime";
 
-const User = ({ userId }) => {
+const User = ({ }) => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const userId = useParams().userId;
   const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
@@ -24,7 +28,7 @@ const User = ({ userId }) => {
       }
 
       try {
-        const response = await fetch(`/api/user/${userId}`);
+        const response = await fetch(`http://localhost:3000/user/${userId}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch user data. Status: ${response.status}`);
         }
@@ -40,12 +44,27 @@ const User = ({ userId }) => {
     };
 
     fetchUserData();
+
   }, [userId, navigate]);
+
+  const getTimeSincePost = (createdAt) => {
+    const now = new Date();
+    const creationTime = new Date(createdAt);
+    return (now.getTime() - creationTime.getTime()) / 1000;
+``};
 
   if (loading) return <div>Loading...</div>;
   if (!userData) return <div>Error loading user data</div>;
 
-  const { name, realname, bio, reputation, posts, comments, views } = userData;
+  const { 
+    name, 
+    realname, 
+    bio, 
+    reputation, 
+    posts, 
+    comments, 
+    views 
+  } = userData;
 
   return (
     <div className="user-info">
@@ -53,15 +72,23 @@ const User = ({ userId }) => {
         <i className="ti-user"></i> user info
       </div>
       <div className="body">
-        <div className="user-profile">
-          <Avatar user={{ name, avatar: "" }} />
+ {/*        <div className="user-profile">
+          <div className="user-avatar">
+            <Avatar user={{ name, avatar: "" }} />
+          </div>
           <div className="profile-details">
             <h3 className="username">{name || "Undefined"}</h3>
             <p className="realname">{realname || "Anonymous"}</p>
             <p className="bio">{bio || "No bio."}</p>
           </div>
+        </div> */}
+        <div className="user-profile">
+          <div className="user-profile-content">
+
+          </div>
+          a
         </div>
-        <div className="user-stats">
+{/*         <div className="user-stats">
           <Statistics
             className="stat"
             iconClass="ti-medall reputation"
@@ -90,12 +117,29 @@ const User = ({ userId }) => {
             value={views || "NULL"}
             color="color4"
           />
-        </div>
-        <div className="contributions">
-          <h3>Contributions</h3>
-          {posts?.map((post) => (
-            <Post key={post._id} post={post} />
-          ))}
+        </div> */}
+        <div className="posts">
+          <h3>Posts</h3>
+            {posts.length ? (posts.map((post) => {
+              return (
+                <div className="post">
+                  <MiniPost
+                    key={post._id}
+                    postId={post._id}
+                    author={name}
+                    postTitle={post.title}
+                    postTags={null}
+                    postContent={post.content}
+                    timeSincePost={displayTime(getTimeSincePost(post.createdAt))} 
+                  />
+                </div>
+              )
+            })) : (
+              (<div className="posts-empty">
+                we can't find any posts from this user.
+              </div>)
+            )}
+
         </div>
       </div>
     </div>

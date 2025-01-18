@@ -8,7 +8,7 @@ import Avatar from "./Avatar.jsx";
 import Vote from "./Vote.jsx"
 import FileItem from "./FileItem.jsx";
 import Tag from './Tag.jsx';
-import EditorPanel from "./EditorPanel.jsx";
+import CodeViewer from "./CodeViewer.jsx";
 
 // import assets
 import HashIcon from '../assets/hash.png';
@@ -107,9 +107,9 @@ export default function FullPost({
                                 <span className="accepted-text">accepted</span>
                             </div>
                         ):("")}
-                        <div className="vote-container">
+                        {!isComment && <div className="vote-container">
                             <Vote voteCount={voteCount}/>
-                        </div>
+                        </div>}
                         {(!isComment && postTags) ? (
                             <div className="tag-container">
                                 {postTags.map((tag, index) => {
@@ -141,7 +141,7 @@ export default function FullPost({
                                         <img src={CodeIcon}></img>
                                     </span>
                                     <span className="code-header-text">code</span>
-                                    {isCodeExpanded ? (
+                                    {!isCodeExpanded ? (
                                         <button className="code-toggle code-hidden"
                                             onClick={() => setIsCodeExpanded(!isCodeExpanded)}
                                         >
@@ -174,18 +174,17 @@ export default function FullPost({
                                     )}
                                 </div>
                                     <CSSTransition
-                                        in={isCodeExpanded}
+                                        in={!isCodeExpanded}
                                         classNames={"code-content"}
                                         timeout={200}
                                         mountOnEnter
                                         unmountOnExit
                                     >
                                         <div className="code-content">
-                                            <EditorPanel 
+                                            <CodeViewer
                                                 codeContent={codeContent.data} 
                                                 codeLanguage={codeContent.language} 
-                                                lineCount={codeContent.lines} 
-                                                isViewing={true}
+                                                lineCount={codeContent.lines}
                                             />
                                         </div>
                                     </CSSTransition>

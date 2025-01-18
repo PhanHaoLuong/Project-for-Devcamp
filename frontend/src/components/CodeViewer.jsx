@@ -5,43 +5,31 @@ import { Editor } from "@monaco-editor/react";
 import { use } from "react";
 
 
-function EditorPanel({ codeContent, codeLanguage, isViewing, lineCount }) {
-    const { language, editor, fontSize, setEditor } = useCodeEditorStore();
+function CodeViewer({ codeContent, codeLanguage, lineCount }) {
+    const { fontSize } = useCodeEditorStore();
 
-    useEffect(() => {
-        if(editor) {
-            if(codeContent) {
-                editor.setValue(codeContent);
-            }
-            else{
-                editor.setValue("");
-            }
-        }
-    },[language, editor]);
-
-    
         
 
     return (
         <div className="editor-panel">
             <Editor 
-            height="700px"
-            language={codeLanguage || LANGUAGE_CONFIG[language].monacoLanguage}
-            theme= "default"
-            onMount={(editor) => {
-                setEditor(editor)
-            }}
+            height= {lineCount * 19 + "px"}
+            language={codeLanguage}
+            theme= "read-only"
+            defaultValue={codeContent}
             beforeMount={defineMonacoThemes}
             options={{
                 minimap: { enabled: false },
                 fontSize,
                 automaticLayout: true,
                 scrollBeyondLastLine: false,
-                hover: true,
+                hover: false,
                 renderWhitespace: "selection",
                 fontFamily: '"Fira Code","Cascadia Code", Consolas, monospace',
                 fontLigatures: true,
                 scrollBeyondLastColumn: 0,
+                overviewRulerBorder: false,
+                hideCursorInOverviewRuler: true,
                 cursorBlinking: "smooth",
                 smoothScrolling: true,
                 contextmenu: false,
@@ -50,10 +38,15 @@ function EditorPanel({ codeContent, codeLanguage, isViewing, lineCount }) {
                 lineHeight: 19,
                 letterSpacing: 0.5,
                 roundedSelection: false,
+                lineNumbers: "off",
+                readOnly: true,
+                readOnlyMessage: {
+                    value: null,
+                },
             }}
             />
         </div>
     );
 }
 
-export default EditorPanel;
+export default CodeViewer;
