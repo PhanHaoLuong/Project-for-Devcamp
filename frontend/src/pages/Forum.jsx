@@ -119,7 +119,7 @@ const Forum = () => {
                         <InfiniteScroll
                             dataLength={forumPostData.length}
                             next={() => {
-                                setTimeout(() => getForum(), 600);
+                                setTimeout(() => getForum(), 200);
                             }}
                             hasMore={hasMore}
                             scrollThreshold={0.99}
