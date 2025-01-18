@@ -109,7 +109,7 @@ function App() {
           />
           {/* placeholder create comment route, change when appropriate */}
           <Route 
-            path="/comment/create"
+            path="/post/:postId/comment"
             element={<CreateComment />}
           />
         </Routes>

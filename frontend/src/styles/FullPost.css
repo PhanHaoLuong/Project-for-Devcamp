@@ -19,7 +19,7 @@ img {
     border-bottom: 2px #BBC7DD solid
 }
 
-{
+.post-header{
     height:3em;
     background-color: #111722;
     display: flex;
@@ -277,7 +277,7 @@ img {
     flex-direction: column;
     min-width: 75%;
     background-color: #131925;
-    gap: 5px;
+    gap: 20px;
 }
 
 .comment-content {
@@ -285,7 +285,7 @@ img {
     flex-direction: column;
     min-width: 75%;
     background-color: #161E2C;
-    gap: 5px;
+    gap: 20px;
 }
 
 .content-header {
@@ -297,6 +297,10 @@ img {
     height: 1rem;
     gap: 5px;
     margin: 10px 20px 
+}
+
+.content-header-text {
+    font-size: 1.1rem;
 }
 
 .content-header-logo {
@@ -313,7 +317,7 @@ img {
     
     overflow: hidden;
     font-weight: lighter;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .content-body {
@@ -370,6 +374,10 @@ img {
     transition: all 0.1s;
 }
 
+.code-header-text {
+    font-size: 1.1rem;
+}
+
 .code-header-logo {
     height:1rem;
 }
@@ -383,7 +391,6 @@ img {
     display: flex;
     border: 1px solid #BBC7DD;
     padding: 10px 15px;
-    margin: 20px;
     margin-top: 10px;
 }
 

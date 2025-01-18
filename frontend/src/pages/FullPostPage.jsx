@@ -1,6 +1,6 @@
 // import modules
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import displayTimeWithUnit from "../utils/displayTime";
 
 //import components
@@ -15,6 +15,7 @@ const FullPostPage = () => {
     const [postData, setPostData] = useState(null);
     const [commentData, setCommentData] = useState(null);
 
+    const navigate = useNavigate();
     const { postId } = useParams();
 
     useEffect(() => {
@@ -112,7 +113,9 @@ const FullPostPage = () => {
                     
                 
             </div>
-            <button className="comment-button">
+            <button className="comment-button"
+                onClick={() => {navigate("./comment")}}
+            >
                 <span className="comment-logo">
                     <img src={AddIcon}></img>
                 </span>

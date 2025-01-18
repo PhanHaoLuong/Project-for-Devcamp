@@ -7,6 +7,7 @@ import displayTimeWithUnit from "../utils/displayTime.js";
 // import components
 import Tag from './Tag.jsx'
 import FileItem from "./FileItem";
+import FullPost from "./FullPost"
 
 // import assets
 import HashIcon from '../assets/hash.png';
@@ -28,15 +29,21 @@ export default function MiniPost({
     postTags,
     topLevelFolder,
     onClickFn,
-    onClickAnnotation
+    expandMode,
+    expandData
 }){
+    const [isExpanded, setExpanded] = useState(false);
     const navigate = useNavigate();
 
-    const onClick = onClickFn || (() => {navigate(`/post/${postId}`)});
+    const onClick = onClickFn || expandMode ? (
+        () => setExpanded(!isExpanded)
+    ) : (
+        () => navigate(`/post/${postId}`)
+    );
 
     return (
         <>
-            <div className="minipost-container">
+            <div className={`minipost-container ${isExpanded ? "expanded" : ""}`} >
                 <div className="header-bar" onClick={onClick}>
                     <div className="header-content">
                         <span className="header-logo">
@@ -55,13 +62,34 @@ export default function MiniPost({
                         </span>
                     </div>
                     <div className="to-fullpost-button">
-                        {onClickAnnotation && 
-                            <div className="on-click-annotation">{onClickAnnotation}</div>}
-                        <img src={ArrowIcon} alr="A"></img>
+                        {expandMode ? (
+                                <>
+                                    <div className="on-click-annotation">
+                                        {isExpanded ? "collapse post" : "expand post"}
+                                    </div>
+                                    <img src={ArrowIcon} alt="A"
+                                        style={!isExpanded ? {
+                                            "transition": "all 0.2s"
+                                        } : {
+                                            "transform": "rotate(0.25turn)",
+                                            "transition": "all 0.2s"
+                                        }}
+                                    ></img>
+                                </>
+                            ) : (
+                                <img src={ArrowIcon} alt="A"></img>
+                            )
+                        }
+                        
                     </div>
                 </div>
                 <div className="minipost-description">
-                    {ellipsis(postContent || "this post has no description.", 256) }
+                    {!isExpanded ? ellipsis(postContent || "this post has no description.", 256) : expandMode && (
+                        <FullPost 
+                            postContent={postContent}
+                            codeContent={expandData.code}
+                        />
+                    )}
                 </div>
                 {topLevelFolder ? (
                     <div className="minipost-folder">
