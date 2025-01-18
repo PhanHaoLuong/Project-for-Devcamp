@@ -119,9 +119,10 @@ const Forum = () => {
                         <InfiniteScroll
                             dataLength={forumPostData.length}
                             next={() => {
-                                setTimeout(() => getForum(), 200);
+                                setTimeout(() => getForum(), 600);
                             }}
                             hasMore={hasMore}
+                            scrollThreshold={0.99}
                             loader={
                                 <div className="loading-container">
                                     <div className="loading-header">
