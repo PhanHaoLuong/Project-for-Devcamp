@@ -1,6 +1,6 @@
 // import modules
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
 import displayTime from "../utils/displayTime";
 
@@ -30,6 +30,7 @@ function CreateComment() {
     
     const navigate = useNavigate();
     const { postId } = useParams();
+    const { state } = useLocation();
 
     const handleContentChange = (event) => {
         const text = event.target.value;
@@ -38,40 +39,16 @@ function CreateComment() {
         }
     };
 
-    const fetchPostData = async () => {
-        try {
-            const response = await fetch(`http://localhost:3000/post/${postId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            if (!response.ok) {
-                if (response.status === 404) {
-                    if (response.status === 404) {
-                        console.log('post not found');
-                    }
-                    return null;
-                }
-            } else {
-                return await response.json();
-            }
-        } catch(error) {
-            console.log('cannot fetch posts. error: ', error);
-        }
-    }
-
     const getPostData = async () => {
-        const data = await fetchPostData();
-        setParentPost(data.post);
+        const { postData } = state;
+        setParentPost(postData);
     }
 
     useEffect(() => {
         getPostData();
-        console.log(postId);
     }, []);
 
-    const handleSubmit = async () => { //Can get the data from the post instead of refetching
+    const handleSubmit = async () => { 
         try {
             const response = await fetch(`http://localhost:3000/post/${postId}/comment`, {
                 method: "POST",
