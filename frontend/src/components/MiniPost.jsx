@@ -28,6 +28,7 @@ export default function MiniPost({
     postContent, 
     postTags,
     topLevelFolder,
+    voteCount,
     onClickFn,
     expandMode,
     expandData
