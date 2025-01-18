@@ -55,7 +55,6 @@ const FullPostPage = () => {
         }
 
         getPostData();
-        console.log(commentData)
     }, [])
     
 

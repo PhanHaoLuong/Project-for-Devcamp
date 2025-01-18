@@ -130,6 +130,7 @@ export const get_post_comments = async (req, res) => {
                     {parent_post_id: postid},{},
                     {skip: skip, limit: limit, sort: {votes: -1}})
                     .populate('author', 'name')
+                    .populate('code', 'language data lines')
                 res.status(200).json({post: res.locals.singlepost, comments: comments})
             }
         }
