@@ -8,6 +8,7 @@ import displayTime from "../utils/displayTime";
 import TerminalIcon from "../assets/terminal.svg";
 import AddIcon from "../assets/add.svg";
 import AcceptedIcon from '../assets/tick.svg';
+import LoadingIcon from "../assets/loading-circle.gif"
 
 //import components
 import CodeEditor from "./CodeEditor";
@@ -26,6 +27,7 @@ function CreateComment() {
     const [lineCount, setLineCount] = useState(0);
     
     const [isCodeEdit, setCodeEdit] = useState(false);
+    const [submitLoading, setSubmitLoading] = useState(false);
     const [confirmRmDialog, setConfirmRmDialog] = useState(false);
     
     const navigate = useNavigate();
@@ -68,6 +70,8 @@ function CreateComment() {
             const data = await response.json();
             if (response.status === 201) {
                 navigate(`/post/${data.redirect}`);
+            } else {
+                setSubmitLoading(false);
             }
         } catch (error) {
             console.error(error);
@@ -187,11 +191,29 @@ function CreateComment() {
                                         remove code
                                     </button>
                                 )}
-                                <button className="submit-button">
-                                    <span className="submit-button-title" onClick={handleSubmit}>
-                                        comment
-                                    </span>
-                                </button>
+                                {submitLoading ? (
+                                    <button className={`submit-button loading`}
+                                        disabled
+                                    >
+                                        <span className="submit-button-logo">
+                                            <img src={LoadingIcon}></img>
+                                        </span>
+                                        <span className="submit-button-title">
+                                            posting...
+                                        </span>
+                                    </button>
+                                ) : (
+                                    <button className={`submit-button`}
+                                    onClick={() => {
+                                        setSubmitLoading(true);
+                                        handleSubmit();
+                                    }}
+                                    >
+                                        <span className="submit-button-title">
+                                            comment
+                                        </span>
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>
