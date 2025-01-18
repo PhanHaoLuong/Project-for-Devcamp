@@ -148,6 +148,7 @@ const Forum = () => {
                                             )}
                                             postTags={null}
                                             postContent={forumPost.content}
+                                            voteCount={forumPost.votes}
                                             topLevelFolder={null}
                                         />
                                     );

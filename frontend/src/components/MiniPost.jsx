@@ -33,6 +33,7 @@ export default function MiniPost({
     expandData
 }){
     const [isExpanded, setExpanded] = useState(false);
+  
     const navigate = useNavigate();
 
     const onClick = onClickFn || expandMode ? (
@@ -104,7 +105,9 @@ export default function MiniPost({
                         })}
                     </div>
                 ) : ("")}
-                
+                <div className="minipost-vote-count">
+                    <span>{voteCount || 0} votes</span>
+                </div>
             </div>
 
         </>
