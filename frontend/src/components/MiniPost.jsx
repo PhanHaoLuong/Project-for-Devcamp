@@ -19,7 +19,7 @@ import ArrowIcon from '../assets/arrow-icon.svg'
 // import style
 import '../styles/Minipost.css';
 
-export default function MiniPost({ postId, author, timeSincePost, postTitle, postContent, postTags, topLevelFolder }){
+export default function MiniPost({ postId, author, timeSincePost, postTitle, postContent, postTags, voteCount, topLevelFolder}){
 
     const navigate = useNavigate();
 
@@ -63,7 +63,9 @@ export default function MiniPost({ postId, author, timeSincePost, postTitle, pos
                         })}
                     </div>
                 ) : ("")}
-                
+                <div className="minipost-vote-count">
+                    <span>{voteCount || 0} votes</span>
+                </div>
             </div>
 
         </>
