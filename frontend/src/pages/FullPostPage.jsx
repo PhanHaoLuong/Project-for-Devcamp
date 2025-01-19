@@ -93,11 +93,9 @@ const FullPostPage = () => {
                     />) : ("")}
                     <InfiniteScroll
                         dataLength={
-                            (commentData.comments?.length || 0) + (commentData.acceptedComment?.length || 0)
+                            (commentData?.length || 0) + (acceptedComment?.length || 0)
                         }
-                        next={setTimeout(() => {
-                            getPostData;
-                        }, 1000)}
+                        next={() => setTimeout(() => getPostData(), 200)}
                         hasMore={hasMore}
                         scrollThreshold={0.99}
                         loader={<Loader />}
