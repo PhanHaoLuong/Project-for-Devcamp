@@ -95,7 +95,7 @@ const FullPostPage = () => {
                         dataLength={
                             (commentData?.length || 0) + (acceptedComment?.length || 0)
                         }
-                        next={() => setTimeout(() => getPostData(), 200)}
+                        next={() => setTimeout(() => getPostData(), 1000)}
                         hasMore={hasMore}
                         scrollThreshold={0.99}
                         loader={<Loader />}

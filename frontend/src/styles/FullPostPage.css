@@ -45,7 +45,8 @@
 }
 
 .fullpost-container .loading-container {
-    width: 62%;
+    background-color: #161E2C;
+    width: 50%;
     min-width: 600px
 }
 
