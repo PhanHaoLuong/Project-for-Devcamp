@@ -2,32 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../styles/Navbar.css";
 import Avatar from "./Avatar";
-import DropdownMenu from "./DropdownMenu"; // Import the dropdown menu
+import DropdownMenu from "./DropdownMenu";
 
 const Navbar = ({ isLoggedIn, user }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown menu
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation(); // Get the current URL location
-
-  // Ensure responsive design
-  useEffect(() => {
-    const handleResize = () => {
-      const smallScreen = window.innerWidth < 450;
-      setIsSmallScreen(smallScreen);
-
-      if (!smallScreen) {
-        setMenuOpen(false); // Close hamburger menu on large screens
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -61,47 +41,35 @@ const Navbar = ({ isLoggedIn, user }) => {
       </div>
 
       {/* Hamburger navbar links */}
-      <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
-        {menuOpen && (
-          <>
-            <li>
-              <a href="/search" className={isActive("/search") ? "active" : ""}>
-                <i className="ti-search"></i> search
-              </a>
-            </li>
-          </>
-        )}
-        <li>
-          <a href="/" className={isActive("/") ? "active" : ""}>
-            home
-          </a>
-        </li>
-        <li>
-          <a href="/forum" className={(isActive("/forum") || isActive("/post/:postId")) ? "active" : ""}>
-            forum
-          </a>
-        </li>
-        <li>
-          <a href="/help" className={isActive("/help") ? "active" : ""}>
-            help
-          </a>
-        </li>
-        {menuOpen && (
-          <>
-            <li>
-              <a href="/contact" className={isActive("/contact") ? "active" : ""}>
-                <i className="ti-email"></i> contact us
-              </a>
-            </li>
-          </>
-        )}
-      </ul>
+      <div className="navbar-links-container">
+        <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
+          <li className="link">
+            <a href="/" className={isActive("/") ? "active" : ""}>
+              home
+            </a>
+          </li>
+          <li className="link">
+            <a href="/forum" className={(isActive("/forum") || isActive("/post/:postId")) ? "active" : ""}>
+              forum
+            </a>
+          </li>
+          {menuOpen &&
+              <li className="search-container">
+                <i className="ti-search"></i>
+                <input type="text" className="search-box" placeholder="search" />
+              </li>
+          }
+          {!menuOpen && 
+              <li className="search-container">
+                <i className="ti-search"></i>
+                <input type="text" className="search-box" placeholder="search" />
+              </li>
+          }
+        </ul>
+      </div>
 
-      {/* Navbar actions */}
+      {/* Dropdown menu */}
       <div className="navbar-actions">
-        {!menuOpen && !isSmallScreen && <i className="ti-search search-btn"></i>}
-        {!menuOpen && !isSmallScreen && <i className="ti-email email-btn"></i>}
-
         {(isLoggedIn) ? (
           <div className="profile-container" onClick={toggleDropdown}>
             <Avatar user={user} />

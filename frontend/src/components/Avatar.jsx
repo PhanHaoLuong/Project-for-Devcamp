@@ -7,9 +7,19 @@ const Avatar = ({ user }) => {
   const [name, setName] = useState('');
 
   useEffect(() => {
-    if (user && user.avatar) {
-      setAvatar(user.avatar); 
-      setName(user.name);
+    if (user && user.id) {
+      // Fetch the avatar from the backend using the user's id
+      fetch(`http://localhost:3000/avatar/${user.id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.avatar) {
+            setAvatar(data.avatar.imageUrl); // Set the avatar URL returned from backend
+          }
+          setName(user.name); // Set the username
+        })
+        .catch((error) => {
+          console.error('Error fetching avatar:', error);
+        });
     }
   }, [user]);
 
@@ -20,6 +30,6 @@ const Avatar = ({ user }) => {
       alt={`${name || "User"}'s avatar`}
     />
   );
-}
+};
 
 export default Avatar;

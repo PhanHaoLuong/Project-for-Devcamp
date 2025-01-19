@@ -1,19 +1,33 @@
-const express = require('express');
-const multer = require('multer');
-const { Avatar } = require('../models/Avatar');
-const { User } = require('../models/User');
-const path = require('path');
+import express from 'express';
+import multer from 'multer';
+import { Avatar } from '../models/Avatar';
+import { User } from '../models/User';
+import path from 'path';
 
 const router = express.Router();
 
 // Set up Multer for image upload
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/avatars/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/avatars/');
+    },
+    filename: (req, file, cb) => {
+      cb(null, `${Date.now()}-${file.originalname}`);
+    },
+});
+
+// Get avatar by user ID
+router.get('/:userId', async (req, res) => {
+  try {
+    const avatar = await Avatar.findOne({ user: req.params.userId });
+    if (!avatar) {
+      return res.status(404).json({ error: 'Avatar not found' });
+    }
+    res.status(200).json({ avatar });
+  } catch (error) {
+    console.error('Error fetching avatar:', error);
+    res.status(500).json({ error: 'Failed to fetch avatar' });
+  }
 });
 
 const upload = multer({
@@ -26,7 +40,7 @@ const upload = multer({
     if (extName && mimeType) {
       cb(null, true);
     } else {
-      cb('Error: Only images are allowed.');
+      cb(new Error('Only images are allowed.'));
     }
   },
 });
@@ -49,7 +63,7 @@ router.post('/upload', upload.single('avatar'), async (req, res) => {
 
     res.status(200).json({ message: 'Avatar uploaded successfully.', avatar: updatedAvatar });
   } catch (error) {
-    console.error(error);
+    console.error('Error uploading avatar:', error);
     res.status(500).json({ error: 'Failed to upload avatar.' });
   }
 });
@@ -57,4 +71,4 @@ router.post('/upload', upload.single('avatar'), async (req, res) => {
 // Serve uploaded images
 router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-module.exports = router;
+export default router;

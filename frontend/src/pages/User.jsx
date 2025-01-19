@@ -1,11 +1,7 @@
-/* import modules */
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-/* import styles */
 import "../styles/User.css";
-
-/* import components */
 import Statistics from "../components/Statistics";
 import Avatar from "../components/Avatar";
 import MiniPost from "../components/MiniPost";
@@ -16,10 +12,6 @@ const User = ({ }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(userData);
   const [isAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false);
-
-  const handleAvatarUpdate = (newAvatarUrl) => {
-    setUser((prev) => ({ ...prev, avatar: newAvatarUrl }));
-  };
 
   const userId = useParams().userId;
   const navigate = useNavigate();
@@ -57,6 +49,26 @@ const User = ({ }) => {
 
   const { name, realname, bio, reputation, posts, comments, views } = userData;
 
+  // Update avatar
+  const handleAvatarUpdate = async (newAvatarUrl) => {
+      try {
+          const response = await fetch(`http://localhost:3000/user/${userId}/avatar`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ avatarUrl: newAvatarUrl }),
+          });
+
+          if (!response.ok) {
+              throw new Error('Failed to update avatar');
+          }
+
+          const data = await response.json();
+          setUser((prev) => ({ ...prev, avatar: data.avatar })); 
+      } catch (error) {
+          console.error("Error updating avatar:", error);
+      }
+  };
+
   return (
     <div className="user-info">
       <div className="header">
@@ -65,7 +77,7 @@ const User = ({ }) => {
       <div className="body">
         <div className="user-profile">
 
-          <div className="profile-picture" onClick={() => setIsAvatarPopupOpen(true)} >
+          <div className="profile-picture" onClick={() => setIsAvatarPopupOpen(true)}>
             <Avatar user={user} />
             <i className="ti-pencil"></i>
           </div>
@@ -90,28 +102,28 @@ const User = ({ }) => {
             className="stat"
             iconClass="ti-medall reputation"
             label="Reputation"
-            value={reputation || "NULL"}
+            value={reputation || 0}
             color="color1"
           />
           <Statistics
             className="stat"
             iconClass="ti-medall posts"
             label="Total Posts"
-            value={posts?.length || "NULL"}
+            value={posts?.length || 0}
             color="color2"
           />
           <Statistics
             className="stat"
             iconClass="ti-medall comments"
             label="Comments"
-            value={comments || "NULL"}
+            value={comments || 0}
             color="color3"
           />
           <Statistics
             className="stat"
             iconClass="ti-medall views"
             label="Views"
-            value={views || "NULL"}
+            value={views || 0}
             color="color4"
           />
         </div>

@@ -5,6 +5,7 @@ const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
 
+  // Handle file selection
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -13,8 +14,15 @@ const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
     }
   };
 
+  // Handle form submission to update avatar
   const handleAvatarUpdate = async () => {
-    if (!selectedFile) return alert('Please select an image!');
+    if (!user || !user.id) {
+      return alert('User is not logged in or user ID is missing.');
+    }
+
+    if (!selectedFile) {
+      return alert('Please select an image!');
+    }
 
     const formData = new FormData();
     formData.append('avatar', selectedFile);
@@ -30,7 +38,7 @@ const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
       if (response.ok) {
         alert('Avatar updated successfully!');
         onAvatarUpdate(data.avatar.imageUrl);
-        onClose();
+        closeModal();
       } else {
         alert(data.error || 'Failed to update avatar.');
       }
@@ -40,14 +48,41 @@ const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
   };
 
   return (
-    <div className="change-avatar-popup">
-      <div className="popup-content">
-        <h3>Update Avatar</h3>
-        <input type="file" onChange={handleFileChange} />
-        {preview && <img src={preview} alt="Preview" className="preview" />}
-        <button onClick={handleAvatarUpdate}>Save</button>
-        <button onClick={onClose}>Cancel</button>
-      </div>
+    <div>
+      {/* Modal Structure */}
+      {modalVisible && (
+        <div className="upload-modal" id="avatarModal" style={{ display: 'flex' }}>
+          <div className="upload-modal-content">
+            <div className="upload-modal-header">
+              <h5 className="upload-modal-title">Change Avatar</h5>
+              <button type="button" className="close" onClick={closeModal}>&times;</button>
+            </div>
+            <div className="upload-modal-body">
+              <form id="avatarForm" encType="multipart/form-data" onSubmit={(e) => e.preventDefault()}>
+                <div className="form-group">
+                  <label htmlFor="profile_picture" className="upload-label">Select Profile Picture:</label>
+                  <input
+                    type="file"
+                    id="profile_picture"
+                    name="avatar"
+                    accept="image/*"
+                    required
+                    className="form-control upload-input"
+                    onChange={handleFileChange}
+                  />
+                  <small className="text-muted">Allowed formats: JPG, PNG, JPEG</small>
+                </div>
+                {preview && <img src={preview} alt="Preview" className="preview" />}
+              </form>
+            </div>
+            <div className="upload-modal-footer">
+              <button type="button" className="btn" onClick={handleAvatarUpdate}>
+                Upload
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
