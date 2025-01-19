@@ -64,7 +64,7 @@ const FullPostPage = () => {
             }
             page++;
             setFetchPage(page);
-        console.log(1)
+        console.log(newComments)
     }
 
     useEffect(() => {
