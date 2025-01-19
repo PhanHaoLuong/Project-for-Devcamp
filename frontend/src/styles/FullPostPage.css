@@ -1,7 +1,7 @@
-.post-container {
+.fullpost-container {
     display: flex;
     flex-direction: column;
-    width: inherit;
+    width: 100%;
     align-items: center; 
     justify-content: center;
 }
@@ -42,4 +42,16 @@
 .comment-logo img {
     height: 100%;
     width: 100%;
+}
+
+.fullpost-container .loading-container {
+    width: 62%;
+    min-width: 600px
+}
+
+.fullpost-container .end-message {
+    text-align: center;
+    width: 50%;
+    margin: 20px;
+    min-width: 600px
 }
