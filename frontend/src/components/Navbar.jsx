@@ -25,7 +25,7 @@ const Navbar = ({ isLoggedIn, user }) => {
     }
     return currentPath === path;
   };
-
+  
   return (
     <nav className="navbar">
       {/* Hamburger menu */}
@@ -68,11 +68,11 @@ const Navbar = ({ isLoggedIn, user }) => {
         </ul>
       </div>
 
-      {/* Dropdown menu */}
+      {/* Dropdown menu */} 
       <div className="navbar-actions">
         {(isLoggedIn) ? (
           <div className="profile-container" onClick={toggleDropdown}>
-            <Avatar user={user} />
+            <Avatar id={user._id} name={user.name} />
             {dropdownOpen && <DropdownMenu user={user} />}
           </div>
         ) : (

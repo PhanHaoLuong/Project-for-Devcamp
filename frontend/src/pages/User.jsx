@@ -47,7 +47,7 @@ const User = ({ }) => {
   if (loading) return <div>Loading...</div>;
   if (!userData) return <div>Error loading user data</div>;
 
-  const { name, realname, bio, reputation, posts, comments, views } = userData;
+  const { _id, name, realname, bio, reputation, posts, comments, views } = userData;
 
   // Update avatar
   const handleAvatarUpdate = async (newAvatarUrl) => {
@@ -69,6 +69,7 @@ const User = ({ }) => {
       }
   };
 
+  
   return (
     <div className="user-info">
       <div className="header">
@@ -78,13 +79,13 @@ const User = ({ }) => {
         <div className="user-profile">
 
           <div className="profile-picture" onClick={() => setIsAvatarPopupOpen(true)}>
-            <Avatar user={user} />
+            <Avatar id={_id} name={name} />
             <i className="ti-pencil"></i>
           </div>
           
           {isAvatarPopupOpen && (
             <ChangeAvatar
-              user={user}
+              user={userData}
               onAvatarUpdate={handleAvatarUpdate}
               onClose={() => setIsAvatarPopupOpen(false)}
             />

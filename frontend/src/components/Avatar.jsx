@@ -1,32 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Avatar.css';
-import defaultAvatar from '../assets/profile_pictures/default.png';
+import { redirect } from 'react-router-dom';
 
-const Avatar = ({ user }) => {
+const Avatar = ({ id, name }) => {
+  const defaultAvatar = "/uploads/avatars/default.png";
+  
   const [avatar, setAvatar] = useState(defaultAvatar);
-  const [name, setName] = useState('');
 
-  useEffect(() => {
-    if (user && user.id) {
-      // Fetch the avatar from the backend using the user's id
-      fetch(`http://localhost:3000/avatar/${user.id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.avatar) {
-            setAvatar(data.avatar.imageUrl); // Set the avatar URL returned from backend
-          }
-          setName(user.name); // Set the username
-        })
-        .catch((error) => {
-          console.error('Error fetching avatar:', error);
-        });
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   const fetchAvatar = async () => {
+  //     try {
+  //       const response = await fetch(`http://localhost:3000/avatar/${id}`);
+  //       if (!response.ok) {
+  //         throw new Error(`Failed to fetch avatar. Status: ${response.status}`);
+  //       }
+  
+  //       const url = await response.json();
+  //       setAvatar(url);
+
+  //     } catch (error) {
+  //       console.error("Error fetching avatar:", error);
+  //       setAvatar(defaultAvatar);
+  //     }
+  //   };
+
+  //   fetchAvatar();
+
+  // }, [id]);
 
   return (
     <img
       className="avatar"
-      src={avatar}
+      src={`http://localhost:3000${avatar}`}
       alt={`${name || "User"}'s avatar`}
     />
   );

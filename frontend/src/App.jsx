@@ -47,8 +47,8 @@ function App() {
         });
         if (response.status === 200) {
           setIsLoggedIn(true);
-          const data = await response.json();  // Assuming the response returns user data
-          setUserData(data);  // Store user data in state
+          const data = await response.json(); 
+          setUserData(data);  
           return true;
         } else {
           setIsLoggedIn(false);
@@ -66,7 +66,6 @@ function App() {
 
   if (isLoading) return <div>Loading...</div>;
 
-  //Should optimize the way authUser is called
   return (
     <>
       <Router>

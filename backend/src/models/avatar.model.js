@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const avatarSchema = new mongoose.Schema({
-    user: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
@@ -12,5 +12,8 @@ const avatarSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-const avatar = mongoose.model('Avatar', avatarSchema);
-export default avatar;
+avatarSchema.index({ user: 1 });
+
+const Avatar = mongoose.model('Avatar', avatarSchema);
+
+export default Avatar;

@@ -1,8 +1,14 @@
+// import modules
 import express from 'express';
 import multer from 'multer';
+import path from 'path';
+
+// import models
 import { Avatar } from '../models/Avatar';
 import { User } from '../models/User';
-import path from 'path';
+
+// import controllers
+import { uploadAvatar } from '../controllers/avatarController.js';
 
 const router = express.Router();
 
@@ -19,7 +25,7 @@ const storage = multer.diskStorage({
 // Get avatar by user ID
 router.get('/:userId', async (req, res) => {
   try {
-    const avatar = await Avatar.findOne({ user: req.params.userId });
+    const avatar = await Avatar.findOne({ userId: req.params.userId });
     if (!avatar) {
       return res.status(404).json({ error: 'Avatar not found' });
     }

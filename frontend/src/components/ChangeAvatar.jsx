@@ -16,32 +16,36 @@ const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
 
   // Handle form submission to update avatar
   const handleAvatarUpdate = async () => {
-    if (!user || !user.id) {
+    if (!user) {
+      console.log(user);
       return alert('User is not logged in or user ID is missing.');
     }
-
+  
     if (!selectedFile) {
       return alert('Please select an image!');
     }
-
+  
     const formData = new FormData();
     formData.append('avatar', selectedFile);
-    formData.append('userId', user.id);
-
+    formData.append('userId', user._id);
+  
     try {
       const response = await fetch('http://localhost:3000/avatar/upload', {
         method: 'POST',
         body: formData,
       });
-
-      const data = await response.json();
-      if (response.ok) {
-        alert('Avatar updated successfully!');
-        onAvatarUpdate(data.avatar.imageUrl);
-        closeModal();
-      } else {
-        alert(data.error || 'Failed to update avatar.');
+  
+      console.log('Response status:', response.status);
+      const responseBody = await response.text();
+      console.log('Response body:', responseBody);
+  
+      if (!response.ok) {
+        throw new Error('Failed to update avatar');
       }
+  
+      const data = JSON.parse(responseBody);
+      onAvatarUpdate(data.avatar);
+      onClose();
     } catch (error) {
       console.error('Error updating avatar:', error);
     }
@@ -50,12 +54,11 @@ const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
   return (
     <div>
       {/* Modal Structure */}
-      {modalVisible && (
         <div className="upload-modal" id="avatarModal" style={{ display: 'flex' }}>
           <div className="upload-modal-content">
             <div className="upload-modal-header">
               <h5 className="upload-modal-title">Change Avatar</h5>
-              <button type="button" className="close" onClick={closeModal}>&times;</button>
+              <button type="button" className="close" onClick={onClose}>&times;</button>
             </div>
             <div className="upload-modal-body">
               <form id="avatarForm" encType="multipart/form-data" onSubmit={(e) => e.preventDefault()}>
@@ -82,7 +85,6 @@ const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
             </div>
           </div>
         </div>
-      )}
     </div>
   );
 };
