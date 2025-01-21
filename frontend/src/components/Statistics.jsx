@@ -1,8 +1,8 @@
 import '../styles/statistics.css';
 
-const Statistics = ({ iconClass, label, value, color }) => {
+const Statistics = ({ iconClass, label, value }) => {
   return (
-    <div className={`stat ${color}`}>
+    <div className="stat">
       <i className={`statistics-icon ${iconClass}`}></i>
       <div>
         <p>{label}</p>

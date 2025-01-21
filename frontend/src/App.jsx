@@ -31,7 +31,7 @@ import "./App.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState(false); // No use of `null` to avoid undefined user data
   
   // Fetch auth user status
   const { data: authUser, isLoading } = useQuery({

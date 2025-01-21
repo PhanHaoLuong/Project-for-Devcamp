@@ -9,10 +9,18 @@ const avatarSchema = new mongoose.Schema({
     imageUrl: {
         type: String, 
         required: true
+    },
+    fileType: {
+        type: String,
+        required: true
+    },
+    isCurrent: {
+        type: Boolean,
+        default: true
     }
 }, { timestamps: true });
 
-avatarSchema.index({ user: 1 });
+avatarSchema.index({ userId: 1 });
 
 const Avatar = mongoose.model('Avatar', avatarSchema);
 

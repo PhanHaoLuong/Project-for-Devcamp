@@ -95,7 +95,7 @@
     border-radius: 1rem;
     display: flex;
     gap: 0.5rem;
-    opacity: 0.8;
+    opacity: 0.6;
 }
 
 .search-container input {
@@ -143,13 +143,6 @@
     cursor: pointer;
 }
 
-/* Buttons */
-.email-btn:hover, .search-btn:hover {
-    color: var(--hover-color);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
 /* Auth buttons */
 .navbar-actions .auth-btn {
     background-color: var(--hover-color);
@@ -168,7 +161,15 @@
 
 .navbar-actions .login-btn {
     background-color: var(--item-color);
-}   
+} 
+
+.auth-btn:active, .navbar-links .link:active {
+    opacity: 0.8;
+}
+
+.search-container:focus-within {
+    opacity: 1;
+}
   
 /* Responsive Design */
 @media (max-width: 1000px) {

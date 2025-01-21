@@ -53,18 +53,10 @@ const Navbar = ({ isLoggedIn, user }) => {
               forum
             </a>
           </li>
-          {menuOpen &&
-              <li className="search-container">
-                <i className="ti-search"></i>
-                <input type="text" className="search-box" placeholder="search" />
-              </li>
-          }
-          {!menuOpen && 
-              <li className="search-container">
-                <i className="ti-search"></i>
-                <input type="text" className="search-box" placeholder="search" />
-              </li>
-          }
+          <li className="search-container">
+            <i className="ti-search"></i>
+            <input type="text" className="search-box" placeholder="search" />
+          </li>
         </ul>
       </div>
 

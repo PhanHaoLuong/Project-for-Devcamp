@@ -1,10 +1,10 @@
 .stat {
     display: flex;
-    flex-direction: column; /* Default vertical layout */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    width: 22%; /* Approx four items per row on large screens */
+    width: 22%;
     padding: 1rem;
     box-sizing: border-box;
     background-color: var(--box-bg-color);
@@ -16,6 +16,7 @@
 .statistics-icon {
     font-size: 3rem;
     margin-bottom: 0.25rem;
+    margin-top: 0.5rem;
 }
 
 .stat p {

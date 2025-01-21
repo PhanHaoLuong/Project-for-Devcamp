@@ -10,7 +10,6 @@ import ChangeAvatar from "../components/ChangeAvatar";
 const User = ({ }) => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(userData);
   const [isAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false);
 
   const userId = useParams().userId;
@@ -101,31 +100,27 @@ const User = ({ }) => {
         <div className="user-stats">
           <Statistics
             className="stat"
-            iconClass="ti-medall reputation"
+            iconClass="ti-medall reputation-count"
             label="Reputation"
             value={reputation || 0}
-            color="color1"
           />
           <Statistics
             className="stat"
-            iconClass="ti-medall posts"
+            iconClass="ti-medall post-count"
             label="Total Posts"
             value={posts?.length || 0}
-            color="color2"
           />
           <Statistics
             className="stat"
-            iconClass="ti-medall comments"
+            iconClass="ti-medall comment-count"
             label="Comments"
             value={comments || 0}
-            color="color3"
           />
           <Statistics
             className="stat"
-            iconClass="ti-medall views"
+            iconClass="ti-medall view-count"
             label="Views"
             value={views || 0}
-            color="color4"
           />
         </div>
         <div className="posts">
