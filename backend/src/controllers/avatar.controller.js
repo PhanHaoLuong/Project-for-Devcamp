@@ -12,7 +12,7 @@ export const uploadAvatar = async (req, res) => {
     } else {
       avatar = new Avatar({
         userId: userId,
-        imageUrl: avatarFile ? avatarFile.path : '/uploads/avatars/default.png',
+        imageUrl: avatarFile ? avatarFile.path : 'src/uploads/avatars/default.png',
       });
     }
 
