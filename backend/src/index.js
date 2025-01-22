@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import cookieParser from "cookie-parser";
+import multer from "multer";
+import path from "path";
 
 import { connectDB } from "./config/db.js";
 import { get_forum_posts } from "./controllers/post.controller.js";
@@ -25,10 +27,12 @@ app.use(cookieParser());
 
 app.use('/uploads', express.static('uploads'));
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   connectDB();
   console.log(`Listening at PORT ${PORT}`);
 });
+
+server.timeout = 300000;
 
 app.use('/auth', authRoute);
 app.use('/post', postRoute);
@@ -53,4 +57,33 @@ app.post('/fileupload', fileUpload({ createParentPath: true }), async (req, res)
   await newFile.save();
 
   res.status(200).json({ message: 'file uploaded successfully' });
+});
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/avatars');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1000000 },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error('Please upload an image file'));
+    }
+    cb(undefined, true);
+  }
+});
+
+app.post('/avatar/upload', upload.single('avatar'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
+
+  console.log('Uploaded file:', req.file);
+  res.status(200).json({ avatar: `/uploads/avatars/${req.file.filename}` });
 });

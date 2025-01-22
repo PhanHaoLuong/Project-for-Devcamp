@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';      
 import '../styles/ChangeAvatar.css';
 
 const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
@@ -15,7 +16,7 @@ const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
   };
 
   // Handle form submission to update avatar
-  const handleAvatarUpdate = async () => {
+  const handleAvatarUpdate = async (e) => {
     if (!user) {
       console.log(user);
       return alert('User is not logged in or user ID is missing.');
@@ -24,30 +25,27 @@ const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
     if (!selectedFile) {
       return alert('Please select an image!');
     }
-  
+
+    console.log('User:', user);
+    console.log('Selected File:', selectedFile);
+    console.log('Preview:', preview);
+    
     const formData = new FormData();
     formData.append('avatar', selectedFile);
-    formData.append('userId', user._id);
-  
+
     try {
-      const response = await fetch('http://localhost:3000/avatar/upload', {
-        method: 'POST',
-        body: formData,
+      const response = await axios.post('http://localhost:3000/avatar/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
-  
-      console.log('Response status:', response.status);
-      const responseBody = await response.text();
-      console.log('Response body:', responseBody);
-  
-      if (!response.ok) {
-        throw new Error('Failed to update avatar');
-      }
-  
-      const data = JSON.parse(responseBody);
-      onAvatarUpdate(data.avatar);
+
+      console.log('Response:', response);
+      onAvatarUpdate(response.data.avatar);
       onClose();
     } catch (error) {
       console.error('Error updating avatar:', error);
+      alert('Failed to update avatar. Please try again.');
     }
   };
 
