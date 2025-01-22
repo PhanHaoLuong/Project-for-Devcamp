@@ -9,7 +9,7 @@ const avatarSchema = new mongoose.Schema({
     imageName: {
         type: String, 
         required: true
-    },
+    }
 }, { timestamps: true });
 
 avatarSchema.index({ userId: 1 });

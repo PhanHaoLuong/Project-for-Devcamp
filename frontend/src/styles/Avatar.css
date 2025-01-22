@@ -1,52 +1,21 @@
 .navbar .avatar {
-    height: auto;
+    height: 2.5rem;
     object-fit: cover;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
 }
 
-.user-info .avatar {
-    height: auto;
-    object-fit: cover;
-}
-
-img.avatar {
-    width: 35px;
-    height: auto;
-}
-
 .user-profile .avatar, .post-user-container .avatar {
-    width: 5rem;
-    height: 5rem;
+    width: 7rem;
+    height: 7rem;
     border-radius: 50%;
     object-fit: cover;
     transition: all 0.3s ease;
 }
 
-.user-profile .avatar:hover {
-    cursor: pointer;
-}
-
-.user-profile .avatar-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.dropdown-menu .avatar {
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.user-profile .avatar-overlay i {
-    font-size: 1.5rem;
-    color: var(--font-color);
-}
-
-.user-profile .avatar:hover + .avatar-overlay {
-    opacity: 1;
+    object-fit: cover;
 }

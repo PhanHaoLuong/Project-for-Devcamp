@@ -5,7 +5,7 @@ import '../styles/Avatar.css';
 const Avatar = ({ id, name }) => {
   const defaultAvatar = "default.png";
   
-  const [avatar, setAvatar] = useState(defaultAvatar);
+  const [avatar, setAvatar] = useState('');
 
   useEffect(() => {
     const fetchAvatar = async () => {
@@ -16,13 +16,14 @@ const Avatar = ({ id, name }) => {
           setAvatar(res.data.avatarName);
         } else {
           setAvatar(defaultAvatar);
-        }
+        }        
       } catch (err) {
         console.error('Error fetching avatar:', err);
         setAvatar(defaultAvatar);
       }
     };
     fetchAvatar();
+    
   }, [id, defaultAvatar]);
 
   return (

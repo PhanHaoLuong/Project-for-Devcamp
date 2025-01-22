@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';      
 import '../styles/ChangeAvatar.css';
 
-const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [preview, setPreview] = useState(null);
+const ChangeAvatar = ({ user, onClose }) => {
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -32,12 +32,12 @@ const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
     try {
       const response = await axios.post('http://localhost:3000/avatar/upload', formData,);
       console.log('Response:', response);
-      onAvatarUpdate(response.data.avatar);
       onClose();
     } catch (error) {
       console.error('Error updating avatar:', error);
       alert('Failed to update avatar. Please try again.');
     }
+    location.reload();
   };
 
   return (

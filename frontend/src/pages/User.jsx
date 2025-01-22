@@ -7,10 +7,11 @@ import Avatar from "../components/Avatar";
 import MiniPost from "../components/MiniPost";
 import ChangeAvatar from "../components/ChangeAvatar";
 
-const User = ({ }) => {
+const User = ({ editor }) => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false);
+  const [authUser, setAuthUser] = useState(false);
 
   const userId = useParams().userId;
   const navigate = useNavigate();
@@ -28,7 +29,6 @@ const User = ({ }) => {
         if (!response.ok) {
           throw new Error(`Failed to fetch user data. Status: ${response.status}`);
         }
-
         const data = await response.json();
         setUserData(data);
       } catch (error) {
@@ -38,37 +38,21 @@ const User = ({ }) => {
         setLoading(false);
       }
     };
-
     fetchUserData();
 
   }, [userId, navigate]);
+
+  useEffect(() => {
+    if (userData) {
+      setAuthUser(editor === userData._id);
+    }
+  }, [userData, editor]);
 
   if (loading) return <div>Loading...</div>;
   if (!userData) return <div>Error loading user data</div>;
 
   const { _id, name, realname, bio, reputation, posts, comments, views } = userData;
 
-  // Update avatar
-  const handleAvatarUpdate = async (newAvatarUrl) => {
-      try {
-          const response = await fetch(`http://localhost:3000/user/${userId}/avatar`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ avatarUrl: newAvatarUrl }),
-          });
-
-          if (!response.ok) {
-              throw new Error('Failed to update avatar');
-          }
-
-          const data = await response.json();
-          setUser((prev) => ({ ...prev, avatar: data.avatar })); 
-      } catch (error) {
-          console.error("Error updating avatar:", error);
-      }
-  };
-
-  
   return (
     <div className="user-info">
       <div className="header">
@@ -77,15 +61,16 @@ const User = ({ }) => {
       <div className="body">
         <div className="user-profile">
 
-          <div className="profile-picture" onClick={() => setIsAvatarPopupOpen(true)}>
-            <Avatar id={_id} name={name} />
-            <i className="ti-pencil"></i>
+          <div 
+            className={`profile-picture ${authUser ? "auth-user" : "non-auth-user"}`} 
+            onClick={() => (authUser && setIsAvatarPopupOpen(true))}>
+              <Avatar id={_id} name={name} />
+              <i className="ti-pencil"></i>
           </div>
           
           {isAvatarPopupOpen && (
             <ChangeAvatar
               user={userData}
-              onAvatarUpdate={handleAvatarUpdate}
               onClose={() => setIsAvatarPopupOpen(false)}
             />
           )}

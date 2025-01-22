@@ -108,7 +108,7 @@ function App() {
             <Route path="/post/create" element={<CreatePost />} />
             <Route
               path="/user/:userId"
-              element={<User />}
+              element={<User editor={userData._id} />}
             />
           </Routes>
         </Suspense>
