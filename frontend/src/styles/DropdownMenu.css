@@ -9,6 +9,14 @@
     width: 200px;
 }
 
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu.hide {
+    display: none;
+}
+
 .dropdown-item {
     padding: 0 10px 10px;
     border-bottom: 1px solid var(--item-color);

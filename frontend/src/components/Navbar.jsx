@@ -65,7 +65,7 @@ const Navbar = ({ isLoggedIn, user }) => {
         {(isLoggedIn) ? (
           <div className="profile-container" onClick={toggleDropdown}>
             <Avatar id={user._id} name={user.name} />
-            {dropdownOpen && <DropdownMenu user={user} />}
+            <DropdownMenu user={user} display={dropdownOpen} />
           </div>
         ) : (
           <>

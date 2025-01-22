@@ -50,7 +50,7 @@
 }
 
 /* Profile picture in user page */
-.profile-picture.auth-user {
+.profile-picture {
     position: relative;
     display: inline-block;
     width: fit-content;
@@ -59,7 +59,7 @@
     cursor: pointer;
 }
 
-.profile-picture.non-auth-user {
+.non-auth-user.profile-picture {
     cursor: default;
 }
 

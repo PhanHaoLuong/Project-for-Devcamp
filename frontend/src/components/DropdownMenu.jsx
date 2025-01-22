@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
 import "../styles/DropdownMenu.css";
 
-const DropdownMenu = ({ user }) => {
+const DropdownMenu = ({ user, display }) => {
   const handleLogout = async () => {
     try {
       const response = await fetch("http://localhost:3000/auth/logout", {
@@ -24,7 +24,7 @@ const DropdownMenu = ({ user }) => {
   };
 
   return (
-    <div className="dropdown-menu">
+    <div className={`dropdown-menu ${display ? "show" : "hide"}`}>
       <div className="dropdown-item profile">
         <Link to={`/user/${user._id}`} className="dropdown-link">
           <Avatar id={user._id} name={user.name} />

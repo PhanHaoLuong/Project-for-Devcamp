@@ -5,7 +5,7 @@ import '../styles/Avatar.css';
 const Avatar = ({ id, name }) => {
   const defaultAvatar = "default.png";
   
-  const [avatar, setAvatar] = useState('');
+  const [avatar, setAvatar] = useState('placeholder.png');
 
   useEffect(() => {
     const fetchAvatar = async () => {
