@@ -6,18 +6,10 @@ const avatarSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    imageUrl: {
+    imageName: {
         type: String, 
         required: true
     },
-    fileType: {
-        type: String,
-        required: true
-    },
-    isCurrent: {
-        type: Boolean,
-        default: true
-    }
 }, { timestamps: true });
 
 avatarSchema.index({ userId: 1 });

@@ -1,23 +1,27 @@
-import Avatar from '../models/Avatar.js';
+import Avatar from '../models/avatar.model.js';
 
 export const uploadAvatar = async (req, res) => {
   const { userId } = req.body;
   const avatarFile = req.file;
 
+  if (!avatarFile) {
+    return res.status(400).send('No file uploaded.');
+  }
+
   try {
     let avatar = await Avatar.findOne({ userId });
 
     if (avatar) {
-      avatar.imageUrl = avatarFile.path;
+      avatar.imageName = `${avatarFile.filename}`;
     } else {
       avatar = new Avatar({
         userId: userId,
-        imageUrl: avatarFile ? avatarFile.path : 'src/uploads/avatars/default.png',
+        imageName: avatarFile ? `${avatarFile.filename}` : 'default.png',
       });
     }
 
     await avatar.save();
-    res.json({ avatar });
+    res.json({ avatar: avatar.imageName });
   } catch (error) {
     console.error('Error updating avatar:', error);
     res.status(500).send('Server error');

@@ -18,28 +18,19 @@ const ChangeAvatar = ({ user, onAvatarUpdate, onClose }) => {
   // Handle form submission to update avatar
   const handleAvatarUpdate = async (e) => {
     if (!user) {
-      console.log(user);
       return alert('User is not logged in or user ID is missing.');
     }
   
     if (!selectedFile) {
       return alert('Please select an image!');
     }
-
-    console.log('User:', user);
-    console.log('Selected File:', selectedFile);
-    console.log('Preview:', preview);
     
     const formData = new FormData();
+    formData.append('userId', user._id);
     formData.append('avatar', selectedFile);
 
     try {
-      const response = await axios.post('http://localhost:3000/avatar/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
+      const response = await axios.post('http://localhost:3000/avatar/upload', formData,);
       console.log('Response:', response);
       onAvatarUpdate(response.data.avatar);
       onClose();
