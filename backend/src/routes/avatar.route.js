@@ -32,9 +32,6 @@ router.get('/:userid', async (req, res) => {
     const userid = req.params.userid;
     const avatar = await Avatar.findOne({ userId: userid });
     
-    console.log(userid);
-    console.log(avatar);
-    
     if (!avatar) {
       return res.status(404).json({ message: 'Avatar not found' });
     }
