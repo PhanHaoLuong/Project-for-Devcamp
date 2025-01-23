@@ -55,7 +55,10 @@ export default function FullPost({
         })
     }
 
-    
+    // Copy URL to clipboard
+    const copyUrl = () => {
+        navigator.clipboard.writeText(window.location.href);
+    }
 
     return (
         <>
@@ -77,7 +80,7 @@ export default function FullPost({
                     </div>
                     {!isComment ? (
                         <div className="share-save-container">
-                            <button className="share-button">
+                            <button className="share-button" onClick={copyUrl}>
                                 <span className="share-icon"><img src={ShareIcon} ></img></span>
                                 <span className="share-title">share</span>
                             </button>

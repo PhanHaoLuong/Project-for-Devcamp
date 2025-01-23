@@ -33,11 +33,17 @@ const DropdownMenu = ({ user, display }) => {
       </div>
       <hr></hr>
       <div className="dropdown-item">
+        <Link to={`/user/edit/${user._id}`} className="dropdown-link"> {/* Require edit user id react file */}
+        <i className="ti-pencil"></i>
+          Edit profile
+        </Link>
+      </div>
+      {/* <div className="dropdown-item">
         <Link to="/settings" className="dropdown-link">
         <i className="ti-settings"></i>
           Settings
         </Link>
-      </div>
+      </div> */}
       <div className="dropdown-item logout">
         <span className="dropdown-link" onClick={handleLogout}>
         <i className="ti-power-off"></i>
