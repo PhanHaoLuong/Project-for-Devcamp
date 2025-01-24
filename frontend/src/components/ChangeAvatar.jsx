@@ -31,7 +31,6 @@ const ChangeAvatar = ({ user, onClose }) => {
 
     try {
       const response = await axios.post('http://localhost:3000/avatar/upload', formData,);
-      console.log('Response:', response);
       onClose();
     } catch (error) {
       console.error('Error updating avatar:', error);

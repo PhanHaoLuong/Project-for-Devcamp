@@ -1,6 +1,7 @@
 import express from 'express';
 
 import user from '../models/user.model.js';
+import { editUserProfile } from '../controllers/user.controller.js';
 
 const router = express.Router();
 
@@ -14,5 +15,7 @@ router.get('/:userid', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 })
+
+router.get('/edit', editUserProfile);
 
 export default router
