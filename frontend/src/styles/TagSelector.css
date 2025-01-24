@@ -1,0 +1,115 @@
+.tag-selector * {
+    color: #BBC7DD;
+}
+
+.tag-selector, .tag-selector.collapsed {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    background-color: #192233;
+    width: 350px;
+    height: 200px;
+    border-radius: 15px;
+}
+
+.tag-search {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    flex-grow: 0;
+}
+
+.tag-search-input {
+    cursor: pointer;
+    background-color: #222E44;
+    border: #BBC7DD solid 1px;
+    border-radius: 12px;
+    height: 100%;
+    width: 100%;
+    padding: 5px 10px;
+}
+
+.tag-search-input:focus {
+    cursor: text;
+    border: none;
+    outline: #008B8B solid 1px;
+    box-shadow: 0 0 3px #008B8B;
+    transition: all 0.2s;
+}
+
+.tag-search-icon {
+    cursor: pointer;
+    position: absolute;
+    width: 14px;
+    height: 100%;
+    right: 10px;
+    bottom:0;
+}
+
+.tag-collapsible-selector {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #243148;
+    border-radius: 10px;
+}
+
+.tag-collapsible-selector-bar {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: #2d3d5b;
+}
+
+.more-tag {
+    cursor: pointer;
+    background: none;
+    border: #BBC7DD solid 1px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    min-width: 80px;
+    transition: all ease-in-out 0.2s;
+}
+
+.more-tag:hover, .hover, .more-tag.expanded {
+    background-color: #2f446c;
+    transition: all ease-in-out 0.2s;
+}
+
+.more-tag:active {
+    background-color: #395285;
+}
+
+.tag-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 8px 10px;
+    row-gap: 10px
+}
+
+.tag-box.collapsed {
+    height: 70px;
+}
+
+.tag-box .tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    height: 20px;
+    min-width: 0;
+    width: 23%; 
+    font-size: 0.7rem;
+}
+
+.tag-box .tag:hover {
+    font-size: 0.7rem;
+}

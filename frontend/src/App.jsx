@@ -28,6 +28,7 @@ import Forum from "./pages/Forum";
 import CreatePost from "./pages/CreatePost";
 
 import "./App.css";
+import user from "../../backend/src/models/user.model";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -91,7 +92,7 @@ function App() {
             <Route path="/user" element={<User />} />
             <Route path="/saved" element={<Saved />} />
   {/*           <Route path="/fileupload" element={<Fileupload />} /> */}
-            <Route path="/post/:postId" element={<FullPostPage />} />
+            <Route path="/post/:postId" element={<FullPostPage user={userData} />} />
             <Route
               path="/component-test"
               element={

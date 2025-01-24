@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { CSSTransition } from 'react-transition-group';
 import ellipsis from "../utils/ellipsis.js";
+import { ToastContainer, toast } from "react-toastify";
 
 // import components
 import Avatar from "./Avatar.jsx";
@@ -36,7 +37,8 @@ export default function FullPost({
     voteCount, 
     postContent, 
     codeContent, 
-    folderContent 
+    folderContent,
+    user,
 }){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
     const [saveButtonActive, setSaveButtonActive] = useState(false);
@@ -58,10 +60,12 @@ export default function FullPost({
     // Copy URL to clipboard
     const copyUrl = () => {
         navigator.clipboard.writeText(window.location.href);
+        toast.success("URL copied to clipboard!");
     }
 
     return (
         <>
+            <ToastContainer />
             <div className="app-window" id="post-window">
                 {!isComment ? (
                     <div className="post-header" id="post-header">
@@ -99,7 +103,7 @@ export default function FullPost({
                 <div className="post-body">
                     <div className="post-properties-side">
                         <div className="post-user-container">
-                            <Avatar user=""/>
+                            <Avatar id={user._id} name={user._name} />
                             <p className="username">{author}</p>
                         </div>
                         {(isComment && isAccepted) ? (
