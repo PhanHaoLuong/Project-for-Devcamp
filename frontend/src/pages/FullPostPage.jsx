@@ -11,7 +11,7 @@ import AddIcon from "../assets/add.svg";
 import '../styles/FullPostPage.css'
 import displayTime from "../utils/displayTime";
 
-const FullPostPage = () => {
+const FullPostPage = ({user}) => {
     const [postData, setPostData] = useState(null);
     const [commentData, setCommentData] = useState(null);
 
@@ -64,6 +64,7 @@ const FullPostPage = () => {
         const creationTime = new Date(createdAt);
         return (now.getTime() - creationTime.getTime()) / 1000;
     }
+    
     return (
         <>
             <div className="post-container">
@@ -76,6 +77,7 @@ const FullPostPage = () => {
                     postContent={postData.content || null}
                     codeContent={postData.code || null}
                     folderContent={null} /* placeholder */
+                    user={user}
                 />) : ("")}
                 {commentData && commentData.acceptedComments ? (
                     commentData.acceptedComments.map((comment) => {
@@ -89,6 +91,7 @@ const FullPostPage = () => {
                                 postContent={comment.content || null}
                                 codeContent={comment.code || null}
                                 folderContent={null} // placeholder 
+                                user={user}
                             />
                         )
                     })
@@ -105,6 +108,7 @@ const FullPostPage = () => {
                                     postContent={comment.content || null}
                                     codeContent={comment.code || null}
                                     folderContent={null} // placeholder 
+                                    user={user}
                                 />
                             )
                         })
