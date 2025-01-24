@@ -69,7 +69,8 @@ const FullPostPage = ({user}) => {
         <>
             <div className="post-container">
                 {postData ? (<FullPost isComment={false} 
-                    author={postData.author.name || null} 
+                    author={postData.author.name || null}
+                    authorId={postData.author._id || null} 
                     postTitle={postData.title || null}
                     timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
                     voteCount={postData.votes} 
