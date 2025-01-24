@@ -4,8 +4,6 @@ export const uploadAvatar = async (req, res) => {
   const { userId } = req.body;
   const avatarFile = req.file;
 
-  console.log('avatarFile:', avatarFile);
-
   if (!avatarFile) {
     return res.status(400).send('No file uploaded.');
   }

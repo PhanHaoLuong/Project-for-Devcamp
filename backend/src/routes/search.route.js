@@ -1,10 +1,13 @@
 import express from 'express';
 
-import { search } from '../controllers/search.controller.js';
+import { searchPosts, searchUsers } from '../controllers/search.controller.js';
 
 const router = express.Router();
-
+    
 // Search posts by title
-router.get('/search', search);
+router.get('/posts', searchPosts);
+
+// Search users by name
+router.get('/users', searchUsers);
 
 export default router;

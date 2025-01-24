@@ -1,16 +1,48 @@
+import { useState, useEffect } from 'react';
 import '../styles/SearchBox.css';
 
 const SearchBox = () => {
-  const handleInput = async (e) => {
-    const response = await fetch(`http://localhost:3000/search?q=${e.target.value}`);
-    const data = await response.json();
-    const resultContainer = document.querySelector('.search-result');
-    resultContainer.innerHTML = '';
-    data.forEach(post => {
-      const li = document.createElement('li');
-      li.textContent = post.title;
-      resultContainer.appendChild(li);
-    });
+  const [query, setQuery] = useState('');
+  const [postsResult, setPostsResult] = useState([]);
+  const [usersResult, setUsersResult] = useState([]);
+  const [error, setError] = useState(null);
+
+  const DEBOUNCE_DELAY = 300;
+
+  useEffect(() => {
+    if (query.trim() === '') {
+      setPostsResult([]);
+      setUsersResult([]);
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      fetchResults(query);
+    }, DEBOUNCE_DELAY);
+
+    return () => clearTimeout(timeoutId);
+  }, [query]);
+
+  const fetchResults = async (query) => {
+    try {
+      setError(null);
+
+      const postsResult = await fetch(`http://localhost:3000/search/posts?q=${query}`);
+      const usersResult = await fetch(`http://localhost:3000/search/users?q=${query}`);
+
+      if (!postsResult.ok || !usersResult.ok) throw new Error('Failed to fetch results');
+
+      const PostsData = await postsResult.json();
+      setPostsResult(PostsData);
+
+      const UsersData = await usersResult.json();
+      setUsersResult(UsersData);
+      
+    } catch (err) {
+      setError(err.message);
+      setPostsResult([]);
+      setUsersResult([]);
+    }
   };
 
   return (
@@ -21,10 +53,22 @@ const SearchBox = () => {
           type="search"
           className="search-input"
           placeholder="Search"
-          onInput={handleInput}
+          onChange={(e) => setQuery(e.target.value)}
         />
       </li>
-      <ul className='search-result'></ul>
+      {error && <div className="error-message">{error}</div>}
+
+      <ul className="search-result posts-result">
+        {postsResult.map((post) => (
+          <li key={post._id}>{post.title}</li>
+        ))}
+      </ul>
+      
+      <ul className="search-result users-result">
+        {usersResult.map((user) => (
+          <li key={user._id}>{user.name}</li>
+        ))}
+      </ul>
     </div>
   );
 };

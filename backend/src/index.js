@@ -14,7 +14,7 @@ import avatarRoute from "./routes/avatar.route.js";
 import searchRoute from "./routes/search.route.js";
 
 dotenv.config();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000; // Ensure the server runs on port 3000 if PORT is not set
 
 const corsoptions = { origin: "http://localhost:5173", credentials: true };
 
