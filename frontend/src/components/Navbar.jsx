@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import "../styles/Navbar.css";
 import Avatar from "./Avatar";
 import DropdownMenu from "./DropdownMenu";
+import SearchBox from "./SearchBox";
 
 const Navbar = ({ isLoggedIn, user }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -53,10 +54,7 @@ const Navbar = ({ isLoggedIn, user }) => {
               forum
             </a>
           </li>
-          <li className="search-container">
-            <i className="ti-search"></i>
-            <input type="text" className="search-box" placeholder="search" />
-          </li>
+          <SearchBox />
         </ul>
       </div>
 
