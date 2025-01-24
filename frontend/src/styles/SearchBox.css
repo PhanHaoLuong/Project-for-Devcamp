@@ -12,11 +12,29 @@
     border: none;
     color: var(--font-color);
     outline: none;
-    width: 370px;
-    max-width: 400px;
+    min-width: 370px;
+    width: 100%;
 }
 
 .search-container input::placeholder {
     color: var(--font-color);
     opacity: 0.5;
+}
+
+@media (max-width: 600px) {
+    .search-container input {
+        min-width: 200px;
+    }
+    
+}
+
+.search-result {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.search-result li {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--font-color);
 }

@@ -11,7 +11,7 @@ import authRoute from "./routes/auth.route.js";
 import postRoute from "./routes/post.route.js";
 import userRoute from "./routes/user.route.js";
 import avatarRoute from "./routes/avatar.route.js"; 
-// import searchRoute from "./routes/search.route.js";
+import searchRoute from "./routes/search.route.js";
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -37,7 +37,7 @@ app.use('/auth', authRoute);
 app.use('/post', postRoute);
 app.use('/user', userRoute);
 app.use('/avatar', avatarRoute);
-// app.use('/search', searchRoute);
+app.use('/search', searchRoute);
 
 app.get('/forum', get_forum_posts);
 
