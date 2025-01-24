@@ -4,6 +4,8 @@ export const uploadAvatar = async (req, res) => {
   const { userId } = req.body;
   const avatarFile = req.file;
 
+  console.log('avatarFile:', avatarFile);
+
   if (!avatarFile) {
     return res.status(400).send('No file uploaded.');
   }
@@ -12,13 +14,19 @@ export const uploadAvatar = async (req, res) => {
     let avatar = await Avatar.findOne({ userId });
 
     if (avatar) {
-      avatar.imageName = `${avatarFile.filename}`;
-    } else {
-      avatar = new Avatar({
-        userId: userId,
-        imageName: avatarFile ? `${avatarFile.filename}` : 'default.png',
-      });
+      // If user already has an avatar, set currentAvatar to false
+      avatar.currentAvatar = false;
+      await avatar.save();
     }
+
+    // Create new avatar
+    avatar = new Avatar({
+      userId: userId,
+      imageName: avatarFile ? `${avatarFile.filename}` : 'default.png',
+      mimeType: avatarFile.mimetype,
+      size: avatarFile.size,
+    });
+    
 
     await avatar.save();
     res.json({ avatar: avatar.imageName });

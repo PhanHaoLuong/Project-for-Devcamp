@@ -27,10 +27,11 @@ const upload = multer({
 });
 
 router.post('/upload', upload.single('avatar'), uploadAvatar);
+
 router.get('/:userid', async (req, res) => {
   try {
     const userid = req.params.userid;
-    const avatar = await Avatar.findOne({ userId: userid });
+    const avatar = await Avatar.findOne({ userId: userid, currentAvatar: true });
     
     if (!avatar) {
       return res.status(404).json({ message: 'Avatar not found' });

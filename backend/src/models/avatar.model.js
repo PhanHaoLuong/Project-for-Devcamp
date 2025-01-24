@@ -9,6 +9,18 @@ const avatarSchema = new mongoose.Schema({
     imageName: {
         type: String, 
         required: true
+    },
+    mimeType: {
+        type: String,
+        required: true
+    },
+    size: {
+        type: Number,
+        required: true
+    },
+    currentAvatar: {
+        type: Boolean,
+        default: true
     }
 }, { timestamps: true });
 
