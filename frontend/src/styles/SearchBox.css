@@ -1,0 +1,22 @@
+.search-container {
+    border: 1px solid var(--font-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0.6;
+}
+
+.search-container input {
+    background-color: transparent;
+    border: none;
+    color: var(--font-color);
+    outline: none;
+    width: 370px;
+    max-width: 400px;
+}
+
+.search-container input::placeholder {
+    color: var(--font-color);
+    opacity: 0.5;
+}
