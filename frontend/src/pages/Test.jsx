@@ -1,9 +1,9 @@
-import FileItem from "../components/FileItem"
+import TagSelector from "../components/TagSelector";
 
 const Test = () => {
     return (
         <>
-            <FileItem />
+            <TagSelector />
         </>
     )
 }
