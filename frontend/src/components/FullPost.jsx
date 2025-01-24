@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { CSSTransition } from 'react-transition-group';
 import ellipsis from "../utils/ellipsis.js";
+import { ToastContainer, toast } from "react-toastify";
 
 // import components
 import Avatar from "./Avatar.jsx";
@@ -55,10 +56,15 @@ export default function FullPost({
         })
     }
 
-    
+    // Copy URL to clipboard
+    const copyUrl = () => {
+        navigator.clipboard.writeText(window.location.href);
+        toast.success("URL copied to clipboard!");
+    }
 
     return (
         <>
+            <ToastContainer />
             <div className="app-window" id="post-window">
                 {!isComment ? (
                     <div className="post-header" id="post-header">
@@ -77,7 +83,7 @@ export default function FullPost({
                     </div>
                     {!isComment ? (
                         <div className="share-save-container">
-                            <button className="share-button">
+                            <button className="share-button" onClick={copyUrl}>
                                 <span className="share-icon"><img src={ShareIcon} ></img></span>
                                 <span className="share-title">share</span>
                             </button>
