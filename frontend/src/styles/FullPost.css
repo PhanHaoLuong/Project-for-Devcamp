@@ -99,6 +99,11 @@
     transition: all 0.2s ease-in-out;
 }
 
+.share-button:active {
+    background-color: #334566;
+    transition: all 0.2s ease-in-out;
+}
+
 .share-icon {
     height: 16px;
     width: 16px;
