@@ -10,6 +10,7 @@
     background-color: #192233;
     width: 350px;
     height: 200px;
+    border: #BBC7DD 1px solid;
     border-radius: 15px;
 }
 
@@ -47,7 +48,32 @@
     bottom:0;
 }
 
-.tag-collapsible-selector {
+.selected-tag {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: #243148;
+    height: 120px;
+    border-radius: 10px;
+}
+
+.selected-tag-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #2d3d5b;
+    border-radius: 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.selected-tag-box {
+    padding: 5px 10px;
+    color: #a0aabb;
+    font-size: 0.8rem;
+}
+
+.tag-collapsible-selector, .selected-tag {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -63,6 +89,8 @@
     padding: 5px 10px;
     border-radius: 10px;
     background-color: #2d3d5b;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .more-tag {
@@ -85,7 +113,7 @@
     background-color: #395285;
 }
 
-.tag-box {
+.tag-box, .selected-tag-box {
     display: flex;
     flex-wrap: wrap;
     gap: 2%;
@@ -99,7 +127,7 @@
     height: 70px;
 }
 
-.tag-box .tag {
+.tag-selector .tag {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -110,6 +138,6 @@
     font-size: 0.7rem;
 }
 
-.tag-box .tag:hover {
+.tag-selector .tag:hover {
     font-size: 0.7rem;
 }
