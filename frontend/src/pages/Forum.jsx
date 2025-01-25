@@ -22,8 +22,6 @@ const Forum = () => {
     const [hasMore, setHasMore] = useState(true);
 
     const navigate = useNavigate();
-    const url = "/forum";
-
 
     const fetchForum = async () => {
         const response = await fetch(`http://localhost:3000/forum?page=${fetchPage}`, {
@@ -140,6 +138,7 @@ const Forum = () => {
                                 {forumPostData.map((forumPost) => {
                                     return (
                                         <MiniPost
+                                            key={forumPost._id}
                                             postId={forumPost._id}
                                             author={forumPost.author.name}
                                             postTitle={forumPost.title}

@@ -98,6 +98,10 @@
     text-decoration: none;
 }
 
+.search-result-item i {
+    padding-top: 0.2rem;
+}
+
 .search-result-item .author, .search-result-item .note {
     margin-right: 0.5rem;
     margin-left: auto;
@@ -106,6 +110,17 @@
 
 .search-result p {
     font-weight: lighter;
+    overflow: hidden;
+}
+
+.search-result-item .description {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    font-weight: lighter;
+}
+
+.search-result-item .content {
+    font-weight: bold;
 }
 
 @media (max-width: 600px) {

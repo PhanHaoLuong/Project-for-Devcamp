@@ -18,13 +18,17 @@ const Avatar = ({ id, name }) => {
           setAvatar(defaultAvatar);
         }        
       } catch (err) {
-        console.error('Error fetching avatar:', err);
-        setAvatar(defaultAvatar);
+        if (err.response && err.response.status === 404) {
+          console.warn('Avatar not found, using default avatar.');
+          setAvatar(defaultAvatar);
+        } else {
+          console.error('Error fetching avatar:', err);
+        }
       }
     };
     fetchAvatar();
     
-  }, [id, defaultAvatar]);
+  }, [id]);
 
   return (
     <img

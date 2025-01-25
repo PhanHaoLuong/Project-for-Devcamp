@@ -71,7 +71,8 @@ const User = ({ editor }) => {
           {isAvatarPopupOpen && (
             <ChangeAvatar
               user={userData}
-              onClose={() => setIsAvatarPopupOpen(false)}
+              isAvatarPopupOpen={isAvatarPopupOpen}
+              setIsAvatarPopupOpen={setIsAvatarPopupOpen}
             />
           )}
 
@@ -113,6 +114,7 @@ const User = ({ editor }) => {
           <div className="post">
             {posts?.map((post) => {
               return (<MiniPost 
+                key={post._id}
                 postId={post._id}
                 author={name}
                 postTitle={post.title}

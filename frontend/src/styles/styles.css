@@ -9,3 +9,8 @@ body {
     font-family: 'Inter', sans-serif;
     background-color: hsl(219, 50%, 8%);
 }
+
+.no-css {
+    padding: 0;
+    margin: 0;
+}

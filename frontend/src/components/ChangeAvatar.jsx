@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';      
 import '../styles/ChangeAvatar.css';
 
-const ChangeAvatar = ({ user, onClose }) => {
+const ChangeAvatar = ({ user, isAvatarPopupOpen, setIsAvatarPopupOpen }) => {
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
+
+  const closeModal = (event) => {
+    const modal = document.querySelector('.upload-modal-content');
+    if (isAvatarPopupOpen && !modal.contains(event.target)) {
+      setIsAvatarPopupOpen(false);
+    }
+  };
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -31,7 +38,7 @@ const ChangeAvatar = ({ user, onClose }) => {
 
     try {
       const response = await axios.post('http://localhost:3000/avatar/upload', formData,);
-      onClose();
+      setIsAvatarPopupOpen(false);
     } catch (error) {
       console.error('Error updating avatar:', error);
       alert('Failed to update avatar. Please try again.');
@@ -42,11 +49,11 @@ const ChangeAvatar = ({ user, onClose }) => {
   return (
     <div>
       {/* Modal Structure */}
-        <div className="upload-modal" id="avatarModal" style={{ display: 'flex' }}>
+        <div className="upload-modal" id="avatarModal" style={{ display: 'flex' }} onClick={closeModal}>
           <div className="upload-modal-content">
             <div className="upload-modal-header">
               <h5 className="upload-modal-title">Change Avatar</h5>
-              <button type="button" className="close" onClick={onClose}>&times;</button>
+              <button type="button" className="close" onClick={() => setIsAvatarPopupOpen(false)}>&times;</button>
             </div>
             <div className="upload-modal-body">
               <form id="avatarForm" encType="multipart/form-data" onSubmit={(e) => e.preventDefault()}>

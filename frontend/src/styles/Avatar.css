@@ -19,3 +19,10 @@
     border-radius: 50%;
     object-fit: cover;
 }
+
+.search-box .avatar {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    object-fit: cover;
+}

@@ -10,13 +10,23 @@ const Navbar = ({ isLoggedIn, user }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation(); 
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+  useEffect(() => {
+  const toggleMenu = (e) => {
+    if (menuOpen && !e.target.closest(".navbar-links-container")) {
+      setMenuOpen(false);
+    }
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+  const toggleDropdown = (e) => {
+    if (dropdownOpen && !e.target.closest(".profile-container")) {
+      setDropdownOpen(false);
+    }
   };
+
+  document.addEventListener("mousedown", toggleMenu);
+  document.addEventListener("mousedown", toggleDropdown);
+  
+  }, [menuOpen, dropdownOpen]);
 
   // Check if the link is active
   const isActive = (path) => {
@@ -30,7 +40,7 @@ const Navbar = ({ isLoggedIn, user }) => {
   return (
     <nav className="navbar">
       {/* Hamburger menu */}
-      <div className="hamburger-menu" onClick={toggleMenu}>
+      <div className="hamburger-menu" onClick={() => setMenuOpen(!menuOpen)}>
         <span className="line"></span>
         <span className="line"></span>
         <span className="line"></span>
@@ -61,7 +71,8 @@ const Navbar = ({ isLoggedIn, user }) => {
       {/* Dropdown menu */} 
       <div className="navbar-actions">
         {(isLoggedIn) ? (
-          <div className="profile-container" onClick={toggleDropdown}>
+          <div 
+            className="profile-container" onClick={() => setDropdownOpen(!dropdownOpen)}>
             <Avatar id={user._id} name={user.name} />
             <DropdownMenu user={user} display={dropdownOpen} />
           </div>
