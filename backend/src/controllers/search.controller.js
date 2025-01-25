@@ -5,7 +5,12 @@ import user from '../models/user.model.js';
 export const searchPosts = async (req, res) => {
     try {
         const searchQuery = req.query.q;
-        const posts = await post.find({ title: { $regex: searchQuery, $options: 'i' } })
+        const posts = await post.find({
+            $or: [
+                { title: { $regex: searchQuery, $options: 'i' } },
+                { content: { $regex: searchQuery, $options: 'i' } }
+            ]
+        })
             .populate('author', 'name')
             .populate('code', 'language data lines')
             .sort({ createdAt: -1 })
