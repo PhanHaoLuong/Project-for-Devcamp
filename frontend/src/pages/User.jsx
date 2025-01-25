@@ -105,8 +105,8 @@ const User = ({ editor }) => {
           <Statistics
             className="stat"
             iconClass="ti-eye view-count"
-            label="Views"
-            value={views || 0}
+            label="visits"
+            value={visits || 0}
           />
         </div>
         <div className="posts">

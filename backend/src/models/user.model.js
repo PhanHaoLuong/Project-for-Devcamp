@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    views: {
+    visits: {
         type: Number,
         default: 0
     },
