@@ -37,11 +37,15 @@ export default function MiniPost({
   
     const navigate = useNavigate();
 
-    const onClick = onClickFn || expandMode ? (
-        () => setExpanded(!isExpanded)
-    ) : (
-        () => navigate(`/post/${postId}`)
-    );
+    const onClick = useCallback(() => {
+        if (onClickFn) {
+            onClickFn();
+        } else if (expandMode) {
+            setExpanded(prevState => !prevState);
+        } else {
+            navigate(`/post/${postId}`);
+        }
+    }, [onClickFn, expandMode, navigate, postId]);
 
     return (
         <>
