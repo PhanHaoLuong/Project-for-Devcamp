@@ -7,7 +7,7 @@
 }
 
 .user-info {
-    margin: 50px auto;
+    margin: 80px auto;
     background-color: var(--background-color);
     color: var(--font-color);
     display: flex;

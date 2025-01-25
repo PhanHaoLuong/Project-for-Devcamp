@@ -14,8 +14,9 @@
     background-color: var(--bg-color);
     padding: 0.8rem 1rem;
     color: var(--font-color);
-    position: sticky;
+    position: fixed;
     top: 0;
+    width: 100%;
     z-index: 1000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -73,23 +74,22 @@
     font-size: 1rem;
     color: var(--font-color);
     text-decoration: none;
-    text-transform: lowercase;
     position: relative;
     transition: color 0.3s ease, border-bottom 0.3s ease;
 }
 
-.navbar-links a.active {
+.navbar-links .link .active {
+    text-decoration: underline;
     color: var(--hover-color);
     font-weight: bold;
-    border-bottom: 2px solid var(--hover-color); /* Underline effect */
-    padding-bottom: 3px; /* Add some padding for a cleaner look */
+    padding-bottom: 3px;
 }
 
-.navbar-links a:hover {
+.navbar-links .link a:hover {
     color: var(--hover-color);
 }
 
-/* Actions (profile, hamburger menu) */
+/* Actions */
 .navbar-actions {
     display: flex;
     align-items: center;
@@ -97,7 +97,7 @@
 }
 
 .hamburger-menu {
-    display: none; /* Hidden by default */
+    display: none;
     flex-direction: column;
     gap: 0.3rem;
     cursor: pointer;

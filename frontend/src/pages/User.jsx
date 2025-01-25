@@ -85,25 +85,25 @@ const User = ({ editor }) => {
         <div className="user-stats">
           <Statistics
             className="stat"
-            iconClass="ti-medall reputation-count"
+            iconClass="ti-star reputation-count"
             label="Reputation"
             value={reputation || 0}
           />
           <Statistics
             className="stat"
-            iconClass="ti-medall post-count"
+            iconClass="ti-write post-count"
             label="Total Posts"
             value={posts?.length || 0}
           />
           <Statistics
             className="stat"
-            iconClass="ti-medall comment-count"
+            iconClass="ti-comments comment-count"
             label="Comments"
             value={comments || 0}
           />
           <Statistics
             className="stat"
-            iconClass="ti-medall view-count"
+            iconClass="ti-eye view-count"
             label="Views"
             value={views || 0}
           />

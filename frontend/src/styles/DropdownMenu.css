@@ -18,7 +18,7 @@
 }
 
 .dropdown-item {
-    padding: 0 10px 10px;
+    padding: 0 15px 10px;
     border-bottom: 1px solid var(--item-color);
 }
 
@@ -57,8 +57,12 @@
     background-color: var(--hover-color);
 }
   
-hr {
+.dropdown-menu hr {
     border-color: var(--font-color);
     max-width: 90%;
     margin: 10px auto;
 }
+
+.dropdown-menu .ti-export {
+    transform: rotate(90deg);
+ }

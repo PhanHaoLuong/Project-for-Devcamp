@@ -8,7 +8,7 @@ import SearchBox from "./SearchBox";
 const Navbar = ({ isLoggedIn, user }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const location = useLocation(); // Get the current URL location
+  const location = useLocation(); 
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -54,7 +54,7 @@ const Navbar = ({ isLoggedIn, user }) => {
               forum
             </a>
           </li>
-          <SearchBox />
+          <SearchBox currentUser={user} />
         </ul>
       </div>
 
