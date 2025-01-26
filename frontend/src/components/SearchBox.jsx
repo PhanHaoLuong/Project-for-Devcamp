@@ -63,6 +63,12 @@ const SearchBox = ({ currentUser }) => {
     }
   };
 
+  const formatUpdatedAt = (updatedAt) => {
+    const date = new Date(updatedAt);
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+};
+
   return (
     <div className="search-box">
       <li className="search-container">
@@ -113,7 +119,10 @@ const SearchBox = ({ currentUser }) => {
                       <p className="left" key={post._id}>{post.title}</p>
                       <div className="left description">{ellipsis(post.content || "No description", 111)}</div>
                     </div>
-                    <p className={`author right ${post.author.name}`}>by {(post.author._id === currentUser._id) ? 'you' : post.author.name}</p>
+                    <p className={`author date right ${post.author.name}`}>by {(post.author._id === currentUser._id) ? 'you' : post.author.name} 
+                      <br /> 
+                      at {formatUpdatedAt(post.updatedAt)}
+                    </p>
                   </a>
                 </li>
               ))}
