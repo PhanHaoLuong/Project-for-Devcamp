@@ -7,15 +7,16 @@ import Avatar from "../components/Avatar";
 import MiniPost from "../components/MiniPost";
 import ChangeAvatar from "../components/ChangeAvatar";
 
-const User = ({ editor }) => {
-  const [userData, setUserData] = useState(null);
+const User = ({ visitor }) => {
+  const [userData, setUserData] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false);
-  const [authUser, setAuthUser] = useState(false);
+  const [authUser, setAuthUser] = useState(true);
 
   const userId = useParams().userId;
   const navigate = useNavigate();
 
+  // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       if (!userId) {
@@ -23,7 +24,7 @@ const User = ({ editor }) => {
         navigate("/");
         return;
       }
-
+  
       try {
         const response = await fetch(`http://localhost:3000/user/${userId}`);
         if (!response.ok) {
@@ -42,16 +43,41 @@ const User = ({ editor }) => {
 
   }, [userId, navigate]);
 
+  // Check if the user is the authenticated user to edit the profile
   useEffect(() => {
     if (userData) {
-      setAuthUser(editor === userData._id);
+      setAuthUser(visitor === userData._id);
     }
-  }, [userData, editor]);
+  }, [userData, visitor]);
+
+  // Check user visits
+  useEffect(() => {
+    const updateVisits = async () => {
+      if (!authUser && userData) {
+        try {
+          const response = await fetch(`http://localhost:3000/user/visit/${userId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ visitorid: visitor }),
+          });
+          if (!response.ok) {
+            throw new Error(`Failed to update visits. Status: ${response.status}`);
+          }
+        } catch (error) {
+          console.error("Error updating visits:", error);
+        }
+      }
+    };
+    updateVisits();
+    
+  }, [userData, userId, authUser, visitor]);
 
   if (loading) return <div>Loading...</div>;
   if (!userData) return <div>Error loading user data</div>;
 
-  const { _id, name, realname, bio, reputation, posts, comments, views } = userData;
+  const { _id, name, realname, bio, reputation, posts, comments, visits } = userData;
 
   return (
     <div className="user-info">
@@ -105,8 +131,8 @@ const User = ({ editor }) => {
           <Statistics
             className="stat"
             iconClass="ti-eye view-count"
-            label="visits"
-            value={visits || 0}
+            label="Visits"
+            value={visits?.length || 0}
           />
         </div>
         <div className="posts">

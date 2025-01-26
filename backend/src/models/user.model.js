@@ -17,10 +17,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    visits: {
-        type: Number,
-        default: 0
-    },
+    visits: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
 }, {timestamps: true})
 
 const user = mongoose.model('User', userSchema)

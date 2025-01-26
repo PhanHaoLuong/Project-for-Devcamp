@@ -89,7 +89,6 @@ function App() {
             />
             <Route path="/home" element={<Home />} />
             <Route path="/forum" element={<Forum />} />
-            <Route path="/user" element={<User />} />
             <Route path="/saved" element={<Saved />} />
   {/*           <Route path="/fileupload" element={<Fileupload />} /> */}
             <Route path="/post/:postId" element={<FullPostPage user={userData} />} />
@@ -109,7 +108,7 @@ function App() {
             <Route path="/post/create" element={<CreatePost />} />
             <Route
               path="/user/:userId"
-              element={<User editor={userData._id} />}
+              element={<User visitor={userData._id} />}
             />
           </Routes>
         </Suspense>
