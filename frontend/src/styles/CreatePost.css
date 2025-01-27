@@ -137,7 +137,26 @@
   top: 75px;
   left: 0;
   z-index: 1;
-  transition: all 1s;
+  transition: all ease-in-out 0.5s;
+  overflow: hidden;
+}
+
+.selector-transition-enter {
+  opacity: 0;
+}
+
+.selector-transition-enter-active {
+  opacity: 1;
+  transition: all 0.1s ease-in-out;
+}
+
+.selector-transition-exit {
+  opacity: 1;
+}
+
+.selector-transition-exit-active {
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
 }
 
 .create-content-container {
