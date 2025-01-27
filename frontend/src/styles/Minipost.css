@@ -11,7 +11,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 100%;
+    width: auto;
     height: auto;
     background-color: #243148;
     border-radius: 15px;
@@ -24,13 +24,13 @@
     height: auto;
 }
 
-.header-bar:hover {
+.minipost-container .header-bar:hover {
 
     background-color: #344870;
     transition: all 0.1s;
 }
 
-.header-bar {
+.minipost-container .header-bar {
     display: flex;
     padding: 10px 15px;
     background-color: #2d3d5b;
@@ -40,16 +40,26 @@
     transition: all 0.3s;
 }
 
-.header-content {
+.minipost-container .header-content {
     display: flex;
     gap: 5px;
+    max-width: 90%;
+}
+
+.minipost-container .header-text {
+    width: 100%;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .minipost-title {
+    width: 100%;
     text-overflow: ellipsis;
     font-weight: bold;
     letter-spacing: 0.5px;
     font-size: 1.2rem;
+    overflow-wrap: break-word;
 }
 
 .minipost-meta {
@@ -80,6 +90,10 @@
 .minipost-description {
     font-size: 0.95rem;
     padding: 2px 5px;
+    width: 100%;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .minipost-description .app-window {

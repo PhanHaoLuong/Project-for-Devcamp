@@ -8,6 +8,7 @@ import * as configs from '../configs.json';
 import TerminalIcon from "../assets/terminal.svg";
 import AddIcon from "../assets/add.svg";
 import AcceptedIcon from '../assets/tick.svg';
+import LoadingIcon from "../assets/loading-circle.gif"
 
 //import components
 import CodeEditor from "./CodeEditor";
@@ -19,6 +20,7 @@ import Tag from "../components/Tag";
 import "../styles/CreatePost.css";
 
 function CreatePost() {
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [selectTagMode, toggleSelectTag] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
   const [tagOptions, setTagOptions] = useState([]);
@@ -208,11 +210,29 @@ function CreatePost() {
                     remove code
                   </button>
                 )}
-                <button className="submit-button">
-                  <span className="submit-button-title" onClick={handleSubmit}>
-                    post
-                  </span>
-                </button>
+                {submitLoading ? (
+                  <button className={`submit-button loading`}
+                    disabled
+                  >
+                    <span className="submit-button-logo">
+                      <img src={LoadingIcon}></img>
+                    </span>
+                    <span className="submit-button-title">
+                      posting...
+                    </span>
+                  </button>
+                ) : (
+                  <button className={`submit-button`}
+                    onClick={() => {
+                      setSubmitLoading(true);
+                      handleSubmit();
+                    }}
+                  >
+                    <span className="submit-button-title">
+                      post
+                    </span>
+                  </button>
+                )}
               </div>
             </div>
           </div>

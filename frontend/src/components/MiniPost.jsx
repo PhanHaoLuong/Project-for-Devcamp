@@ -1,8 +1,9 @@
 // import modules
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback  } from "react";
 import { useNavigate } from "react-router-dom";
 import ellipsis from "../utils/ellipsis";
 import displayNum from "../utils/displayNum.js";
+import * as configs from "../configs.json"
 
 // import components
 import Tag from './Tag.jsx'
@@ -84,7 +85,7 @@ export default function MiniPost({
                     </div>
                 </div>
                 <div className="minipost-description">
-                    {!isExpanded ? ellipsis(postContent || "this post has no description.", 256) : expandMode && (
+                    {!isExpanded ? ellipsis(postContent || "this post has no description.", configs.minipostCharLimit) : expandMode && (
                         <FullPost 
                             postContent={postContent}
                             codeContent={expandData.code}

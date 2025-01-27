@@ -1,4 +1,5 @@
 {
     "postContentCharLimit": 4000,
-    "tagsLimit": 8
+    "tagsLimit": 8,
+    "minipostCharLimit": 256
 }
