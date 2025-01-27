@@ -43,10 +43,16 @@
     margin-bottom: 2rem;
 }
 
-.user-info .profile-details {
+.user-info .profile-details, .user-info .edit-profile {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.edit-profile .control-btn {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
 }
 
 /* Profile picture in user page */
@@ -101,6 +107,21 @@
     margin: 0.2rem 0;
     font-size: 0.8rem;
     font-weight: lighter;
+}
+
+.profile-details .editButton {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #2d3d5b;
+    color: var(--font-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-details .editButton:hover {
+    background-color: var(--box-bg-color);
 }
 
 .user-stats {

@@ -12,6 +12,7 @@ const User = ({ visitor }) => {
   const [loading, setLoading] = useState(true);
   const [isAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false);
   const [authUser, setAuthUser] = useState(true);
+  const [onEdit, setOnEdit] = useState(false);
 
   const userId = useParams().userId;
   const navigate = useNavigate();
@@ -102,11 +103,25 @@ const User = ({ visitor }) => {
             />
           )}
 
+          {!onEdit &&         
           <div className="profile-details">
             <h3 className="username">{name || "Undefined"}</h3>
             <p className="realname">{realname || "Real name is not provided."}</p>
             <p className="bio">{bio || "No bio."}</p>
-          </div>
+            {authUser && <button className="editButton" onClick={() => setOnEdit(true)}>Edit profile</button>}
+          </div>}
+          
+          {onEdit &&
+          <form className="edit-profile">
+            <input type="text" className="username" placeholder="Username" />
+            <input type="text" className="realname" placeholder="Real Name" />
+            <input type="text" className="bio" placeholder="Bio" />
+            <div className="control-btn">
+            <button className="saveButton">Save</button>
+            <button className="cancelButton" onClick={() => setOnEdit(false)}>Cancel</button>
+            </div>
+          </form>}
+
         </div>
 
         <div className="user-stats">

@@ -18,6 +18,6 @@ router.get('/:userid', async (req, res) => {
 
 router.post('/visit/:userid', updateVisits);
 
-// router.get('/edit', editUserProfile);
+router.get('/edit', editUserProfile);
 
 export default router;
