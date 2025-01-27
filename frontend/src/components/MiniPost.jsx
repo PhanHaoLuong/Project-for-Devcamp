@@ -1,36 +1,54 @@
 // import modules
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback  } from "react";
 import { useNavigate } from "react-router-dom";
 import ellipsis from "../utils/ellipsis";
-import displayTimeWithUnit from "../utils/displayTime.js";
+import displayNum from "../utils/displayNum.js";
+import * as configs from "../configs.json"
 
 // import components
 import Tag from './Tag.jsx'
 import FileItem from "./FileItem";
 
 // import assets
-import HashIcon from '../assets/hash.png';
-import SaveIcon from '../assets/save.svg';
-import ShareIcon from '../assets/share.svg';
 import TerminalIcon from '../assets/terminal.svg';
-import VoteIcon from '../assets/vote.svg';
 import ArrowIcon from '../assets/arrow-icon.svg'
 
 // import style
 import '../styles/Minipost.css';
 
-export default function MiniPost({ postId, author, timeSincePost, postTitle, postContent, postTags, topLevelFolder }){
-
+export default function MiniPost({ 
+    postId, 
+    author, 
+    timeSincePost,
+    postTitle, 
+    postContent, 
+    postTags,
+    topLevelFolder,
+    codeLanguage,
+    voteCount,
+    onClickFn,
+    expandMode,
+    expandData
+}){
+    const [isExpanded, setExpanded] = useState(false);
+  
     const navigate = useNavigate();
+
+    const onClick = useCallback(() => {
+        if (onClickFn) {
+            onClickFn();
+        } else if (expandMode) {
+            setExpanded(prevState => !prevState);
+        } else {
+            navigate(`/post/${postId}`);
+        }
+    }, [onClickFn, expandMode, navigate, postId]);
 
     return (
         <>
-            <div className="minipost-container">
-                <div className="header-bar" onClick={() => {navigate(`/post/${postId}`)}}>
-                    <div className="header">
-                        <span className="header-logo">
-                            <img src={TerminalIcon} alt="T"></img>
-                        </span>
+            <div className={`minipost-container ${isExpanded ? "expanded" : ""}`} >
+                <div className="header-bar" onClick={onClick}>
+                    <div className="header-content">
                         <span className="header-text">
                             <p className="minipost-title">
                                 {postTitle || "defaultTitle"}
@@ -48,7 +66,12 @@ export default function MiniPost({ postId, author, timeSincePost, postTitle, pos
                     </div>
                 </div>
                 <div className="minipost-description">
-                    {ellipsis(postContent || "this post has no description.", 256) }
+                    {!isExpanded ? ellipsis(postContent || "this post has no description.", configs.minipostCharLimit) : expandMode && (
+                        <FullPost 
+                            postContent={postContent}
+                            codeContent={expandData.code}
+                        />
+                    )}
                 </div>
                 {topLevelFolder ? (
                     <div className="minipost-folder">
@@ -63,11 +86,22 @@ export default function MiniPost({ postId, author, timeSincePost, postTitle, pos
                         })}
                     </div>
                 ) : ("")}
-                
+                <div className="code-vote-container">
+                    {codeLanguage &&
+                        <div className={"minipost-code"}>
+                            <span>{codeLanguage || "placeholder"}</span>
+                        </div>
+                    }
+                    <div className={`minipost-vote-count ${voteCount >= 0 ? "positive" : "negative"}`}>
+                        <span>
+                            {(voteCount || voteCount === 0) ? `${displayNum(voteCount)} ${voteCount === 1 ? "vote" : "votes"}` : "N/A"}
+                        </span>
+                    </div>
+                    
+                </div>
             </div>
 
         </>
     );
-
 }
 

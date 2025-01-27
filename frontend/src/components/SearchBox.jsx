@@ -4,6 +4,7 @@ import '../styles/SearchBox.css';
 import Avatar from './Avatar';
 
 import ellipsis from "../utils/ellipsis";
+import displayTime from "../utils/displayTime";
 
 const SearchBox = ({ currentUser }) => {
   const [query, setQuery] = useState('');
@@ -63,11 +64,11 @@ const SearchBox = ({ currentUser }) => {
     }
   };
 
-  const formatUpdatedAt = (updatedAt) => {
-    const date = new Date(updatedAt);
-    const options = { day: '2-digit', month: 'short', year: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
-};
+  const getTimeSincePost = (createdAt) => {
+      const now = new Date();
+      const creationTime = new Date(createdAt);
+      return (now.getTime() - creationTime.getTime()) / 1000;
+  };
 
   return (
     <div className="search-box">
@@ -121,7 +122,7 @@ const SearchBox = ({ currentUser }) => {
                     </div>
                     <p className={`author date right ${post.author.name}`}>by {(post.author._id === currentUser._id) ? 'you' : post.author.name} 
                       <br /> 
-                      at {formatUpdatedAt(post.updatedAt)}
+                      {displayTime(getTimeSincePost(post.updatedAt))} ago
                     </p>
                   </a>
                 </li>

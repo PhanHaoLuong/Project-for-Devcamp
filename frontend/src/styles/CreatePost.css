@@ -65,6 +65,7 @@
 }
 
 .add-tag-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -76,37 +77,65 @@
   letter-spacing: 0.5px;
 }
 
-.add-tag {
+.add-tag, .selected-tags .tag, .change-tag {
   cursor: pointer;
   display: flex;
   justify-content: center;
   background-color: #2c3952;
   border-radius: 10px;
   padding: 8px 12px;
-  width: 100px;
+  width: calc(25% - 9px);
+  margin: 0;
   gap: 5px;
   transition: all 0.3s;
   border: none;
 }
 
-.add-tag:hover {
+.change-tag {
+  width: 150px;
+}
+
+.add-tag:hover, .change-tag:hover {
   background-color: #344870;
   transition: all 0.1s;
 }
 
-.add-tag-title {
+.add-tag-title, .change-tag.title {
   font-size: 0.9rem;
   font-weight: 600;
 }
 
-.add-tag-logo {
+.add-tag-logo, .change-tag-logo {
   height: 16px;
   width: 16px;
 }
 
-.add-tag-logo img {
+.add-tag-logo img, .change-tag-logo img {
   height: 100%;
   width: 100%;
+}
+
+.selected-tags {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.selected-tags .tag:hover {
+  font-size: 0.75rem;
+  background-color: #344870;
+}
+
+.tag-selector {
+  position: absolute;
+  box-shadow: -3px 3px 5px 5px #111722;
+  top: 75px;
+  left: 0;
+  z-index: 1;
+  transition: all 1s;
 }
 
 .create-content-container {
@@ -316,4 +345,25 @@
 .submit-code-button:hover {
   background-color: #008B8B;
   transition: all 0.1s;
+}
+
+.confirm-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.confirm-button {
+  cursor: pointer;
+  background-color: #007070;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 50px;
+  transition: all ease-in-out 0.3s;
+
+}
+
+.confirm-button:hover {
+  background-color: #008B8B;
+  transition: ease-in-out 0.1s;
 }

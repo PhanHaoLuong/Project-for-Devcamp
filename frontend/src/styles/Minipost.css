@@ -7,41 +7,55 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 95%;
+    width: 100%;
     height: auto;
-    min-height: 100px;
-    background-color: #222E44;
+    background-color: #243148;
     border-radius: 15px;
     padding: 20px 15px;
     transition: all 0.3s;
     cursor: pointer;
 }
 
-.header-bar:hover {
+.expanded {
+    height: auto;
+}
+
+.minipost-container .header-bar:hover {
 
     background-color: #344870;
     transition: all 0.1s;
 }
 
-.header-bar {
+.minipost-container .header-bar {
     display: flex;
-    padding: 10px;
-    background-color: #2c3952;
+    padding: 10px 15px;
+    background-color: #2d3d5b;
     justify-content: space-between;
     align-items: center;
     border-radius: 10px;
     transition: all 0.3s;
 }
 
-.header {
+.minipost-container .header-content {
     display: flex;
     gap: 5px;
+    max-width: 90%;
+}
+
+.minipost-container .header-text {
+    width: 100%;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .minipost-title {
+    width: 100%;
     text-overflow: ellipsis;
-    font-weight: 600;
+    font-weight: bold;
+    letter-spacing: 0.5px;
     font-size: 1.2rem;
+    overflow-wrap: break-word;
 }
 
 .minipost-meta {
@@ -50,16 +64,6 @@
 
 .minipost-author {
     color: #008B8B;
-}
-
-.header-logo {
-    height: 40px;
-    width: 40px;
-}
-
-.header-logo img {
-    height: 100%;
-    width: 100%;
 }
 
 .to-fullpost-button {
@@ -72,7 +76,12 @@
 }
 
 .minipost-description {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    padding: 2px 5px;
+    width: 100%;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .minipost-folder .file-item {
@@ -100,4 +109,55 @@
     font-size: 0.75rem;
     width: 120px;
     transition: all ease-in-out 0.1s;
+}
+
+.code-vote-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.minipost-vote-count {
+    padding: 4px 8px;
+    min-width: 80px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    flex-grow: 0;
+}
+
+.positive {
+    background-color: #008B8B;
+}
+
+.negative {
+    background-color: #e03f42;
+}
+
+.minipost-vote-count span {
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.minipost-code {
+    padding: 4px 8px;
+    min-width: 80px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    flex-grow: 0;
+    background-color: #344870;
+    border: #BBC7DD solid 1px;
+}
+
+.minipost-code span {
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    
 }

@@ -1,6 +1,7 @@
 // import modules
 import React, { useState, useRef, useEffect } from "react";
-import { v4 as uuidv4 } from 'uuid'; 
+import { v4 as uuidv4 } from 'uuid';
+import * as configs from '../configs.json';
 
 // import components
 import Tag from './Tag.jsx'
@@ -12,12 +13,18 @@ import ArrowIcon from '../assets/arrow-icon.svg'
 // import styles
 import '../styles/TagSelector.css'
 
-const TagSelector = () => {
+const TagSelector = ({ 
+    onConfirm, 
+    getSelectedTags, 
+    getTagOptions, 
+    currSelectedTags,
+    currTagOptions
+}) => {
     const [tagOptions, setTagOptions] = useState([])
 
     const [searchValue, setSearchValue] = useState("");    
     const [moreTagHover, setMoreTagHover] = useState(false);
-    const [selectedTags, setSelectedTags] = useState([]);
+    const [selectedTags, setSelectedTags] = useState(currSelectedTags || []);
     const [isCollapsed, setCollapsed] = useState(true);
 
     const searchRef = useRef(null);
@@ -31,75 +38,84 @@ const TagSelector = () => {
     }
 
     const handleTagSelect = (id) => {
-        if (!(selectedTags.find(tag => tag.id === id))) {
+        const selected = selectedTags.find(tag => tag?.id === id);
+        const unselected = tagOptions.find(tag => tag?.id === id);
+        if (unselected) {
             setSelectedTags(prevSelectedTags => 
-                [...prevSelectedTags, tagOptions.find(tag => tag.id === id)]
+                [...prevSelectedTags, unselected]
             );
             setTagOptions(prevTagOptions => 
-                prevTagOptions.filter(tag => tag.id !== id)
+                prevTagOptions.filter(tag => tag !== unselected)
             );
-        } else {
-            setTagOptions(prevSelectedTags => 
-                [...prevSelectedTags, tagOptions.find(tag => tag.id === id)]
+        } else if (selected) {
+            setTagOptions(prevTagOptions => 
+                [...prevTagOptions, selected]
             );
             setSelectedTags(prevTagOptions => 
-                [prevTagOptions.filter(tag => tag.id !== id)]
+                prevTagOptions.filter(tag => tag !== selected)
             );
         }
     }
 
+    const sampleData = [
+        {
+            tagName:"python",
+            id: uuidv4()
+        },
+        {
+            tagName: "javascript",
+            id: uuidv4()
+        },
+        {
+            tagName: "cpp",
+            id: uuidv4()
+        },
+        {
+            tagName: "rust",
+            id: uuidv4()
+        },
+        {
+            tagName: "java",
+            id: uuidv4()
+        },
+        {
+            tagName: "go",
+            id: uuidv4()
+        },
+        {
+            tagName: "typescript",
+            id: uuidv4()
+        },
+        {
+            tagName: "ruby",
+            id: uuidv4()
+        },
+        {
+            tagName: "php",
+            id: uuidv4()
+        },
+        {
+            tagName: "swift",
+            id: uuidv4()
+        },
+        {
+            tagName: "kotlin",
+            id: uuidv4()
+        }
+    ]
+
     /* set sample list of tag objects */
     useEffect(() => {
-        setTagOptions([
-            {
-                tagName:"python",
-                id: uuidv4()
-            },
-            {
-                tagName: "javascript",
-                id: uuidv4()
-            },
-            {
-                tagName: "cpp",
-                id: uuidv4()
-            },
-            {
-                tagName: "rust",
-                id: uuidv4()
-            },
-            {
-                tagName: "java",
-                id: uuidv4()
-            },
-            {
-                tagName: "go",
-                id: uuidv4()
-            },
-            {
-                tagName: "typescript",
-                id: uuidv4()
-            },
-            {
-                tagName: "ruby",
-                id: uuidv4()
-            },
-            {
-                tagName: "php",
-                id: uuidv4()
-            },
-            {
-                tagName: "swift",
-                id: uuidv4()
-            },
-            {
-                tagName: "kotlin",
-                id: uuidv4()
-            }
-        ]);
-    }, []);
+        if (currSelectedTags.length) {
+            setSelectedTags(currSelectedTags);
+            setTagOptions(currTagOptions)         
+        } else {
+            setSelectedTags([]);
+            setTagOptions(sampleData);
+        }
+    }, [])
 
     useEffect(() => {
-        console.log(selectedTags);
         if (!isCollapsed && tagBoxRef.current) {
             tagBoxRef.current.style.height = 'auto';
             tagBoxRef.current.style.height = (tagBoxRef.current.scrollHeight + 15) + 'px'
@@ -133,6 +149,30 @@ const TagSelector = () => {
                     alt="S"
                 />
             </div>
+            <div className="selected-tag">
+                <p className="selected-tag-header">
+                    <p className="selected-tag-text">
+                        selected tags
+                    </p>
+                    <p className="selected-tag-limit">
+                        {`${selectedTags.length}/8`}
+                    </p>
+                </p>
+                <div className="selected-tag-box">
+                    {!selectedTags.length ? "no tag selected." : (
+                        <>
+                        {selectedTags.map((tag) => 
+                            <Tag tagName={tag.tagName || "N/a"}
+                                onClick={() => {
+                                    handleTagSelect(tag.id)
+                                }}
+                            />
+                        )}
+                        
+                        </>
+                    )}
+                </div>
+            </div>
             <div className="tag-collapsible-selector">
                 <div className="tag-collapsible-selector-bar"
                     onClick={() => {
@@ -165,21 +205,37 @@ const TagSelector = () => {
                         "transition": "all 0.2s ease-in-out"
                     }}
                 >
-                    {tagOptions && (isCollapsed ? (
+                    {tagOptions.length ? (isCollapsed ? (
                         tagOptions.slice(0, 8).map((tag) =>
                             <Tag 
-                                tagName={tag.tagName || "N/A"}
-                                onClick={() => {handleTagSelect(tag.id)}}
+                                tagName={tag?.tagName || "N/A"}
+                                onClick={() => {
+                                    if (selectedTags.length < configs.tagsLimit) handleTagSelect(tag.id);
+                                }}
                             />
                         )
                     ) : (
                         tagOptions.map((tag) =>
                             <Tag 
-                                tagName={tag.tagName || "N/A" /* placeholder */}
+                                tagName={tag?.tagName || "N/A"}
+                                onClick={() => {
+                                    if (selectedTags.length < configs.tagsLimit) handleTagSelect(tag.id);
+                                }}
                             />
                         )
-                    ))}
+                    )) : "no tags available."}
                 </div>
+            </div>
+            <div className="confirm-button-container">
+                <button className="confirm-button"
+                    onClick={() => {
+                        onConfirm();
+                        getSelectedTags(selectedTags);
+                        getTagOptions(tagOptions);
+                    }}
+                >
+                    confirm
+                </button>
             </div>
         </div>
     );
