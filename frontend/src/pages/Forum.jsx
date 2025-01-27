@@ -143,6 +143,7 @@ const Forum = () => {
                                             )}
                                             postTags={null}
                                             postContent={forumPost.content}
+                                            codeLanguage={forumPost.code?.language}
                                             voteCount={forumPost.votes}
                                             topLevelFolder={null}
                                         />
