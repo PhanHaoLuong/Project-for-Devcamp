@@ -44,8 +44,6 @@ const User = ({ visitor }) => {
 
   }, [userId, navigate]);
 
-
-
   // Check if the user is the authenticated user to edit the profile
   useEffect(() => {
     if (userData) {
@@ -77,6 +75,7 @@ const User = ({ visitor }) => {
     
   }, [userData, userId, authUser, visitor]);
 
+  // Handle edit profile
   const handleEditProfile = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -107,7 +106,10 @@ const User = ({ visitor }) => {
   if (loading) return <div>Loading...</div>;
   if (!userData) return <div>Error loading user data</div>;
 
-  const { _id, name, email, realname, bio, reputation, posts, comments, visits } = userData;
+  const { _id, name, email, realname, bio, posts, comments, visits } = userData;
+
+  // Compute reputation by summing the votes of all posts of the user
+  const reputation = posts.reduce((acc, post) => acc + post.votes, 0);
 
   return (
     <div className="user-info">
