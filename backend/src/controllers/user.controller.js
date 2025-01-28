@@ -4,14 +4,20 @@ import user from '../models/user.model.js';
 const editUserProfile = async (req, res) => {
     try {
         const { userid } = req.params;
-        const { name, realname, bio } = req.body;
-        const updatedUser = await user.findOneAndUpdate
-        ({ _id: userid }, { name, realname, bio }, { new: true });
+        const { name, realname, email, bio } = req.body;
+        if (!mongoose.Types.ObjectId.isValid(userid)) {
+            return res.status(400).json({ message: 'Invalid user ID' });
+        }
+        const updatedUser = await user.findByIdAndUpdate(
+            userid,
+            { $set: { name, realname, email, bio } },
+            { new: true }
+        );
         res.status(200).json(updatedUser);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+};
 
 const updateVisits = async (req, res) => {
     try {
@@ -38,6 +44,6 @@ const updateVisits = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+};
 
 export { editUserProfile, updateVisits };

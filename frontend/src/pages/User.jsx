@@ -44,6 +44,8 @@ const User = ({ visitor }) => {
 
   }, [userId, navigate]);
 
+
+
   // Check if the user is the authenticated user to edit the profile
   useEffect(() => {
     if (userData) {
@@ -56,7 +58,7 @@ const User = ({ visitor }) => {
     const updateVisits = async () => {
       if (!authUser && userData) {
         try {
-          const response = await fetch(`http://localhost:3000/user/visit/${userId}`, {
+          const response = await fetch(`http://localhost:3000/user/${userId}/visit`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -75,10 +77,37 @@ const User = ({ visitor }) => {
     
   }, [userData, userId, authUser, visitor]);
 
+  const handleEditProfile = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.querySelector(".username").value;
+    const realname = form.querySelector(".realname").value;
+    const email = form.querySelector(".email").value;
+    const bio = form.querySelector(".bio").value;
+
+    try {
+      const response = await fetch(`http://localhost:3000/user/${userId}/edit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, realname, email, bio }),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to update profile. Status: ${response.status}`);
+      }
+      const data = await response.json();
+      setUserData(data);
+      setOnEdit(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (!userData) return <div>Error loading user data</div>;
 
-  const { _id, name, realname, bio, reputation, posts, comments, visits } = userData;
+  const { _id, name, email, realname, bio, reputation, posts, comments, visits } = userData;
 
   return (
     <div className="user-info">
@@ -107,18 +136,33 @@ const User = ({ visitor }) => {
           <div className="profile-details">
             <h3 className="username">{name || "Undefined"}</h3>
             <p className="realname">{realname || "Real name is not provided."}</p>
+            <p className="email">{email || "Email is not provided."}</p>
             <p className="bio">{bio || "No bio."}</p>
             {authUser && <button className="editButton" onClick={() => setOnEdit(true)}>Edit profile</button>}
           </div>}
           
           {onEdit &&
-          <form className="edit-profile">
-            <input type="text" className="username" placeholder="Username" />
-            <input type="text" className="realname" placeholder="Real Name" />
-            <input type="text" className="bio" placeholder="Bio" />
-            <div className="control-btn">
-            <button className="saveButton">Save</button>
-            <button className="cancelButton" onClick={() => setOnEdit(false)}>Cancel</button>
+          <form className="edit-profile" onSubmit={(e) => handleEditProfile(e)}>
+            <div className="profileElement">
+              <label htmlFor="username">Username</label>
+              <input type="text" className="username" placeholder="Username" defaultValue={name} />
+            </div>
+            <div className="profileElement">
+              <label htmlFor="realname">Real name</label>
+              <input type="text" className="realname" placeholder="Real name" defaultValue={realname} />
+            </div>
+            {authUser &&
+            <div className="profileElement">
+              <label htmlFor="email">Email</label>
+              <input type="email" className="email" placeholder="Email" defaultValue={email} />
+            </div>}
+            <div className="profileElement">
+              <label htmlFor="bio">Bio</label>
+              <textarea className="bio" placeholder="Bio" defaultValue={bio} />
+              </div>
+            <div className="profileElement control-btn">
+              <button className="saveButton" type="submit">Save</button>
+              <button className="cancelButton" onClick={() => setOnEdit(false)}>Cancel</button>
             </div>
           </form>}
 

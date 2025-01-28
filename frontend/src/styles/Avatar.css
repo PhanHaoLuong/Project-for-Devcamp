@@ -6,8 +6,8 @@
 }
 
 .user-profile .avatar, .post-user-container .avatar {
-    width: 7rem;
-    height: 7rem;
+    width: 8rem;
+    height: 8rem;
     border-radius: 50%;
     object-fit: cover;
     transition: all 0.3s ease;

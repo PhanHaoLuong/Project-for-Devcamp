@@ -16,8 +16,8 @@ router.get('/:userid', async (req, res) => {
     }
 });
 
-router.post('/visit/:userid', updateVisits);
+router.post('/:userid/visit', updateVisits);
 
-router.get('/edit', editUserProfile);
+router.post('/:userid/edit', editUserProfile); 
 
 export default router;

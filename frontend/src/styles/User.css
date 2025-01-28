@@ -103,14 +103,18 @@
 }
 
 .profile-details .realname,
+.profile-details .email,
 .profile-details .bio {
-    margin: 0.2rem 0;
     font-size: 0.8rem;
     font-weight: lighter;
 }
 
+.profile-details {
+    gap: 0.2rem;
+}
+
 .profile-details .editButton {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     padding: 0.5rem 1rem;
     background-color: #2d3d5b;
     color: var(--font-color);
@@ -124,6 +128,90 @@
     background-color: var(--box-bg-color);
 }
 
+/* Edit profile */
+.edit-profile {
+    gap: 0.5rem;
+    width: 80%;
+}
+
+.edit-profile .profileElement {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.edit-profile .profileElement label {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.edit-profile .profileElement input {
+    padding: 0.5rem;
+    background-color: var(--box-bg-color);
+    color: var(--font-color);
+    border: none;
+    border-radius: 3px;
+    height: 1.6rem;
+    max-width: 30.5rem;
+    width: 100%;
+}
+
+.edit-profile .profileElement textarea {
+    padding: 0.5rem;
+    background-color: var(--box-bg-color);
+    color: var(--font-color);
+    border: none;
+    border-radius: 3px;
+    height: 5rem;
+    width: 100%;
+    max-width: 30.5rem;
+}
+
+.edit-profile .control-btn {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.control-btn button {
+    padding: 0.5rem 1rem;
+    background-color: #2d3d5b;
+    color: var(--font-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.control-btn .saveButton {
+    padding: 0.5rem 1rem;
+    background-color: hsl(180, 78%, 25%);
+    color: var(--font-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.control-btn .saveButton:hover {
+    background-color: var(--hover-color);
+}
+
+.control-btn .cancelButton {
+    padding: 0.5rem 1rem;
+    background-color: #2d3d5b;
+    color: var(--font-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.control-btn .cancelButton:hover {
+    background-color: var(--box-bg-color);
+}
+
+/* User stats */
 .user-stats {
     display: flex;
     flex-wrap: wrap;
