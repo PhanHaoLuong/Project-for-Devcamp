@@ -108,8 +108,19 @@ const User = ({ visitor }) => {
 
   const { _id, name, email, realname, bio, posts, comments, visits } = userData;
 
-  // Compute reputation by summing the votes of all posts of the user
+  // Calculate user statistics
   const reputation = posts.reduce((acc, post) => acc + post.votes, 0);
+
+  const postCount = posts.reduce((acc, post) => {
+    if (!post.is_comment) return acc + 1;
+    return acc;
+  }, 0);
+  
+  const commentCount = posts.reduce((acc, post) => {
+    if (post.is_comment) return acc + 1;
+    return acc;
+  }, 0);
+
 
   return (
     <div className="user-info">
@@ -138,7 +149,9 @@ const User = ({ visitor }) => {
           <div className="profile-details">
             <h3 className="username">{name || "Undefined"}</h3>
             <p className="realname">{realname || "Real name is not provided."}</p>
-            <p className="email">{email || "Email is not provided."}</p>
+            {authUser && 
+              <p className="email"><i>{email || "Email is not provided."}</i></p>
+            }
             <p className="bio">{bio || "No bio."}</p>
             {authUser && <button className="editButton" onClick={() => setOnEdit(true)}>Edit profile</button>}
           </div>}
@@ -160,7 +173,7 @@ const User = ({ visitor }) => {
             </div>}
             <div className="profileElement">
               <label htmlFor="bio">Bio</label>
-              <textarea className="bio" placeholder="Bio" defaultValue={bio} />
+              <textarea className="bio" placeholder="Bio" defaultValue={bio} maxLength={200} />
               </div>
             <div className="profileElement control-btn">
               <button className="saveButton" type="submit">Save</button>
@@ -172,27 +185,27 @@ const User = ({ visitor }) => {
 
         <div className="user-stats">
           <Statistics
-            className="stat"
             iconClass="ti-star reputation-count"
-            label="Reputation"
+            label="Reputation"            
+            description="Total votes of all posts and comments"
             value={reputation || 0}
           />
           <Statistics
-            className="stat"
             iconClass="ti-write post-count"
             label="Total Posts"
-            value={posts?.length || 0}
+            description="Total number of posts"
+            value={postCount|| 0}
           />
           <Statistics
-            className="stat"
             iconClass="ti-comments comment-count"
             label="Comments"
-            value={comments || 0}
+            description="Total number of comments"
+            value={commentCount || 0}
           />
           <Statistics
-            className="stat"
             iconClass="ti-eye view-count"
             label="Visits"
+            description="Total number of guests visiting this user's profile"
             value={visits?.length || 0}
           />
         </div>

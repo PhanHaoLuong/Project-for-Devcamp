@@ -98,15 +98,20 @@
 
 /* Profile details */
 .profile-details .username {
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+    font-weight: lighter;
 }
 
-.profile-details .realname,
 .profile-details .email,
 .profile-details .bio {
     font-size: 0.8rem;
     font-weight: lighter;
+}
+
+.profile-details .realname {
+    font-size: 0.8rem;
+    font-weight: bold;
 }
 
 .profile-details {
@@ -114,7 +119,7 @@
 }
 
 .profile-details .editButton {
-    margin-top: 0.5rem;
+    margin-top: 0.6rem;
     padding: 0.5rem 1rem;
     background-color: #2d3d5b;
     color: var(--font-color);
@@ -122,6 +127,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 150px;
 }
 
 .profile-details .editButton:hover {
@@ -218,10 +224,6 @@
     justify-content: space-between;
     gap: 1rem;
 } 
-
-.user-stats .stat:hover {
-    transform: scale(1.05); 
-}
 
 .posts {
     margin-top: 1rem;
