@@ -29,7 +29,6 @@ export default function FullPost({
     postId, 
     isComment, 
     isAccepted, 
-    isSaved, 
     timeSincePost, 
     author, 
     authorId,
@@ -42,7 +41,9 @@ export default function FullPost({
     user,
 }){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
-    const [saveButtonActive, setSaveButtonActive] = useState(false);
+    if (user) {
+        var [saveButtonActive, setSaveButtonActive] = useState(user.savedPosts.includes(postId));
+    }
     const [isCodeExpanded, setIsCodeExpanded] = useState(false);
 
     if (folderContent){

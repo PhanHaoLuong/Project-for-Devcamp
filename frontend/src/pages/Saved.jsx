@@ -8,11 +8,11 @@ const Saved = () => {
   return (
       <div className="saved"> 
         <div className="header">
-          <i className="ti-bookmark"></i> saved
+          <i className="ti-bookmark-alt"></i> saved posts
         </div>
         <div className="body post">
           <h1>Saved Posts</h1>
-          <Post />
+          <MiniPost />
         </div>
       </div>
   );
