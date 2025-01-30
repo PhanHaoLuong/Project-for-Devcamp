@@ -25,6 +25,7 @@ import Saved from "./pages/Saved";
 import CodeEditor from "./pages/CodeEditor";
 import Forum from "./pages/Forum";
 import CreatePost from "./pages/CreatePost";
+import Test from "./pages/Test";
 
 import "./App.css";
 
@@ -91,8 +92,7 @@ function App() {
             path="/component-test"
             element={
               <>
-                <FileItem isFolder="true" />
-                <FileItem />
+                <Test />
               </>
             }
           />
