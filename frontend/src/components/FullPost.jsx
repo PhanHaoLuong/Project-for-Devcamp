@@ -65,6 +65,17 @@ export default function FullPost({
         toast.success("URL copied to clipboard!");
     }
 
+    // Save and unsave post to user's savedPosts via backend
+    useEffect(() => {
+        if (user) {
+            if (saveButtonActive) {
+                user.savedPosts.push(postId);
+            } else {
+                user.savedPosts = user.savedPosts.filter((savedPostId) => savedPostId !== postId);
+            }
+        }
+    }, [saveButtonActive]);
+
     return (
         <>
             <ToastContainer />
@@ -86,17 +97,19 @@ export default function FullPost({
                     </div>
                     {!isComment ? (
                         <div className="share-save-container">
+                            {/* Share button */}
                             <button className="share-button" onClick={copyUrl}>
                                 <span className="share-icon"><img src={ShareIcon} ></img></span>
                                 <span className="share-title">share</span>
                             </button>
+                            {/* Save button */}
                             <button className={`${saveButtonActive ? "saved" : "save" }-button`}
                                     onClick={() => {
                                         setSaveButtonActive(!saveButtonActive);
                                     }}>
-                                    <span className="save-icon">
-                                        <img src={saveButtonActive ? FilledSaveIcon : SaveIcon} ></img>
-                                    </span>
+                                <span className="save-icon">
+                                    <img src={saveButtonActive ? FilledSaveIcon : SaveIcon} ></img>
+                                </span>
                                 <span className="save-title">{saveButtonActive ? "saved" : "save" }</span>
                             </button>
                         </div>

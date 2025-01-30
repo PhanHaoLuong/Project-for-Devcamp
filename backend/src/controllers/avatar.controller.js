@@ -9,25 +9,24 @@ export const uploadAvatar = async (req, res) => {
   }
 
   try {
-    let avatar = await Avatar.findOne({ userId });
-
-    if (avatar) {
-      // If user already has an avatar, set currentAvatar to false
-      avatar.currentAvatar = false;
-      await avatar.save();
+    // Find the current avatar for the user and set its currentAvatar field to false
+    let currentAvatar = await Avatar.findOne({ userId, currentAvatar: true });
+    if (currentAvatar) {
+      currentAvatar.currentAvatar = false;
+      await currentAvatar.save();
     }
 
     // Create new avatar
-    avatar = new Avatar({
+    const newAvatar = new Avatar({
       userId: userId,
-      imageName: avatarFile ? `${avatarFile.filename}` : 'default.png',
+      imageName: avatarFile.filename,
       mimeType: avatarFile.mimetype,
       size: avatarFile.size,
+      currentAvatar: true
     });
-    
 
-    await avatar.save();
-    res.json({ avatar: avatar.imageName });
+    await newAvatar.save();
+    res.json({ avatar: newAvatar.imageName });
   } catch (error) {
     console.error('Error updating avatar:', error);
     res.status(500).send('Server error');
