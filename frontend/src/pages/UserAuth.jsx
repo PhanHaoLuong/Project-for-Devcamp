@@ -119,7 +119,6 @@ const UserAuth = ({}) => {
     return (
         <>
             <div className="page-content">
-                {/* <Navbar /> */}
                 <div className="login-window">
                     <form onSubmit={handleSubmit} className="login-form">
                         <div className="login-body">
