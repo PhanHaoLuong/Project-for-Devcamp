@@ -1,34 +1,36 @@
 .file-item-container img {
-    height: 16px;
+    height: 20px;
 }
 
 .file-item-container * {
     color: #BBC7DD;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
 
 }
 
 .file-item {
     min-width: 500px;
-    background-color: #192233;
+    background-color: #2d3d5b;
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: auto;
-    padding: 12px 20px;
+    padding: 10px 20px;
     width: 100%;
     border: none;
     border-radius: 15px;
     cursor: pointer;
     transition: all 0.3s;
+
 }
 
 .file-name-container {
     width: 70%;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     overflow: hidden;
+    height: 30px;
 }
 
 .file-name {
@@ -80,6 +82,7 @@
     width: 50%;
     max-width: 120px;
     min-width: 100px;
+    height: 30px;
     font-weight: normal;
     font-weight: bold;
     transition: all 0.3s;

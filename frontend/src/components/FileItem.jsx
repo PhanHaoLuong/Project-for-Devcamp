@@ -11,7 +11,7 @@ import '../styles/FileItem.css'
 
 const FileItem = ({ 
     isFolder=false, 
-    isUploading,
+    viewMode,
     loadMessage,
     fileName, 
     openFile, 
@@ -32,7 +32,7 @@ const FileItem = ({
                     <div className="file-size">
                         {!isFolder ? (displayFileSize(fileSize || "")) : ("")}
                     </div>
-                    {isUploading ? (
+                    {!viewMode ? (
                         <div className="remove-file" onClick={removeFile}>
                             remove file
                         </div>

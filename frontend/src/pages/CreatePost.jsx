@@ -15,6 +15,7 @@ function CreatePost() {
   const [titleText, setTitleText] = useState(0);
   const [contentText, setContentText] = useState(0);
   const [isCodeEdit, setCodeEdit] = useState(false);
+  const [isFileUpload, setFileUpload] = useState(false);
   const [codeLanguage, setCodeLanguage] = useState("");
   const [codeContent, setCodeContent] = useState("");
 

@@ -1,0 +1,104 @@
+.file-panel * {
+    color: #BBC7DD;
+}
+
+.file-panel .file-item {
+    width: 100%;
+}
+
+.file-panel input {
+    display: none;
+}
+
+.file-panel {
+    width: 1000px;
+}
+
+.file-container {
+    border-radius: 15px;
+    width: 100%;
+    padding: 20px 20px;
+    background-color:  rgb(34, 46, 68);
+    overflow: hidden;
+}
+
+.dropzone-root {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: #BBC7DD solid 1px;
+    border-radius: 15px;
+    background-color: #192233;
+    padding: 10px;
+    width: 100%;
+    gap: 7px;
+    flex-wrap: wrap;
+    min-height: 300px;
+}
+
+.drop-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 2.5rem;
+    background-color: #2d3d5b;
+    z-index: 2;
+    border-radius: 15px;
+    opacity: 0.75;
+}
+
+.drop-screen-icon {
+    display: flex;
+    align-items: center;
+}
+
+.drop-screen img {
+    height: 50px;
+    width: 50px;
+}
+
+.drop-screen-transition-enter {
+    opacity: 0;
+}
+
+.drop-screen-transition-enter-active {
+    opacity: 0.75;
+    transition: all 0.2s;
+}
+
+.drop-screen-transition-exit {
+    opacity: 0.75;
+}
+
+.drop-screen-transition-exit-active {
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+.file-upload-button {
+    display: flex;
+    width: 100%;
+}
+
+.file-upload-button button {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin: 10px 0;
+    padding: 12px 30px;
+    border-radius: 10px;
+    border: none;
+    background-color: #007070;
+    transition: all 0.3s;
+}
+
+.file-upload-button button:hover {
+    background-color: #008B8B;
+    transition: all 0.1s;
+}
