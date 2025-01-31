@@ -1,8 +1,9 @@
 // import modules
 import React, { useState, useEffect, useRef } from "react";
-import Dropzone, { useDropzone } from 'react-dropzone';
 import { CSSTransition } from 'react-transition-group';
+import Dropzone, { useDropzone } from 'react-dropzone';
 import { v4 as uuidv4 } from 'uuid';
+import JSZip from 'jszip';
 
 // import components
 import FileItem from "./FileItem";
@@ -81,42 +82,17 @@ const DisplayUpload = ({
                     return {
                         id: uuidv4(),
                         name: file.name,
-                        size: file.size
+                        size: file.size,
+                        path: file.webkitRelativePath
                     }
                 })
             ])
+
         },
         disabled: viewMode,
         noClick: !isEmpty,
         useFsAccessApi: false
     });
-
-
-    // sample file and folder data
-    useEffect(() => {
-        setFilesArr([
-            {
-                id: uuidv4(),
-                name: "image.png",
-                size: "123213123213"
-            },
-            {
-                id: uuidv4(),
-                name: "document.pdf",
-                size: "456789456789"
-            },
-            {
-                id: uuidv4(),
-                name: "presentation.pptx",
-                size: "789123789123"
-            },
-            {
-                id: uuidv4(),
-                name: "spreadsheet.xlsx",
-                size: "321654321654"
-            }
-        ])
-    }, [])
 
 
     useEffect(() => {
@@ -133,20 +109,9 @@ const DisplayUpload = ({
         }
     }, [folderUpload]) */
 
+    const createZipFromFolder = async (files) => {
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const newFileMetadata = {
-                id: uuidv4(),
-                name: file.name,
-                size: file.size
-            }
-            setFilesArr(prevMetadataArr => 
-                [...prevMetadataArr, newFileMetadata]
-            )
-        }
-    }
+    };
 
 
     const handleRemove = (id) => {
@@ -166,9 +131,9 @@ const DisplayUpload = ({
                 </div> */}
                 <input 
                     type="file" 
-                    onChange={handleFileChange}
                     ref={fileInputRef}
-                    {...getInputProps({webkitdirectory: !folderUpload ? "true" : true})}
+                    webkitdirectory={folderUpload ? "true" : false}
+                    {...getInputProps()}
                 /> {/* hidden input */}
                 <div className="upload-select-container">
                     <button className="upload-button"
@@ -183,7 +148,7 @@ const DisplayUpload = ({
                         onClick={() => setFolderUpload(!folderUpload)}
                     >
                         <div className="slider" ref={sliderRef}
-                            style={folderUpload ? {
+                            style={!folderUpload ? {
                                 left: 0,
                                 transform: "translateX(0)",
                                 transition: "all ease-in-out 0.2s"
