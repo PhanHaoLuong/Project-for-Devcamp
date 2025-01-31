@@ -8,7 +8,8 @@ import { v4 as uuidv4 } from 'uuid';
 import FileItem from "./FileItem";
 
 // import assets
-import FolderIcon from "../assets/folder.svg"
+import FolderIcon from "../assets/folder.svg";
+import AddIcon from "../assets/add.svg";
 
 // import styles
 import '../styles/FileUpload.css'
@@ -22,14 +23,24 @@ const DisplayUpload = ({
     // default value
     const [filesArr, setFilesArr] = useState([]);
     const [isDropping, setDropping] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(true);
+    const [folderUpload, setFolderUpload] = useState(false);
+
     const fileInputRef = useRef(null);
+    const dropzoneRef = useRef(null);
+
+    const sliderRef = useRef(null);
+    const folderOptionRef = useRef(null);
+    const fileOptionRef = useRef(null);
 
     // drop screen component
     const [dropScreenBg, setDropScreenBg] = useState("#192233");
 
-    const dropScreen = (
+
+    const dropScreen = !viewMode ? (
         <div className="drop-screen"
-            style={!filesArr.length ? {
+            style={isEmpty ? {
+                cursor: "pointer",
                 backgroundColor: dropScreenBg,
                 transition: "all 0.1s"
             } : {}}
@@ -37,24 +48,31 @@ const DisplayUpload = ({
             <span className="drop-screen-icon">
                 <img src={FolderIcon} />
             </span>
-            <span className="drop-screen-text">drop to upload</span>
+            <span className="drop-screen-text">{`${isEmpty ? "click or" : "" } drop to upload`}</span>
         </div>
-    );
+    ) : (<></>);
 
-    const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone({
+
+    const {
+        acceptedFiles, 
+        getRootProps, 
+        getInputProps,
+        open,
+        isDragActive
+    } = useDropzone({
         onDrop: () => {
             setDropping(false);
-            if (!filesArr.length) setDropScreenBg("#192233");
+            if (isEmpty) setDropScreenBg("#192233");
         },
 
         onDragEnter: () => {
             setDropping(true);
-            if (!filesArr.length) setDropScreenBg("");
+            if (isEmpty) setDropScreenBg("");
         },
 
         onDragLeave: () => {
             setDropping(false);
-            if (!filesArr.length) setDropScreenBg("#192233");
+            if (isEmpty) setDropScreenBg("#192233");
         },
         
         onDropAccepted: (acceptedFiles) => {
@@ -67,8 +85,12 @@ const DisplayUpload = ({
                     }
                 })
             ])
-        }
+        },
+        disabled: viewMode,
+        noClick: !isEmpty,
+        useFsAccessApi: false
     });
+
 
     // sample file and folder data
     useEffect(() => {
@@ -96,6 +118,22 @@ const DisplayUpload = ({
         ])
     }, [])
 
+
+    useEffect(() => {
+        if (!filesArr.length) {
+            setIsEmpty(true);
+        } else {
+            setIsEmpty(false);
+        }
+    }, [filesArr]);
+
+    /* useEffect(() => {
+        if (sliderRef.current && folderOptionRef.current && fileOptionRef.current) {
+            sliderRef.current.style.width = folderOptionRef.current.off;
+        }
+    }, [folderUpload]) */
+
+
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -110,29 +148,70 @@ const DisplayUpload = ({
         }
     }
 
+
     const handleRemove = (id) => {
         setFilesArr(prevMetadataArr =>
             prevMetadataArr.filter(file => file.id !== id)
         );
     }
 
+
     return (
         <div className="file-panel">
-            {!viewMode ? (
-                <div className="file-upload-button">
-                    <button>upload file</button>
-                </div>
-            ) : ("")}
             <div className="file-container">
+                {/* <div className="current-path"
+                 style={{fontSize: "2rem"}}
+                >
+                    &gt; ./app
+                </div> */}
                 <input 
                     type="file" 
                     onChange={handleFileChange}
                     ref={fileInputRef}
-                    {...getInputProps({onClick: event => event.preventDefault()})}
+                    {...getInputProps({webkitdirectory: !folderUpload ? "true" : true})}
                 /> {/* hidden input */}
-                <div className="dropzone-root" {...getRootProps()}>
+                <div className="upload-select-container">
+                    <button className="upload-button"
+                        onClick={open}
+                    >
+                        <span className="logo">
+                            <img src={AddIcon} />
+                        </span>
+                        <span className="upload-text">upload</span>
+                    </button>
+                    <button className="upload-type-select"
+                        onClick={() => setFolderUpload(!folderUpload)}
+                    >
+                        <div className="slider" ref={sliderRef}
+                            style={folderUpload ? {
+                                left: 0,
+                                transform: "translateX(0)",
+                                transition: "all ease-in-out 0.2s"
+                            } : {
+                                transform: "translateX(calc(75px))",
+                                transition: "all ease-in-out 0.2s"
+                            }}
+                        ></div>
+                        <span 
+                            className="upload-type-option" 
+                            id="file-upload-option"
+                            ref={fileOptionRef}
+                        >file</span>
+                        <span 
+                            className="upload-type-option" 
+                            id="folder-upload-option"
+                            ref={folderOptionRef}
+                        >folder</span>
+                    </button>
+                </div>
+                <div 
+                    className="dropzone-root"
+                    ref={dropzoneRef}
+                    {...getRootProps()}
+                >
+
                     <CSSTransition
-                        in={isDropping || !filesArr.length}
+                        in={isDropping || isEmpty}
                         classNames={"drop-screen-transition"}
                         timeout={450}
                         mountOnEnter
@@ -146,6 +225,7 @@ const DisplayUpload = ({
                                 isUploading={true}
                                 fileName={fileMetadata.name}
                                 fileSize={fileMetadata.size}
+                                viewMode={viewMode}
                                 removeFile={() => handleRemove(fileMetadata.id)}
                             />  
                         );

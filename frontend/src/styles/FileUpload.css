@@ -15,12 +15,56 @@
 }
 
 .file-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     border-radius: 15px;
     width: 100%;
     padding: 20px 20px;
     background-color:  rgb(34, 46, 68);
     overflow: hidden;
 }
+
+.upload-select-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.upload-type-select {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: none;
+    outline: #BBC7DD solid 2px;
+    border: none;
+    border-radius: 20px;
+    height: 40px;
+}
+
+.upload-type-option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 0;
+    width: 85px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.slider {
+    position: absolute;
+    height: 40px;
+    width: 95px;
+    border-radius: 20px;
+    background-color: #3c5075;
+    z-index: 0;
+}
+
+
 
 .dropzone-root {
     position: relative;
@@ -34,6 +78,40 @@
     gap: 7px;
     flex-wrap: wrap;
     min-height: 300px;
+    transition: all 0.5s;
+}
+
+.upload-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 30px;
+    background-color: #007070;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    width: 180px;
+    transition: all 0.3s;
+}
+
+.upload-button:hover {
+    background-color: #008B8B;
+    transition: all 0.1s;
+}
+
+.upload-button .logo {
+    display: flex;
+    align-items: center;
+    height: 20px;
+    width: 20px
+}
+
+.upload-button img {
+    height: 100%;
+    width: 100%
 }
 
 .drop-screen {
@@ -51,6 +129,8 @@
     z-index: 2;
     border-radius: 15px;
     opacity: 0.75;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .drop-screen-icon {
@@ -78,27 +158,10 @@
 
 .drop-screen-transition-exit-active {
     opacity: 0;
-    transition: all 0.2s;
+    transition: all 0.15s;
 }
 
 .file-upload-button {
     display: flex;
     width: 100%;
-}
-
-.file-upload-button button {
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin: 10px 0;
-    padding: 12px 30px;
-    border-radius: 10px;
-    border: none;
-    background-color: #007070;
-    transition: all 0.3s;
-}
-
-.file-upload-button button:hover {
-    background-color: #008B8B;
-    transition: all 0.1s;
 }

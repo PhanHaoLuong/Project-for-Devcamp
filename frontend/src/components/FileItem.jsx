@@ -1,6 +1,6 @@
 // import modules
 import React, { useState, useEffect } from "react";
-import displayFileSize from "../utils/displayFileSize";
+import displayFileSize from "../utils/displayFileSize.js";
 
 // import assets
 import FolderIcon from '../assets/folder.svg'
