@@ -1,6 +1,6 @@
 // import modules
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { CSSTransition } from 'react-transition-group';
 import ellipsis from "../utils/ellipsis.js";
 
 // import components
@@ -8,6 +8,7 @@ import Avatar from "./Avatar.jsx";
 import Vote from "./Vote.jsx"
 import FileItem from "./FileItem.jsx";
 import Tag from './Tag.jsx';
+import CodeViewer from "./CodeViewer.jsx";
 
 // import assets
 import HashIcon from '../assets/hash.png';
@@ -18,6 +19,7 @@ import TerminalIcon from '../assets/terminal.svg';
 import FolderIcon from '../assets/folder.svg'
 import FilledSaveIcon from '../assets/save-filled.svg'
 import AcceptedIcon from '../assets/tick.svg'
+import TriangleIcon from '../assets/vote.svg';
 
 // import style
 import '../styles/FullPost.css';
@@ -37,8 +39,8 @@ export default function FullPost({
     folderContent 
 }){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
-
     const [saveButtonActive, setSaveButtonActive] = useState(false);
+    const [isCodeExpanded, setIsCodeExpanded] = useState(false);
 
     if (folderContent){
         folderContent.sort((a, b) => {
@@ -105,9 +107,9 @@ export default function FullPost({
                                 <span className="accepted-text">accepted</span>
                             </div>
                         ):("")}
-                        <div className="vote-container">
+                        {!isComment && <div className="vote-container">
                             <Vote voteCount={voteCount}/>
-                        </div>
+                        </div>}
                         {(!isComment && postTags) ? (
                             <div className="tag-container">
                                 {postTags.map((tag, index) => {
@@ -139,15 +141,53 @@ export default function FullPost({
                                         <img src={CodeIcon}></img>
                                     </span>
                                     <span className="code-header-text">code</span>
+                                    {!isCodeExpanded ? (
+                                        <button className="code-toggle code-hidden"
+                                            onClick={() => setIsCodeExpanded(!isCodeExpanded)}
+                                        >
+                                            <span className="code-toggle-text">hide code</span>
+                                            <span className="code-toggle-logo">
+                                                <img src={TriangleIcon} 
+                                                    style={{
+                                                        "rotate":"0.5turn",
+                                                        "transition":"all ease-in-out 0.1s"
+                                                    }}
+                                                >
+                                                </img>
+                                            </span>
+                                        </button>
+                                    ) : (
+                                        <button className="code-toggle"
+                                            onClick={() => setIsCodeExpanded(!isCodeExpanded)}
+                                        >                                         
+                                            <span className="code-toggle-text">show code</span>
+                                            <span className="code-toggle-logo">
+                                                <img src={TriangleIcon} 
+                                                    style={{
+                                                        "rotate":"0.25turn",
+                                                        "transition":"all ease-in-out 0.2s"
+                                                    }}
+                                                >
+                                                </img>
+                                            </span>
+                                        </button>
+                                    )}
                                 </div>
-                                {/* placeholder, replace with component */}
-                                <div className="code-content">
-                                    <pre>
-                                    <code>
-                                        {'#include <iostream>;\n\nusing namespace std;\n\nint main() {\n\tcout << "Hello, World!" << endl;\n\treturn 0;\n}'}
-                                    </code>
-                                    </pre>
-                                </div>
+                                    <CSSTransition
+                                        in={!isCodeExpanded}
+                                        classNames={"code-content"}
+                                        timeout={200}
+                                        mountOnEnter
+                                        unmountOnExit
+                                    >
+                                        <div className="code-content">
+                                            <CodeViewer
+                                                codeContent={codeContent.data} 
+                                                codeLanguage={codeContent.language} 
+                                                lineCount={codeContent.lines}
+                                            />
+                                        </div>
+                                    </CSSTransition>
                             </div>
                         ) : ("")}
                         {(folderContent ? (

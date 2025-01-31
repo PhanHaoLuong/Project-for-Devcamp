@@ -1,7 +1,7 @@
 // import modules
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import displayTimeWithUnit from "../utils/displayTime";
+import { useNavigate, useParams } from "react-router-dom";
+import displayTime from "../utils/displayTime";
 
 //import components
 import FullPost from "../components/FullPost";
@@ -9,12 +9,12 @@ import AddIcon from "../assets/add.svg";
 
 // import styles
 import '../styles/FullPostPage.css'
-import displayTime from "../utils/displayTime";
 
 const FullPostPage = () => {
     const [postData, setPostData] = useState(null);
     const [commentData, setCommentData] = useState(null);
 
+    const navigate = useNavigate();
     const { postId } = useParams();
 
     useEffect(() => {
@@ -55,7 +55,6 @@ const FullPostPage = () => {
         }
 
         getPostData();
-
     }, [])
     
 
@@ -84,7 +83,6 @@ const FullPostPage = () => {
                                 author={comment.author.name || "N/A"} 
                                 postTitle={comment.title || "N/A"}
                                 timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
-                                voteCount={comment.votes || "N/A"} 
                                 postTags={null} // placeholder 
                                 postContent={comment.content || null}
                                 codeContent={comment.code || null}
@@ -100,7 +98,6 @@ const FullPostPage = () => {
                                     author={comment.author.name || "N/A"} 
                                     postTitle={comment.title || "N/A"}
                                     timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
-                                    voteCount={comment.votes || "N/A"} 
                                     postTags={null} // placeholder 
                                     postContent={comment.content || null}
                                     codeContent={comment.code || null}
@@ -112,7 +109,9 @@ const FullPostPage = () => {
                     
                 
             </div>
-            <button className="comment-button">
+            <button className="comment-button"
+                onClick={() => {navigate("./comment", {state: {postData: postData}})}}
+            >
                 <span className="comment-logo">
                     <img src={AddIcon}></img>
                 </span>

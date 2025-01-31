@@ -5,3 +5,41 @@
     align-items: center; 
     justify-content: center;
 }
+
+.comment-button {
+    border: none;
+    position: fixed;
+    right: 10%;
+    bottom: 20px;
+    cursor: pointer;
+    display: flex;
+    background-color: #008B8B;
+    border-radius: 10px;
+    padding: 8px 12px;
+    gap: 5px;
+    transition: all 0.3s;
+}
+
+.comment-button * {
+    color:#BBC7DD;
+}
+
+.comment-button:hover {
+    background-color: #007070;
+    transition: all 0.1s;
+}
+
+.comment-button-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.comment-logo {
+    height: 16px;
+    width: 16px;
+}
+
+.comment-logo img {
+    height: 100%;
+    width: 100%;
+}

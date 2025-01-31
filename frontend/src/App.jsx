@@ -14,17 +14,21 @@ import * as pageAddress from "./pages/page-address.json";
 import Navbar from "./components/Navbar";
 import MiniPost from "./components/MiniPost";
 import FileItem from "./components/FileItem";
+import DialogBox from "./components/DialogBox";
 
 /* import pages */
-import FullPostPage from "./pages/FullPostPage";
 import UserSignUp from "./pages/UserSignUp";
 import UserAuth from "./pages/UserAuth";
+
 import Home from "./pages/Home";
 import User from "./pages/User";
+
 import Saved from "./pages/Saved";
-import CodeEditor from "./pages/CodeEditor";
 import Forum from "./pages/Forum";
+import FullPostPage from "./pages/FullPostPage";
+
 import CreatePost from "./pages/CreatePost";
+import CreateComment from "./pages/CreateComment";
 import Test from "./pages/Test";
 
 import "./App.css";
@@ -87,7 +91,10 @@ function App() {
           <Route path="/user" element={<User />} />
           <Route path="/saved" element={<Saved />} />
 {/*           <Route path="/fileupload" element={<Fileupload />} /> */}
-          <Route path="/post/:postId" element={<FullPostPage />} />
+          <Route 
+            path="/post/:postId" 
+            element={<FullPostPage />} 
+          />
           <Route
             path="/component-test"
             element={
@@ -96,10 +103,18 @@ function App() {
               </>
             }
           />
-          <Route path="/post/create" element={<CreatePost />} />
+          <Route 
+            path="/post/create" 
+            element={<CreatePost />} 
+          />
           <Route
-            path={pageAddress.userProfile}
-            element={<User userId={userData?.id} />}
+            path="/user/:userId"
+            element={<User />}
+          />
+          {/* placeholder create comment route, change when appropriate */}
+          <Route 
+            path="/post/:postId/comment"
+            element={<CreateComment />}
           />
         </Routes>
       </Router>
