@@ -145,3 +145,34 @@ export const accept_comment = async (req, res) => {
         res.status(500).send(error.message)
     }
 }
+
+export const save_unsave_post = async (req, res) => {
+    const { userId } = req.body;
+    const { postId, action } = req.params;
+
+    if (!userId || !postId) {
+        return res.status(400).json({ message: 'Missing userId or postId' });
+    }
+
+    console.log(userId, postId, action)
+
+    try {
+        const userData = await user.findById(userId);
+        if (!userData) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (action === 'save') {
+            if (!userData.savedPosts.includes(postId)) {
+                userData.savedPosts.push(postId);
+            }
+        } else if (action === 'unsave') {
+            userData.savedPosts = userData.savedPosts.filter(id => id !== postId);
+        }
+
+        await userData.save();
+        res.status(200).json({ message: 'Post saved/unsaved successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

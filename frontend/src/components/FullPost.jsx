@@ -65,16 +65,64 @@ export default function FullPost({
         toast.success("URL copied to clipboard!");
     }
 
-    // Save and unsave post to user's savedPosts via backend
-    useEffect(() => {
+    // Save or unsave post
+    const toggleSavePost = () => {
+        const toggleSavePost = async () => {
+        console.log("save button clicked");
+
+        if (!user) {
+            toast.error("You must be logged in to save posts.");
+            return;
+        }
+    
+        try {
+            const action = saveButtonActive ? 'unsave' : 'save';
+    
+            const response = await fetch(`http://localhost:3000/post/${postId}/${action}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId: user._id })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to update saved posts in the backend.');
+            }
+
+            console.log(user);
+    
+            // Update the frontend state after the backend operation
+            if (saveButtonActive) {
+                user.savedPosts = user.savedPosts.filter((savedPost) => savedPost !== postId);
+                toast.success("Post unsaved.");
+            } else {
+                user.savedPosts.push(postId);
+                toast.success("Post saved.");
+            }
+    
+            setSaveButtonActive(!saveButtonActive);
+        } catch (error) {
+            toast.error("Error updating saved posts.");
+            console.error('Error:', error);
+        }
+    };
+    
         if (user) {
             if (saveButtonActive) {
-                user.savedPosts.push(postId);
-            } else {
-                user.savedPosts = user.savedPosts.filter((savedPostId) => savedPostId !== postId);
+                user.savedPosts = user.savedPosts.filter((savedPost) => savedPost !== postId);
+                toast.success("Post unsaved.");
             }
+            else {
+                user.savedPosts.push(postId);
+                toast.success("Post saved.");
+            }
+            setSaveButtonActive(!saveButtonActive);
         }
-    }, [saveButtonActive]);
+        else {
+            toast.error("You must be logged in to save posts.");
+        }
+    }
 
     return (
         <>
@@ -105,7 +153,7 @@ export default function FullPost({
                             {/* Save button */}
                             <button className={`${saveButtonActive ? "saved" : "save" }-button`}
                                     onClick={() => {
-                                        setSaveButtonActive(!saveButtonActive);
+                                        toggleSavePost();
                                     }}>
                                 <span className="save-icon">
                                     <img src={saveButtonActive ? FilledSaveIcon : SaveIcon} ></img>
