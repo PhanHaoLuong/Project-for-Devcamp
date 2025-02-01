@@ -49,7 +49,12 @@ const FileItem = ({
                             {!isFolder ? (displayFileSize(fileSize || "")) : ("")}
                         </div>
                         {!viewMode ? (
-                            <div className="remove-file" onClick={() => setConfirmRemove(true)}>
+                            <div className="remove-file" 
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    setConfirmRemove(true);
+                                }}
+                            >
                                 remove file
                             </div>
                         ) : ("")}

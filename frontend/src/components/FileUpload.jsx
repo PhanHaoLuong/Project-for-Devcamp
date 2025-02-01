@@ -7,6 +7,7 @@ import JSZip from 'jszip';
 
 // import components
 import FileItem from "./FileItem";
+import ImageViewer from "./ImageViewer";
 
 // import assets
 import FolderIcon from "../assets/folder.svg";
@@ -17,15 +18,18 @@ import '../styles/FileUpload.css'
 
 
 const DisplayUpload = ({
-    files,
+    viewModeFilesArr,
     viewMode,
     setParentFiles
 }) => {
     // default value
-    const [filesArr, setFilesArr] = useState([]);
+    const [filesArr, setFilesArr] = useState(viewModeFilesArr || []);
     const [isDropping, setDropping] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
     const [folderUpload, setFolderUpload] = useState(false);
+
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [imageViewerVisible, openImageViewer] = useState(false);
 
     const fileInputRef = useRef(null);
     const dropzoneRef = useRef(null);
@@ -83,7 +87,8 @@ const DisplayUpload = ({
                         id: uuidv4(),
                         name: file.name,
                         size: file.size,
-                        path: file.webkitRelativePath
+                        path: file.webkitRelativePath,
+                        preview: URL.createObjectURL(file)
                     }
                 })
             ])
@@ -94,6 +99,17 @@ const DisplayUpload = ({
         useFsAccessApi: false
     });
 
+    useEffect(() => {
+        // revoke preview urls when unmount
+        return () => {
+            filesArr.forEach(file => {
+                if (file.preview) {
+                    URL.revokeObjectURL(file.preview);
+                }
+            });
+        };
+    }, [])
+
 
     useEffect(() => {
         if (!filesArr.length) {
@@ -101,6 +117,7 @@ const DisplayUpload = ({
         } else {
             setIsEmpty(false);
         }
+        
     }, [filesArr]);
 
     /* useEffect(() => {
@@ -115,89 +132,109 @@ const DisplayUpload = ({
 
 
     const handleRemove = (id) => {
-        setFilesArr(prevMetadataArr =>
-            prevMetadataArr.filter(file => file.id !== id)
-        );
+        setFilesArr(prevMetadataArr => {
+            const fileToRemove = prevMetadataArr.find(file => file.id === id);
+            if (fileToRemove && fileToRemove.preview) {
+                URL.revokeObjectURL(fileToRemove.preview);
+            }
+            
+            return prevMetadataArr.filter(file => file.id !== id);
+        });
     }
 
-
     return (
-        <div className="file-panel">
-            <div className="file-container">
-                {/* <div className="current-path"
-                 style={{fontSize: "2rem"}}
-                >
-                    &gt; ./app
-                </div> */}
-                <input 
-                    type="file" 
-                    ref={fileInputRef}
-                    webkitdirectory={folderUpload ? "true" : false}
-                    {...getInputProps()}
-                /> {/* hidden input */}
-                <div className="upload-select-container">
-                    <button className="upload-button"
-                        onClick={open}
+        <>
+        <ImageViewer 
+            visible={imageViewerVisible}
+            exit={() => {
+                openImageViewer(false);
+                setTimeout(() => setSelectedImage(null), 250);
+            }}
+            imageURL={selectedImage}
+        />
+            <div className="file-panel">
+                <div className="file-container">
+                    {/* <div className="current-path"
+                    style={{fontSize: "2rem"}}
                     >
-                        <span className="logo">
-                            <img src={AddIcon} />
-                        </span>
-                        <span className="upload-text">upload</span>
-                    </button>
-                    <button className="upload-type-select"
-                        onClick={() => setFolderUpload(!folderUpload)}
+                        &gt; ./app
+                    </div> */}
+                    <input 
+                        type="file" 
+                        ref={fileInputRef}
+                        webkitdirectory={folderUpload ? "true" : false}
+                        {...getInputProps()}
+                    /> {/* hidden input */}
+                    <div className="upload-select-container">
+                        <button className="upload-button"
+                            onClick={open}
+                        >
+                            <span className="logo">
+                                <img src={AddIcon} />
+                            </span>
+                            <span className="upload-text">upload</span>
+                        </button>
+                        <button className="upload-type-select"
+                            onClick={() => setFolderUpload(!folderUpload)}
+                        >
+                            <div className="slider" ref={sliderRef}
+                                style={!folderUpload ? {
+                                    left: 0,
+                                    transform: "translateX(0)",
+                                    transition: "all ease-in-out 0.2s"
+                                } : {
+                                    transform: "translateX(calc(75px))",
+                                    transition: "all ease-in-out 0.2s"
+                                }}
+                            ></div>
+                            <span 
+                                className="upload-type-option" 
+                                id="file-upload-option"
+                                ref={fileOptionRef}
+                            >file</span>
+                            <span 
+                                className="upload-type-option" 
+                                id="folder-upload-option"
+                                ref={folderOptionRef}
+                            >folder</span>
+                        </button>
+                    </div>
+                    <div 
+                        className="dropzone-root"
+                        ref={dropzoneRef}
+                        {...getRootProps()}
                     >
-                        <div className="slider" ref={sliderRef}
-                            style={!folderUpload ? {
-                                left: 0,
-                                transform: "translateX(0)",
-                                transition: "all ease-in-out 0.2s"
-                            } : {
-                                transform: "translateX(calc(75px))",
-                                transition: "all ease-in-out 0.2s"
-                            }}
-                        ></div>
-                        <span 
-                            className="upload-type-option" 
-                            id="file-upload-option"
-                            ref={fileOptionRef}
-                        >file</span>
-                        <span 
-                            className="upload-type-option" 
-                            id="folder-upload-option"
-                            ref={folderOptionRef}
-                        >folder</span>
-                    </button>
-                </div>
-                <div 
-                    className="dropzone-root"
-                    ref={dropzoneRef}
-                    {...getRootProps()}
-                >
 
-                    <CSSTransition
-                        in={isDropping || isEmpty}
-                        classNames={"drop-screen-transition"}
-                        timeout={450}
-                        mountOnEnter
-                        unmountOnExit
-                    >
-                        {dropScreen}
-                    </CSSTransition>
-                    {filesArr.map((fileMetadata) => {
-                        return (
-                            <FileItem key={fileMetadata.id}
-                                isUploading={true}
-                                fileName={fileMetadata.name}
-                                fileSize={fileMetadata.size}
-                                viewMode={viewMode}
-                                removeFile={() => handleRemove(fileMetadata.id)}
-                            />  
-                        );
-                    })}
+                        <CSSTransition
+                            in={isDropping || isEmpty}
+                            classNames={"drop-screen-transition"}
+                            timeout={450}
+                            mountOnEnter
+                            unmountOnExit
+                        >
+                            {dropScreen}
+                        </CSSTransition>
+                        {filesArr.map((file) => {
+                            return (
+                                <FileItem key={file.id}
+                                    isUploading={true}
+                                    fileName={file.name}
+                                    fileSize={file.size}
+                                    openFile={() => {
+                                        setSelectedImage(file.preview)
+                                        openImageViewer(true);
+                                    }}
+                                    viewMode={viewMode}
+                                    removeFile={() => {
+                                        handleRemove(file.id);
+                                    }}
+                                />  
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

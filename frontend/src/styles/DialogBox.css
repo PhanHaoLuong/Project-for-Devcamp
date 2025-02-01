@@ -19,7 +19,7 @@
 .dialog-box {
     display: flex;
     flex-direction: column;
-    width: 25%;
+    width: 32%;
     height: auto;
     min-width: 300px;
     border-radius: 12px;
