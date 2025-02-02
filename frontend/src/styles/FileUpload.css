@@ -25,10 +25,23 @@
     overflow: hidden;
 }
 
-.upload-select-container {
+.button-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.upload-select-container {
+    display: flex;
+    gap: 20px;
+}
+
+.button-container .remove-file {
+    height: 42px;
+    font-size: 1rem;
+    width: auto;
+    padding: 0 20px;
+    max-width: none;
 }
 
 .upload-type-select {
@@ -90,7 +103,7 @@
     padding: 10px 30px;
     background-color: #007070;
     border: none;
-    border-radius: 12px;
+    border-radius: 15px;
     font-size: 1rem;
     font-weight: bold;
     width: 180px;
