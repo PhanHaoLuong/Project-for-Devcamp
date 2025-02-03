@@ -18,16 +18,22 @@ import AddIcon from "../assets/add.svg";
 import "../styles/FileUpload.css";
 
 const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
-    // default value
-    const [filesArr, setFilesArr] = useState(viewModeFilesArr || []);
+    // file and folder management
+    const [filesArr, setFilesArr] = useState(viewMode && viewModeFilesArr || []);
+    const [fullStructure, setFullStructure] = useState({app: []})
+    const [currDir, setCurrDir] = useState('app');
+
+    // upload states
     const [isDropping, setDropping] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
     const [folderUpload, setFolderUpload] = useState(false);
 
+    // dialog box states
     const [clearConfirmVisible, setClearConfirmVisible] = useState(false);
     const [renameConfirmVisible, setRenameConfirmVisible] = useState(false);
     const [currRenamedFile, setCurrRenamedFile] = useState(null);
 
+    // preview files states
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileViewerVisible, setFileViewerVisible] = useState(false);
@@ -79,8 +85,16 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
         return newFiles.map(newFile => {
             let modifiedFile = {...newFile};
 
-            let duplicate = currFiles.some(currFile => currFile.name === modifiedFile.name) ||
-                newFiles.filter(anotherNewFile => anotherNewFile.name === modifiedFile.name).length > 1;
+            let duplicate = currFiles.some(currFile => (
+                    currFile.name === modifiedFile.name
+                ) && (
+                    currFile.path === modifiedFile.path
+                )) ||
+                newFiles.filter(anotherNewFile => (
+                    anotherNewFile.name === modifiedFile.name
+                ) && (
+                    anotherNewFile.path === modifiedFile.path
+                )).length > 1;
 
             let iterationCount = 0;
 
@@ -91,14 +105,25 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
 
             while (duplicate && iterationCount < 1000) {
                 const numberedMatch = modifiedFile.name.match(/\((\d+)\)(?=\s*\..+)/);
+
                 if (numberedMatch) {
                     let currIndex = eval(numberedMatch[1]);
                     modifiedFile.name = modifiedFile.name.replace(/(\(\d+\))(?=\s*\..+)/, `(${currIndex + 1})`);
                 } else {
-                    modifiedFile.name = modifiedFile.name.replace(/(?=\..+)/, `(1)`); // Handle the initial duplicate
+                    modifiedFile.name = modifiedFile.name.replace(/(?=\..+)/, ` (1)`); // Handle the initial duplicate
                 }
-                duplicate = currFiles.some(currFile => currFile.name === modifiedFile.name) ||
-                    newFiles.filter(anotherNewFile => anotherNewFile.name === modifiedFile.name).length > 1;
+
+                duplicate = currFiles.some(currFile => (
+                    currFile.name === modifiedFile.name
+                ) && (
+                    currFile.path === modifiedFile.path
+                )) ||
+                newFiles.filter(anotherNewFile => (
+                    anotherNewFile.name === modifiedFile.name
+                ) && (
+                    anotherNewFile.path === modifiedFile.path
+                )).length > 1;
+
                 iterationCount++;
             }
             

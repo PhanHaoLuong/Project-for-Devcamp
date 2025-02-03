@@ -42,6 +42,11 @@
     transition: all 0.1s;
 }
 
+.file-item:focus {
+    background-color:#3a4d70;
+    transition: all 0.1s;
+}
+
 .file-logo {
     display: flex;
     flex-direction: column;
@@ -89,6 +94,6 @@
     z-index: 1;
 }
 
-.remove-file:hover {
+.remove-file:hover, .remove-file:focus {
     background: #e03f42;
 }

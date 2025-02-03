@@ -1,5 +1,5 @@
 // import modules
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import displayFileSize from "../utils/displayFileSize.js";
 
 // import components
@@ -23,6 +23,13 @@ const FileItem = ({
 }) => {
     
     const [confirmRemove, setConfirmRemove] = useState(false);
+    const fileItemRef = useRef(null);
+
+    const setFocus = (ref) => {
+        if (ref.current) {
+            ref.current.focus();
+        }
+    };
 
     return (
         <>
@@ -37,7 +44,11 @@ const FileItem = ({
                 onClose={() => setConfirmRemove(false)}
             />
             <div className="file-item-container">
-                <button className="file-item" onClick={openFile}>
+                <button className="file-item" 
+                    onDoubleClick={openFile}
+                    onClick={() => setFocus(fileItemRef)}
+                    ref={fileItemRef}
+                >
                     <div className="file-name-container">
                         <span className="file-logo">
                             <img src={isFolder ? FolderIcon : FileIcon}></img>

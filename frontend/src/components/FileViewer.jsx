@@ -23,7 +23,7 @@ const FileViewer = ({ fileExtension, fileContent, fileType, imageURL, visible, e
         >
             <div className="file-viewer">
                 {imageURL ? (
-                    <div className="image-viewer" oClick={exit}>
+                    <div className="image-viewer" onClick={exit}>
                         <img src={imageURL} alt="image preview" />
                         <button className="close-button"></button>
                     </div>

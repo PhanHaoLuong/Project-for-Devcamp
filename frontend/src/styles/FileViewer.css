@@ -1,0 +1,56 @@
+.image-viewer-transition-enter {
+    opacity: 0;
+    z-index: 999;
+}
+
+.image-viewer-transition-enter-active {
+    opacity: 1;
+    transition: all 0.1s;
+    z-index: 999;
+}
+
+.image-viewer-transition-exit {
+    opacity: 1;
+    z-index: 999;
+}
+
+.image-viewer-transition-exit-active {
+    opacity: 0;
+    transition: all 0.2s;
+    z-index: 999;
+}
+
+.image-viewer, .file-viewer, .file-viewer .code-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(177, 177, 255, 0.3);
+    z-index: 999;
+    margin: 0;
+}
+
+.file-viewer .code-content {
+    background: none;
+    overflow: scroll;
+}
+
+.file-viewer .editor-panel {
+    width: 75%;
+    max-height: 70%;
+}
+
+
+.image-viewer img {
+    transform: translateY(25px);
+    border-radius: 10px;
+    height: 80%;
+    width: auto;
+    max-width: 80%;
+    object-fit: contain;
+    box-shadow: -1px -1px 15px 2px rgba(0, 0, 0, 0.3);
+}
