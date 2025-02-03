@@ -8,7 +8,9 @@ function CodeViewer({ codeContent, codeLanguage, lineCount }) {
     const { fontSize } = useCodeEditorStore();
 
     return (
-        <div className="editor-panel">
+        <div className="editor-panel" 
+            onClick={e => e.stopPropagation()}
+        >
             <Editor 
             height= {lineCount * 19 + "px"}
             language={codeLanguage}
