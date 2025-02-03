@@ -8,7 +8,7 @@ import CodeViewer from './CodeViewer'
 // import styles
 import "../styles/FileViewer.css";
 
-const FileViewer = ({ fileContent, fileType, imageURL, visible, exit, ref }) => {
+const FileViewer = ({ fileExtension, fileContent, fileType, imageURL, visible, exit, ref }) => {
     const getFileContentLen = (fileContent) => {
         return fileContent.split('\n').length;
     };
@@ -32,7 +32,7 @@ const FileViewer = ({ fileContent, fileType, imageURL, visible, exit, ref }) => 
                     <div className="code-content" onClick={exit}>
                         <CodeViewer
                             codeContent={fileContent} 
-                            codeLanguage={null} 
+                            codeLanguage={codeLanguageExtension[fileExtension] || null} 
                             lineCount={Math.max(getFileContentLen(fileContent), 20)}
                         />
                     </div>

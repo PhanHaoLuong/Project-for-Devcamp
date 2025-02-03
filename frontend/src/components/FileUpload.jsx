@@ -178,6 +178,10 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
     }, [filesArr]);
 
     /* useEffect(() => {
+        console.log(selectedFile ? selectedFile.name.split('.')[1] : null);
+    }, [selectedFile]) */
+
+    /* useEffect(() => {
             if (sliderRef.current && folderOptionRef.current && fileOptionRef.current) {
                 sliderRef.current.style.width = folderOptionRef.current.off;
             }
@@ -207,7 +211,8 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                     }, 250);
                 }}
                 imageURL={selectedImage}
-                fileContent={selectedFile}
+                fileContent={selectedFile?.content}
+                fileExtension={(selectedFile ? selectedFile.name.split('.')[1] : null)}
             />
 
             <DialogBox
@@ -326,7 +331,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                             }
                                             if (file.type.startsWith('text/')) {
                                                 setSelectedImage(null);
-                                                setSelectedFile(file.content);
+                                                setSelectedFile(file);
                                                 setFileViewerVisible(true);
                                             }
                                         }
