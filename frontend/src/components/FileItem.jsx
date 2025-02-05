@@ -15,7 +15,6 @@ import '../styles/FileItem.css'
 const FileItem = ({ 
     isFolder=false, 
     viewMode,
-    loadMessage,
     fileName, 
     openFile, 
     fileSize,

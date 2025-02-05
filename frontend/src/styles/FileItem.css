@@ -9,7 +9,6 @@
 }
 
 .file-item {
-    min-width: 500px;
     background-color: #2d3d5b;
     display: flex;
     align-items: center;

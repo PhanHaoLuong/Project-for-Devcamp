@@ -20,8 +20,11 @@ import "../styles/FileUpload.css";
 const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
     // file and folder management
     const [filesArr, setFilesArr] = useState(viewMode && viewModeFilesArr || []);
-    const [fullStructure, setFullStructure] = useState({app: []})
-    const [currDir, setCurrDir] = useState('app');
+    const [foldersToDisplay, setFoldersToDisplay] = useState([]);
+    const [filesToDisplay, setFilesToDisplay] = useState([]);
+    const [foldersArr, setFoldersArr] = useState([])
+    const [currDir, setCurrDir] = useState('');
+    const [prevForwardDir, setPrevForwardDir] = useState(null);
 
     // upload states
     const [isDropping, setDropping] = useState(false);
@@ -45,8 +48,10 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
     const folderOptionRef = useRef(null);
     const fileOptionRef = useRef(null);
 
+
     // drop screen component
     const [dropScreenBg, setDropScreenBg] = useState("#192233");
+
 
     const dropScreen = !viewMode ? (
         <div
@@ -72,6 +77,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
         <></>
     );
 
+
     const readFileContents = (file) => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -80,6 +86,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
             reader.readAsText(file);
         });
     };
+
 
     const handleDuplicateFiles = (currFiles, newFiles) => {
         return newFiles.map(newFile => {
@@ -131,6 +138,35 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
         })
     };
 
+
+    const handleFolderCreation = (newFiles) => {
+        const createdFolders = {}; 
+        const folderArray = []; 
+    
+        newFiles.forEach(newFile => {
+            const pathParts = newFile.path.split('/').slice(0, -1);
+    
+            let currPath = ""; 
+    
+            pathParts.forEach(folder => {
+                currPath += (currPath ? "/" : "") + folder 
+                if (!createdFolders[currPath]) {
+                    const folderObject = {
+                        id: uuidv4(),
+                        name: folder,
+                        isFolder: true,
+                        path: currPath,
+                    };
+                    createdFolders[currPath] = folderObject;
+                    folderArray.push(folderObject);   
+                }
+            });
+        });
+    
+        return folderArray;
+    };
+
+
     const { acceptedFiles, getRootProps, getInputProps, open, isDragActive } =
         useDropzone({
             onDrop: () => {
@@ -174,16 +210,23 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                     })
                 );
                 
-                filesWithContent = handleDuplicateFiles(filesArr, filesWithContent)
-                setFilesArr((prevMetadataArr) => [...prevMetadataArr, ...filesWithContent]);
+                filesWithContent = handleDuplicateFiles(filesArr, filesWithContent);
+                setFoldersArr(prevFoldersArr => [...prevFoldersArr, ...handleFolderCreation(filesWithContent)])
+                setFilesArr(prevFilesArr => [...prevFilesArr, ...filesWithContent]);
             },
             disabled: viewMode,
             noClick: !isEmpty,
             useFsAccessApi: false,
         });
 
+
     useEffect(() => {
-        // revoke preview urls when unmount
+        // create folders for viewmode files if in viewmode
+        if (viewModeFilesArr) {
+            setFoldersArr(handleFolderCreation(viewModeFilesArr));
+        }
+
+        // cleanup, revoke preview urls when unmount
         return () => {
             filesArr.forEach((file) => {
                 if (file.preview) {
@@ -193,6 +236,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
         };
     }, []);
 
+
     useEffect(() => {
         if (!filesArr.length) {
             setIsEmpty(true);
@@ -200,17 +244,19 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
             setIsEmpty(false);
         }
         console.log(filesArr);
+        console.log(foldersToDisplay)
     }, [filesArr]);
 
-    /* useEffect(() => {
-        console.log(selectedFile ? selectedFile.name.split('.')[1] : null);
-    }, [selectedFile]) */
 
-    /* useEffect(() => {
-            if (sliderRef.current && folderOptionRef.current && fileOptionRef.current) {
-                sliderRef.current.style.width = folderOptionRef.current.off;
-            }
-        }, [folderUpload]) */
+    useEffect(() => {
+        if (currDir === "") {
+            setFilesToDisplay(filesArr.filter(f => f.path.split('/').length === 1)); 
+            setFoldersToDisplay(foldersArr.filter(f => f.path.split('/').length === 1)); 
+        } else {
+            setFilesToDisplay(filesArr.filter(f => f.path.split('/').slice(0, -1).join('/') === currDir));
+            setFoldersToDisplay(foldersArr.filter(f => f.path.split('/').slice(0, -1).join('/') === currDir));
+        }
+    }, [filesArr, currDir]);
 
 
     const handleRemove = (id) => {
@@ -223,6 +269,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
             return prevMetadataArr.filter(file => file.id !== id);
         });
     };
+
 
     return (
         <>
@@ -263,11 +310,6 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
             />
             <div className="file-panel">
                 <div className="file-container">
-                    {/* <div className="current-path"
-                        style={{fontSize: "2rem"}}
-                        >
-                            &gt; ./app
-                        </div> */}
                     <input
                         type="file"
                         ref={fileInputRef}
@@ -319,7 +361,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                 </span>
                             </button>
                         </div>
-                        {!isEmpty ?( 
+                        {!isEmpty && !viewMode ?( 
                             <button className="remove-file" 
                                 onClick={(event) => {
                                     event.stopPropagation();
@@ -329,6 +371,24 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                 remove all files
                             </button>
                         ) : ("")}
+                    </div>
+                    <div className="navigate-dir">
+                        <div className="navigate-dir-buttons">
+                            <button className="navigate-dir-button"
+                                id={`navigate-backward ${currDir.split('/').length < 1 ? "disabled" : ""}`}
+                                disabled={currDir.split('/').length < 1}
+                                onClick={() => setCurrDir(currDir.split('/').slice(0, -1).join('/'))}
+                            >
+                                &lt;
+                            </button>
+                            <button className="navigate-dir-button"
+                                id={`navigate-forward ${!prevForwardDir ? "disabled" : ""}`}
+                                disabled={!prevForwardDir}
+                                onClick={() => setCurrDir(prevForwardDir)}
+                            >
+                                &gt;
+                            </button>
+                        </div>
                     </div>
                     <div className="dropzone-root" ref={dropzoneRef} {...getRootProps()}>
                         <CSSTransition
@@ -340,11 +400,10 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                         >
                             {dropScreen}
                         </CSSTransition>
-                        {filesArr.map((file) => {
+                        {filesToDisplay.map((file) => {
                             return (
                                 <FileItem
                                     key={file.id}
-                                    isUploading={true}
                                     fileName={file.name}
                                     fileSize={file.size}
                                     openFile={() => {
@@ -364,6 +423,21 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                     viewMode={viewMode}
                                     removeFile={() => {
                                         handleRemove(file.id);
+                                    }}
+                                />
+                            );
+                        })}
+                        {foldersToDisplay.map((folder) => {
+                            return (
+                                <FileItem isFolder
+                                    key={folder.id}
+                                    fileName={folder.name}
+                                    openFile={() => {
+                                        setCurrDir(folder.path);
+                                    }}
+                                    viewMode={viewMode}
+                                    removeFile={() => {
+                                        handleRemove(folder.id)
                                     }}
                                 />
                             );
