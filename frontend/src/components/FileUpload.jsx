@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import Dropzone, { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from "uuid";
-import JSZip from "jszip";
 
 // import components
 import FileItem from "./FileItem";
@@ -13,6 +12,7 @@ import DialogBox from "./DialogBox";
 // import assets
 import FolderIcon from "../assets/folder.svg";
 import AddIcon from "../assets/add.svg";
+import ArrowIcon from "../assets/arrow-icon.svg"
 
 // import styles
 import "../styles/FileUpload.css";
@@ -243,8 +243,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
         } else {
             setIsEmpty(false);
         }
-        console.log(filesArr);
-        console.log(foldersToDisplay)
+        console.log(currDir.split('/').slice(0, -1).join('/'))
     }, [filesArr]);
 
 
@@ -365,8 +364,9 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                             <button className="remove-file" 
                                 onClick={(event) => {
                                     event.stopPropagation();
-                                        setClearConfirmVisible(true);
-                                    }}
+                                    setClearConfirmVisible(true);
+                                    setCurrDir("");
+                                }}
                             >
                                 remove all files
                             </button>
@@ -376,18 +376,40 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                         <div className="navigate-dir-buttons">
                             <button className="navigate-dir-button"
                                 id={`navigate-backward ${currDir.split('/').length < 1 ? "disabled" : ""}`}
-                                disabled={currDir.split('/').length < 1}
-                                onClick={() => setCurrDir(currDir.split('/').slice(0, -1).join('/'))}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setCurrDir(currDir.split('/').slice(0, -1).join('/'));
+                                }}
                             >
-                                &lt;
+                                <img src={ArrowIcon} 
+                                    style={{transform: "rotate(180deg)"}}
+                                />
+                                <span>go back</span>
                             </button>
-                            <button className="navigate-dir-button"
-                                id={`navigate-forward ${!prevForwardDir ? "disabled" : ""}`}
-                                disabled={!prevForwardDir}
-                                onClick={() => setCurrDir(prevForwardDir)}
+                        </div>
+                        <div className="directory-bar">
+                            <button 
+                                className="dir-part"
+                                onClick={() => setCurrDir("")}
                             >
-                                &gt;
+                                root
                             </button>
+                            <div className="dir-part-separator">/</div>
+                            {currDir !== '' ? (currDir.split("/").map((part, index) => {
+                                return (
+                                    <>
+                                        <button 
+                                            className="dir-part"
+                                            onClick={() => {
+                                                setCurrDir(currDir.split("/").slice(0, index + 1).join("/"));
+                                            }}
+                                        >
+                                            {part}
+                                        </button>
+                                        <div className="dir-part-separator">/</div>
+                                    </>
+                                )
+                            })) : ("")}
                         </div>
                     </div>
                     <div className="dropzone-root" ref={dropzoneRef} {...getRootProps()}>
@@ -400,6 +422,21 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                         >
                             {dropScreen}
                         </CSSTransition>
+                        {foldersToDisplay.map((folder) => {
+                            return (
+                                <FileItem isFolder
+                                    key={folder.id}
+                                    fileName={folder.name}
+                                    openFile={() => {
+                                        setCurrDir(folder.path);
+                                    }}
+                                    viewMode={viewMode}
+                                    removeFile={() => {
+                                        handleRemove(folder.id)
+                                    }}
+                                />
+                            );
+                        })}
                         {filesToDisplay.map((file) => {
                             return (
                                 <FileItem
@@ -423,21 +460,6 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                     viewMode={viewMode}
                                     removeFile={() => {
                                         handleRemove(file.id);
-                                    }}
-                                />
-                            );
-                        })}
-                        {foldersToDisplay.map((folder) => {
-                            return (
-                                <FileItem isFolder
-                                    key={folder.id}
-                                    fileName={folder.name}
-                                    openFile={() => {
-                                        setCurrDir(folder.path);
-                                    }}
-                                    viewMode={viewMode}
-                                    removeFile={() => {
-                                        handleRemove(folder.id)
                                     }}
                                 />
                             );
