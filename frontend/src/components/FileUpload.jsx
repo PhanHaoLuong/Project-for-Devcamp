@@ -298,12 +298,16 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                 visible={clearConfirmVisible}
                 onConfirm={() => {
                     setClearConfirmVisible(false);
+                    setCurrDir("");
+                    setFilesToDisplay([]);
+                    setFoldersToDisplay([]);
                     filesArr.forEach((file) => {
                         if (file.preview) {
                             URL.revokeObjectURL(file.preview);
                         }
                     });
                     setFilesArr([]);
+                    setFoldersArr([]);
                 }}
                 onClose={() => setClearConfirmVisible(false)}
             />
@@ -365,7 +369,6 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                 onClick={(event) => {
                                     event.stopPropagation();
                                     setClearConfirmVisible(true);
-                                    setCurrDir("");
                                 }}
                             >
                                 remove all files
@@ -374,8 +377,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                     </div>
                     <div className="navigate-dir">
                         <div className="navigate-dir-buttons">
-                            <button className="navigate-dir-button"
-                                id={`navigate-backward ${currDir.split('/').length < 1 ? "disabled" : ""}`}
+                            <button className={`navigate-dir-button ${!currDir ? "disabled" : "enabled"}`}
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setCurrDir(currDir.split('/').slice(0, -1).join('/'));
