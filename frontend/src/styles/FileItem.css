@@ -34,6 +34,9 @@
 
 .file-name {
     text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+    height: 1rem;
 }
 
 .file-item:hover {

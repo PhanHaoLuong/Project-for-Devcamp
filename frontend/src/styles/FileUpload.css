@@ -85,6 +85,7 @@
 
 .navigate-dir-buttons button {
     cursor: pointer;
+    width: 125px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -114,14 +115,17 @@
     align-items: center;
     justify-content: flex-start;
     gap: 6px;
-    border: #BBC7DD solid 1px;
+    padding: 8px 10px;
+    border: #BBC7DD solid 2px;
     background-color: #192233;
     flex-grow: 1;
     border-radius: 15px;
-    padding: 8px 10px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overscroll-behavior-x: contain;
     transition: all ease-in-out 0.3s;
+    z-index: 1;
 }
+
 
 .dir-part {
     cursor: pointer;

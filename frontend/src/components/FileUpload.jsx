@@ -22,9 +22,12 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
     const [filesArr, setFilesArr] = useState(viewMode && viewModeFilesArr || []);
     const [foldersToDisplay, setFoldersToDisplay] = useState([]);
     const [filesToDisplay, setFilesToDisplay] = useState([]);
-    const [foldersArr, setFoldersArr] = useState([])
+    const [foldersArr, setFoldersArr] = useState([]);
+
+    // navigate folders and files
     const [currDir, setCurrDir] = useState('');
-    const [prevForwardDir, setPrevForwardDir] = useState(null);
+    const [currDirParts, setCurrDirParts] = useState([]);
+    const [dirPartsToDisplay, setDirPartsToDisplay] = useState([]);
 
     // upload states
     const [isDropping, setDropping] = useState(false);
@@ -48,6 +51,8 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
     const folderOptionRef = useRef(null);
     const fileOptionRef = useRef(null);
 
+    const [dirBarOverflowing, setDirBarOverflowing] = useState(false);
+    const dirBarRef = useRef(null);
 
     // drop screen component
     const [dropScreenBg, setDropScreenBg] = useState("#192233");
@@ -150,7 +155,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
     
             pathParts.forEach(folder => {
                 currPath += (currPath ? "/" : "") + folder 
-                if (!createdFolders[currPath]) {
+                if (!createdFolders[currPath] && !foldersArr.some(f => f.path === currPath)) {
                     const folderObject = {
                         id: uuidv4(),
                         name: folder,
@@ -202,7 +207,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                             name: file.name,
                             size: file.size,
                             type: file.type,
-                            path: file.webkitRelativePath,
+                            path: currDir ? `${currDir}/${file.webkitRelativePath || file.name}` : file.webkitRelativePath,
                             preview: file.type.startsWith('image/') ? URL.createObjectURL(file) : null,
                             content: content,
                             uploadedAt: new Date().toISOString(),
@@ -221,18 +226,20 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
 
 
     useEffect(() => {
+
         // create folders for viewmode files if in viewmode
         if (viewModeFilesArr) {
             setFoldersArr(handleFolderCreation(viewModeFilesArr));
         }
 
-        // cleanup, revoke preview urls when unmount
         return () => {
+            // cleanup, revoke preview urls when unmount
             filesArr.forEach((file) => {
                 if (file.preview) {
                     URL.revokeObjectURL(file.preview);
                 }
             });
+
         };
     }, []);
 
@@ -243,9 +250,8 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
         } else {
             setIsEmpty(false);
         }
-        console.log(currDir.split('/').slice(0, -1).join('/'))
+        console.log(filesArr)
     }, [filesArr]);
-
 
     useEffect(() => {
         if (currDir === "") {
@@ -258,7 +264,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
     }, [filesArr, currDir]);
 
 
-    const handleRemove = (id) => {
+    const handleFileRemove = (id) => {
         setFilesArr((prevMetadataArr) => {
             const fileToRemove = prevMetadataArr.find(file => file.id === id);
             if (fileToRemove && fileToRemove.preview) {
@@ -267,6 +273,10 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
 
             return prevMetadataArr.filter(file => file.id !== id);
         });
+    };
+
+    const handleFolderRemove = (id) => {
+        
     };
 
 
@@ -389,7 +399,10 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                 <span>go back</span>
                             </button>
                         </div>
-                        <div className="directory-bar">
+                        <div className="directory-bar"
+                            ref={dirBarRef}
+                        >
+                            
                             <button 
                                 className="dir-part"
                                 onClick={() => setCurrDir("")}
@@ -412,6 +425,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                     </>
                                 )
                             })) : ("")}
+                            
                         </div>
                     </div>
                     <div className="dropzone-root" ref={dropzoneRef} {...getRootProps()}>
@@ -434,7 +448,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                     }}
                                     viewMode={viewMode}
                                     removeFile={() => {
-                                        handleRemove(folder.id)
+                                        handleFileRemove(folder.id)
                                     }}
                                 />
                             );
@@ -461,7 +475,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                     }}
                                     viewMode={viewMode}
                                     removeFile={() => {
-                                        handleRemove(file.id);
+                                        handleFileRemove(file.id);
                                     }}
                                 />
                             );
