@@ -6,20 +6,20 @@ import { ToastContainer, toast } from "react-toastify";
 
 // import components
 import Avatar from "./Avatar.jsx";
-import Vote from "./Vote.jsx"
+import Vote from "./Vote.jsx";
 import FileItem from "./FileItem.jsx";
 import Tag from './Tag.jsx';
 import EditorPanel from "./EditorPanel.jsx";
 
 // import assets
 import HashIcon from '../assets/hash.png';
-import CodeIcon from '../assets/code-symbol.svg'
+import CodeIcon from '../assets/code-symbol.svg';
 import SaveIcon from '../assets/save.svg';
 import ShareIcon from '../assets/share.svg';
 import TerminalIcon from '../assets/terminal.svg';
-import FolderIcon from '../assets/folder.svg'
-import FilledSaveIcon from '../assets/save-filled.svg'
-import AcceptedIcon from '../assets/tick.svg'
+import FolderIcon from '../assets/folder.svg';
+import FilledSaveIcon from '../assets/save-filled.svg';
+import AcceptedIcon from '../assets/tick.svg';
 import TriangleIcon from '../assets/vote.svg';
 
 // import style
@@ -41,9 +41,7 @@ export default function FullPost({
     user,
 }){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
-    if (user) {
-        var [saveButtonActive, setSaveButtonActive] = useState(user.savedPosts.includes(postId));
-    }
+    const [saveButtonActive, setSaveButtonActive] = useState(user ? user.savedPosts.includes(postId) : false);
     const [isCodeExpanded, setIsCodeExpanded] = useState(false);
 
     if (folderContent){
@@ -56,20 +54,17 @@ export default function FullPost({
             } else {
                 return 0;
             }
-        })
+        });
     }
 
     // Copy URL to clipboard
     const copyUrl = () => {
         navigator.clipboard.writeText(window.location.href);
         toast.success("URL copied to clipboard!");
-    }
+    };
 
     // Save or unsave post
-    const toggleSavePost = () => {
-        const toggleSavePost = async () => {
-        console.log("save button clicked");
-
+    const toggleSavePost = async () => {
         if (!user) {
             toast.error("You must be logged in to save posts.");
             return;
@@ -77,7 +72,7 @@ export default function FullPost({
     
         try {
             const action = saveButtonActive ? 'unsave' : 'save';
-    
+            
             const response = await fetch(`http://localhost:3000/post/${postId}/${action}`, {
                 method: 'POST',
                 headers: {
@@ -89,10 +84,7 @@ export default function FullPost({
             if (!response.ok) {
                 throw new Error('Failed to update saved posts in the backend.');
             }
-
-            console.log(user);
     
-            // Update the frontend state after the backend operation
             if (saveButtonActive) {
                 user.savedPosts = user.savedPosts.filter((savedPost) => savedPost !== postId);
                 toast.success("Post unsaved.");
@@ -108,22 +100,8 @@ export default function FullPost({
         }
     };
     
-        if (user) {
-            if (saveButtonActive) {
-                user.savedPosts = user.savedPosts.filter((savedPost) => savedPost !== postId);
-                toast.success("Post unsaved.");
-            }
-            else {
-                user.savedPosts.push(postId);
-                toast.success("Post saved.");
-            }
-            setSaveButtonActive(!saveButtonActive);
-        }
-        else {
-            toast.error("You must be logged in to save posts.");
-        }
-    }
-
+    
+    
     return (
         <>
             <ToastContainer />
@@ -152,9 +130,7 @@ export default function FullPost({
                             </button>
                             {/* Save button */}
                             <button className={`${saveButtonActive ? "saved" : "save" }-button`}
-                                    onClick={() => {
-                                        toggleSavePost();
-                                    }}>
+                                    onClick={toggleSavePost}>
                                 <span className="save-icon">
                                     <img src={saveButtonActive ? FilledSaveIcon : SaveIcon} ></img>
                                 </span>
@@ -184,7 +160,7 @@ export default function FullPost({
                             <div className="tag-container">
                                 {postTags.map((tag, index) => {
                                     if (tag) {
-                                        return <Tag tagName={ellipsis(tag, (tagHoverIndex === index ? 8 : 6))}/>
+                                        return <Tag key={index} tagName={ellipsis(tag, (tagHoverIndex === index ? 8 : 6))}/>
                                     }
                                 })}
                             </div>
@@ -270,8 +246,9 @@ export default function FullPost({
                                     <span className="folder-header-text">folder</span>
                                 </div>
                                 <div className="folder-content">
-                                    {fileMetadataArr.map((file, index) => {
+                                    {folderContent.map((file, index) => {
                                         return <FileItem 
+                                                    key={index}
                                                     isFolder={file.isFolder}
                                                     fileName={file.fileName}
                                                     fileType={file.fileType}
@@ -287,6 +264,4 @@ export default function FullPost({
             </div>
         </>
     );
-
 }
-

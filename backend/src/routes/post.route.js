@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { create_comment, create_post, delete_comment, delete_post, get_post, get_post_comments, accept_comment, save_unsave_post } from '../controllers/post.controller.js';
+import { create_comment, create_post, delete_comment, delete_post, get_post, get_post_comments, accept_comment, savePost, unsavePost } from '../controllers/post.controller.js';
 import { downvote, upvote } from '../controllers/vote.controller.js';
 import { protected_route } from '../controllers/auth.controller.js';
 
@@ -27,6 +27,7 @@ router.delete('/:postid/deletecomment', delete_comment)
 
 
 // Save and unsave post
-router.post('/:postid/:action', save_unsave_post)
+router.post('/:postId/save', savePost)
+router.post('/:postId/unsave', unsavePost)
 
 export default router

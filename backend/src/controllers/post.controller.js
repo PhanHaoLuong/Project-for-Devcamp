@@ -146,33 +146,44 @@ export const accept_comment = async (req, res) => {
     }
 }
 
-export const save_unsave_post = async (req, res) => {
+export const savePost = async (req, res) => {
     const { userId } = req.body;
-    const { postId, action } = req.params;
-
-    if (!userId || !postId) {
-        return res.status(400).json({ message: 'Missing userId or postId' });
-    }
-
-    console.log(userId, postId, action)
+    const postId = req.params.postId;
 
     try {
-        const userData = await user.findById(userId);
-        if (!userData) {
-            return res.status(404).json({ message: 'User not found' });
+        const User = await user.findById(userId);
+        if (!User) {
+            return res.status(404).json({ message: "User not found." });
         }
 
-        if (action === 'save') {
-            if (!userData.savedPosts.includes(postId)) {
-                userData.savedPosts.push(postId);
-            }
-        } else if (action === 'unsave') {
-            userData.savedPosts = userData.savedPosts.filter(id => id !== postId);
+        if (!User.savedPosts.includes(postId)) {
+            User.savedPosts.push(postId);
+            await User.save();
         }
 
-        await userData.save();
-        res.status(200).json({ message: 'Post saved/unsaved successfully' });
-    } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(200).json({ message: "Post saved successfully." });
+    } catch (err) {
+        res.status(500).json({ message: "Error saving post." });
+    }
+};
+
+export const unsavePost = async (req, res) => {
+    const { userId } = req.body;
+    const postId = req.params.postId;
+
+    try {
+        const User = await user.findById(userId);
+
+        if (!User) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        User.savedPosts = User.savedPosts.filter(id => id.toString() !== postId);
+        await User.save();
+        
+
+        res.status(200).json({ message: "Post unsaved successfully." });
+    } catch (err) {
+        res.status(500).json({ message: "Error unsaving post." });
     }
 };
