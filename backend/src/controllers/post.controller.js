@@ -187,3 +187,13 @@ export const unsavePost = async (req, res) => {
         res.status(500).json({ message: "Error unsaving post." });
     }
 };
+
+export const recentPost = async (req, res) => {
+    try {
+        const posts = await post.find({},{},{limit: 10, sort: {createdAt: -1}})
+        .populate('author', 'name')
+        res.status(200).json(posts)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}

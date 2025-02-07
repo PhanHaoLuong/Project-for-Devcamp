@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react';
+
 /* import components */
 import MiniPost from '../components/MiniPost'
 
@@ -5,6 +7,35 @@ import MiniPost from '../components/MiniPost'
 import '../styles/Home.css';
 
 const Home = ({ }) => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch 10 recent posts
+  const getRecentPosts = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/post/recent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const posts = await getRecentPosts();
+      setPosts(posts);
+      setLoading(false);
+    };
+  
+    fetchPosts();
+  }, []);
+
   return (
     <div className="container">
       {/* Welcome */}
@@ -29,7 +60,18 @@ const Home = ({ }) => {
         </div>
         <div className="body post">
           <h1>Recent Posts</h1>
-          <MiniPost />
+          <div className="post">
+            {posts && [...posts].map((post) => (
+              <MiniPost
+                key={post._id}
+                postId={post._id}
+                author={post.author.name}
+                postTitle={post.title}
+                postTags={null}
+                postContent={post.content}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

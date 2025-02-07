@@ -4,8 +4,8 @@
     margin: 80px auto 10px;
     background: url('../assets/img/welcome.png') no-repeat center / cover;
     color: var(--font-color);
-    width: 100%;
-    max-width: 600px;
+    width: 50%;
+    min-width: 600px;
     box-sizing: border-box;
 }
 
@@ -26,8 +26,8 @@
     background-color: var(--background-color);
     border-radius: 10px;
     color: var(--font-color);
-    width: 100%;
-    max-width: 600px;
+    width: 50%;
+    min-width: 600px;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -50,5 +50,5 @@
 .dashboard h1 {
     font-size: 1.2rem;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
 }
