@@ -7,7 +7,7 @@ const Test = () => {
     return (
 
         <>
-            <DisplayUpload />
+            <DisplayUpload/>
         </>
     )
 }

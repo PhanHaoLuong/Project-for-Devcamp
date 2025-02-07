@@ -52,8 +52,8 @@
     align-items: center;
     justify-content: space-between;
     background: none;
-    outline: #BBC7DD solid 2px;
-    border: none;
+    overflow: hidden;
+    border: #BBC7DD solid 2px;
     border-radius: 20px;
     height: 40px;
 }
@@ -63,8 +63,8 @@
     justify-content: center;
     align-items: center;
     padding: 2px 0;
-    width: 85px;
-    font-size: 1.1rem;
+    width: 80px;
+    font-size: 1rem;
     font-weight: bold;
     z-index: 1;
 }
@@ -72,42 +72,41 @@
 .slider {
     position: absolute;
     height: 40px;
-    width: 95px;
+    width: 85px;
     border-radius: 20px;
     background-color: #3c5075;
     z-index: 0;
 }
 
 .navigate-dir {
+    position: relative;
     display: flex;
-    gap: 20px;
+    gap: 10px;
 }
 
-.navigate-dir-buttons button {
-    cursor: pointer;
-    width: 125px;
+.navigate-dir-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #2d3d5b;
-    border: none;
-    padding: 15px 15px 15px 10px;
+    background-color: #192233;
+    padding: 16px;
     border-radius: 15px;
+    border: #BBC7DD 1px solid;
     transition: all ease-in-out 0.3s;
 }
 
-.navigate-dir-buttons button:hover {
+.navigate-dir-button.enabled {
+    cursor: pointer;
+    background-color: #222e43;
+}
+
+.navigate-dir-button.enabled:hover {
     background-color: #3c5075;
     transition: all ease-in-out 0.1s;
 }
 
 .navigate-dir-button img {
-    height: 18px;
-}
-
-.navigate-dir-button span {
-    font-size: 1rem;
-    font-weight: bold;
+    height: 20px;
 }
 
 .directory-bar {
@@ -116,12 +115,12 @@
     justify-content: flex-start;
     gap: 6px;
     padding: 8px 10px;
-    border: #BBC7DD solid 2px;
+    border: #BBC7DD solid 1px;
     background-color: #192233;
     flex-grow: 1;
     border-radius: 15px;
     overflow-x: hidden;
-    overscroll-behavior-x: contain;
+    overflow-y: visible;
     transition: all ease-in-out 0.3s;
     z-index: 1;
 }
@@ -149,6 +148,38 @@
     background-color: #2d3d5b;
 }
 
+#hidden-dir-dropdown-button {
+    letter-spacing: 5px;
+    padding-left: 10px;
+}
+
+#hidden-dir-dropdown-button:focus {
+    background-color: #2d3d5b;;
+}
+
+.hidden-dir-dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: absolute;
+    background-color: #2d3d5b;
+    top: 100%;
+    left: 110px;
+    padding: 8px;
+    z-index: 999;
+    border-radius: 15px;
+    box-shadow:-1px -1px 8px #000000;
+}
+
+.hidden-dir-dropdown .dir-part {
+    background-color: #3c5075;
+    padding: 10px;
+}
+
+.hidden-dir-dropdown .dir-part:hover {
+    background-color: #3d5889;
+}
+
 .dropzone-root {
     position: relative;
     display: flex;
@@ -164,6 +195,13 @@
     transition: all 0.5s;
 }
 
+.folder-empty-message {
+    margin: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    width: 100%;
+}
+
 .upload-button {
     cursor: pointer;
     display: flex;
@@ -176,7 +214,7 @@
     border-radius: 15px;
     font-size: 1rem;
     font-weight: bold;
-    width: 180px;
+    width: 150px;
     transition: all 0.3s;
 }
 

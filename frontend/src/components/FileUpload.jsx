@@ -25,9 +25,12 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
     const [foldersArr, setFoldersArr] = useState([]);
 
     // navigate folders and files
+    const [hiddenDirVisible, setHiddenDirVisible] = useState(false);
     const [currDir, setCurrDir] = useState('');
     const [currDirParts, setCurrDirParts] = useState([]);
     const [dirPartsToDisplay, setDirPartsToDisplay] = useState([]);
+    const [hiddenDirParts, setHiddenDirParts] = useState([]);
+    const hiddenDirRef = useRef(null);
 
     // upload states
     const [isDropping, setDropping] = useState(false);
@@ -44,6 +47,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileViewerVisible, setFileViewerVisible] = useState(false);
 
+    // file upload progress state
     const fileInputRef = useRef(null);
     const dropzoneRef = useRef(null);
 
@@ -86,8 +90,11 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
     const readFileContents = (file) => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
+
             reader.onloadend = (e) => resolve(e.target.result);
+
             reader.onerror = reject;
+
             reader.readAsText(file);
         });
     };
@@ -171,9 +178,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
         return folderArray;
     };
 
-
-    const { acceptedFiles, getRootProps, getInputProps, open, isDragActive } =
-        useDropzone({
+    const { acceptedFiles, getRootProps, getInputProps, open, isDragActive } = useDropzone({
             onDrop: () => {
                 setDropping(false);
                 if (isEmpty) setDropScreenBg("#192233");
@@ -224,14 +229,17 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
             useFsAccessApi: false,
         });
 
+    
 
     useEffect(() => {
-
         // create folders for viewmode files if in viewmode
         if (viewModeFilesArr) {
             setFoldersArr(handleFolderCreation(viewModeFilesArr));
         }
+    }, []);
 
+
+    useEffect(() => {
         return () => {
             // cleanup, revoke preview urls when unmount
             filesArr.forEach((file) => {
@@ -239,19 +247,32 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                     URL.revokeObjectURL(file.preview);
                 }
             });
-
         };
     }, []);
 
 
     useEffect(() => {
-        if (!filesArr.length) {
+        if (!filesArr.length && !foldersArr.length) {
             setIsEmpty(true);
         } else {
             setIsEmpty(false);
         }
-        console.log(filesArr)
     }, [filesArr]);
+
+    useEffect(() => {
+        if (dirBarRef.current) {
+            const offsetWidth = dirBarRef.current.offsetWidth;
+            const scrollWidth = dirBarRef.current.scrollWidth;
+            if (scrollWidth > offsetWidth) {
+                setHiddenDirParts(prevHiddenParts => [...prevHiddenParts, dirPartsToDisplay[0]]);
+                setDirPartsToDisplay(prevDisplay => prevDisplay.slice(1));
+                console.log("overflowing");
+            } else {
+                console.log("not overflowing");
+            }
+        }
+    }, [dirPartsToDisplay]);
+
 
     useEffect(() => {
         if (currDir === "") {
@@ -261,22 +282,48 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
             setFilesToDisplay(filesArr.filter(f => f.path.split('/').slice(0, -1).join('/') === currDir));
             setFoldersToDisplay(foldersArr.filter(f => f.path.split('/').slice(0, -1).join('/') === currDir));
         }
+
+        if (currDir) {
+            setCurrDirParts(currDir.split("/").map((part, index) => {
+                return {
+                    name: part,
+                    navigateTo: currDir.split("/").slice(0, index + 1).join("/")
+                };
+            }));
+        } else {
+            setCurrDirParts([]);
+        }
+
+
     }, [filesArr, currDir]);
 
 
+    useEffect(() => {
+        setDirPartsToDisplay(currDirParts);
+        setHiddenDirParts([]);
+    }, [currDirParts]);
+
+
     const handleFileRemove = (id) => {
-        setFilesArr((prevMetadataArr) => {
-            const fileToRemove = prevMetadataArr.find(file => file.id === id);
+        setFilesArr((prevFilesArr) => {
+            const fileToRemove = prevFilesArr.find(file => file.id === id);
             if (fileToRemove && fileToRemove.preview) {
                 URL.revokeObjectURL(fileToRemove.preview);
             }
 
-            return prevMetadataArr.filter(file => file.id !== id);
+            return prevFilesArr.filter(file => file.id !== id);
         });
     };
 
     const handleFolderRemove = (id) => {
-        
+        setFoldersArr(prevFoldersArr => {
+            const folderToRemove = prevFoldersArr.find(folder => folder.id === id);
+            setFilesArr(prevFilesArr => {
+                return prevFilesArr.filter(file => file.path.startsWith(folderToRemove.path))
+            });
+            return prevFoldersArr.filter(folder => folder.id !== id);
+        })
+
     };
 
 
@@ -332,47 +379,52 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                     {/* hidden input */}
                     <div className="button-container">
                         <div className="upload-select-container">
-                            <button className="upload-button" onClick={open}>
-                                <span className="logo">
-                                    <img src={AddIcon} />
-                                </span>
-                                <span className="upload-text">upload</span>
-                            </button>
-                            <button
-                                className="upload-type-select"
-                                onClick={() => setFolderUpload(!folderUpload)}
-                            >
-                                <div
-                                    className="slider"
-                                    ref={sliderRef}
-                                    style={
-                                        !folderUpload
-                                            ? {
-                                                left: 0,
-                                                transform: "translateX(0)",
-                                                transition: "all ease-in-out 0.2s",
+                            {!viewMode ? (
+                                <>
+                                    <button className="upload-button" onClick={open}>
+                                        <span className="logo">
+                                            <img src={AddIcon} />
+                                        </span>
+                                        <span className="upload-text">upload</span>
+                                    </button>
+                                
+                                    <button
+                                        className="upload-type-select"
+                                        onClick={() => setFolderUpload(!folderUpload)}
+                                    >
+                                        <div
+                                            className="slider"
+                                            ref={sliderRef}
+                                            style={
+                                                !folderUpload
+                                                    ? {
+                                                        left: 0,
+                                                        transform: "translateX(0)",
+                                                        transition: "all ease-in-out 0.2s",
+                                                    }
+                                                    : {
+                                                        transform: "translateX(75px)",
+                                                        transition: "all ease-in-out 0.2s",
+                                                    }
                                             }
-                                            : {
-                                                transform: "translateX(75px)",
-                                                transition: "all ease-in-out 0.2s",
-                                            }
-                                    }
-                                ></div>
-                                <span
-                                    className="upload-type-option"
-                                    id="file-upload-option"
-                                    ref={fileOptionRef}
-                                >
-                                    file
-                                </span>
-                                <span
-                                    className="upload-type-option"
-                                    id="folder-upload-option"
-                                    ref={folderOptionRef}
-                                >
-                                    folder
-                                </span>
-                            </button>
+                                        ></div>
+                                        <span
+                                            className="upload-type-option"
+                                            id="file-upload-option"
+                                            ref={fileOptionRef}
+                                        >
+                                            file
+                                        </span>
+                                        <span
+                                            className="upload-type-option"
+                                            id="folder-upload-option"
+                                            ref={folderOptionRef}
+                                        >
+                                            folder
+                                        </span>
+                                    </button>
+                                </>
+                            ) : ("")}
                         </div>
                         {!isEmpty && !viewMode ?( 
                             <button className="remove-file" 
@@ -392,13 +444,32 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                     e.stopPropagation();
                                     setCurrDir(currDir.split('/').slice(0, -1).join('/'));
                                 }}
+                                disabled={!currDir}
                             >
                                 <img src={ArrowIcon} 
                                     style={{transform: "rotate(180deg)"}}
                                 />
-                                <span>go back</span>
                             </button>
                         </div>
+                        {hiddenDirVisible ? (
+                            <div className="hidden-dir-dropdown">
+                                {hiddenDirParts.map(part => {
+                                    return (
+                                        <>
+                                            <button 
+                                                className="dir-part"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setCurrDir(part.navigateTo);
+                                                }}
+                                            >
+                                                {part.name}
+                                            </button>
+                                        </>
+                                    )
+                                })}
+                            </div>
+                        ) : ("")}
                         <div className="directory-bar"
                             ref={dirBarRef}
                         >
@@ -410,16 +481,40 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                 root
                             </button>
                             <div className="dir-part-separator">/</div>
-                            {currDir !== '' ? (currDir.split("/").map((part, index) => {
+                            {hiddenDirParts.length ? (
+                                <>
+                                    <button 
+                                        className="dir-part"
+                                        id="hidden-dir-dropdown-button"
+                                        ref={hiddenDirRef}
+                                        onClick={() => {
+                                            if (hiddenDirRef) {
+                                                hiddenDirRef.current.focus();
+                                            }
+                                        }}
+                                        onFocus={() => {
+                                            setHiddenDirVisible(true);
+                                        }}
+                                        onBlur={() => {
+                                            setTimeout(() => setHiddenDirVisible(false), 100)
+                                        }}
+                                    >
+                                        {"..."}
+                                    </button>
+                                    <div className="dir-part-separator">/</div>
+                                </>
+                            ) : ("")}
+                            
+                            {dirPartsToDisplay.length ? (dirPartsToDisplay.map(part => {
                                 return (
                                     <>
                                         <button 
                                             className="dir-part"
                                             onClick={() => {
-                                                setCurrDir(currDir.split("/").slice(0, index + 1).join("/"));
+                                                setCurrDir(part.navigateTo);
                                             }}
                                         >
-                                            {part}
+                                            {part.name}
                                         </button>
                                         <div className="dir-part-separator">/</div>
                                     </>
@@ -438,6 +533,11 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                         >
                             {dropScreen}
                         </CSSTransition>
+                        {!(filesToDisplay.length || foldersToDisplay.length || isEmpty) ? (
+                            <div className="folder-empty-message">
+                                this folder is empty.
+                            </div>
+                        ) : ("")}
                         {foldersToDisplay.map((folder) => {
                             return (
                                 <FileItem isFolder
@@ -448,7 +548,7 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                     }}
                                     viewMode={viewMode}
                                     removeFile={() => {
-                                        handleFileRemove(folder.id)
+                                        handleFolderRemove(folder.id)
                                     }}
                                 />
                             );
