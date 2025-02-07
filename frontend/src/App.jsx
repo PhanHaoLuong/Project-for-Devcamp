@@ -109,7 +109,7 @@ function App() {
               path="/user/:userId"
               element={<User visitor={userData._id} />}
             />
-            <Route path="/user/:userId/saved" element={<Saved />} />
+            <Route path="/user/:userId/saved" element={<Saved user={userData} />} />
           </Routes>
         </Suspense>
       </Router>

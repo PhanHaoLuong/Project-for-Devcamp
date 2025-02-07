@@ -44,6 +44,8 @@ const User = ({ visitor }) => {
 
   }, [userId, navigate]);
 
+  const { _id, name, email, realname, bio, posts, comments, visits } = userData;
+
   // Check if the user is the authenticated user to edit the profile
   useEffect(() => {
     if (userData) {
@@ -105,8 +107,6 @@ const User = ({ visitor }) => {
 
   if (loading) return <div>Loading...</div>;
   if (!userData) return <div>Error loading user data</div>;
-
-  const { _id, name, email, realname, bio, posts, comments, visits } = userData;
 
   // Calculate user statistics
   const reputation = posts.reduce((acc, post) => acc + post.votes, 0);
@@ -212,15 +212,16 @@ const User = ({ visitor }) => {
         <div className="posts">
           <h3>Posts</h3>
           <div className="post">
-            {posts?.map((post) => {
-              return (<MiniPost 
+            {posts && [...posts].reverse().map((post) => (
+              <MiniPost
                 key={post._id}
                 postId={post._id}
                 author={name}
                 postTitle={post.title}
                 postTags={null}
-                postContent={post.content} />)
-            })}
+                postContent={post.content}
+              />
+            ))}
           </div>
         </div>
       </div>

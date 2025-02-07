@@ -27,5 +27,17 @@
 
 .saved .body h1 {
     font-size: 1.2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.saved .box-empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: var(--font-color);
+    background-color: #454140;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 100%;
 }
