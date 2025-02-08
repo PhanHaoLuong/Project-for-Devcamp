@@ -88,28 +88,6 @@ const Forum = () => {
                         >
                             recent
                         </button>
-                        <button
-                            className={`sort-post-button${
-                                sortButtonActive === "relevant" ? "-active" : ""
-                            }`}
-                            id="sort-by-relevant"
-                            onClick={() => {
-                                setSortButtonActive("relevant");
-                            }}
-                        >
-                            relevant
-                        </button>
-                        <button
-                            className={`sort-post-button${
-                                sortButtonActive === "upvotes" ? "-active" : ""
-                            }`}
-                            id="sort-by-upvotes"
-                            onClick={() => {
-                                setSortButtonActive("upvotes");
-                            }}
-                        >
-                            upvotes
-                        </button>
                     </div>
                 </div>
                 
