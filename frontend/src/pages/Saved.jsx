@@ -7,6 +7,12 @@ import '../styles/Saved.css';
 /* import components */
 import MiniPost from '../components/MiniPost';
 
+/* import function */
+import displayTime from '../utils/displayTime'; 
+
+// import assets
+import LoadingIcon from "../assets/loading-circle.gif";
+
 const Saved = ({ user }) => {
   const [userData, setUserData] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -25,7 +31,6 @@ const Saved = ({ user }) => {
         setUserData(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        navigate("/");
       } finally {
         setLoading(false);
       }
@@ -38,6 +43,12 @@ const Saved = ({ user }) => {
 
   const postCount = (savedPosts) ? savedPosts.length : 0;
 
+  const getTimeSincePost = (createdAt) => {
+    const now = new Date();
+    const creationTime = new Date(createdAt);
+    return (now.getTime() - creationTime.getTime()) / 1000;
+  };
+
   return (
       <div className="saved"> 
         <div className="header">
@@ -46,7 +57,16 @@ const Saved = ({ user }) => {
         <div className="body post">
           <h1>Saved Posts</h1>
           <div className="post">
-            {loading && <p>Loading...</p>}
+            {loading && 
+              <div className="loading-container">
+                  <div className="loading-header">
+                      <span className="loading-icon">
+                          <img src={LoadingIcon} alt="T"></img>
+                      </span>
+                      <span className="loading-text">loading posts</span>
+                  </div>
+              </div>
+            }
             {savedPosts && [...savedPosts].reverse().map((savedPost) => (
               <MiniPost
                 key={savedPost._id}
@@ -55,6 +75,8 @@ const Saved = ({ user }) => {
                 postTitle={savedPost.title}
                 postTags={null} 
                 postContent={savedPost.content}
+                voteCount={savedPost.votes}
+                timeSincePost={displayTime(getTimeSincePost(savedPost.createdAt))}
               />
             ))}
             {postCount === 0 && !loading && 

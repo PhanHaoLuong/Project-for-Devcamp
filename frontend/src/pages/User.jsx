@@ -7,6 +7,9 @@ import Avatar from "../components/Avatar";
 import MiniPost from "../components/MiniPost";
 import ChangeAvatar from "../components/ChangeAvatar";
 
+import displayTime from '../utils/displayTime'; 
+import LoadingIcon from "../assets/loading-circle.gif";
+
 const User = ({ visitor }) => {
   const [userData, setUserData] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -105,7 +108,6 @@ const User = ({ visitor }) => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
   if (!userData) return <div>Error loading user data</div>;
 
   // Calculate user statistics
@@ -120,6 +122,13 @@ const User = ({ visitor }) => {
     if (post.is_comment) return acc + 1;
     return acc;
   }, 0);
+
+  // Get time by seconds
+  const getTimeSincePost = (createdAt) => {
+    const now = new Date();
+    const creationTime = new Date(createdAt);
+    return (now.getTime() - creationTime.getTime()) / 1000;
+  };
 
 
   return (
@@ -212,6 +221,16 @@ const User = ({ visitor }) => {
         <div className="posts">
           <h3>Posts</h3>
           <div className="post">
+            {loading && 
+              <div className="loading-container">
+                  <div className="loading-header">
+                      <span className="loading-icon">
+                          <img src={LoadingIcon} alt="T"></img>
+                      </span>
+                      <span className="loading-text">loading posts</span>
+                  </div>
+              </div>
+            }
             {posts && [...posts].reverse().map((post) => (
               <MiniPost
                 key={post._id}
@@ -220,6 +239,8 @@ const User = ({ visitor }) => {
                 postTitle={post.title}
                 postTags={null}
                 postContent={post.content}
+                voteCount={post.votes}
+                timeSincePost={displayTime(getTimeSincePost(post.createdAt))}
               />
             ))}
           </div>

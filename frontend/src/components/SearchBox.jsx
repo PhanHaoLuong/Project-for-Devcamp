@@ -122,7 +122,7 @@ const SearchBox = ({ currentUser }) => {
                     </div>
                     <p className={`author date right ${post.author.name}`}>by {(post.author._id === currentUser._id) ? 'you' : post.author.name} 
                       <br /> 
-                      {displayTime(getTimeSincePost(post.updatedAt))} ago
+                      {displayTime(getTimeSincePost(post.createdAt))} ago
                     </p>
                   </a>
                 </li>
