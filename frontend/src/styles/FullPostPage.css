@@ -6,12 +6,8 @@
     justify-content: center;
 }
 
-body>.post-container {
-    margin-top: 80px;
-}
-
-#post-window {
-    margin-top: 70px;
+#post-window.is-post {
+    margin-top: 100px;
 }
 
 .comment-button {

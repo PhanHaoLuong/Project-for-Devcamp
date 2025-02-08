@@ -105,7 +105,7 @@ export default function FullPost({
     return (
         <>
             <ToastContainer />
-            <div className="app-window" id="post-window">
+            <div className={`app-window ${isComment ? "is-comment" : "is-post"}`} id="post-window">
                 {!isComment ? (
                     <div className="post-header" id="post-header">
                         <span className="header-icon">

@@ -34,15 +34,18 @@
     animation: fadeSlideIn 0.5s;
 }
 
-
 .post-container {
     position: relative;
     display: flex;
     flex-direction: column;
     padding: 0 20px;
     width: 100%;
+}
+
+.infinite-scroll-component>.post-container {
     gap: 20px;
 }
+
 .infinite-scroll-component__outerdiv {
     width: 100%;
 }
