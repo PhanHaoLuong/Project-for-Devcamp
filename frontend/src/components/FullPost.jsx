@@ -142,7 +142,9 @@ export default function FullPost({
                 <div className="post-body">
                     <div className="post-properties-side">
                         <div className="post-user-container">
-                            <Avatar id={authorId} name={author} />
+                            <a href={`../user/${authorId}`} className="avatar-container">
+                                <Avatar id={authorId} name={author} />      
+                            </a>
                             <p className="username">{author}</p>
                         </div>
                         {(isComment && isAccepted) ? (

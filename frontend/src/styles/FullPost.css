@@ -194,9 +194,9 @@
     margin: 20px 0;
 }
 
-.post-user-container > .avatar {
-    height: 3rem;
-    width: 3rem;
+.post-user-container .avatar {
+    height: 6rem;
+    width: 6rem;
 }
 
 .comment-accepted-container {
