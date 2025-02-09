@@ -17,9 +17,9 @@ import ArrowIcon from "../assets/arrow-icon.svg"
 // import styles
 import "../styles/FileUpload.css";
 
-const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
+const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     // file and folder management
-    const [filesArr, setFilesArr] = useState(viewMode && viewModeFilesArr || []);
+    const [filesArr, setFilesArr] = useState([]);
     const [foldersToDisplay, setFoldersToDisplay] = useState([]);
     const [filesToDisplay, setFilesToDisplay] = useState([]);
     const [foldersArr, setFoldersArr] = useState([]);
@@ -233,8 +233,9 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
 
     useEffect(() => {
         // create folders for viewmode files if in viewmode
-        if (viewModeFilesArr) {
-            setFoldersArr(handleFolderCreation(viewModeFilesArr));
+        setFilesArr(existingFilesArr);
+        if (existingFilesArr.length) {
+            setFoldersArr(handleFolderCreation(existingFilesArr));
         }
     }, []);
 
@@ -580,6 +581,23 @@ const FileUpload = ({ viewModeFilesArr, viewMode, setParentFiles }) => {
                                 />
                             );
                         })}
+                    </div>
+                    <div className="bottom-buttons-container">
+                        <button className="return-to-post-button"
+                            onClick={() => exit()}
+                        >
+                            cancel
+                        </button>
+                        <button className={`confirm-button ${!isEmpty ? "enabled" : "disabled"}`}
+                            onClick={() => {
+                                if (!isEmpty) {
+                                    setParentFiles(filesArr);
+                                    exit();
+                                }
+                            }}
+                        >
+                            confirm
+                        </button>
                     </div>
                 </div>
             </div>

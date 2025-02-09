@@ -148,37 +148,6 @@
   margin-bottom: 10px;
 }
 
-.add-code-button {
-  cursor: pointer;
-  display: flex;
-  background-color: #2c3952;
-  border-radius: 10px;
-  padding: 8px 12px;
-  gap: 5px;
-  transition: all 0.3s;
-  border: none;
-}
-
-.add-code-button:hover {
-  background-color: #344870;
-  transition: all 0.1s;
-}
-
-.add-code-button-title {
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.add-code-button-logo {
-  height: 16px;
-  width: 16px;
-}
-
-.add-code-button-logo img {
-  height: 100%;
-  width: 100%;
-}
-
 .remove-code-button {
   font-size: 1rem;
   cursor: pointer;

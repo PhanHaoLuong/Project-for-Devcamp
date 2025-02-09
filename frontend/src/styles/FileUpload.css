@@ -286,3 +286,52 @@
     display: flex;
     width: 100%;
 }
+
+.file-panel .bottom-buttons-container{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 10px;
+}
+
+.file-panel .confirm-button {
+    flex-grow: 0;
+    background-color: #007070;
+    padding: 10px 40px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    border-radius:  15px;
+    transition: all 0.3s;
+}
+
+.file-panel .confirm-button.disabled {
+    cursor: default;
+    background-color: #3c5075;
+}
+
+.file-panel .confirm-button.disabled:hover {
+    background-color: #3c5075;
+} 
+
+.file-panel .confirm-button:hover {
+    background-color: #008B8B;
+    transition: all 0.1s;
+}
+
+.file-panel .return-to-post-button {
+    flex-grow: 0;
+    background-color: #2d3d5b;
+    padding: 10px 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    border-radius:  15px;
+    transition: all 0.3s;
+}
+
+.file-panel .return-to-post-button:hover {
+    background-color: #3c5075;
+}
