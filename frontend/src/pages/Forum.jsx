@@ -53,7 +53,7 @@ const Forum = () => {
     };
 
     useEffect (() => {
-        getForum()
+        getForum();
     }, [])
 
     const getTimeSincePost = (createdAt) => {
@@ -118,8 +118,11 @@ const Forum = () => {
                     {forumPostData ? (
                         <InfiniteScroll
                             dataLength={forumPostData.length}
-                            next={getForum}
+                            next={() => {
+                                setTimeout(() => getForum(), 200);
+                            }}
                             hasMore={hasMore}
+                            scrollThreshold={0.99}
                             loader={
                                 <div className="loading-container">
                                     <div className="loading-header">
