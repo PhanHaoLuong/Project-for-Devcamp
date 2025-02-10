@@ -166,7 +166,7 @@
   transition: all 0.2s;
 }
 
-.submit-button {
+.create-comment-container .submit-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -223,7 +223,7 @@
   cursor: pointer;
   position:absolute;
   top: 0;
-  left: calc(20% + 230px);
+  left: calc(20% + 130px);
   padding: 10px 30px;
   border-radius: 12px;
   border: none;
@@ -236,4 +236,33 @@
 .submit-code-button:hover {
   background-color: #008B8B;
   transition: all 0.1s;
+}
+
+.code-from-file {
+    cursor: pointer;
+    color: #BBC7DD;
+    background-color: #007070;
+    border-radius: 12px;
+    border: none;
+    gap: 10px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 30px;
+    right: 18%;
+    z-index: 1;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.3s
+}
+
+.code-from-file:hover{
+    background-color: #008B8B;
+    transition: all 0.1s
+}
+
+.code-from-file img {
+    width: 18px;
 }

@@ -226,7 +226,7 @@ function CreateComment() {
                             setCodeEdit(false);
                         }}
                     >
-                        &lt; return to comment page
+                        &lt; go back
                     </button>
 
                     <CodeEditor

@@ -1,7 +1,8 @@
 // import modules
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
+import * as codeLanguageFromExtension from '../utils/codeLanguageExtension.json'
 
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
@@ -17,8 +18,8 @@ import "../styles/CreatePost.css";
 import DialogBox from "../components/DialogBox";
 
 function CreatePost() {
-    const [titleText, setTitleText] = useState(0);
-    const [contentText, setContentText] = useState(0);
+    const [titleText, setTitleText] = useState("");
+    const [contentText, setContentText] = useState("");
     const [isCodeEdit, setCodeEdit] = useState(false);
     const [isFileEdit, setFileEdit] = useState(false);
     const [isFileUpload, setFileUpload] = useState(false);
@@ -26,6 +27,8 @@ function CreatePost() {
     const [codeContent, setCodeContent] = useState("");
     const [lineCount, setLineCount] = useState(0);
     const [filesContent, setFilesContent] = useState([]);
+
+    const fileInputRef = useRef(null);
 
     const navigate = useNavigate();
 
@@ -45,6 +48,35 @@ function CreatePost() {
             setContentText(event.target.value);
         }
     };
+
+    const readFileContents = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onloadend = (e) => resolve(e.target.result);
+
+            reader.onerror = reject;
+
+            reader.readAsText(file);
+        });
+    };
+
+    const handleFileToCodeChange = (e) => {
+        const fileToCode = e.target.files[0];
+        if (fileToCode.type.startsWith("text/")) {
+            const fileExtension = fileToCode.name.split('.')[1]
+            setCodeLanguage(codeLanguageFromExtension[fileExtension]);
+            readFileContents(fileToCode)
+                .then(content => {
+                    console.log(content);
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        } else {
+
+        }
+    }
 
     const handleSubmit = async () => {
         try {
@@ -267,10 +299,33 @@ function CreatePost() {
                             className="return-button"
                             onClick={() => {
                                 setCodeEdit(false);
-                            }}
-                        >
-                            &lt; return to post page
+                                }}
+                                >
+                                    &lt; go back
                         </button>
+                        {!codeContent ? (
+                            <>
+                                <input
+                                    style={{display: 'none'}}
+                                    type="file"
+                                    ref={fileInputRef}
+                                    onChange={handleFileToCodeChange}
+                                />
+                                <button className="code-from-file"
+                                    onClick={
+                                        (e) => {
+                                            e.stopPropagation();
+                                            if (fileInputRef.current) {
+                                                fileInputRef.current.click();
+                                            }
+                                        }
+                                    }
+                                >
+                                    <img src={FolderIcon} />
+                                    <p>add from file</p>
+                                </button>
+                            </>
+                        ) : ""}
 
                         <CodeEditor
                             setCodeContent={setCodeContent}
