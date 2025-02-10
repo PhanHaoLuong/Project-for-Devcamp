@@ -4,7 +4,7 @@ import MiniPost from '../components/MiniPost'
 /* import styles */
 import '../styles/Home.css';
 
-const Home = ({ username, realname, bio }) => {
+const Home = ({ }) => {
   return (
     <div className="container">
       {/* Welcome */}

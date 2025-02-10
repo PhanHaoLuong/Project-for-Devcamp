@@ -1,20 +1,16 @@
 // import modules
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback  } from "react";
 import { useNavigate } from "react-router-dom";
 import ellipsis from "../utils/ellipsis";
-import displayTimeWithUnit from "../utils/displayTime.js";
+import displayNum from "../utils/displayNum.js";
+import * as configs from "../configs.json"
 
 // import components
 import Tag from './Tag.jsx'
 import FileItem from "./FileItem";
-import FullPost from "./FullPost"
 
 // import assets
-import HashIcon from '../assets/hash.png';
-import SaveIcon from '../assets/save.svg';
-import ShareIcon from '../assets/share.svg';
 import TerminalIcon from '../assets/terminal.svg';
-import VoteIcon from '../assets/vote.svg';
 import ArrowIcon from '../assets/arrow-icon.svg'
 
 // import style
@@ -28,6 +24,7 @@ export default function MiniPost({
     postContent, 
     postTags,
     topLevelFolder,
+    codeLanguage,
     voteCount,
     onClickFn,
     expandMode,
@@ -37,20 +34,21 @@ export default function MiniPost({
   
     const navigate = useNavigate();
 
-    const onClick = onClickFn || expandMode ? (
-        () => setExpanded(!isExpanded)
-    ) : (
-        () => navigate(`/post/${postId}`)
-    );
+    const onClick = useCallback(() => {
+        if (onClickFn) {
+            onClickFn();
+        } else if (expandMode) {
+            setExpanded(prevState => !prevState);
+        } else {
+            navigate(`/post/${postId}`);
+        }
+    }, [onClickFn, expandMode, navigate, postId]);
 
     return (
         <>
             <div className={`minipost-container ${isExpanded ? "expanded" : ""}`} >
                 <div className="header-bar" onClick={onClick}>
                     <div className="header-content">
-                        <span className="header-logo">
-                            <img src={TerminalIcon} alt="T"></img>
-                        </span>
                         <span className="header-text">
                             <p className="minipost-title">
                                 {postTitle || "defaultTitle"}
@@ -64,29 +62,11 @@ export default function MiniPost({
                         </span>
                     </div>
                     <div className="to-fullpost-button">
-                        {expandMode ? (
-                                <>
-                                    <div className="on-click-annotation">
-                                        {isExpanded ? "collapse post" : "expand post"}
-                                    </div>
-                                    <img src={ArrowIcon} alt="A"
-                                        style={!isExpanded ? {
-                                            "transition": "all 0.2s"
-                                        } : {
-                                            "transform": "rotate(0.25turn)",
-                                            "transition": "all 0.2s"
-                                        }}
-                                    ></img>
-                                </>
-                            ) : (
-                                <img src={ArrowIcon} alt="A"></img>
-                            )
-                        }
-                        
+                        <img src={ArrowIcon} alr="A"></img>
                     </div>
                 </div>
                 <div className="minipost-description">
-                    {!isExpanded ? ellipsis(postContent || "this post has no description.", 256) : expandMode && (
+                    {!isExpanded ? ellipsis(postContent || "this post has no description.", configs.minipostCharLimit) : expandMode && (
                         <FullPost 
                             postContent={postContent}
                             codeContent={expandData.code}
@@ -106,13 +86,22 @@ export default function MiniPost({
                         })}
                     </div>
                 ) : ("")}
-                <div className="minipost-vote-count">
-                    <span>{voteCount || 0} votes</span>
+                <div className="code-vote-container">
+                    {codeLanguage &&
+                        <div className={"minipost-code"}>
+                            <span>{codeLanguage || "placeholder"}</span>
+                        </div>
+                    }
+                    <div className={`minipost-vote-count ${voteCount >= 0 ? "positive" : "negative"}`}>
+                        <span>
+                            {(voteCount || voteCount === 0) ? `${displayNum(voteCount)} ${voteCount === 1 ? "vote" : "votes"}` : "N/A"}
+                        </span>
+                    </div>
+                    
                 </div>
             </div>
 
         </>
     );
-
 }
 

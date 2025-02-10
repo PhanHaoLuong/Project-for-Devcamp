@@ -22,8 +22,6 @@ const Forum = () => {
     const [hasMore, setHasMore] = useState(true);
 
     const navigate = useNavigate();
-    const url = "/forum";
-
 
     const fetchForum = async () => {
         const response = await fetch(`http://localhost:3000/forum?page=${fetchPage}`, {
@@ -53,7 +51,7 @@ const Forum = () => {
     };
 
     useEffect (() => {
-        getForum();
+        getForum()
     }, [])
 
     const getTimeSincePost = (createdAt) => {
@@ -118,11 +116,8 @@ const Forum = () => {
                     {forumPostData ? (
                         <InfiniteScroll
                             dataLength={forumPostData.length}
-                            next={() => {
-                                setTimeout(() => getForum(), 200);
-                            }}
+                            next={getForum}
                             hasMore={hasMore}
-                            scrollThreshold={0.99}
                             loader={
                                 <div className="loading-container">
                                     <div className="loading-header">
@@ -143,6 +138,7 @@ const Forum = () => {
                                 {forumPostData.map((forumPost) => {
                                     return (
                                         <MiniPost
+                                            key={forumPost._id}
                                             postId={forumPost._id}
                                             author={forumPost.author.name}
                                             postTitle={forumPost.title}
@@ -151,6 +147,7 @@ const Forum = () => {
                                             )}
                                             postTags={null}
                                             postContent={forumPost.content}
+                                            codeLanguage={forumPost.code?.language}
                                             voteCount={forumPost.votes}
                                             topLevelFolder={null}
                                         />

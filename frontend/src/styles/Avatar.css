@@ -1,12 +1,28 @@
 .navbar .avatar {
-    height: auto;
+    height: 2.5rem;
     object-fit: cover;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
 }
 
-.user-info .avatar {
-    height: auto;
+.user-profile .avatar, .post-user-container .avatar {
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
     object-fit: cover;
-    border-radius: 100px;
+    transition: all 0.3s ease;
+}
+
+.dropdown-menu .avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.search-box .avatar {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    object-fit: cover;
 }

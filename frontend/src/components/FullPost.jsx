@@ -2,13 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { CSSTransition } from 'react-transition-group';
 import ellipsis from "../utils/ellipsis.js";
+import { ToastContainer, toast } from "react-toastify";
 
 // import components
 import Avatar from "./Avatar.jsx";
 import Vote from "./Vote.jsx"
 import FileItem from "./FileItem.jsx";
 import Tag from './Tag.jsx';
-import CodeViewer from "./CodeViewer.jsx";
+import EditorPanel from "./EditorPanel.jsx";
 
 // import assets
 import HashIcon from '../assets/hash.png';
@@ -31,12 +32,14 @@ export default function FullPost({
     isSaved, 
     timeSincePost, 
     author, 
+    authorId,
     postTags, 
     postTitle, 
     voteCount, 
     postContent, 
     codeContent, 
-    folderContent 
+    folderContent,
+    user,
 }){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
     const [saveButtonActive, setSaveButtonActive] = useState(false);
@@ -55,10 +58,15 @@ export default function FullPost({
         })
     }
 
-    
+    // Copy URL to clipboard
+    const copyUrl = () => {
+        navigator.clipboard.writeText(window.location.href);
+        toast.success("URL copied to clipboard!");
+    }
 
     return (
         <>
+            <ToastContainer />
             <div className="app-window" id="post-window">
                 {!isComment ? (
                     <div className="post-header" id="post-header">
@@ -77,7 +85,7 @@ export default function FullPost({
                     </div>
                     {!isComment ? (
                         <div className="share-save-container">
-                            <button className="share-button">
+                            <button className="share-button" onClick={copyUrl}>
                                 <span className="share-icon"><img src={ShareIcon} ></img></span>
                                 <span className="share-title">share</span>
                             </button>
@@ -96,7 +104,7 @@ export default function FullPost({
                 <div className="post-body">
                     <div className="post-properties-side">
                         <div className="post-user-container">
-                            <Avatar user=""/>
+                            <Avatar id={authorId} name={author} />
                             <p className="username">{author}</p>
                         </div>
                         {(isComment && isAccepted) ? (
@@ -107,9 +115,9 @@ export default function FullPost({
                                 <span className="accepted-text">accepted</span>
                             </div>
                         ):("")}
-                        {!isComment && <div className="vote-container">
+                        <div className="vote-container">
                             <Vote voteCount={voteCount}/>
-                        </div>}
+                        </div>
                         {(!isComment && postTags) ? (
                             <div className="tag-container">
                                 {postTags.map((tag, index) => {
@@ -141,7 +149,7 @@ export default function FullPost({
                                         <img src={CodeIcon}></img>
                                     </span>
                                     <span className="code-header-text">code</span>
-                                    {!isCodeExpanded ? (
+                                    {isCodeExpanded ? (
                                         <button className="code-toggle code-hidden"
                                             onClick={() => setIsCodeExpanded(!isCodeExpanded)}
                                         >
@@ -174,17 +182,18 @@ export default function FullPost({
                                     )}
                                 </div>
                                     <CSSTransition
-                                        in={!isCodeExpanded}
+                                        in={isCodeExpanded}
                                         classNames={"code-content"}
                                         timeout={200}
                                         mountOnEnter
                                         unmountOnExit
                                     >
                                         <div className="code-content">
-                                            <CodeViewer
+                                            <EditorPanel 
                                                 codeContent={codeContent.data} 
                                                 codeLanguage={codeContent.language} 
-                                                lineCount={codeContent.lines}
+                                                lineCount={codeContent.lines} 
+                                                isViewing={true}
                                             />
                                         </div>
                                     </CSSTransition>

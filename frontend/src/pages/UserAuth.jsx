@@ -8,7 +8,6 @@ import { valName, valPw } from '../utils/validateInput';
 import { useQueryClient } from '@tanstack/react-query';
 
 /* import Components */
-import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import Input from '../components/Input';
 

@@ -1,20 +1,41 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import '../styles/Avatar.css';
-import defaultAvatar from '../assets/profile_pictures/default.png';
 
-const Avatar = ({ user }) => {
-  const [avatar, setAvatar] = useState('');
+const Avatar = ({ id, name }) => {
+  const defaultAvatar = "default.png";
+  
+  const [avatar, setAvatar] = useState('placeholder.png');
 
   useEffect(() => {
-    if (user.avatar) {
-      setAvatar(user.avatar);
-    } else {
-      setAvatar(defaultAvatar);
-    }
-  }, [user]);
+    const fetchAvatar = async () => {
+      try {
+        const res = await axios.get(`http://localhost:3000/avatar/${id}`);
+        
+        if (res.data.avatarName) {
+          setAvatar(res.data.avatarName);
+        } else {
+          setAvatar(defaultAvatar);
+        }        
+      } catch (err) {
+        if (err.response && err.response.status === 404) {
+          console.warn('Avatar not found, using default avatar.');
+          setAvatar(defaultAvatar);
+        } else {
+          console.error('Error fetching avatar:', err);
+        }
+      }
+    };
+    fetchAvatar();
+    
+  }, [id]);
 
   return (
-    <img className="avatar" src={avatar} alt={`${user.name}'s avatar`} />
+    <img
+      className="avatar"
+      src={`http://localhost:3000/uploads/avatars/${avatar}`}
+      alt={`${name || "User"}'s avatar`}
+    />
   );
 };
 
