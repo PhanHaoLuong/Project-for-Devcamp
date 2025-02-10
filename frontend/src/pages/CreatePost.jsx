@@ -62,6 +62,14 @@ function CreatePost() {
                         data: codeContent,
                         lines: lineCount,
                     },
+                    filesMetadata: filesContent.map(({ id, name, size, type, path, uploadedAt }) => ({
+                        id,
+                        name,
+                        size,
+                        type,
+                        path,
+                        uploadedAt
+                    }))
                 }),
             });
             const data = await response.json();
@@ -70,6 +78,26 @@ function CreatePost() {
             }
         } catch (error) {
             console.error(error);
+        }
+
+        try {
+            const formData = new FormData();
+            filesArr.forEach((file) => {
+                formData.append("files", file.fileObj, file.fileObj.name);
+                formData.append("metadata[]", JSON.stringify({
+                    id: file.id,
+                    size: file.size,
+                    path: file.path,
+                    uploadedAt: file.uploadedAt
+                }))
+            })
+            const response = await fetch(""/* change when have route */, {
+                method: "POST",
+                credentials: "include",
+                body: formData
+            })
+        } catch (error) {
+            console.log(error);
         }
     };
 

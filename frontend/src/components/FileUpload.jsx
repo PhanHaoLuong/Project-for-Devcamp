@@ -209,6 +209,7 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
             
                         return {
                             id: uuidv4(),
+                            fileObj: file,
                             name: file.name,
                             size: file.size,
                             type: file.type,
