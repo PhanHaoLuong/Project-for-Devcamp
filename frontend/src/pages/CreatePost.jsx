@@ -81,6 +81,7 @@ function CreatePost() {
                 formData.append("files", file.fileObj, file.fileObj.name);
                 formData.append("metadata[]", JSON.stringify({
                     id: file.id,
+                    name: file.name,
                     size: file.size,
                     path: file.path,
                     uploadedAt: file.uploadedAt
