@@ -26,10 +26,6 @@
     padding: 10px 10px 0;
 }
 
-.dropdown-item:last-child {
-    border-bottom: none;
-}
-
 .dropdown-link {
     color: var(--font-color);
     text-decoration: none;

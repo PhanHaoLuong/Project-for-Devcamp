@@ -6,6 +6,14 @@
     justify-content: center;
 }
 
+body>.post-container {
+    margin-top: 80px;
+}
+
+#post-window {
+    margin-top: 70px;
+}
+
 .comment-button {
     border: none;
     position: fixed;

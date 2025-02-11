@@ -18,7 +18,7 @@
     border-radius: 10px;
     width: 6.5rem;
     height: 2rem;
-    gap: 5%;
+    gap: 5px;
     max-width: 50%;
     min-width: 100px;
 }
@@ -30,20 +30,19 @@
 .vote-button {
     position: absolute;
     height: 60%;
-    transition: all 0.2s;
-}
-
-#upvote{
-    left: 0
-}
-
-.vote-button:hover {
-    height: calc(60% + 2px);
     transition: all 0.1s;
 }
 
+#upvote{
+    left: 5px
+}
+
+.vote-button:hover {
+    height: calc(60% + 1px);
+}
+
 #downvote{
-    right: 0
+    right: 5px
 }
 
 #downvote {

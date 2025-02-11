@@ -5,12 +5,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    password: String,
+    password: {
+        type: String,
+        required: true
+    },
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
     }],
-    email: String,
+    email: {
+        type: String,
+        unique: true,
+        required: true
+    },
     realname: String,
     bio: String,
     reputation: {
@@ -20,6 +27,10 @@ const userSchema = new mongoose.Schema({
     visits: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    }],
+    savedPosts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
     }],
 }, {timestamps: true})
 

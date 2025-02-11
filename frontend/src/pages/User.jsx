@@ -7,6 +7,9 @@ import Avatar from "../components/Avatar";
 import MiniPost from "../components/MiniPost";
 import ChangeAvatar from "../components/ChangeAvatar";
 
+import displayTime from '../utils/displayTime'; 
+import LoadingIcon from "../assets/loading-circle.gif";
+
 const User = ({ visitor }) => {
   const [userData, setUserData] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -43,6 +46,8 @@ const User = ({ visitor }) => {
     fetchUserData();
 
   }, [userId, navigate]);
+
+  const { _id, name, email, realname, bio, posts, comments, visits } = userData;
 
   // Check if the user is the authenticated user to edit the profile
   useEffect(() => {
@@ -103,10 +108,7 @@ const User = ({ visitor }) => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
   if (!userData) return <div>Error loading user data</div>;
-
-  const { _id, name, email, realname, bio, posts, comments, visits } = userData;
 
   // Calculate user statistics
   const reputation = posts.reduce((acc, post) => acc + post.votes, 0);
@@ -120,6 +122,13 @@ const User = ({ visitor }) => {
     if (post.is_comment) return acc + 1;
     return acc;
   }, 0);
+
+  // Get time by seconds
+  const getTimeSincePost = (createdAt) => {
+    const now = new Date();
+    const creationTime = new Date(createdAt);
+    return (now.getTime() - creationTime.getTime()) / 1000;
+  };
 
 
   return (
@@ -212,15 +221,28 @@ const User = ({ visitor }) => {
         <div className="posts">
           <h3>Posts</h3>
           <div className="post">
-            {posts?.map((post) => {
-              return (<MiniPost 
+            {loading && 
+              <div className="loading-container">
+                  <div className="loading-header">
+                      <span className="loading-icon">
+                          <img src={LoadingIcon} alt="T"></img>
+                      </span>
+                      <span className="loading-text">loading posts</span>
+                  </div>
+              </div>
+            }
+            {posts && [...posts].reverse().map((post) => (
+              <MiniPost
                 key={post._id}
                 postId={post._id}
                 author={name}
                 postTitle={post.title}
                 postTags={null}
-                postContent={post.content} />)
-            })}
+                postContent={post.content}
+                voteCount={post.votes}
+                timeSincePost={displayTime(getTimeSincePost(post.createdAt))}
+              />
+            ))}
           </div>
         </div>
       </div>

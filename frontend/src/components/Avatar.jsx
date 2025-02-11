@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import '../styles/Avatar.css';
 
 const Avatar = ({ id, name }) => {
@@ -10,10 +9,11 @@ const Avatar = ({ id, name }) => {
   useEffect(() => {
     const fetchAvatar = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/avatar/${id}`);
+        const res = await fetch(`http://localhost:3000/avatar/${id}`);
+        const data = await res.json();
         
-        if (res.data.avatarName) {
-          setAvatar(res.data.avatarName);
+        if (data.avatarName) {
+          setAvatar(data.avatarName);
         } else {
           setAvatar(defaultAvatar);
         }        

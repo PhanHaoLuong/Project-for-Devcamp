@@ -89,7 +89,6 @@ function App() {
             />
             <Route path="/home" element={<Home />} />
             <Route path="/forum" element={<Forum />} />
-            <Route path="/saved" element={<Saved />} />
   {/*           <Route path="/fileupload" element={<Fileupload />} /> */}
             <Route path="/post/:postId" element={<FullPostPage user={userData} />} />
             <Route
@@ -110,6 +109,7 @@ function App() {
               path="/user/:userId"
               element={<User visitor={userData._id} />}
             />
+            <Route path="/user/:userId/saved" element={<Saved user={userData} />} />
           </Routes>
         </Suspense>
       </Router>

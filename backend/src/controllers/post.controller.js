@@ -145,3 +145,55 @@ export const accept_comment = async (req, res) => {
         res.status(500).send(error.message)
     }
 }
+
+export const savePost = async (req, res) => {
+    const { userId } = req.body;
+    const postId = req.params.postId;
+
+    try {
+        const User = await user.findById(userId);
+        if (!User) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        if (!User.savedPosts.includes(postId)) {
+            User.savedPosts.push(postId);
+            await User.save();
+        }
+
+        res.status(200).json({ message: "Post saved successfully." });
+    } catch (err) {
+        res.status(500).json({ message: "Error saving post." });
+    }
+};
+
+export const unsavePost = async (req, res) => {
+    const { userId } = req.body;
+    const postId = req.params.postId;
+
+    try {
+        const User = await user.findById(userId);
+
+        if (!User) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        User.savedPosts = User.savedPosts.filter(id => id.toString() !== postId);
+        await User.save();
+        
+
+        res.status(200).json({ message: "Post unsaved successfully." });
+    } catch (err) {
+        res.status(500).json({ message: "Error unsaving post." });
+    }
+};
+
+export const recentPost = async (req, res) => {
+    try {
+        const posts = await post.find({},{},{limit: 10, sort: {createdAt: -1}})
+        .populate('author', 'name')
+        res.status(200).json(posts)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}

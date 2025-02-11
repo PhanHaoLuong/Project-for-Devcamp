@@ -90,7 +90,7 @@
     background-color: #192233;
     border-radius: 8px;
     border: none;
-    margin: 0 5px;
+    margin: 0 20px 0 20px;
     transition: all 0.3s ease-in-out;
 }
 
@@ -120,7 +120,7 @@
     margin-left: 0px;
 }
 
-.save-button {
+.share-save-container .save-button {
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -130,16 +130,16 @@
     background-color: #192233;
     border-radius: 8px;
     border: none;
-    margin: 0 20px 0 5px;
+    margin: 0 20px 0 -15px;
     transition: all 0.3s ease-in-out;
 }
 
-.save-button:hover {
+.share-save-container .save-button:hover {
     background-color: #2c3e63;
     transition: all 0.2s ease-in-out;
 }
 
-.saved-button {
+.share-save-container .saved-button {
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -149,7 +149,7 @@
     background-color: #008B8B;
     border-radius: 8px;
     border: none;
-    margin: 0 20px 0 5px;
+    margin: 0 20px 0 -15px;
     transition: all 0.2s ease-in-out;
 }
 

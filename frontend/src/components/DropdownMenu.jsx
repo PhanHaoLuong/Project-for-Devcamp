@@ -33,29 +33,19 @@ const DropdownMenu = ({ user, display }) => {
       </div>
       <hr></hr>
 
-      {/* Require edit user id react file 
-      <div className="dropdown-item">
-        <Link to={`/user/edit/${user._id}`} className="dropdown-link"> 
-        <i className="ti-pencil"></i>
-          Edit profile
-        </Link>
-      </div> */}
-
-      {/* Require settings react file or settings modal
-      <div className="dropdown-item">
+      {/* <div className="dropdown-item">
         <Link to="/settings" className="dropdown-link">
         <i className="ti-settings"></i>
           Settings
         </Link>
       </div> */}
 
-      {/* Require saved posts react file
       <div className="dropdown-item">
-        <Link to={`/user/edit/${user._id}`} className="dropdown-link"> 
-        <i className="ti-bookmark"></i>
+        <Link to={`/user/${user._id}/saved`} className="dropdown-link"> 
+        <i className="ti-bookmark-alt"></i>
           Saved posts
         </Link>
-      </div> */}
+      </div>
 
       <div className="dropdown-item logout">
         <span className="dropdown-link" onClick={handleLogout}>

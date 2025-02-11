@@ -18,7 +18,7 @@
   display: flex;
   justify-content: center;
   width: calc(100vw - 14px);
-  margin-top: 50px;
+  margin-top: 80px;
 }
 
 .create-post-header {
@@ -135,7 +135,26 @@
   top: 75px;
   left: 0;
   z-index: 1;
-  transition: all 1s;
+  transition: all ease-in-out 0.5s;
+  overflow: hidden;
+}
+
+.selector-transition-enter {
+  opacity: 0;
+}
+
+.selector-transition-enter-active {
+  opacity: 1;
+  transition: all 0.1s ease-in-out;
+}
+
+.selector-transition-exit {
+  opacity: 1;
+}
+
+.selector-transition-exit-active {
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
 }
 
 .create-content-container {
@@ -305,7 +324,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 80px;
   width: 100%;
   animation: fadeSlideIn 0.5s;
 }
