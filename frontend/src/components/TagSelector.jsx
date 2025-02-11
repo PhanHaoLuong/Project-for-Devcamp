@@ -1,6 +1,5 @@
 // import modules
 import React, { useState, useRef, useEffect } from "react";
-import { CSSTransition } from "react-transition-group";
 import { v4 as uuidv4 } from 'uuid';
 import * as configs from '../configs.json';
 
@@ -15,8 +14,7 @@ import ArrowIcon from '../assets/arrow-icon.svg'
 import '../styles/TagSelector.css'
 
 const TagSelector = ({ 
-    onConfirm,
-    setVisible,
+    onConfirm, 
     getSelectedTags, 
     getTagOptions, 
     currSelectedTags,
@@ -44,14 +42,14 @@ const TagSelector = ({
         const unselected = tagOptions.find(tag => tag?.id === id);
         if (unselected) {
             setSelectedTags(prevSelectedTags => 
-                [unselected, ...prevSelectedTags]
+                [...prevSelectedTags, unselected]
             );
             setTagOptions(prevTagOptions => 
                 prevTagOptions.filter(tag => tag !== unselected)
             );
         } else if (selected) {
             setTagOptions(prevTagOptions => 
-                [selected, ...prevTagOptions]
+                [...prevTagOptions, selected]
             );
             setSelectedTags(prevTagOptions => 
                 prevTagOptions.filter(tag => tag !== selected)
@@ -59,8 +57,6 @@ const TagSelector = ({
         }
     }
 
-
-    // sample data
     const sampleData = [
         {
             tagName:"python",
@@ -133,23 +129,6 @@ const TagSelector = ({
         }
     }, [isCollapsed])
 
-    const useClickOutside = (ref, callback) => {
-        useEffect(() => {
-            const handleClickOutside = (event) => {
-                if (ref.current && !ref.current.contains(event.target)) {
-                    callback();
-                }
-            }
-    
-            document.addEventListener('mousedown', handleClickOutside);
-            return () => {
-                document.removeEventListener('mousedown', handleClickOutside);
-            };
-        }, [ref, callback]);
-    }
-    
-    useClickOutside(selectorRef, () => setVisible())
-
     return (
         <div className={`tag-selector ${isCollapsed ? "collapsed" : "expanded"}`}
             ref={selectorRef}
@@ -189,6 +168,7 @@ const TagSelector = ({
                                 }}
                             />
                         )}
+                        
                         </>
                     )}
                 </div>

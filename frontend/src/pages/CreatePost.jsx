@@ -150,22 +150,14 @@ function CreatePost() {
                     </div>
                   </>
                 )}
-                  <CSSTransition
-                    in={selectTagMode}
-                    classNames="selector-transition"
-                    timeout={300}
-                    mountOnEnter
-                    unmountOnExit
-                  >
-                    <TagSelector 
-                      onConfirm={() => toggleSelectTag(false)}
-                      getSelectedTags={data => setSelectedTags(data)}
-                      getTagOptions={data => setTagOptions(data)}
-                      setVisible={() => toggleSelectTag()}
-                      currSelectedTags={selectedTags}
-                      currTagOptions={tagOptions}
-                    />
-                  </CSSTransition>
+                {selectTagMode ? 
+                <TagSelector 
+                  onConfirm={() => toggleSelectTag(false)}
+                  getSelectedTags={data => setSelectedTags(data)}
+                  getTagOptions={data => setTagOptions(data)}
+                  currSelectedTags={selectedTags}
+                  currTagOptions={tagOptions}
+                /> : ""}
               </div>
               <div className="create-content-container">
                 <div className="content-create-text">content</div>

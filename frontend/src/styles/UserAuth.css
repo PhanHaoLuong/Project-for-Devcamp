@@ -42,19 +42,11 @@
     100% { opacity: 1; top: 0px; }
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active {
-    box-shadow: 0 0 0px 1000px #BBC7DD inset !important;
-    -webkit-text-fill-color: #192233 !important;
-    color: #BBC7DD !important;
-    caret-color: #BBC7DD;
-}
 
 .login-window {
     animation: fadeSlideIn 0.5s;
 }
+
 
 .login-form {
     background-color: #192233;
@@ -89,7 +81,7 @@ input:-webkit-autofill:active {
 }
 
 .login-body > .input-field {
-    width: 100%;
+    width: 100%; /* Ensure elements take full width */
     margin: 0;
 }
 

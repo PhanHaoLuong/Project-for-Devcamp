@@ -232,7 +232,7 @@ const UserSignUp = () => {
                                     </p>
                                 </div>
                             ) : ("")}
-                            <div className="signup-button-container">
+                            <div className={`signup-button-container ${(isHover ? "hover" : "")}`}>
                                 <a href={pageAddress.login} id="to-login-button">&lt; back to login </a>
                                 <Button children="sign up" type="submit" id="signup-button" onClick={
                                     !(hasInvalInput || hasEmptyRequired) ? handleSubmit : (event) => {

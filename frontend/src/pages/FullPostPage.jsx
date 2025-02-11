@@ -68,9 +68,7 @@ const FullPostPage = ({user}) => {
     return (
         <>
             <div className="post-container">
-                {postData ? (<FullPost 
-                    postId={postId || null}
-                    isComment={false} 
+                {postData ? (<FullPost isComment={false} 
                     author={postData.author.name || null}
                     authorId={postData.author._id || null} 
                     postTitle={postData.title || null}
