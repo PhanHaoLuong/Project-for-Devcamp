@@ -113,6 +113,11 @@
     background-color: #395285;
 }
 
+.tag-box p {
+    font-size: 0.8rem;
+    color: #a0aabb
+}
+
 .tag-box, .selected-tag-box {
     display: flex;
     flex-wrap: wrap;

@@ -114,10 +114,31 @@ const TagSelector = ({
             setSelectedTags(currSelectedTags);
             setTagOptions(currTagOptions)         
         } else {
-            setSelectedTags([]);
-            setTagOptions(sampleData);
+            const fetchTags = async () => {
+                try {
+                    const response = await fetch(""/* add route when available */, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            console.log("no tags found");
+                        }
+                    } else {
+                        const tagsData = await response.json();
+                        setSelectedTags([]);
+                        setTagOptions(tagsData);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+            fetchTags();
         }
-    }, [])
+    }, []);
 
     useEffect(() => {
         if (!isCollapsed && tagBoxRef.current) {
@@ -243,7 +264,7 @@ const TagSelector = ({
                                 }}
                             />
                         )
-                    )) : "no tags available."}
+                    )) : <p>no tags available.</p>}
                 </div>
             </div>
             <div className="confirm-button-container">
