@@ -62,14 +62,7 @@ function CreatePost() {
                         data: codeContent,
                         lines: lineCount,
                     },
-                    filesMetadata: filesContent.map(({ id, name, size, type, path, uploadedAt }) => ({
-                        id,
-                        name,
-                        size,
-                        type,
-                        path,
-                        uploadedAt
-                    }))
+                    filesMetadata: filesContent.map(({ id }) => ({ id }))
                 }),
             });
             const data = await response.json();
