@@ -9,6 +9,17 @@
     overflow: hidden;
 }
 
+@keyframes fadeSlideIn {
+    0% { opacity: 0; top: 10px; }
+    50% { opacity: 0.5; top: -8px; }
+    100% { opacity: 1; top: 0px; }
+}
+
+.saved .minipost-container {
+    position: relative;
+    animation: fadeSlideIn 0.5s;
+}
+
 .saved .header {
     min-height: 8%;
     padding: 0.5rem;
