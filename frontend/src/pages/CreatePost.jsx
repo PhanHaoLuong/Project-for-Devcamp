@@ -77,7 +77,7 @@ function CreatePost() {
 
         try {
             const formData = new FormData();
-            filesArr.forEach((file) => {
+            filesContent.forEach((file) => {
                 formData.append("files", file.fileObj, file.fileObj.name);
                 formData.append("metadata[]", JSON.stringify({
                     id: file.id,
