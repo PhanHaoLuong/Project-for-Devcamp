@@ -1,7 +1,3 @@
-:root {
-    interpolate-size: allow-keywords; /* 👈 */
-}
-
 .minipost-container * {
     font-size: 0.7rem;
     color:#BBC7DD;
@@ -11,7 +7,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: auto;
+    width: 100%;
     height: auto;
     background-color: #243148;
     border-radius: 15px;
@@ -72,19 +68,11 @@
 
 .to-fullpost-button {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px
 }
 
 .to-fullpost-button img {
     height: 25px;
     width: 25px;
-}
-
-.on-click-annotation {
-    font-size: 1rem;
-    height: auto;
 }
 
 .minipost-description {
@@ -94,43 +82,6 @@
     overflow-wrap: break-word;
     overflow: hidden;
     word-wrap: break-word;
-}
-
-.minipost-description .app-window {
-    border: none;
-    min-width: 0;
-    min-height: 0;
-    width: 100%;
-}
-
-.minipost-description .post-body {
-    width: 100%;
-}
-
-.minipost-container .post-content {
-    width: 100%;
-} 
-
-.minipost-description .post-header, .minipost-description .title-bar {
-    display: none;
-}
-
-.minipost-description .post-properties-side {
-    position: absolute;
-    display: none;
-}
-
-.minipost-description .post-content {
-    background: none;
-}
-
-.minipost-container .content-header, .minipost-description .content-header *, .minipost-container .code-header, .minipost-container .code-header-text, .minipost-description .code-content {
-    margin: 0;
-    font-size: 1.1rem;
-}
-
-.minipost-description .code-content {
-    margin-top: 10px
 }
 
 .minipost-folder .file-item {

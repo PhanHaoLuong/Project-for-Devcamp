@@ -10,7 +10,7 @@ body {
     background-color: hsl(219, 50%, 8%);
 }
 
-/* Tailwind */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+.no-css {
+    padding: 0;
+    margin: 0;
+}

@@ -11,7 +11,16 @@ const userSchema = new mongoose.Schema({
         ref: 'Post'
     }],
     email: String,
-    //We'll need to add fields for: Email, real_name, saved_posts
+    realname: String,
+    bio: String,
+    reputation: {
+        type: Number,
+        default: 0
+    },
+    visits: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
 }, {timestamps: true})
 
 const user = mongoose.model('User', userSchema)

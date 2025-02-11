@@ -1,5 +1,5 @@
 // import modules
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState, useMemo } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,26 +17,24 @@ import FileItem from "./components/FileItem";
 import DialogBox from "./components/DialogBox";
 
 /* import pages */
+import FullPostPage from "./pages/FullPostPage";
 import UserSignUp from "./pages/UserSignUp";
 import UserAuth from "./pages/UserAuth";
-
 import Home from "./pages/Home";
 import User from "./pages/User";
-
 import Saved from "./pages/Saved";
+import CodeEditor from "./pages/CodeEditor";
 import Forum from "./pages/Forum";
-import FullPostPage from "./pages/FullPostPage";
-
 import CreatePost from "./pages/CreatePost";
-import CreateComment from "./pages/CreateComment";
-import Test from "./pages/Test";
 
 import "./App.css";
+import user from "../../backend/src/models/user.model";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState(false); // No use of `null` to avoid undefined user data
   
+  // Fetch auth user status
   const { data: authUser, isLoading } = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
@@ -46,11 +44,13 @@ function App() {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include",
+          credentials: "include",  // Send cookies
         });
         if (response.status === 200) {
           setIsLoggedIn(true);
-          return true; //Subjected to change
+          const data = await response.json(); 
+          setUserData(data);  
+          return true;
         } else {
           setIsLoggedIn(false);
           return null;
@@ -63,56 +63,55 @@ function App() {
     staleTime: 1000 * 60 * 60,
   });
 
-  if (isLoading) return null;
+  const memoizedNavbar = useMemo(() => <Navbar isLoggedIn={isLoggedIn} user={userData} />, [isLoggedIn, userData]);
 
-  //Should optimize the way authUser is called
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <>
       <Router>
-        <Suspense fallback={<div>Loading...</div>} />
-        <Navbar isLoggedIn={isLoggedIn} />
-        <Routes>
-          <Route
-            path={pageAddress.home}
-            element={
-              <Home />
-            }
-          />
-          <Route
-            path={pageAddress.login}
-            element={!isLoggedIn ? <UserAuth /> : <Navigate to="/" />}
-          />
-          <Route
-            path={pageAddress.signup}
-            element={!isLoggedIn ? <UserSignUp /> : <Navigate to="/" />}
-          />
-          <Route path="/home" element={<Home />} />
-          <Route path="/forum" element={<Forum />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/saved" element={<Saved />} />
-{/*           <Route path="/fileupload" element={<Fileupload />} /> */}
-          <Route 
-            path="/post/:postId" 
-            element={<FullPostPage />} 
-          />
-          <Route
-            path="/component-test"
-            element={<Test />}
-          />
-          <Route 
-            path="/post/create" 
-            element={<CreatePost />} 
-          />
-          <Route
-            path="/user/:userId"
-            element={<User />}
-          />
-          {/* placeholder create comment route, change when appropriate */}
-          <Route 
-            path="/post/:postId/comment"
-            element={<CreateComment />}
-          />
-        </Routes>
+        {memoizedNavbar}
+        <Suspense fallback={<div>Loading...</div>} >
+          <Routes>
+            <Route
+              path={pageAddress.home}
+              element={
+                <Home />
+              }
+            />
+            <Route
+              path={pageAddress.login}
+              element={!isLoggedIn ? <UserAuth /> : <Navigate to="/" />}
+            />
+            <Route
+              path={pageAddress.signup}
+              element={!isLoggedIn ? <UserSignUp /> : <Navigate to="/" />}
+            />
+            <Route path="/home" element={<Home />} />
+            <Route path="/forum" element={<Forum />} />
+            <Route path="/saved" element={<Saved />} />
+  {/*           <Route path="/fileupload" element={<Fileupload />} /> */}
+            <Route path="/post/:postId" element={<FullPostPage user={userData} />} />
+            <Route
+              path="/component-test"
+              element={
+                <>
+                  <DialogBox 
+                    mode='confirm'
+                    message='error lmao'
+                    header='lmao stfu'
+                    onConfirm={() => {console.log('lmao')}}
+                  />
+                </>
+              }
+            />
+            <Route path="/post/create" element={<CreatePost />} />
+            <Route
+              path="/user/:userId"
+              element={<User visitor={userData._id} />}
+            />
+          </Routes>
+        </Suspense>
       </Router>
     </>
   );

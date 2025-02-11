@@ -1,8 +1,8 @@
-import post from '../models/post.model.js'
 import user from '../models/user.model.js'
+import post from '../models/post.model.js'
 import code from '../models/code.model.js'
 
-export const create_post = async (req, res) => { //Needs optimization
+export const create_post = async (req, res) => {
     const author = res.locals.user._id
     const { title, content, codeData} = req.body
     let postid = null
@@ -75,23 +75,13 @@ export const get_forum_posts = async (req, res) => {
     }
 }
 
-export const create_comment = async (req, res) => { //Needs optimization
+export const create_comment = async (req, res) => {
     const postid = req.params.postid
     const author = res.locals.user._id
-    const { content, codeData } = req.body 
+    const newComment = new post(Object.assign(req.body, {author: author, parent_post_id: postid, is_comment: true}))
     try {
-        if (!codeData.data) {
-            const newComment = new post(Object.assign({}, {author: author, content: content, parent_post_id: postid, is_comment: true, title: "comment"}))
-            await user.updateOne({_id: author}, {$push: {posts: newComment._id}})
-            await newComment.save();
-        } else{
-            const newCode = new code(Object.assign(codeData, {author: author}))
-            const newComment = new post(Object.assign({}, {author: author, code: newCode._id, content: content, parent_post_id: postid, is_comment: true, title: "comment"}))
-            await newCode.save();
-            await newComment.save();
-            await user.updateOne({_id: author}, {$push: {posts: newComment._id}})
-        }
-        res.status(201).json({"redirect" : postid})
+        await newComment.save();
+        res.status(201).send("OK")
     } catch (error) {
         res.status(500).send(error.message)
     }
@@ -118,7 +108,7 @@ export const get_post_comments = async (req, res) => {
         const singlepost = res.locals.singlepost
         if (page == 1) {
             if (singlepost.accepted_comment_id != null) {
-                const accepted_comment = await post.find({_id: singlepost.accepted_comment_id}).populate('author', 'name').populate('code', 'language data lines')
+                const accepted_comment = await post.find({_id: singlepost.accepted_comment_id}).populate('author', 'name')
                 const comments = await post.find(
                     {parent_post_id: postid, _id: {$ne: singlepost.accepted_comment_id}},{},
                     {skip: skip, limit: limit - 1, sort: {votes: -1}})
@@ -130,7 +120,6 @@ export const get_post_comments = async (req, res) => {
                     {parent_post_id: postid},{},
                     {skip: skip, limit: limit, sort: {votes: -1}})
                     .populate('author', 'name')
-                    .populate('code', 'language data lines')
                 res.status(200).json({post: res.locals.singlepost, comments: comments})
             }
         }
@@ -138,7 +127,7 @@ export const get_post_comments = async (req, res) => {
             const comments = await post.find(
                 {parent_post_id: postid},{},
                 {skip: skip, limit: limit, sort: {votes: -1}})
-                .populate('author', 'name').populate('code', 'language data lines')
+                .populate('author', 'name')
             res.status(200).json({comments: comments})
         }
     } catch (error) {

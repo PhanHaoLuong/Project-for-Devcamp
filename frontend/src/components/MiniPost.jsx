@@ -8,7 +8,6 @@ import * as configs from "../configs.json"
 // import components
 import Tag from './Tag.jsx'
 import FileItem from "./FileItem";
-import FullPost from "./FullPost"
 
 // import assets
 import TerminalIcon from '../assets/terminal.svg';
@@ -63,25 +62,7 @@ export default function MiniPost({
                         </span>
                     </div>
                     <div className="to-fullpost-button">
-                        {expandMode ? (
-                                <>
-                                    <div className="on-click-annotation">
-                                        {isExpanded ? "collapse post" : "expand post"}
-                                    </div>
-                                    <img src={ArrowIcon} alt="A"
-                                        style={!isExpanded ? {
-                                            "transition": "all 0.2s"
-                                        } : {
-                                            "transform": "rotate(0.25turn)",
-                                            "transition": "all 0.2s"
-                                        }}
-                                    ></img>
-                                </>
-                            ) : (
-                                <img src={ArrowIcon} alt="A"></img>
-                            )
-                        }
-                        
+                        <img src={ArrowIcon} alr="A"></img>
                     </div>
                 </div>
                 <div className="minipost-description">
@@ -122,6 +103,5 @@ export default function MiniPost({
 
         </>
     );
-
 }
 

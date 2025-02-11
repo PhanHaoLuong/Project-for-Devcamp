@@ -5,7 +5,6 @@ import displayTime from "../utils/displayTime";
 
 // import components
 import MiniPost from "../components/MiniPost";
-import Loader from "../components/Loader";
 
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
@@ -52,7 +51,7 @@ const Forum = () => {
     };
 
     useEffect (() => {
-        getForum();
+        getForum()
     }, [])
 
     const getTimeSincePost = (createdAt) => {
@@ -117,13 +116,17 @@ const Forum = () => {
                     {forumPostData ? (
                         <InfiniteScroll
                             dataLength={forumPostData.length}
-                            next={() => {
-                                setTimeout(() => getForum(), 200);
-                            }}
+                            next={getForum}
                             hasMore={hasMore}
-                            scrollThreshold={0.99}
                             loader={
-                                <Loader />
+                                <div className="loading-container">
+                                    <div className="loading-header">
+                                        <span className="loading-icon">
+                                            <img src={LoadingIcon} alt="T"></img>
+                                        </span>
+                                        <span className="loading-text">loading more posts</span>
+                                    </div>
+                                </div>
                             }
                             endMessage={
                                 <div className="end-message">
@@ -135,6 +138,7 @@ const Forum = () => {
                                 {forumPostData.map((forumPost) => {
                                     return (
                                         <MiniPost
+                                            key={forumPost._id}
                                             postId={forumPost._id}
                                             author={forumPost.author.name}
                                             postTitle={forumPost.title}
