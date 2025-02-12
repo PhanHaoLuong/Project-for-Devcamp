@@ -83,7 +83,9 @@ const FullPostPage = ({user}) => {
                 {commentData && commentData.acceptedComments ? (
                     commentData.acceptedComments.map((comment) => {
                         return (
-                            <FullPost isComment={true} isAccepted={true}
+                            <FullPost 
+                                isComment={true} 
+                                isAccepted={true}
                                 author={comment.author.name || "N/A"} 
                                 postTitle={comment.title || "N/A"}
                                 timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
@@ -100,8 +102,11 @@ const FullPostPage = ({user}) => {
                 {commentData && commentData.comments ? (
                         commentData.comments.map((comment) => {
                             return (
-                                <FullPost isComment={true} isAccepted={false}
+                                <FullPost 
+                                    isComment={true} 
+                                    isAccepted={false}
                                     author={comment.author.name || "N/A"} 
+                                    authorId={comment.author._id || null}
                                     postTitle={comment.title || "N/A"}
                                     timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
                                     voteCount={comment.votes} 
