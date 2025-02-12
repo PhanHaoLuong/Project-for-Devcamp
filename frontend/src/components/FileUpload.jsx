@@ -40,8 +40,9 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     // dialog box states
     const [clearConfirmVisible, setClearConfirmVisible] = useState(false);
     const [renameConfirmVisible, setRenameConfirmVisible] = useState(false);
-    const [currRenamedFile, setCurrRenamedFile] = useState(null);
+    const [currRenamedFiles, setCurrRenamedFiles] = useState([]);
     const [fileRejectedErr, setFileRejectedErr] = useState(false);
+    const [rejectedFilesArr, setRejectedFilesArr] = useState([]);
 
     // preview files states
     const [selectedImage, setSelectedImage] = useState(null);
@@ -120,7 +121,7 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
 
             if (duplicate) {
                 setRenameConfirmVisible(true);
-                setCurrRenamedFile(prevRenamedFiles => [...prevRenamedFiles, modifiedFile.name]);
+                setCurrRenamedFiles(prevRenamedFiles => [...prevRenamedFiles, newFile.name]);
             }
 
             while (duplicate && iterationCount < 1000) {
@@ -179,9 +180,9 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
         return folderArray;
     };
 
-    const { acceptedFiles, getRootProps, getInputProps, open, isDragActive } = useDropzone({
+    const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
             accept: {
-                'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.bmp', '.webp'],
+                'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.svg', '.webp'],
                 'text/x-c++src': ['.cpp'], 
                 'text/x-csharp': ['.cs'], 
                 'application/x-python-code': ['.py'], 
@@ -240,8 +241,9 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                 setFilesArr(prevFilesArr => [...prevFilesArr, ...filesWithContent]);
             },
 
-            onDropRejected: () => {
+            onDropRejected: (rejectedFiles) => {
                 setFileRejectedErr(true);
+                setRejectedFilesArr(rejectedFiles);
             },
 
             disabled: viewMode,
@@ -366,9 +368,17 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
 
             <DialogBox
                 mode="info"
-                message={`${currRenamedFile} already exists and has been automatically renamed.`}
+                message={`${currRenamedFiles.length === 1 ? (
+                    currRenamedFiles[0] + ' already exists and has'
+                ) : (
+                    currRenamedFiles.length + ' files already exist and have'
+                )} been automatically renamed.`}
+                
                 visible={renameConfirmVisible}
-                onClose={() => setRenameConfirmVisible(false)}
+                onClose={() => {
+                    setTimeout(() => setCurrRenamedFiles([]), 300)
+                    setRenameConfirmVisible(false);
+                }}
             />
             <DialogBox
                 mode="confirm"
@@ -389,12 +399,21 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                 }}
                 onClose={() => setClearConfirmVisible(false)}
             />
-            <DialogBox
-                mode="error"
-                message="unsupported file(s) were not uploaded"
-                visible={fileRejectedErr}
-                onClose={() => setFileRejectedErr(false)}
-            />
+<DialogBox
+    mode="error"
+    message={
+        rejectedFilesArr?.length !== 1 ? (
+            `${rejectedFilesArr.length} files are unsupported and were not uploaded.`
+        ) : (
+            `the file "${rejectedFilesArr[0].file.name}" is unsupported and was not uploaded.`
+        )
+    }
+    visible={fileRejectedErr}
+    onClose={() => {
+        setFileRejectedErr(false);
+        setTimeout(setRejectedFilesArr([]), 300);
+    }}
+/>
             <div className="file-panel">
                 <div className="file-container">
                     <input
