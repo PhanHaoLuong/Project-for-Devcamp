@@ -256,7 +256,7 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     useEffect(() => {
         // create folders for viewmode files if in viewmode
         setFilesArr(existingFilesArr);
-        if (existingFilesArr.length) {
+        if (existingFilesArr && existingFilesArr?.length) {
             setFoldersArr(handleFolderCreation(existingFilesArr));
         }
     }, []);
@@ -330,10 +330,13 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     const handleFileRemove = (id) => {
         setFilesArr((prevFilesArr) => {
             const fileToRemove = prevFilesArr.find(file => file.id === id);
+
+            // revoke the preview url if it exists
             if (fileToRemove && fileToRemove.preview) {
                 URL.revokeObjectURL(fileToRemove.preview);
             }
 
+            // remove the file
             return prevFilesArr.filter(file => file.id !== id);
         });
     };
@@ -341,9 +344,13 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     const handleFolderRemove = (id) => {
         setFoldersArr(prevFoldersArr => {
             const folderToRemove = prevFoldersArr.find(folder => folder.id === id);
+
+            // remove all files in the folder
             setFilesArr(prevFilesArr => {
                 return prevFilesArr.filter(file => file.path.startsWith(folderToRemove.path))
             });
+
+            // remove the folder
             return prevFoldersArr.filter(folder => folder.id !== id);
         })
 
@@ -523,10 +530,11 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                             <button 
                                 className="dir-part"
                                 onClick={() => setCurrDir("")}
+                                style={{userSelect: "none"}}
                             >
                                 root
                             </button>
-                            <div className="dir-part-separator">/</div>
+                            <div className="dir-part-separator" style={{userSelect: "none"}}>/</div>
                             {hiddenDirParts.length ? (
                                 <>
                                     <button 
@@ -559,6 +567,7 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                                             onClick={() => {
                                                 setCurrDir(part.navigateTo);
                                             }}
+                                            style={{userSelect: "none"}}
                                         >
                                             {part.name}
                                         </button>
@@ -627,23 +636,25 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                             );
                         })}
                     </div>
-                    <div className="bottom-buttons-container">
-                        <button className="return-to-post-button"
-                            onClick={() => exit()}
-                        >
-                            cancel
-                        </button>
-                        <button className={`confirm-button ${!isEmpty ? "enabled" : "disabled"}`}
-                            onClick={() => {
-                                if (!isEmpty) {
-                                    setParentFiles(filesArr);
-                                    exit();
-                                }
-                            }}
-                        >
-                            confirm
-                        </button>
-                    </div>
+                    {!viewMode ? (
+                        <div className="bottom-buttons-container">
+                            <button className="return-to-post-button"
+                                onClick={() => exit()}
+                            >
+                                cancel
+                            </button>
+                            <button className={`confirm-button ${!isEmpty ? "enabled" : "disabled"}`}
+                                onClick={() => {
+                                    if (!isEmpty) {
+                                        setParentFiles(filesArr);
+                                        exit();
+                                    }
+                                }}
+                            >
+                                confirm
+                            </button>
+                        </div>
+                    ) : ""}
                 </div>
             </div>
         </>

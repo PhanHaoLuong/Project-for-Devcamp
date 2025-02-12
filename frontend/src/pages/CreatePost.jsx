@@ -62,8 +62,14 @@ function CreatePost() {
                         data: codeContent,
                         lines: lineCount,
                     },
-                    filesMetadata: filesContent.map(({ id }) => {
-                        return id;
+                    filesMetadata: filesContent.map(({ id, name, size, path, uploadedAt }) => {
+                        return {
+                            id,
+                            name,
+                            size,
+                            path,
+                            uploadedAt
+                        };
                     })
                 }),
             });

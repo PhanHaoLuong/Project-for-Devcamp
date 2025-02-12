@@ -9,6 +9,7 @@ import Vote from "./Vote.jsx"
 import FileItem from "./FileItem.jsx";
 import Tag from './Tag.jsx';
 import CodeViewer from "./CodeViewer.jsx";
+import FileUpload from "./FileUpload.jsx";
 
 // import assets
 import HashIcon from '../assets/hash.png';
@@ -36,14 +37,15 @@ export default function FullPost({
     voteCount, 
     postContent, 
     codeContent, 
-    folderContent 
+    files 
 }){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
     const [saveButtonActive, setSaveButtonActive] = useState(false);
-    const [isCodeExpanded, setIsCodeExpanded] = useState(false);
+    const [isCodeExpanded, setIsCodeExpanded] = useState(true);
+    const [isFileViewerExpanded, setIsFileViewerExpanded] = useState(true);
 
-    if (folderContent){
-        folderContent.sort((a, b) => {
+    if (files){
+        files.sort((a, b) => {
             if (a.isFolder) {
                 return -1;
             }
@@ -106,7 +108,7 @@ export default function FullPost({
                                 </span>
                                 <span className="accepted-text">accepted</span>
                             </div>
-                        ):("")}
+                        ) : ("")}
                         {!isComment && <div className="vote-container">
                             <Vote voteCount={voteCount}/>
                         </div>}
@@ -120,7 +122,7 @@ export default function FullPost({
                             </div>
                         ) : ("")}
                     </div>
-                    <div className={`${!isComment ? "post" : "comment"}-content`}>
+                    <div className="post-content">
                         <div className="desc-content">
                             <div className="content-header">
                                 <span className="content-header-logo">
@@ -141,7 +143,7 @@ export default function FullPost({
                                         <img src={CodeIcon}></img>
                                     </span>
                                     <span className="code-header-text">code</span>
-                                    {!isCodeExpanded ? (
+                                    {isCodeExpanded ? (
                                         <button className="code-toggle code-hidden"
                                             onClick={() => setIsCodeExpanded(!isCodeExpanded)}
                                         >
@@ -174,7 +176,7 @@ export default function FullPost({
                                     )}
                                 </div>
                                     <CSSTransition
-                                        in={!isCodeExpanded}
+                                        in={isCodeExpanded}
                                         classNames={"code-content"}
                                         timeout={200}
                                         mountOnEnter
@@ -190,25 +192,58 @@ export default function FullPost({
                                     </CSSTransition>
                             </div>
                         ) : ("")}
-                        {(folderContent ? (
-                            <div className="folder">
+                        {files ? (
+                            <div className="post-files-view-container">
                                 <div className="folder-header">
                                     <span className="folder-header-logo">
                                         <img src={FolderIcon}></img>
                                     </span>
                                     <span className="folder-header-text">folder</span>
+                                    {isFileViewerExpanded ? (
+                                        <button className="folder-toggle folder-hidden"
+                                                onClick={() => setIsFileViewerExpanded(false)}
+                                        >
+                                            <span className="folder-toggle-text">hide files</span>
+                                            <span className="folder-toggle-logo">
+                                                <img src={TriangleIcon} 
+                                                    style={{
+                                                        "rotate":"0.5turn",
+                                                        "transition":"all ease-in-out 0.1s"
+                                                    }}
+                                                >
+                                                </img>
+                                            </span>
+                                        </button>
+                                    ) : (
+                                        <button className="folder-toggle"
+                                            onClick={() => setIsFileViewerExpanded(true)}
+                                        >                                         
+                                            <span className="folder-toggle-text">show files</span>
+                                            <span className="folder-toggle-logo">
+                                                <img src={TriangleIcon} 
+                                                    style={{
+                                                        "rotate":"0.25turn",
+                                                        "transition":"all ease-in-out 0.2s"
+                                                    }}
+                                                >
+                                                </img>
+                                            </span>
+                                        </button>
+                                    )}
                                 </div>
-                                <div className="folder-content">
-                                    {fileMetadataArr.map((file, index) => {
-                                        return <FileItem 
-                                                    isFolder={file.isFolder}
-                                                    fileName={file.fileName}
-                                                    fileType={file.fileType}
-                                                />
-                                    })}
-                                </div>
+                                <CSSTransition
+                                    in={isFileViewerExpanded}
+                                    timeout={300}
+                                    classNames={"files-view-transition"}
+                                    mountOnEnter
+                                    unmountOnExit
+                                >
+                                    <div className="post-files-view">
+                                        <FileUpload viewMode existingFilesArr={[]} />
+                                    </div>
+                                </CSSTransition>
                             </div>
-                        ) : (""))}
+                        ) : ("")}
                     </div>
 
                 </div>
