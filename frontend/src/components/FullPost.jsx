@@ -104,7 +104,7 @@ export default function FullPost({
     
     return (
         <>
-            <ToastContainer />
+            <ToastContainer theme="dark" closeOnClick stacked toastClassName={() => "custom-toast"} />
             <div className={`app-window ${isComment ? "is-comment" : "is-post"}`} id="post-window">
                 {!isComment ? (
                     <div className="post-header" id="post-header">

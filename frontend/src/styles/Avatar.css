@@ -5,9 +5,17 @@
     border-radius: 50%;
 }
 
-.user-profile .avatar, .post-user-container .avatar {
+.user-profile .avatar {
     width: 8rem;
     height: 8rem;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.post-user-container .avatar {
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
     object-fit: cover;
     transition: all 0.3s ease;

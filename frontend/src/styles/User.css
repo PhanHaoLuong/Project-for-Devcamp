@@ -43,6 +43,11 @@
     margin-bottom: 2rem;
 }
 
+.edit-profile .profileElement input::placeholder, 
+.edit-profile .profileElement textarea::placeholder {
+    color: hsla(219, 33%, 80%, 0.4);
+}
+
 .user-info .profile-details, .user-info .edit-profile {
     display: flex;
     flex-direction: column;
