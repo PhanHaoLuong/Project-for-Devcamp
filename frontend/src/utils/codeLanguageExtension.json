@@ -1,5 +1,4 @@
 {
-    "c": "c",
     "cpp": "cpp",
     "cs": "csharp",
     "py": "python",
@@ -7,22 +6,8 @@
     "jsx": "javascript",
     "ts": "typescript",
     "tsx": "typescript",
-    "html": "html",
-    "css": "css",
     "java": "java",
-    "php": "php",
-    "rb": "ruby",
     "go": "go",
     "rs": "rust",
-    "kt": "kotlin",
-    "swift": "swift",
-    "sql": "sql",
-    "sh": "shell",
-    "r": "r",
-    "pl": "perl",
-    "lua": "lua",
-    "scala": "scala",
-    "vb": "vb",
-    "m": "matlab",
-    "hs": "haskell"
+    "swift": "swift"
 }

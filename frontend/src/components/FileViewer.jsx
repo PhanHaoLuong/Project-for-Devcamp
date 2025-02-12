@@ -8,7 +8,7 @@ import CodeViewer from './CodeViewer'
 // import styles
 import "../styles/FileViewer.css";
 
-const FileViewer = ({ fileExtension, fileContent, fileType, imageURL, visible, exit, ref }) => {
+const FileViewer = ({ fileName, fileExtension, fileContent, fileType, imageURL, visible, exit, ref }) => {
     const getFileContentLen = (fileContent) => {
         return fileContent.split('\n').length;
     };
@@ -24,17 +24,22 @@ const FileViewer = ({ fileExtension, fileContent, fileType, imageURL, visible, e
             <div className="file-viewer">
                 {imageURL ? (
                     <div className="image-viewer" onClick={exit}>
-                        <img src={imageURL} alt="image preview" />
-                        <button className="close-button"></button>
+                        <img src={imageURL} alt="image preview"
+                            onClick={e => e.stopPropagation()}
+                            draggable="false"
+                        />
                     </div>
                 ) : (<></>)}
                 {fileContent ? (
                     <div className="code-content" onClick={exit}>
-                        <CodeViewer
-                            codeContent={fileContent} 
-                            codeLanguage={codeLanguageExtension[fileExtension] || null} 
-                            lineCount={Math.max(getFileContentLen(fileContent), 20)}
-                        />
+                        <div className="code-viewer-container">
+                            <div className="code-viewer-header">aaaa</div>
+                            <CodeViewer
+                                codeContent={'\n' + fileContent + '\n'} 
+                                codeLanguage={codeLanguageExtension[fileExtension] || null} 
+                                lineCount={Math.max(getFileContentLen(fileContent), 20)}
+                            />
+                        </div>
                     </div>
                 ) : (<></>)}
             </div>
