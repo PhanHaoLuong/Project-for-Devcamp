@@ -13,8 +13,8 @@ import userRoute from "./routes/user.route.js";
 import avatarRoute from "./routes/avatar.route.js"; 
 import searchRoute from "./routes/search.route.js";
 
-// import file from "./models/file.model.js"
-// import code from "./models/code.model.js"
+import file from "./models/file.model.js"
+import code from "./models/code.model.js"
 
 dotenv.config();
 const PORT = process.env.PORT || 3000; 

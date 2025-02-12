@@ -238,6 +238,7 @@ const User = ({ visitor }) => {
               </div>
             }
             {posts && [...posts].reverse().map((post) => (
+              post.is_comment ? null :
               <MiniPost
                 key={post._id}
                 postId={post._id}

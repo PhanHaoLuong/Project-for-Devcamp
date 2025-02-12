@@ -201,8 +201,14 @@ export const unsavePost = async (req, res) => {
 
 export const recentPost = async (req, res) => {
     try {
-        const posts = await post.find({},{},{limit: 10, sort: {createdAt: -1}})
-        .populate('author', 'name')
+        const page = req.query.page
+        const limit = 10
+        const skip = (page - 1) * limit
+    
+        const posts = await post.find(
+            {parent_post_id: { $exists: 0 }},{},
+            {skip: skip, limit: limit, sort: {createdAt: -1}}
+        ).populate('author', 'name')
         res.status(200).json(posts)
     } catch (error) {
         res.status(500).send(error.message)
