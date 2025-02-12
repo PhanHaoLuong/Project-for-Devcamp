@@ -41,6 +41,7 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     const [clearConfirmVisible, setClearConfirmVisible] = useState(false);
     const [renameConfirmVisible, setRenameConfirmVisible] = useState(false);
     const [currRenamedFile, setCurrRenamedFile] = useState(null);
+    const [fileRejectedErr, setFileRejectedErr] = useState(false);
 
     // preview files states
     const [selectedImage, setSelectedImage] = useState(null);
@@ -119,7 +120,7 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
 
             if (duplicate) {
                 setRenameConfirmVisible(true);
-                setCurrRenamedFile(modifiedFile.name);
+                setCurrRenamedFile(prevRenamedFiles => [...prevRenamedFiles, modifiedFile.name]);
             }
 
             while (duplicate && iterationCount < 1000) {
@@ -179,6 +180,19 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     };
 
     const { acceptedFiles, getRootProps, getInputProps, open, isDragActive } = useDropzone({
+            accept: {
+                'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.bmp', '.webp'],
+                'text/x-c++src': ['.cpp'], 
+                'text/x-csharp': ['.cs'], 
+                'application/x-python-code': ['.py'], 
+                'application/javascript': ['.js', '.jsx'], 
+                'application/typescript': ['.ts', '.tsx'], 
+                'text/x-java': ['.java'], 
+                'application/x-go': ['.go'], 
+                'text/x-rust': ['.rs'], 
+                'text/swift': ['.swift'], 
+            },
+
             onDrop: () => {
                 setDropping(false);
                 if (isEmpty) setDropScreenBg("#192233");
@@ -225,6 +239,11 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                 setFoldersArr(prevFoldersArr => [...prevFoldersArr, ...handleFolderCreation(filesWithContent)])
                 setFilesArr(prevFilesArr => [...prevFilesArr, ...filesWithContent]);
             },
+
+            onDropRejected: () => {
+                setFileRejectedErr(true);
+            },
+
             disabled: viewMode,
             noClick: !isEmpty,
             useFsAccessApi: false,
@@ -369,6 +388,12 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                     setFoldersArr([]);
                 }}
                 onClose={() => setClearConfirmVisible(false)}
+            />
+            <DialogBox
+                mode="error"
+                message="unsupported file(s) were not uploaded"
+                visible={fileRejectedErr}
+                onClose={() => setFileRejectedErr(false)}
             />
             <div className="file-panel">
                 <div className="file-container">

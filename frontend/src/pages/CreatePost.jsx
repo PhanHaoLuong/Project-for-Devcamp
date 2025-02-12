@@ -11,7 +11,7 @@ import AcceptedIcon from '../assets/tick.svg';
 
 //import components
 import CodeEditor from "./CodeEditor";
-import DisplayUpload from "../components/FileUpload";
+import FileUpload from "../components/FileUpload";
 
 import "../styles/CreatePost.css";
 import DialogBox from "../components/DialogBox";
@@ -278,7 +278,7 @@ function CreatePost() {
                     </div>
                 ) : (
                     <div className="file-upload-to-post">
-                        <DisplayUpload
+                        <FileUpload
                             existingFilesArr={filesContent}
                             setParentFiles={setFilesContent}
                             exit={() => setFileEdit(false)}
