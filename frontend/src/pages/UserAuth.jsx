@@ -8,7 +8,6 @@ import { valName, valPw } from '../utils/validateInput';
 import { useQueryClient } from '@tanstack/react-query';
 
 /* import Components */
-import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import Input from '../components/Input';
 
@@ -120,7 +119,6 @@ const UserAuth = ({}) => {
     return (
         <>
             <div className="page-content">
-                {/* <Navbar /> */}
                 <div className="login-window">
                     <form onSubmit={handleSubmit} className="login-form">
                         <div className="login-body">

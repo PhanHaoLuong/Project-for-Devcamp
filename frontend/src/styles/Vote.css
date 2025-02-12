@@ -34,7 +34,7 @@
 }
 
 #upvote{
-    left: 0
+    left: 5%;
 }
 
 .vote-button:hover {
@@ -43,7 +43,7 @@
 }
 
 #downvote{
-    right: 0
+    right: 5%;
 }
 
 #downvote {
