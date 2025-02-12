@@ -48,6 +48,28 @@ function CreatePost() {
 
     const handleSubmit = async () => {
         try {
+            //Create a formData object to send the files to the server
+            const formData = new FormData();
+            filesContent.forEach((file) => {
+                formData.append("files", file.fileObj, file.fileObj.name);
+                formData.append("metadata[]", JSON.stringify({
+                    name: file.name,
+                    size: file.size,
+                    path: file.path,
+                    uploadedAt: file.uploadedAt
+                }))
+            })
+
+            //Send a request containing the files to the server
+            const files_upload = await fetch("http://localhost:3000/file", {
+                method: "POST",
+                credentials: "include",
+                contentType: "multipart/form-data",
+                body: formData
+            })
+            const files_metadata = await files_upload.json(); //Getting the metadata + _id of the files uploaded
+
+
             const response = await fetch("http://localhost:3000/post/create", {
                 method: "POST",
                 headers: {
@@ -75,26 +97,6 @@ function CreatePost() {
             console.error(error);
         }
 
-        try {
-            const formData = new FormData();
-            filesContent.forEach((file) => {
-                formData.append("files", file.fileObj, file.fileObj.name);
-                formData.append("metadata[]", JSON.stringify({
-                    id: file.id,
-                    name: file.name,
-                    size: file.size,
-                    path: file.path,
-                    uploadedAt: file.uploadedAt
-                }))
-            })
-            const response = await fetch(""/* change when have route */, {
-                method: "POST",
-                credentials: "include",
-                body: formData
-            })
-        } catch (error) {
-            console.log(error);
-        }
     };
 
     useEffect(() => {

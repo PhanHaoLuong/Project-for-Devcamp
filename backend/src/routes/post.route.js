@@ -2,7 +2,7 @@ import express from 'express';
 
 import { create_comment, create_post, delete_comment, delete_post, get_post, get_post_comments, accept_comment } from '../controllers/post.controller.js';
 import { downvote, upvote, voted } from '../controllers/vote.controller.js';
-import { protected_route } from '../controllers/auth.controller.js';
+import { protected_route } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
