@@ -35,7 +35,10 @@ const postSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    // file handling, tags will be implemented in the future
+    files_metadata: {
+        type: [Object]
+    },
+    // tags will be implemented in the future
 }, {timestamps: true}
 )
 
