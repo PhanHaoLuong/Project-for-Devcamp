@@ -84,10 +84,8 @@ function CreatePost() {
                         data: codeContent,
                         lines: lineCount,
                     },
-                    filesMetadata: filesContent.map(({ id }) => {
-                        return id;
-                    })
-                }),
+                    files_metadata: files_metadata
+                })
             });
             const data = await response.json();
             if (response.status === 201) {

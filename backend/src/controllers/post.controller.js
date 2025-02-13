@@ -4,17 +4,17 @@ import code from '../models/code.model.js'
 
 export const create_post = async (req, res) => { //Needs optimization
     const author = res.locals.user._id
-    const { title, content, codeData} = req.body
+    const { title, content, codeData, files_metadata} = req.body
     let postid = null
     try {
         if (!codeData.data){
-            const newPost = new post(Object.assign({}, {author: author, title: title, content: content}))
+            const newPost = new post(Object.assign({}, {author: author, title: title, content: content, files_metadata: files_metadata}))
             await user.updateOne({_id: author}, {$push: {posts: newPost._id}})
             await newPost.save();
             postid = newPost._id
         } else{
             const newCode = new code(Object.assign(codeData, {author: author}))
-            const newPost = new post(Object.assign({}, {author: author, code: newCode._id, title: title, content: content}))
+            const newPost = new post(Object.assign({}, {author: author, code: newCode._id, title: title, content: content, files_metadata: files_metadata}))
             await newCode.save();
             await newPost.save();
             await user.updateOne({_id: author}, {$push: {posts: newPost._id}})

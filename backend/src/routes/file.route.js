@@ -3,6 +3,8 @@ import fs from 'fs';
 import multer from 'multer';
 
 import { protected_route } from '../middlewares/auth.middleware.js';
+
+import post from '../models/post.model.js';
 import fileDB from '../models/file.model.js';
 
 const router = express.Router();
@@ -28,6 +30,25 @@ router.post('/',  upload.any(), protected_route, async (req, res) => {
         files_id = await Promise.all(files_id);
 
         res.status(200).json(files_id);
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+})
+
+router.get('/:postid', async (req,res) => {
+    try {
+        const { files_metadata } = req.body; //Takes an array of files_metadata from the post 
+        
+        const files_data = files_metadata.files_metadata.map(async (file) => { //To return an array of file data + id
+
+            const data = await fileDB.findById(file._id).select('data');
+            const decoded = data.data.toString();
+
+            return {_id: file._id, data: decoded};
+        });
+
+
+        res.status(200).json(await Promise.all(files_data));
     } catch (error) {
         res.status(500).json({message:error.message})
     }
