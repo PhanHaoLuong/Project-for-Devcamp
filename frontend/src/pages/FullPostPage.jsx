@@ -13,9 +13,44 @@ import '../styles/FullPostPage.css'
 const FullPostPage = () => {
     const [postData, setPostData] = useState(null);
     const [commentData, setCommentData] = useState(null);
+    const [fetchedFiles, setFetchedFiles] = useState([]);
 
     const navigate = useNavigate();
     const { postId } = useParams();
+
+    const fetchFileData = async () => {
+        let fetchedData;
+
+        try {
+            const response = await fetch(`http://localhost:3000/file/${postId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    files_metadata: postData.files_metadata
+                })
+            })
+            if (response.ok) {
+                fetchedData = await response.json();
+            }
+        } catch (err) {
+            console.error(err)
+        }
+
+        const fetchedFilesWithContent = fetchedFiles.map(file => {
+            const fileData = fetchedData.find(data => data._id === file._id);
+            if (file.type === "text/") {
+                return {
+                    ...file,
+                    content: fileData.data /* pre-read text data */
+                };
+            } 
+        });
+
+        setFetchedFiles(fetchedFilesWithContent);
+
+    }
 
     useEffect(() => {
  
@@ -33,7 +68,7 @@ const FullPostPage = () => {
                     }
                     return null;
                 } else {
-                    const data = await response.json()
+                    const data = await response.json();
                     return data;
                 }
             } catch (error) {
@@ -56,6 +91,22 @@ const FullPostPage = () => {
 
         getPostData();
     }, [])
+
+    useEffect(() => {
+        if (postData && postData.files_metadata) {
+            setFetchedFiles(postData?.files_metadata.map(file => {
+                const parsedFileMetadata = JSON.parse(file.metadata);
+                return {
+                    id: file._id,
+                    ...parsedFileMetadata
+                };
+            }));
+        }
+    }, [postData]);
+
+    useEffect(() => {
+        console.log(fetchedFiles)
+    }, [fetchedFiles])
     
 
     const getTimeSincePost = (createdAt) => {
@@ -66,7 +117,7 @@ const FullPostPage = () => {
     return (
         <>
             <div className="post-container">
-                {postData ? (<FullPost isComment={false} 
+                {postData && fetchedFiles ? (<FullPost isComment={false} 
                     author={postData.author.name || null} 
                     postTitle={postData.title || null}
                     timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
@@ -74,7 +125,8 @@ const FullPostPage = () => {
                     postTags={null} /* placeholder */
                     postContent={postData.content || null}
                     codeContent={postData.code || null}
-                    folderContent={null} /* placeholder */
+                    files={fetchedFiles.length && fetchedFiles}
+                    fetchFileContent={fetchFileData}
                 />) : ("")}
                 {commentData && commentData.acceptedComments ? (
                     commentData.acceptedComments.map((comment) => {
@@ -86,7 +138,6 @@ const FullPostPage = () => {
                                 postTags={null} // placeholder 
                                 postContent={comment.content || null}
                                 codeContent={comment.code || null}
-                                folderContent={null} // placeholder 
                             />
                         )
                     })
@@ -101,7 +152,6 @@ const FullPostPage = () => {
                                     postTags={null} // placeholder 
                                     postContent={comment.content || null}
                                     codeContent={comment.code || null}
-                                    folderContent={null} // placeholder 
                                 />
                             )
                         })

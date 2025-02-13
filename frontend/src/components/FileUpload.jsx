@@ -17,12 +17,15 @@ import ArrowIcon from "../assets/arrow-icon.svg"
 // import styles
 import "../styles/FileUpload.css";
 
-const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
+const FileUpload = ({ viewModeFetchContent, existingFilesArr, viewMode, setParentFiles, exit }) => {
     // file and folder management
     const [filesArr, setFilesArr] = useState([]);
     const [foldersToDisplay, setFoldersToDisplay] = useState([]);
     const [filesToDisplay, setFilesToDisplay] = useState([]);
     const [foldersArr, setFoldersArr] = useState([]);
+
+    // state condition to fetch all after first click
+    const [isViewModeClicked, setViewModeClicked] = useState(false);
 
     // navigate folders and files
     const [hiddenDirVisible, setHiddenDirVisible] = useState(false);
@@ -617,16 +620,29 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                                     fileName={file.name}
                                     fileSize={file.size}
                                     openFile={() => {
-                                        if (file.type) {
-                                            if (file.type.startsWith('image/')) {
-                                                setSelectedFile(null);
-                                                setSelectedImage(file.preview);
-                                                setFileViewerVisible(true);
+                                        const displayData = () => {
+                                            if (file.type) {
+                                                if (file.type.startsWith('image/')) {
+                                                    setSelectedFile(null);
+                                                    setSelectedImage(file.preview);
+                                                    setFileViewerVisible(true);
+                                                }
+                                                if (file.type.startsWith('text/')) {
+                                                    setSelectedImage(null);
+                                                    setSelectedFile(file);
+                                                    setFileViewerVisible(true);
+                                                }
                                             }
-                                            if (file.type.startsWith('text/')) {
-                                                setSelectedImage(null);
-                                                setSelectedFile(file);
-                                                setFileViewerVisible(true);
+                                        };
+
+                                        if (!viewMode) {
+                                            displayData();
+                                        } else {
+                                            if (!isViewModeClicked) {
+                                                setViewModeClicked(true);
+                                                viewModeFetchContent().then(displayData);
+                                            } else {
+                                                displayData();
                                             }
                                         }
                                     }}

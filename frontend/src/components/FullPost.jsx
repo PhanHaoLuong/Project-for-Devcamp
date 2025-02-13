@@ -37,27 +37,13 @@ export default function FullPost({
     voteCount, 
     postContent, 
     codeContent, 
-    files 
+    files,
+    fetchFileContent
 }){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
     const [saveButtonActive, setSaveButtonActive] = useState(false);
     const [isCodeExpanded, setIsCodeExpanded] = useState(true);
-    const [isFileViewerExpanded, setIsFileViewerExpanded] = useState(true);
-
-    if (files){
-        files.sort((a, b) => {
-            if (a.isFolder) {
-                return -1;
-            }
-            if (b.isFolder) {
-                return 1;
-            } else {
-                return 0;
-            }
-        })
-    }
-
-    
+    const [isFileViewerExpanded, setIsFileViewerExpanded] = useState(false);    
 
     return (
         <>
@@ -239,7 +225,10 @@ export default function FullPost({
                                     unmountOnExit
                                 >
                                     <div className="post-files-view">
-                                        <FileUpload viewMode existingFilesArr={[]} />
+                                        <FileUpload viewMode
+                                            existingFilesArr={files} 
+                                            viewModeFetchContent={fetchFileContent}
+                                        />
                                     </div>
                                 </CSSTransition>
                             </div>
