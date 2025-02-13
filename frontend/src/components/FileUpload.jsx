@@ -48,7 +48,6 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileViewerVisible, setFileViewerVisible] = useState(false);
-
     // file upload progress state
     const fileInputRef = useRef(null);
     const dropzoneRef = useRef(null);
@@ -191,7 +190,8 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                 'text/x-java': ['.java'], 
                 'application/x-go': ['.go'], 
                 'text/x-rust': ['.rs'], 
-                'text/swift': ['.swift'], 
+                'text/swift': ['.swift'],
+                'text/plain': ['.txt']
             },
 
             onDrop: () => {
@@ -280,6 +280,7 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
         } else {
             setIsEmpty(false);
         }
+        console.log(filesArr)
     }, [filesArr]);
 
     useEffect(() => {
@@ -360,6 +361,7 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     return (
         <>
             <FileViewer
+                fileName={selectedFile?.name}
                 visible={fileViewerVisible}
                 exit={() => {
                     setFileViewerVisible(false);
@@ -418,7 +420,7 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     visible={fileRejectedErr}
     onClose={() => {
         setFileRejectedErr(false);
-        setTimeout(setRejectedFilesArr([]), 300);
+        setTimeout(setRejectedFilesArr([]), 400);
     }}
 />
             <div className="file-panel">
