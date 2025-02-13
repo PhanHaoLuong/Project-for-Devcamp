@@ -36,7 +36,11 @@ const postSchema = new mongoose.Schema({
         default: 0
     },
     files_metadata: {
-        type: [Object]
+        type: [{ _id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'File'},
+            metadata: String,
+        }],
     },
     // tags will be implemented in the future
 }, {timestamps: true}
