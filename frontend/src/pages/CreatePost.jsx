@@ -2,19 +2,28 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
+import * as configs from '../configs.json';
 
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
 import AddIcon from "../assets/add.svg";
 import AcceptedIcon from '../assets/tick.svg';
+import LoadingIcon from "../assets/loading-circle.gif"
 
 //import components
 import CodeEditor from "./CodeEditor";
-
-import "../styles/CreatePost.css";
+import TagSelector from "../components/TagSelector";
 import DialogBox from "../components/DialogBox";
+import Tag from "../components/Tag";
+
+// import styles
+import "../styles/CreatePost.css";
 
 function CreatePost() {
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [selectTagMode, toggleSelectTag] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [tagOptions, setTagOptions] = useState([]);
   const [titleText, setTitleText] = useState(0);
   const [contentText, setContentText] = useState(0);
   const [isCodeEdit, setCodeEdit] = useState(false);
@@ -35,7 +44,7 @@ function CreatePost() {
 
   const handleContentChange = (event) => {
     const text = event.target.value;
-    if (text.length <= 2048) {
+    if (text.length <= configs.postContentCharLimit) {
       setContentText(event.target.value);
     }
   };
@@ -68,10 +77,14 @@ function CreatePost() {
   };
 
   useEffect(() => {
-    if (contentText.length > 2048) {
-      setContentText(contentText.substring(0, 2048));
+    if (contentText.length > configs.postContentCharLimit) {
+      setContentText(contentText.substring(0, configs.postContentCharLimit));
     }
   }, [contentText]);
+
+  useEffect(() => {
+    console.log(selectedTags);
+  }, [selectedTags])
 
   return (
     <>
@@ -109,12 +122,50 @@ function CreatePost() {
               </div>
               <div className="add-tag-container">
                 <div className="add-tag-text">tags</div>
-                <button className="add-tag">
-                  <span className="add-tag-logo">
-                    <img src={AddIcon}></img>
-                  </span>
-                  <span className="add-tag-title">add tag</span>
-                </button>
+                {!(selectedTags.length) ? (
+                  <button className="add-tag"
+                    onClick={(() => toggleSelectTag(!selectTagMode))}
+                  >
+                    <span className="add-tag-logo">
+                      <img src={AddIcon}></img>
+                    </span>
+                    <span className="add-tag-title">add tag</span>
+                  </button>
+                ) : (
+                  <>
+                    <button className="change-tag"
+                      onClick={(() => toggleSelectTag(!selectTagMode))}
+                    >
+                      <span className="change-tag-logo">
+                        <img src={AddIcon}></img>
+                      </span>
+                      <span className="change-tag-title">change tag</span>
+                    </button>
+                    <div className="selected-tags">
+                      {selectedTags.map(tag => 
+                        <Tag 
+                          tagName={tag.tagName}
+                        />
+                      )}
+                    </div>
+                  </>
+                )}
+                  <CSSTransition
+                    in={selectTagMode}
+                    classNames="selector-transition"
+                    timeout={300}
+                    mountOnEnter
+                    unmountOnExit
+                  >
+                    <TagSelector 
+                      onConfirm={() => toggleSelectTag(false)}
+                      getSelectedTags={data => setSelectedTags(data)}
+                      getTagOptions={data => setTagOptions(data)}
+                      setVisible={() => toggleSelectTag()}
+                      currSelectedTags={selectedTags}
+                      currTagOptions={tagOptions}
+                    />
+                  </CSSTransition>
               </div>
               <div className="create-content-container">
                 <div className="content-create-text">content</div>
@@ -127,10 +178,10 @@ function CreatePost() {
                   <div
                     className="char-limit"
                     style={
-                      contentText.length >= 2048 ? {color: "#e03f42",} : {}
+                      contentText.length >= configs.postContentCharLimit ? {color: "#e03f42"} : {}
                     }
                   >
-                    {contentText.length || 0}/2048
+                    {contentText.length || 0}/{configs.postContentCharLimit}
                   </div>
                 </div>
               </div>
@@ -167,11 +218,29 @@ function CreatePost() {
                     remove code
                   </button>
                 )}
-                <button className="submit-button">
-                  <span className="submit-button-title" onClick={handleSubmit}>
-                    post
-                  </span>
-                </button>
+                {submitLoading ? (
+                  <button className={`submit-button loading`}
+                    disabled
+                  >
+                    <span className="submit-button-logo">
+                      <img src={LoadingIcon}></img>
+                    </span>
+                    <span className="submit-button-title">
+                      posting...
+                    </span>
+                  </button>
+                ) : (
+                  <button className={`submit-button`}
+                    onClick={() => {
+                      setSubmitLoading(true);
+                      handleSubmit();
+                    }}
+                  >
+                    <span className="submit-button-title">
+                      post
+                    </span>
+                  </button>
+                )}
               </div>
             </div>
           </div>

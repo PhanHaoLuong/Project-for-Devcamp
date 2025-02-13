@@ -4,9 +4,11 @@ import React from "react";
 // import styles
 import '../styles/Tag.css'
 
-const Tag = ({ tagName }) => {
+const Tag = ({ tagName, onClick }) => {
     return (
-        <div className="tag" >
+        <div className="tag" 
+            onClick={onClick}
+        >
             {tagName}
         </div>
     )

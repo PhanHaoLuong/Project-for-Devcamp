@@ -10,7 +10,7 @@ import AddIcon from "../assets/add.svg";
 // import styles
 import '../styles/FullPostPage.css'
 
-const FullPostPage = () => {
+const FullPostPage = ({user}) => {
     const [postData, setPostData] = useState(null);
     const [commentData, setCommentData] = useState(null);
 
@@ -66,8 +66,11 @@ const FullPostPage = () => {
     return (
         <>
             <div className="post-container">
-                {postData ? (<FullPost isComment={false} 
-                    author={postData.author.name || null} 
+                {postData ? (<FullPost 
+                    postId={postId || null}
+                    isComment={false} 
+                    author={postData.author.name || null}
+                    authorId={postData.author._id || null} 
                     postTitle={postData.title || null}
                     timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
                     voteCount={postData.votes} 
@@ -75,18 +78,23 @@ const FullPostPage = () => {
                     postContent={postData.content || null}
                     codeContent={postData.code || null}
                     folderContent={null} /* placeholder */
+                    user={user}
                 />) : ("")}
                 {commentData && commentData.acceptedComments ? (
                     commentData.acceptedComments.map((comment) => {
                         return (
-                            <FullPost isComment={true} isAccepted={true}
+                            <FullPost 
+                                isComment={true} 
+                                isAccepted={true}
                                 author={comment.author.name || "N/A"} 
                                 postTitle={comment.title || "N/A"}
                                 timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
+                                voteCount={comment.votes} 
                                 postTags={null} // placeholder 
                                 postContent={comment.content || null}
                                 codeContent={comment.code || null}
                                 folderContent={null} // placeholder 
+                                user={user}
                             />
                         )
                     })
@@ -94,14 +102,19 @@ const FullPostPage = () => {
                 {commentData && commentData.comments ? (
                         commentData.comments.map((comment) => {
                             return (
-                                <FullPost isComment={true} isAccepted={false}
+                                <FullPost 
+                                    isComment={true} 
+                                    isAccepted={false}
                                     author={comment.author.name || "N/A"} 
+                                    authorId={comment.author._id || null}
                                     postTitle={comment.title || "N/A"}
                                     timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
+                                    voteCount={comment.votes} 
                                     postTags={null} // placeholder 
                                     postContent={comment.content || null}
                                     codeContent={comment.code || null}
                                     folderContent={null} // placeholder 
+                                    user={user}
                                 />
                             )
                         })

@@ -6,6 +6,10 @@
     justify-content: center;
 }
 
+.post-container .is-post {
+    margin-top: 100px;
+}
+
 .comment-button {
     border: none;
     position: fixed;
@@ -42,4 +46,17 @@
 .comment-logo img {
     height: 100%;
     width: 100%;
+}
+
+.fullpost-container .loading-container {
+    background-color: #111722;
+    width: 50%;
+    min-width: 600px
+}
+
+.fullpost-container .end-message {
+    text-align: center;
+    width: 50%;
+    margin: 20px;
+    min-width: 600px
 }
