@@ -48,7 +48,6 @@ const FileUpload = ({ viewModeFetchContent, existingFilesArr, viewMode, setParen
     const [rejectedFilesArr, setRejectedFilesArr] = useState([]);
 
     // preview files states
-    const [selectedImage, setSelectedImage] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileViewerVisible, setFileViewerVisible] = useState(false);
     // file upload progress state
@@ -289,7 +288,10 @@ const FileUpload = ({ viewModeFetchContent, existingFilesArr, viewMode, setParen
         setFilesArr(existingFilesArr);
         if (existingFilesArr && existingFilesArr?.length) {
             setFoldersArr(handleFolderCreation(existingFilesArr));
-        }                                             
+        }
+        if (selectedFile) {
+            setSelectedFile(existingFilesArr.find(file => file.id === selectedFile.id));
+        }                          
     }, [existingFilesArr])
 
     useEffect(() => {
@@ -337,6 +339,16 @@ const FileUpload = ({ viewModeFetchContent, existingFilesArr, viewMode, setParen
     }, [currDirParts]);
 
 
+    useEffect(() => {
+        if (fileViewerVisible) {
+            document.body.classList.add('no-scroll');
+          } else {
+            document.body.classList.remove('no-scroll');
+          }
+          return () => document.body.classList.remove('no-scroll');
+    }, [fileViewerVisible])
+
+
     const handleFileRemove = (id) => {
         setFilesArr((prevFilesArr) => {
             const fileToRemove = prevFilesArr.find(file => file.id === id);
@@ -375,7 +387,6 @@ const FileUpload = ({ viewModeFetchContent, existingFilesArr, viewMode, setParen
                 exit={() => {
                     setFileViewerVisible(false);
                     setTimeout(() => {
-                        setSelectedImage(null);
                         setSelectedFile(null);
                     }, 250);
                 }}
@@ -628,7 +639,6 @@ const FileUpload = ({ viewModeFetchContent, existingFilesArr, viewMode, setParen
                                         const displayData = () => {
                                             if (file.type) {
                                                 if (file.type.startsWith('text/')) {
-                                                    setSelectedImage(null);
                                                     setSelectedFile(file);
                                                     setFileViewerVisible(true);
                                                 }

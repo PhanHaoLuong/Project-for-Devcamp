@@ -34,9 +34,13 @@
     margin: 0;
 }
 
+.file-viewer {
+    overflow: hidden;
+}
+
 .file-viewer .code-content, .file-viewer .code-viewer.container {
     background: none;
-    overflow: scroll;
+    overflow-y: auto;
 }
 
 .file-viewer .code-content {
@@ -46,6 +50,7 @@
 
 .file-viewer .code-viewer-container {
     flex-direction: column;
+    height: 100%;
 }
 
 .file-viewer .code-viewer-header {
@@ -72,9 +77,15 @@
     border-top-right-radius: 0;
 }
 
-.file-viewer .editor-panel {
+.file-code-viewer-container {
+    background-color: #181c24;
     width: 75%;
-    max-height: 70%;
+    height: 70%;
+    overflow-y: scroll;
+}
+
+.file-viewer .editor-panel {
+    height: 100%;
 }
 
 
@@ -112,4 +123,8 @@
     height: auto;
     font-weight: bold;
     letter-spacing: 1px;
+}
+
+.viewer-scroll-container {
+    overflow: scroll;
 }

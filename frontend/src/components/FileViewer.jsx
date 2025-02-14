@@ -13,11 +13,20 @@ import CloseIconActive from '../assets/close-icon-active.svg'
 // import styles
 import "../styles/FileViewer.css";
 
-const FileViewer = ({ fileName, fileExtension, fileContent, fileType, imageURL, visible, exit, ref }) => {
+const FileViewer = ({ fileName, fileExtension, fileContent, fileType, imageURL, visible, exit }) => {
     const [isCloseButtonHover, setIsCloseButtonHover] = useState(false);
-    const getFileContentLen = (fileContent) => {
-        return fileContent.split('\n').length;
+    const [isLoadingContent, setIsLoadingContent] = useState(true);
+    const getFileContentLen = (data) => {
+        return data.split('\n').length;
     };
+
+    useEffect(() => {
+        if (fileContent) {
+            setIsLoadingContent(false);
+        } else {
+            setIsLoadingContent(true)
+        }
+    }, [fileContent]);
 
     return (
         <CSSTransition
@@ -28,7 +37,7 @@ const FileViewer = ({ fileName, fileExtension, fileContent, fileType, imageURL, 
             unmountOnExit
         >
             <div className="file-viewer"  onClick={exit}>
-                {fileContent ? (
+                {!isLoadingContent ? (
                     <div className="code-content">
                         <div className="code-viewer-container" >
                             <div className="code-viewer-header"
@@ -44,15 +53,19 @@ const FileViewer = ({ fileName, fileExtension, fileContent, fileType, imageURL, 
                                     />
                                 </button>
                             </div>
-                            <CodeViewer
-                                codeContent={'\n' + fileContent + '\n'} 
-                                codeLanguage={codeLanguageExtension[fileExtension] || null} 
-                                lineCount={Math.max(getFileContentLen(fileContent), 20)}
-                            />
+                            <div className="file-code-viewer-container">
+                                <CodeViewer
+                                    codeContent={'\n' + fileContent + '\n'} 
+                                    codeLanguage={codeLanguageExtension[fileExtension] || null} 
+                                    lineCount={fileContent ? Math.max(getFileContentLen(fileContent), 20) : null}
+                                />
+                            </div>
                             <div className="code-viewer-bottom-padding"></div>
                         </div>
                     </div>
-                ) : (<></>)}
+                ) : (
+                    <><p>loading</p></>
+                )}
             </div>
 
         </CSSTransition>

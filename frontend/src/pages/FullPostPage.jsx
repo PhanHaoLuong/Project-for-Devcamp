@@ -40,12 +40,10 @@ const FullPostPage = () => {
 
         const fetchedFilesWithContent = fetchedFiles.map(file => {
             const fileData = fetchedData.find(data => data._id === file.id);
-            if (file.type.startsWith("text/")) {
-                return {
-                    ...file,
-                    content: fileData.data /* pre-read text data */
-                };
-            } 
+            return {
+                ...file,
+                content: fileData.data /* pre-read text data */
+            };
         });
 
         setFetchedFiles(fetchedFilesWithContent);
@@ -117,17 +115,19 @@ const FullPostPage = () => {
     return (
         <>
             <div className="post-container">
-                {postData && fetchedFiles ? (<FullPost isComment={false} 
-                    author={postData.author.name || null} 
-                    postTitle={postData.title || null}
-                    timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
-                    voteCount={postData.votes} 
-                    postTags={null} /* placeholder */
-                    postContent={postData.content || null}
-                    codeContent={postData.code || null}
-                    files={fetchedFiles.length && fetchedFiles}
-                    fetchFileContent={fetchFileData}
-                />) : ("")}
+                {postData && fetchedFiles ? (
+                    <FullPost isComment={false} 
+                        author={postData.author.name || null} 
+                        postTitle={postData.title || null}
+                        timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
+                        voteCount={postData.votes} 
+                        postTags={null} /* placeholder */
+                        postContent={postData.content || null}
+                        codeContent={postData.code || null}
+                        files={fetchedFiles.length && fetchedFiles}
+                        fetchFileContent={fetchFileData}
+                    />
+                ) : ("")}
                 {commentData && commentData.acceptedComments ? (
                     commentData.acceptedComments.map((comment) => {
                         return (
