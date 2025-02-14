@@ -56,7 +56,7 @@ const FileItem = ({
                     </div>
                     <div className="size-remove-file-container">
                         <div className="file-size">
-                            {!isFolder ? (displayFileSize(fileSize || "")) : ("")}
+                            {!isFolder ? (displayFileSize(fileSize || 0)) : ("")}
                         </div>
                         {!viewMode ? (
                             <button className="remove-file" 

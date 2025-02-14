@@ -17,12 +17,15 @@ import ArrowIcon from "../assets/arrow-icon.svg"
 // import styles
 import "../styles/FileUpload.css";
 
-const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
+const FileUpload = ({ viewModeFetchContent, existingFilesArr, viewMode, setParentFiles, exit }) => {
     // file and folder management
     const [filesArr, setFilesArr] = useState([]);
     const [foldersToDisplay, setFoldersToDisplay] = useState([]);
     const [filesToDisplay, setFilesToDisplay] = useState([]);
     const [foldersArr, setFoldersArr] = useState([]);
+
+    // state condition to fetch all after first click
+    const [isViewModeClicked, setViewModeClicked] = useState(false);
 
     // navigate folders and files
     const [hiddenDirVisible, setHiddenDirVisible] = useState(false);
@@ -48,7 +51,6 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileViewerVisible, setFileViewerVisible] = useState(false);
-
     // file upload progress state
     const fileInputRef = useRef(null);
     const dropzoneRef = useRef(null);
@@ -182,7 +184,6 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
 
     const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
             accept: {
-                'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.svg', '.webp'],
                 'text/x-c++src': ['.cpp'], 
                 'text/x-csharp': ['.cs'], 
                 'application/x-python-code': ['.py'], 
@@ -191,7 +192,8 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                 'text/x-java': ['.java'], 
                 'application/x-go': ['.go'], 
                 'text/x-rust': ['.rs'], 
-                'text/swift': ['.swift'], 
+                'text/swift': ['.swift'],
+                'text/plain': ['.txt']
             },
 
             onDrop: () => {
@@ -256,7 +258,7 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     useEffect(() => {
         // create folders for viewmode files if in viewmode
         setFilesArr(existingFilesArr);
-        if (existingFilesArr.length) {
+        if (existingFilesArr && existingFilesArr?.length) {
             setFoldersArr(handleFolderCreation(existingFilesArr));
         }
     }, []);
@@ -280,7 +282,15 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
         } else {
             setIsEmpty(false);
         }
+        console.log(filesArr)
     }, [filesArr]);
+
+    useEffect(() => {
+        setFilesArr(existingFilesArr);
+        if (existingFilesArr && existingFilesArr?.length) {
+            setFoldersArr(handleFolderCreation(existingFilesArr));
+        }                                             
+    }, [existingFilesArr])
 
     useEffect(() => {
         if (dirBarRef.current) {
@@ -330,10 +340,13 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     const handleFileRemove = (id) => {
         setFilesArr((prevFilesArr) => {
             const fileToRemove = prevFilesArr.find(file => file.id === id);
+
+            // revoke the preview url if it exists
             if (fileToRemove && fileToRemove.preview) {
                 URL.revokeObjectURL(fileToRemove.preview);
             }
 
+            // remove the file
             return prevFilesArr.filter(file => file.id !== id);
         });
     };
@@ -341,9 +354,13 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     const handleFolderRemove = (id) => {
         setFoldersArr(prevFoldersArr => {
             const folderToRemove = prevFoldersArr.find(folder => folder.id === id);
+
+            // remove all files in the folder
             setFilesArr(prevFilesArr => {
                 return prevFilesArr.filter(file => file.path.startsWith(folderToRemove.path))
             });
+
+            // remove the folder
             return prevFoldersArr.filter(folder => folder.id !== id);
         })
 
@@ -353,6 +370,7 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
     return (
         <>
             <FileViewer
+                fileName={selectedFile?.name}
                 visible={fileViewerVisible}
                 exit={() => {
                     setFileViewerVisible(false);
@@ -361,7 +379,6 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                         setSelectedFile(null);
                     }, 250);
                 }}
-                imageURL={selectedImage}
                 fileContent={selectedFile?.content}
                 fileExtension={(selectedFile ? selectedFile.name.split('.')[1] : null)}
             />
@@ -399,21 +416,21 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                 }}
                 onClose={() => setClearConfirmVisible(false)}
             />
-<DialogBox
-    mode="error"
-    message={
-        rejectedFilesArr?.length !== 1 ? (
-            `${rejectedFilesArr.length} files are unsupported and were not uploaded.`
-        ) : (
-            `the file "${rejectedFilesArr[0].file.name}" is unsupported and was not uploaded.`
-        )
-    }
-    visible={fileRejectedErr}
-    onClose={() => {
-        setFileRejectedErr(false);
-        setTimeout(setRejectedFilesArr([]), 300);
-    }}
-/>
+            <DialogBox
+                mode="error"
+                message={
+                    rejectedFilesArr?.length !== 1 ? (
+                        `${rejectedFilesArr.length} files are unsupported and were not uploaded.`
+                    ) : (
+                        `the file "${rejectedFilesArr[0].file.name}" is unsupported and was not uploaded.`
+                    )
+                }
+                visible={fileRejectedErr}
+                onClose={() => {
+                    setFileRejectedErr(false);
+                    setTimeout(setRejectedFilesArr([]), 400);
+                }}
+            />
             <div className="file-panel">
                 <div className="file-container">
                     <input
@@ -523,10 +540,11 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                             <button 
                                 className="dir-part"
                                 onClick={() => setCurrDir("")}
+                                style={{userSelect: "none"}}
                             >
                                 root
                             </button>
-                            <div className="dir-part-separator">/</div>
+                            <div className="dir-part-separator" style={{userSelect: "none"}}>/</div>
                             {hiddenDirParts.length ? (
                                 <>
                                     <button 
@@ -559,6 +577,7 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                                             onClick={() => {
                                                 setCurrDir(part.navigateTo);
                                             }}
+                                            style={{userSelect: "none"}}
                                         >
                                             {part.name}
                                         </button>
@@ -606,16 +625,31 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                                     fileName={file.name}
                                     fileSize={file.size}
                                     openFile={() => {
-                                        if (file.type) {
-                                            if (file.type.startsWith('image/')) {
-                                                setSelectedFile(null);
-                                                setSelectedImage(file.preview);
-                                                setFileViewerVisible(true);
+                                        const displayData = () => {
+                                            if (file.type) {
+                                                if (file.type.startsWith('text/')) {
+                                                    setSelectedImage(null);
+                                                    setSelectedFile(file);
+                                                    setFileViewerVisible(true);
+                                                }
                                             }
-                                            if (file.type.startsWith('text/')) {
-                                                setSelectedImage(null);
-                                                setSelectedFile(file);
-                                                setFileViewerVisible(true);
+                                        };
+
+                                        if (!viewMode) {
+                                            displayData();
+                                        } else {
+                                            if (!isViewModeClicked) {
+                                                setViewModeClicked(true);
+                                                viewModeFetchContent()
+                                                    .then(() => {
+                                                        setFilesArr(existingFilesArr);
+                                                        if (existingFilesArr && existingFilesArr?.length) {
+                                                            setFoldersArr(handleFolderCreation(existingFilesArr));
+                                                        }
+                                                    })
+                                                    .then(displayData)
+                                            } else {
+                                                displayData();
                                             }
                                         }
                                     }}
@@ -627,23 +661,25 @@ const FileUpload = ({ existingFilesArr, viewMode, setParentFiles, exit }) => {
                             );
                         })}
                     </div>
-                    <div className="bottom-buttons-container">
-                        <button className="return-to-post-button"
-                            onClick={() => exit()}
-                        >
-                            cancel
-                        </button>
-                        <button className={`confirm-button ${!isEmpty ? "enabled" : "disabled"}`}
-                            onClick={() => {
-                                if (!isEmpty) {
-                                    setParentFiles(filesArr);
-                                    exit();
-                                }
-                            }}
-                        >
-                            confirm
-                        </button>
-                    </div>
+                    {!viewMode ? (
+                        <div className="bottom-buttons-container">
+                            <button className="return-to-post-button"
+                                onClick={() => exit()}
+                            >
+                                cancel
+                            </button>
+                            <button className={`confirm-button ${!isEmpty ? "enabled" : "disabled"}`}
+                                onClick={() => {
+                                    if (!isEmpty) {
+                                        setParentFiles(filesArr);
+                                        exit();
+                                    }
+                                }}
+                            >
+                                confirm
+                            </button>
+                        </div>
+                    ) : ""}
                 </div>
             </div>
         </>

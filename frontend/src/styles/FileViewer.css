@@ -49,14 +49,27 @@
 }
 
 .file-viewer .code-viewer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #192233;
     color:#BBC7DD;
     width: 75%;
     padding: 10px 20px;
     border-bottom: #BBC7DD 1px solid;
-    border-radius: 10px;
+    border-radius: 15px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+}
+
+.file-viewer .code-viewer-bottom-padding {
+    background-color: #192233;
+    color:#BBC7DD;
+    width: 75%;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
 .file-viewer .editor-panel {
@@ -77,4 +90,26 @@
 
 .image-viewer {
     flex-direction: column;
+}
+
+.file-viewer .close-button {
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.file-viewer .close-button img {
+    height: 35px;
+    width: 35px;
+    transition: all 0.2s;
+}
+
+.file-viewer .close-button img:hover {
+    transition: all 0.2s;
+}
+
+.file-viewer .file-name {
+    height: auto;
+    font-weight: bold;
+    letter-spacing: 1px;
 }

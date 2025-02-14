@@ -35,11 +35,11 @@ router.post('/',  upload.any(), protected_route, async (req, res) => {
     }
 })
 
-router.get('/:postid', async (req,res) => {
+router.post('/:postid', async (req,res) => {
     try {
         const { files_metadata } = req.body; //Takes an array of files_metadata from the post 
         
-        const files_data = files_metadata.files_metadata.map(async (file) => { //To return an array of file data + id
+        const files_data = files_metadata.map(async (file) => { //To return an array of file data + id
 
             const data = await fileDB.findById(file._id).select('data');
             const decoded = data.data.toString();
