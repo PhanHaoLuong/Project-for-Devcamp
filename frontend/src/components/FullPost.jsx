@@ -44,7 +44,7 @@ export default function FullPost({
     user,
 }){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
-    const [saveButtonActive, setSaveButtonActive] = useState(user ? user.savedPosts.includes(postId) : false);
+    const [saveButtonActive, setSaveButtonActive] = useState(user && user.savedPosts ? user.savedPosts.includes(postId) : false);
     const [isCodeExpanded, setIsCodeExpanded] = useState(false);
     const [isFileViewerExpanded, setIsFileViewerExpanded] = useState(false);  
 

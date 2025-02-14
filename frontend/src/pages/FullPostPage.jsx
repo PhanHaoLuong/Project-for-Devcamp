@@ -102,10 +102,6 @@ const FullPostPage = ({user}) => {
         }
     }, [postData]);
 
-    useEffect(() => {
-        console.log(fetchedFiles)
-    }, [fetchedFiles])
-    
 
     const getTimeSincePost = (createdAt) => {
         const now = new Date();
@@ -116,8 +112,11 @@ const FullPostPage = ({user}) => {
         <>
             <div className="post-container">
                 {postData && fetchedFiles ? (
-                    <FullPost isComment={false} 
+                    <FullPost 
+                        postId={postId || null}
+                        isComment={false} 
                         author={postData.author.name || null} 
+                        authorId={postData.author._id || null}
                         postTitle={postData.title || null}
                         timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
                         voteCount={postData.votes} 
@@ -126,22 +125,9 @@ const FullPostPage = ({user}) => {
                         codeContent={postData.code || null}
                         files={fetchedFiles.length && fetchedFiles}
                         fetchFileContent={fetchFileData}
+                        user={user}
                     />
                 ) : ("")}
-                {postData ? (<FullPost 
-                    postId={postId || null}
-                    isComment={false} 
-                    author={postData.author.name || null}
-                    authorId={postData.author._id || null} 
-                    postTitle={postData.title || null}
-                    timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
-                    voteCount={postData.votes} 
-                    postTags={null} /* placeholder */
-                    postContent={postData.content || null}
-                    codeContent={postData.code || null}
-                    folderContent={null} /* placeholder */
-                    user={user}
-                />) : ("")}
                 {commentData && commentData.acceptedComments ? (
                     commentData.acceptedComments.map((comment) => {
                         return (
