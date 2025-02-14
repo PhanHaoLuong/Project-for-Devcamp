@@ -2,34 +2,31 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../styles/Navbar.css";
 import Avatar from "./Avatar";
+import DropdownMenu from "./DropdownMenu";
+import SearchBox from "./SearchBox";
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = ({ isLoggedIn, user }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const location = useLocation(); // Get the current URL location
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const location = useLocation(); 
 
-  // Ensure responsive design
   useEffect(() => {
-    const handleResize = () => {
-      const smallScreen = window.innerWidth < 450;
-      setIsSmallScreen(smallScreen);
-
-      if (!smallScreen) {
-        setMenuOpen(false);
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+  const toggleMenu = (e) => {
+    if (menuOpen && !e.target.closest(".navbar-links-container")) {
+      setMenuOpen(false);
+    }
   };
+
+  const toggleDropdown = (e) => {
+    if (dropdownOpen && !e.target.closest(".profile-container")) {
+      setDropdownOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", toggleMenu);
+  document.addEventListener("mousedown", toggleDropdown);
+  
+  }, [menuOpen, dropdownOpen]);
 
   // Check if the link is active
   const isActive = (path) => {
@@ -40,16 +37,13 @@ const Navbar = ({ isLoggedIn }) => {
     return currentPath === path;
   };
   
-
-  // Navbar component
   return (
     <nav className="navbar">
-
       {/* Hamburger menu */}
-      <div className="hamburger-menu" onClick={toggleMenu}>
-          <span className="line"></span>
-          <span className="line"></span>
-          <span className="line"></span>
+      <div className="hamburger-menu" onClick={() => setMenuOpen(!menuOpen)}>
+        <span className="line"></span>
+        <span className="line"></span>
+        <span className="line"></span>
       </div>
 
       {/* App name */}
@@ -57,50 +51,31 @@ const Navbar = ({ isLoggedIn }) => {
         <a href="/">CodeSharing</a>
       </div>
 
-      {/* Navbar links */}
-      <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
-        {menuOpen && (
-          <>
-            <li>
-              <a href="/search" className={isActive("/search") ? "active" : ""}>
-                <i className="ti-search"></i> search
-              </a>
-            </li>
-          </>
-        )}
-        <li>
-          <a href="/" className={isActive("/") ? "active" : ""}>
-            home
-          </a>
-        </li>
-        <li>
-          <a href="/forum" className={(isActive("/forum") || isActive("/post/:postId")) ? "active" : ""}>
-            forum
-          </a>
-        </li>
-        <li>
-          <a href="/help" className={isActive("/help") ? "active" : ""}>
-            help
-          </a>
-        </li>
-        {menuOpen && (
-          <>
-            <li>
-              <a href="/contact" className={isActive("/contact") ? "active" : ""}>
-                <i className="ti-email"></i> contact us
-              </a>
-            </li>
-          </>
-        )}
-      </ul>
+      {/* Hamburger navbar links */}
+      <div className="navbar-links-container">
+        <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
+          <li className="link">
+            <a href="/" className={isActive("/") ? "active" : ""}>
+              home
+            </a>
+          </li>
+          <li className="link">
+            <a href="/forum" className={(isActive("/forum") || isActive("/post/:postId")) ? "active" : ""}>
+              forum
+            </a>
+          </li>
+          <SearchBox currentUser={user} />
+        </ul>
+      </div>
 
+      {/* Dropdown menu */} 
       <div className="navbar-actions">
-        {!menuOpen && !isSmallScreen && <i className="ti-search search-btn"></i>}
-        {!menuOpen && !isSmallScreen && <i className="ti-email email-btn"></i>}
-        {isLoggedIn ? (
-          <a href="/user">
-            <Avatar user={{ name: "test" }} />
-          </a>
+        {(isLoggedIn) ? (
+          <div 
+            className="profile-container" onClick={() => setDropdownOpen(!dropdownOpen)}>
+            <Avatar id={user._id} name={user.name} />
+            <DropdownMenu user={user} display={dropdownOpen} />
+          </div>
         ) : (
           <>
             <a href="/auth/signup" className="auth-btn signup-btn">sign up</a>

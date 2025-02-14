@@ -5,13 +5,33 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    password: String,
+    password: {
+        type: String,
+        required: true
+    },
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
     }],
-    email: String,
-    //We'll need to add fields for: Email, real_name, saved_posts
+    email: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    realname: String,
+    bio: String,
+    reputation: {
+        type: Number,
+        default: 0
+    },
+    visits: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    savedPosts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
 }, {timestamps: true})
 
 const user = mongoose.model('User', userSchema)

@@ -2,21 +2,31 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
+import * as configs from '../configs.json';
 
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
 import AddIcon from "../assets/add.svg";
 import FolderIcon from "../assets/folder.svg";
 import AcceptedIcon from '../assets/tick.svg';
+import LoadingIcon from "../assets/loading-circle.gif"
 
 //import components
 import CodeEditor from "./CodeEditor";
 import FileUpload from "../components/FileUpload";
 
-import "../styles/CreatePost.css";
+import TagSelector from "../components/TagSelector";
 import DialogBox from "../components/DialogBox";
+import Tag from "../components/Tag";
+
+// import styles
+import "../styles/CreatePost.css";
 
 function CreatePost() {
+    const [submitLoading, setSubmitLoading] = useState(false);
+    const [selectTagMode, toggleSelectTag] = useState(false);
+    const [selectedTags, setSelectedTags] = useState([]);
+    const [tagOptions, setTagOptions] = useState([]);
     const [titleText, setTitleText] = useState(0);
     const [contentText, setContentText] = useState(0);
     const [isCodeEdit, setCodeEdit] = useState(false);
@@ -103,9 +113,8 @@ function CreatePost() {
             setContentText(contentText.substring(0, 2048));
         }
 
-        console.log(filesContent)
     }, [contentText]);
-    
+
 
     return (
         <>
