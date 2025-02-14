@@ -56,6 +56,7 @@ function CreatePost() {
                     name: file.name,
                     size: file.size,
                     path: file.path,
+                    type: file.type,
                     uploadedAt: file.uploadedAt
                 }))
             })
