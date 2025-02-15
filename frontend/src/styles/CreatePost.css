@@ -446,6 +446,7 @@
 
 .file-upload-to-post {
     position: relative;
+    top: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
