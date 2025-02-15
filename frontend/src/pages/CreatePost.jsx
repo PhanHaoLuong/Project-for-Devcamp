@@ -23,24 +23,36 @@ import Tag from "../components/Tag";
 import "../styles/CreatePost.css";
 
 function CreatePost() {
-    const [submitLoading, setSubmitLoading] = useState(false);
+    // loading state
+    const [IsSubmitLoading, setSubmitLoading] = useState(false);
+
+    // tag selection state
     const [selectTagMode, toggleSelectTag] = useState(false);
     const [selectedTags, setSelectedTags] = useState([]);
     const [tagOptions, setTagOptions] = useState([]);
-    const [titleText, setTitleText] = useState(0);
-    const [contentText, setContentText] = useState(0);
+
+    // post content state
+    const [titleText, setTitleText] = useState("");
+    const [contentText, setContentText] = useState("");
+
+    // empty required content state
+    const [isTitleEmptyErr, setIsTitleEmptyErr] = useState(false);
+
+    // code editor state
     const [isCodeEdit, setCodeEdit] = useState(false);
-    const [isFileEdit, setFileEdit] = useState(false);
-    const [isFileUpload, setFileUpload] = useState(false);
     const [codeLanguage, setCodeLanguage] = useState("");
     const [codeContent, setCodeContent] = useState("");
     const [lineCount, setLineCount] = useState(0);
+
+    // file upload state
+    const [isFileEdit, setFileEdit] = useState(false);
     const [filesContent, setFilesContent] = useState([]);
 
-    const navigate = useNavigate();
-
+    // confirm state
     const [confirmRmCodeDialog, setConfirmRmCodeDialog] = useState(false);
     const [confirmRmFileDialog, setConfirmRmFileDialog] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleTitleChange = (event) => {
         const text = event.target.value;
@@ -100,6 +112,7 @@ function CreatePost() {
             });
             const data = await response.json();
             if (response.status === 201) {
+                setSubmitLoading(false);
                 navigate(`/post/${data.redirect}`);
             }
         } catch (error) {
@@ -114,6 +127,12 @@ function CreatePost() {
         }
 
     }, [contentText]);
+
+    useEffect(() => {
+        if (isTitleEmptyErr && titleText) {
+            setIsTitleEmptyErr(false);
+        }
+    }, [titleText])
 
 
     return (
@@ -160,7 +179,17 @@ function CreatePost() {
                                     type="text"
                                     onChange={handleTitleChange}
                                     value={titleText || ""}
-                                ></input>
+                                    style={isTitleEmptyErr ? {
+                                        outline: "none",
+                                        border: "#e03f42 solid 1px",
+                                        transition: "all 0.2s"
+                                    } : {
+                                        outline: "none",
+                                        transition: "all 0.2s"
+                                    }}
+                                />
+                                {isTitleEmptyErr && !titleText ? 
+                                    <div className="error-message">title is required</div> : ""}
                             </div>
                             <div className="add-tag-container">
                                 <div className="add-tag-text">tags</div>
@@ -258,9 +287,21 @@ function CreatePost() {
                                         remove code
                                     </button>
                                 )}
-                                <button className="submit-button">
-                                    <span className="submit-button-title" onClick={handleSubmit}>
-                                        post
+                                <button className="submit-button"
+                                    onClick={() => {
+                                        if (titleText || titleText === 0) {
+                                            setSubmitLoading(true);
+                                            handleSubmit();
+                                        } else {
+                                            setIsTitleEmptyErr(true);
+                                        }
+                                    }}
+                                >
+                                    {IsSubmitLoading ? <img src={LoadingIcon} 
+                                        style={{height: "16px"}}
+                                    /> : ""}
+                                    <span className="submit-button-title">
+                                        {IsSubmitLoading ? "posting..." : "post"}
                                     </span>
                                 </button>
                             </div>

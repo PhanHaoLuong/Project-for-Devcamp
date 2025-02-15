@@ -30,6 +30,7 @@
 }
 
 .post-container {
+    overflow: visible;
     position: absolute;
     animation: fadeSlideIn 0.5s;    
     position: relative;

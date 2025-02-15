@@ -166,7 +166,7 @@
   transition: all 0.2s;
 }
 
-.submit-button {
+.create-comment-body .submit-button {
   display: flex;
   align-items: center;
   justify-content: center;

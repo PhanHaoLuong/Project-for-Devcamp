@@ -381,11 +381,15 @@
   transition: all 0.2s;
 }
 
-.submit-button {
+.create-post-body .submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: bold;
-  padding: 8px 12px;
+  padding: 8px 10px;
   border-radius: 10px;
   width: 120px;
   background-color: #007070;
