@@ -170,7 +170,7 @@
 .content-textarea {
   font-family: inherit;
   background-color: #222E44;
-  outline: 1px #BBC7DD solid;
+  border: 1px #BBC7DD solid;
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: lighter;
@@ -185,6 +185,9 @@
 .content-area-container {
   position: relative;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px
 }
 
 .content-create-text {
@@ -192,9 +195,12 @@
   letter-spacing: 0.5px;
 }
 
-.char-limit {
-  position: absolute;
-  right: 0;
+.create-post-body .content-textarea {
+    position: relative;
+}
+
+.create-post-body .char-limit{
+    margin-left: auto;
 }
 
 .code-lang-view-container {

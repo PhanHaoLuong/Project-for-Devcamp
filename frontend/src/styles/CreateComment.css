@@ -84,7 +84,7 @@
   letter-spacing: 0.5px;
 }
 
-.char-limit {
+.create-comment-body .char-limit {
   position: absolute;
   right: 0;
   margin: 5px 10px;

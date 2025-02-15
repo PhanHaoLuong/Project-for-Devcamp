@@ -37,6 +37,7 @@ function CreatePost() {
 
     // empty required content state
     const [isTitleEmptyErr, setIsTitleEmptyErr] = useState(false);
+    const [isContentEmptyErr, setIsContentEmptyErr] = useState(false);
 
     // code editor state
     const [isCodeEdit, setCodeEdit] = useState(false);
@@ -134,6 +135,11 @@ function CreatePost() {
         }
     }, [titleText])
 
+    useEffect(() => {
+        if (isContentEmptyErr && contentText) {
+            setIsContentEmptyErr(false);
+        }
+    }, [contentText])
 
     return (
         <>
@@ -207,14 +213,29 @@ function CreatePost() {
                                         className="content-textarea"
                                         onChange={handleContentChange}
                                         value={contentText || ""}
-                                    ></textarea>
-                                    <div
-                                        className="char-limit"
-                                        style={
-                                            contentText.length >= 2048 ? { color: "#e03f42" } : {}
-                                        }
-                                    >
-                                        {contentText.length || 0}/2048
+                                        style={isContentEmptyErr ? {
+                                            outline: "none",
+                                            border: "#e03f42 solid 1px",
+                                            transition: "all 0.2s"
+                                        } : {
+                                            outline: "none",
+                                            transition: "all 0.2s"
+                                        }}
+                                    />
+                                    <div style={{
+                                        display: "flex",
+                                        justifyContent: "space-between"
+                                    }}>
+                                        {isContentEmptyErr && !contentText ? 
+                                            <div className="error-message">content is required</div> : ""}
+                                        <div
+                                            className="char-limit"
+                                            style={
+                                                contentText.length >= 2048 ? { color: "#e03f42" } : {}
+                                            }
+                                        >
+                                            {contentText.length || 0}/2048
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -289,14 +310,16 @@ function CreatePost() {
                                 )}
                                 <button className="submit-button"
                                     onClick={() => {
-                                        if (titleText || titleText === 0) {
+                                        if (titleText && contentText) {
                                             setSubmitLoading(true);
                                             handleSubmit();
                                         } else {
-                                            setIsTitleEmptyErr(true);
+                                            if (!titleText) setIsTitleEmptyErr(true);
+                                            if (!contentText) setIsContentEmptyErr(true);
                                         }
                                     }}
                                 >
+                                
                                     {IsSubmitLoading ? <img src={LoadingIcon} 
                                         style={{height: "16px"}}
                                     /> : ""}
