@@ -1,0 +1,341 @@
+.file-panel * {
+    color: #BBC7DD;
+}
+
+.file-panel .file-item {
+    width: 100%;
+}
+
+.file-panel input {
+    display: none;
+}
+
+.file-panel {
+    width: 50%;
+}
+
+.file-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-radius: 15px;
+    width: 100%;
+    min-width: 700px;
+    padding: 20px 20px;
+    background-color:  rgb(34, 46, 68);
+    overflow: hidden;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.upload-select-container {
+    display: flex;
+    gap: 20px;
+}
+
+.button-container .remove-file {
+    height: 42px;
+    font-size: 1rem;
+    width: auto;
+    padding: 0 20px;
+    max-width: none;
+}
+
+.upload-type-select {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: none;
+    overflow: hidden;
+    border: #BBC7DD solid 2px;
+    border-radius: 20px;
+    height: 40px;
+}
+
+.upload-type-option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 0;
+    width: 80px;
+    font-size: 1rem;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.slider {
+    position: absolute;
+    height: 40px;
+    width: 85px;
+    border-radius: 20px;
+    background-color: #3c5075;
+    z-index: 0;
+}
+
+.navigate-dir {
+    position: relative;
+    display: flex;
+    gap: 10px;
+}
+
+.navigate-dir-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #192233;
+    padding: 16px;
+    border-radius: 15px;
+    border: #BBC7DD 1px solid;
+    transition: all ease-in-out 0.3s;
+}
+
+.navigate-dir-button.enabled {
+    cursor: pointer;
+    background-color: #222e43;
+}
+
+.navigate-dir-button.enabled:hover {
+    background-color: #3c5075;
+    transition: all ease-in-out 0.1s;
+}
+
+.navigate-dir-button img {
+    height: 20px;
+}
+
+.directory-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 8px 10px;
+    border: #BBC7DD solid 1px;
+    background-color: #192233;
+    flex-grow: 1;
+    border-radius: 15px;
+    overflow-x: hidden;
+    overflow-y: visible;
+    transition: all ease-in-out 0.3s;
+    z-index: 1;
+}
+
+
+.dir-part {
+    cursor: pointer;
+    background: none;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;;
+    height: 100%;
+    padding: 0 6px;
+    border: none;
+    border-radius: 12px;
+    transition: all ease-in-out 0.2s;
+}
+
+.dir-part-separator {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.dir-part:hover {
+    background-color: #2d3d5b;
+}
+
+#hidden-dir-dropdown-button {
+    letter-spacing: 5px;
+    padding-left: 10px;
+}
+
+#hidden-dir-dropdown-button:focus {
+    background-color: #2d3d5b;;
+}
+
+.hidden-dir-dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: absolute;
+    background-color: #2d3d5b;
+    top: 100%;
+    left: 110px;
+    padding: 8px;
+    z-index: 999;
+    border-radius: 15px;
+    box-shadow:-1px -1px 8px #000000;
+}
+
+.hidden-dir-dropdown .dir-part {
+    background-color: #3c5075;
+    padding: 10px;
+}
+
+.hidden-dir-dropdown .dir-part:hover {
+    background-color: #3d5889;
+}
+
+.dropzone-root {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: #BBC7DD solid 1px;
+    border-radius: 15px;
+    background-color: #192233;
+    padding: 10px;
+    width: 100%;
+    gap: 7px;
+    flex-wrap: wrap;
+    min-height: 300px;
+    transition: all 0.5s;
+}
+
+.folder-empty-message {
+    margin: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    width: 100%;
+}
+
+.upload-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 30px;
+    background-color: #007070;
+    border: none;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    width: 150px;
+    transition: all 0.3s;
+}
+
+.upload-button:hover {
+    background-color: #008B8B;
+    transition: all 0.1s;
+}
+
+.upload-button .logo {
+    display: flex;
+    align-items: center;
+    height: 20px;
+    width: 20px
+}
+
+.upload-button img {
+    height: 100%;
+    width: 100%
+}
+
+.drop-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    font-size: 2rem;
+    background-color: #2d3d5b;
+    z-index: 2;
+    border-radius: 15px;
+    opacity: 0.75;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.drop-screen-icon {
+    display: flex;
+    align-items: center;
+}
+
+.drop-screen img {
+    height: 35px;
+    width: 35px;
+}
+
+.drop-screen-transition-enter {
+    opacity: 0;
+}
+
+.drop-screen-transition-enter-active {
+    opacity: 0.75;
+    transition: all 0.2s;
+}
+
+.drop-screen-transition-exit {
+    opacity: 0.75;
+}
+
+.drop-screen-transition-exit-active {
+    opacity: 0;
+    transition: all 0.15s;
+}
+
+.file-upload-button {
+    display: flex;
+    width: 100%;
+}
+
+.file-panel .bottom-buttons-container{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 10px;
+}
+
+.file-panel .confirm-button {
+    flex-grow: 0;
+    background-color: #007070;
+    padding: 10px 40px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    border-radius:  15px;
+    transition: all 0.3s;
+}
+
+.file-panel .confirm-button.disabled {
+    cursor: default;
+    background-color: #3c5075;
+}
+
+.file-panel .confirm-button.disabled:hover {
+    background-color: #3c5075;
+} 
+
+.file-panel .confirm-button:hover {
+    background-color: #008B8B;
+    transition: all 0.1s;
+}
+
+.file-panel .return-to-post-button {
+    flex-grow: 0;
+    background-color: #2d3d5b;
+    padding: 10px 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    border-radius:  15px;
+    transition: all 0.3s;
+}
+
+.file-panel .return-to-post-button:hover {
+    background-color: #3c5075;
+}
+
+.no-scroll {
+    overflow: hidden; 
+  }

@@ -1,7 +1,7 @@
 import express from "express";
 import bcryptjs from "bcryptjs";
 
-import { login, logout, protected_route, signup } from "../controllers/auth.controller.js";
+import { login, logout, signup } from "../controllers/auth.controller.js";
 import jsonwebtoken from "jsonwebtoken";
 import user from "../models/user.model.js";
 

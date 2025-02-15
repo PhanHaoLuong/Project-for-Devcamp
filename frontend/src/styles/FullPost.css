@@ -453,7 +453,114 @@
     width: 100%;
 }
 
-.comment-button {
+.post-content .file-container {
+    min-width: 0;
+    padding: 10px;
+    gap: 8px
+}
+
+.post-content .file-panel {
+    top: 0;
+    min-height: 0;
+    width: 100%;
+}
+
+.post-files-view {
+    padding: 5px 20px;
+    overflow: hidden;
+    margin-bottom: 15px
+}
+
+.post-content .dropzone-root {
+    min-height: 120px;
+}
+
+.post-content .navigate-dir {
+    height: 35px;
+    gap: 5px
+}
+
+.post-content .directory-bar {
+    padding: 5px 8px;
+    overflow: hidden;
+}
+
+.post-content .navigate-dir-button {
+    height: 100%;
+    width: 40px;
+}
+
+.post-content .navigate-dir-button img {
+    height: 12px;
+}
+
+.folder-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    height: auto;
+    width: 150px;
+    text-align: center;
+    padding: 7px 25px;
+    border-radius: 10px;
+    border: #BBC7DD 1px solid;
+    cursor: pointer;
+    margin-left: auto;
+    font-size: 0.8rem;
+    transition: all 0.3s;
+}
+
+.folder-toggle:hover {
+    background-color: #222E44;
+    transition: all 0.1s;
+}
+
+.folder-toggle-logo {
+    height: 12px;
+    width: 12px;
+}
+
+.folder-toggle-logo img {
+    height: 100%;
+}
+
+.folder-hidden {
+    background-color: #222E44;
+    transition: all 0.1s;
+}
+
+.folder-header-text {
+    font-size: 1.1rem;
+}
+
+.folder-header-logo {
+    height:1rem;
+}
+
+.folder-header-logo img {
+    height: 100%;
+    width: 100%;
+}
+
+.files-view-transition-enter {
+    opacity: 0;
+}
+
+.files-view-transition-enter-active {
+    opacity: 1;
+    transition: all 0.2s;
+}
+
+.files-view-transition-exit {
+    opacity: 1;
+}
+
+.files-view-transition-exit-active {
+    opacity: 0;
+    transition: all 0.1s;
+}.comment-button {
     border: none;
     position: absolute;
     right: 10%;

@@ -99,7 +99,11 @@ function App() {
           />
           <Route
             path="/component-test"
-            element={<Test />}
+            element={
+              <>
+                <Test />
+              </>
+            }
           />
           <Route 
             path="/post/create" 
