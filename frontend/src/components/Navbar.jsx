@@ -64,7 +64,7 @@ const Navbar = ({ user }) => {
               forum
             </a>
           </li>
-          <SearchBox currentUser={user} />
+          <SearchBox />
         </ul>
       </div>
 

@@ -1,13 +1,11 @@
 // import modules
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { CSSTransition } from 'react-transition-group';
 import displayTime from "../utils/displayTime";
 
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
 import AddIcon from "../assets/add.svg";
-import AcceptedIcon from '../assets/tick.svg';
 import LoadingIcon from "../assets/loading-circle.gif"
 
 //import components

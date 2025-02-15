@@ -12,5 +12,6 @@ router.post('/signup', signup)
 router.get('/verify', verify)
 
 router.post('/login', login)
+
 router.post('/logout', logout)
 export default router

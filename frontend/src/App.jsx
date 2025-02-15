@@ -1,7 +1,9 @@
 // import modules
 import React, { useEffect, useState, memo } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { create } from 'zustand';
+import { useAuthStore } from "./store/authStore";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 /* import components */
 import Navbar from "./components/Navbar";
@@ -20,10 +22,6 @@ import Test from "./pages/Test";
 
 import "./App.css";
 
-const useAuthStore = create((set) => ({
-  userData: null,
-  setAuthState: (userData) => set({ userData }),
-}));
 
 const MemoizedNavbar = memo(Navbar);
 
@@ -73,6 +71,7 @@ function App() {
         <Route path="/user/:userId/saved" element={<Saved user={userData} />} />
         <Route path="/post/:postId/comment" element={<CreateComment />} />
       </Routes>
+      <ToastContainer theme="dark" closeOnClick stacked toastClassName={() => "custom-toast"} />
     </Router>
   );
 }
