@@ -318,6 +318,7 @@ function CreatePost() {
                                             if (!contentText) setIsContentEmptyErr(true);
                                         }
                                     }}
+                                    disabled={IsSubmitLoading}
                                 >
                                 
                                     {IsSubmitLoading ? <img src={LoadingIcon} 
