@@ -5,7 +5,7 @@ import Avatar from "./Avatar";
 import DropdownMenu from "./DropdownMenu";
 import SearchBox from "./SearchBox";
 
-const Navbar = ({ isLoggedIn, user }) => {
+const Navbar = ({ user }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation(); 
@@ -70,7 +70,7 @@ const Navbar = ({ isLoggedIn, user }) => {
 
       {/* Dropdown menu */} 
       <div className="navbar-actions">
-        {(isLoggedIn) ? (
+        {(user) ? (
           <div 
             className="profile-container" onClick={() => setDropdownOpen(!dropdownOpen)}>
             <Avatar id={user._id} name={user.name} />

@@ -2,7 +2,6 @@
 /*import modules */
 import React, { useState, useEffect } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
-import * as pageAddress from './page-address.json';
 import { valEmail, valName, valPw } from '../utils/validateInput';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
@@ -18,8 +17,6 @@ import RevealedPw from '../assets/eye.png';
 
 /* import style */
 import '../styles/UserSignUp.css';
-
-const url = `${pageAddress.signup}`;
 
 const UserSignUp = () => {
     // declare input states
@@ -129,22 +126,18 @@ const UserSignUp = () => {
                 if (response.status === 201) {
                     setHasSignupErr(false);
                     setAuth(true);
+                    window.location.reload();
                 }
-
             } else {
                 setAuthMsg('No response received.');
             }
         } catch (error) {
             console.error('Error signing up: ', error);
         }
-
-
-
     };
 
     return (
         <>
-
             <div className="page-content">
                 {/* <Navbar /> */}
                 <div className="signup-window">
@@ -232,8 +225,8 @@ const UserSignUp = () => {
                                     </p>
                                 </div>
                             ) : ("")}
-                            <div className={`signup-button-container ${(isHover ? "hover" : "")}`}>
-                                <a href={pageAddress.login} id="to-login-button">&lt; back to login </a>
+                            <div className="signup-button-container">
+                                <a href="/auth/login" id="to-login-button">&lt; back to login </a>
                                 <Button children="sign up" type="submit" id="signup-button" onClick={
                                     !(hasInvalInput || hasEmptyRequired) ? handleSubmit : (event) => {
                                         event.preventDefault();
