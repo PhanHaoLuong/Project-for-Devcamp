@@ -12,18 +12,16 @@ import UpvoteIcon from '../assets/upvote.svg'
 // import styles
 import '../styles/Vote.css'
 
-const Vote = ({ voteCount }) => {
+const Vote = ({ voteCount, _id }) => {
     const [isUpvote, setUpvote] = useState(false);
     const [isDownvote, setDownvote] = useState(false);
     const [currVoteCount, updateVoteCount] = useState(voteCount);
 
     const {data: authUser} = useQuery({ queryKey: ["authUser"]});
 
-    const { postId } = useParams();
-
     const getVote = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/post/${postId}/voted`, {
+            const response = await fetch(`http://localhost:3000/post/${_id}/voted`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",},
@@ -83,7 +81,7 @@ const Vote = ({ voteCount }) => {
 
 
     const handleVote = async (voteMethod) => {
-        const res = await fetch(`http://localhost:3000/post/${postId}/${voteMethod}`, {
+        const res = await fetch(`http://localhost:3000/post/${_id}/${voteMethod}`, {
             method: "POST",
             credentials: "include",
         })
