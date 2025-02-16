@@ -5,6 +5,7 @@ import displayTime from "../utils/displayTime";
 
 // import components
 import MiniPost from "../components/MiniPost";
+import Loader from "../components/Loader";
 
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
@@ -22,8 +23,6 @@ const Forum = () => {
     const [hasMore, setHasMore] = useState(true);
 
     const navigate = useNavigate();
-    const url = "/forum";
-
 
     const fetchForum = async () => {
         const response = await fetch(`http://localhost:3000/forum?page=${fetchPage}`, {
@@ -124,14 +123,7 @@ const Forum = () => {
                             hasMore={hasMore}
                             scrollThreshold={0.99}
                             loader={
-                                <div className="loading-container">
-                                    <div className="loading-header">
-                                        <span className="loading-icon">
-                                            <img src={LoadingIcon} alt="T"></img>
-                                        </span>
-                                        <span className="loading-text">loading more posts</span>
-                                    </div>
-                                </div>
+                                <Loader />
                             }
                             endMessage={
                                 <div className="end-message">

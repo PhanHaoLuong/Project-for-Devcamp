@@ -118,7 +118,7 @@ export const get_post_comments = async (req, res) => {
         const singlepost = res.locals.singlepost
         if (page == 1) {
             if (singlepost.accepted_comment_id != null) {
-                const accepted_comment = await post.find({_id: singlepost.accepted_comment_id}).populate('author', 'name')
+                const accepted_comment = await post.find({_id: singlepost.accepted_comment_id}).populate('author', 'name').populate('code', 'language data lines')
                 const comments = await post.find(
                     {parent_post_id: postid, _id: {$ne: singlepost.accepted_comment_id}},{},
                     {skip: skip, limit: limit - 1, sort: {votes: -1}})
@@ -138,7 +138,7 @@ export const get_post_comments = async (req, res) => {
             const comments = await post.find(
                 {parent_post_id: postid},{},
                 {skip: skip, limit: limit, sort: {votes: -1}})
-                .populate('author', 'name')
+                .populate('author', 'name').populate('code', 'language data lines')
             res.status(200).json({comments: comments})
         }
     } catch (error) {
