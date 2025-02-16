@@ -1,8 +1,14 @@
-img {
-    width: 30px;
-    height: 30px;
+.custom-toast {
+    padding: 20px 15px;
+    border-radius: 10px;
+    background-color: #23304a;
+    color: #BBC7DD;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
-
 
 .app-window * {
     font-weight: 600;
@@ -19,7 +25,7 @@ img {
     border-bottom: 2px #BBC7DD solid
 }
 
-.post-header{
+.post-header {
     height:3em;
     background-color: #111722;
     display: flex;
@@ -96,12 +102,17 @@ img {
     background-color: #192233;
     border-radius: 8px;
     border: none;
-    margin: 0 5px;
+    margin: 0 20px 0 20px;
     transition: all 0.3s ease-in-out;
 }
 
 .share-button:hover {
     background-color: #2c3e63;
+    transition: all 0.2s ease-in-out;
+}
+
+.share-button:active {
+    background-color: #334566;
     transition: all 0.2s ease-in-out;
 }
 
@@ -121,7 +132,7 @@ img {
     margin-left: 0px;
 }
 
-.save-button {
+.share-save-container .save-button {
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -131,16 +142,16 @@ img {
     background-color: #192233;
     border-radius: 8px;
     border: none;
-    margin: 0 20px 0 5px;
+    margin: 0 20px 0 -15px;
     transition: all 0.3s ease-in-out;
 }
 
-.save-button:hover {
+.share-save-container .save-button:hover {
     background-color: #2c3e63;
     transition: all 0.2s ease-in-out;
 }
 
-.saved-button {
+.share-save-container .saved-button {
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -150,7 +161,7 @@ img {
     background-color: #008B8B;
     border-radius: 8px;
     border: none;
-    margin: 0 20px 0 5px;
+    margin: 0 20px 0 -15px;
     transition: all 0.2s ease-in-out;
 }
 
@@ -195,9 +206,9 @@ img {
     margin: 20px 0;
 }
 
-.post-user-container > .avatar {
-    height: 3rem;
-    width: 3rem;
+.post-user-container .avatar {
+    height: 6rem;
+    width: 6rem;
 }
 
 .comment-accepted-container {
@@ -277,7 +288,7 @@ img {
     flex-direction: column;
     min-width: 75%;
     background-color: #131925;
-    gap: 20px;
+    gap: 5px;
 }
 
 .comment-content {
@@ -285,7 +296,7 @@ img {
     flex-direction: column;
     min-width: 75%;
     background-color: #161E2C;
-    gap: 20px;
+    gap: 5px;
 }
 
 .content-header {
@@ -317,7 +328,7 @@ img {
     
     overflow: hidden;
     font-weight: lighter;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
 }
 
 .content-body {
@@ -388,7 +399,6 @@ img {
 }
 
 .code-content {
-    background-color: #131925;
     display: flex;
     border: 1px solid #BBC7DD;
     padding: 10px 15px;
@@ -443,5 +453,147 @@ img {
     width: 100%;
 }
 
+.post-content .file-container {
+    min-width: 0;
+    padding: 10px;
+    gap: 8px
+}
 
+.post-content .file-panel {
+    top: 0;
+    min-height: 0;
+    width: 100%;
+}
 
+.post-files-view {
+    padding: 5px 20px;
+    overflow: hidden;
+    margin-bottom: 15px
+}
+
+.post-content .dropzone-root {
+    min-height: 120px;
+}
+
+.post-content .navigate-dir {
+    height: 35px;
+    gap: 5px
+}
+
+.post-content .directory-bar {
+    padding: 5px 8px;
+    overflow: hidden;
+}
+
+.post-content .navigate-dir-button {
+    height: 100%;
+    width: 40px;
+}
+
+.post-content .navigate-dir-button img {
+    height: 12px;
+}
+
+.folder-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    height: auto;
+    width: 150px;
+    text-align: center;
+    padding: 7px 25px;
+    border-radius: 10px;
+    border: #BBC7DD 1px solid;
+    cursor: pointer;
+    margin-left: auto;
+    font-size: 0.8rem;
+    transition: all 0.3s;
+}
+
+.folder-toggle:hover {
+    background-color: #222E44;
+    transition: all 0.1s;
+}
+
+.folder-toggle-logo {
+    height: 12px;
+    width: 12px;
+}
+
+.folder-toggle-logo img {
+    height: 100%;
+}
+
+.folder-hidden {
+    background-color: #222E44;
+    transition: all 0.1s;
+}
+
+.folder-header-text {
+    font-size: 1.1rem;
+}
+
+.folder-header-logo {
+    height:1rem;
+}
+
+.folder-header-logo img {
+    height: 100%;
+    width: 100%;
+}
+
+.files-view-transition-enter {
+    opacity: 0;
+}
+
+.files-view-transition-enter-active {
+    opacity: 1;
+    transition: all 0.2s;
+}
+
+.files-view-transition-exit {
+    opacity: 1;
+}
+
+.files-view-transition-exit-active {
+    opacity: 0;
+    transition: all 0.1s;
+}.comment-button {
+    border: none;
+    position: absolute;
+    right: 10%;
+    bottom: 20px;
+    cursor: pointer;
+    display: flex;
+    background-color: #008B8B;
+    border-radius: 10px;
+    padding: 8px 12px;
+    gap: 5px;
+    transition: all 0.3s;
+}
+
+.comment-button * {
+    color:#BBC7DD;
+}
+
+.comment-button:hover {
+    background-color: #007070;
+    transition: all 0.1s;
+}
+
+.comment-button-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.comment-logo {
+    height: 16px;
+    width: 16px;
+}
+
+.comment-logo img {
+    height: 100%;
+    width: 100%;
+}

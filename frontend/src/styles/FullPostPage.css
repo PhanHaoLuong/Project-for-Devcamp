@@ -6,6 +6,10 @@
     justify-content: center;
 }
 
+.post-container .is-post {
+    margin-top: 100px;
+}
+
 .comment-button {
     border: none;
     position: fixed;
@@ -56,3 +60,4 @@
     margin: 20px;
     min-width: 600px
 }
+

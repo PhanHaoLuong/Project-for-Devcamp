@@ -135,6 +135,7 @@ const Forum = () => {
                                 {forumPostData.map((forumPost) => {
                                     return (
                                         <MiniPost
+                                            key={forumPost._id}
                                             postId={forumPost._id}
                                             author={forumPost.author.name}
                                             postTitle={forumPost.title}
@@ -143,6 +144,7 @@ const Forum = () => {
                                             )}
                                             postTags={null}
                                             postContent={forumPost.content}
+                                            codeLanguage={forumPost.code?.language}
                                             voteCount={forumPost.votes}
                                             topLevelFolder={null}
                                         />

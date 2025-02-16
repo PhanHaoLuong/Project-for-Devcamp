@@ -31,7 +31,6 @@ function LanguageSelector({ setCodeLanguage }) {
         setLanguage(langId);
         setIsOpen(false);
     };
-    
 
     return (
       <div className="language-selector" ref={dropdownRef}>
@@ -67,14 +66,15 @@ function LanguageSelector({ setCodeLanguage }) {
                     transition={{ delay: index * 0.1 }}
                     className="list-item"
                   >
+                    {console.log(lang)}
                     <button
                       className={`list-item-button ${language === lang.id ? "selected" : ""}`}
                       onClick={() => handleLanguageSelect(lang.id)}
                     >
                       <div className="decoration" />
-                      <div className={`icon ${language === lang.id ? "selected" : ""}`}>
-                        <div className="decoration" />
-                      </div>
+                      <span className={`${lang.id} ${language === lang.id ? "selected" : ""}`}>
+                        <img src={lang.id === "rust" ? `https://cdn.simpleicons.org/${lang.id}` : `https://cdn.jsdelivr.net/npm/programming-languages-logos/src/${lang.id}/${lang.id}.png`} ></img>
+                      </span>
                       <span>{lang.label}</span>
                       {language === lang.id && (
                         <motion.div

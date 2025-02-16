@@ -12,7 +12,7 @@ import Loader from "../components/Loader";
 // import styles
 import '../styles/FullPostPage.css'
 
-const FullPostPage = () => {
+const FullPostPage = ({user}) => {
     // states for inf scroll
     const [hasMore, setHasMore] = useState(true);
     const [fetchPage, setFetchPage] = useState(1);
@@ -20,21 +20,61 @@ const FullPostPage = () => {
     const [postData, setPostData] = useState(null);
     const [commentData, setCommentData] = useState([]);
     const [acceptedComment, setAcceptedComment] = useState([])
+    const [fetchedFiles, setFetchedFiles] = useState([]);
 
     const navigate = useNavigate();
     const { postId } = useParams();
 
-    const fetchPost = async () => {
+    const fetchFileData = async () => {
+        let fetchedData = [];
+
         try {
-            const response = await fetch(`http://localhost:3000/post/${postId}?page=${fetchPage}`, {
-                method: 'GET',
+            const response = await fetch(`http://localhost:3000/file/${postId}`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }
-            });
-            if (!response.ok) {
-                if (response.status === 404) {
-                    console.log('post not found')
+                },
+                body: JSON.stringify({
+                    files_metadata: postData.files_metadata
+                })
+            })
+            if (response.ok) {
+                fetchedData = await response.json();
+            }
+        } catch (err) {
+            console.error(err)
+        }
+
+        const fetchedFilesWithContent = fetchedFiles.map(file => {
+            const fileData = fetchedData.find(data => data._id === file.id);
+            return {
+                ...file,
+                content: fileData.data /* pre-read text data */
+            };
+        });
+
+        setFetchedFiles(fetchedFilesWithContent);
+
+    }
+
+    useEffect(() => {
+ 
+        const fetchPost = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/post/${postId}?page=${fetchPage}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        console.log('post not found')
+                    }
+                    return null;
+                } else {
+                    const data = await response.json();
+                    return data;
                 }
                 return null;
             } else {
@@ -70,7 +110,19 @@ const FullPostPage = () => {
     useEffect(() => {
         getPostData();
     }, [])
-    
+
+    useEffect(() => {
+        if (postData && postData.files_metadata) {
+            setFetchedFiles(postData?.files_metadata.map(file => {
+                const parsedFileMetadata = JSON.parse(file.metadata);
+                return {
+                    id: file._id,
+                    ...parsedFileMetadata
+                };
+            }));
+        }
+    }, [postData]);
+
 
     const getTimeSincePost = (createdAt) => {
         const now = new Date();
@@ -82,15 +134,21 @@ const FullPostPage = () => {
             <div className="fullpost-window" id="fullpost-window">
                 <div className="fullpost-container">
                     {postData ? (<FullPost isComment={false} 
+                        postId={postId || null}
+                        isComment={false} 
                         author={postData.author.name || null} 
+                        authorId={postData.author._id || null}
                         postTitle={postData.title || null}
                         timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
                         voteCount={postData.votes} 
                         postTags={null} /* placeholder */
                         postContent={postData.content || null}
                         codeContent={postData.code || null}
-                        folderContent={null} /* placeholder */
-                    />) : ("")}
+                        files={fetchedFiles.length && fetchedFiles}
+                        fetchFileContent={fetchFileData}
+                        user={user}
+                    />
+                ) : ("")}
                     <InfiniteScroll
                         dataLength={
                             (commentData?.length || 0) + (acceptedComment?.length || 0)
@@ -113,10 +171,10 @@ const FullPostPage = () => {
                                     postTags={null} // placeholder 
                                     postContent={acceptedComment.content || null}
                                     codeContent={acceptedComment.code || null}
-                                    folderContent={null} // placeholder 
+                                    user={user}
                                 />
-                                )
-                            : ("")} 
+                            ) : ("")} 
+                            
                             {commentData.length ? (
                                 commentData.map((comment) => {
                                     return (

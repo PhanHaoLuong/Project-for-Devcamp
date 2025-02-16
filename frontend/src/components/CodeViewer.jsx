@@ -2,16 +2,15 @@ import { LANGUAGE_CONFIG, defineMonacoThemes } from "../constants";
 import { useCodeEditorStore } from "../store/useCodeEditorStore";
 import { useEffect, useState } from "react";
 import { Editor } from "@monaco-editor/react";
-import { use } from "react";
 
 
 function CodeViewer({ codeContent, codeLanguage, lineCount }) {
     const { fontSize } = useCodeEditorStore();
 
-        
-
     return (
-        <div className="editor-panel">
+        <div className="editor-panel" 
+            onClick={e => e.stopPropagation()}
+        >
             <Editor 
             height= {lineCount * 19 + "px"}
             language={codeLanguage}

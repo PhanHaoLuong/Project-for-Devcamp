@@ -24,6 +24,7 @@ import Home from "./pages/Home";
 import User from "./pages/User";
 
 import Saved from "./pages/Saved";
+import CodeEditor from "./pages/CodeEditor";
 import Forum from "./pages/Forum";
 import FullPostPage from "./pages/FullPostPage";
 
@@ -35,8 +36,9 @@ import "./App.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]); // No use of `null` to avoid undefined user data
   
+  // Fetch auth user status
   const { data: authUser, isLoading } = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
@@ -50,7 +52,9 @@ function App() {
         });
         if (response.status === 200) {
           setIsLoggedIn(true);
-          return true; //Subjected to change
+          const data = await response.json(); 
+          setUserData(data);  
+          return true;
         } else {
           setIsLoggedIn(false);
           return null;
@@ -63,14 +67,13 @@ function App() {
     staleTime: 1000 * 60 * 60,
   });
 
-  if (isLoading) return null;
+  if (isLoading) return <div>Loading...</div>;
 
-  //Should optimize the way authUser is called
   return (
     <>
       <Router>
         <Suspense fallback={<div>Loading...</div>} />
-        <Navbar isLoggedIn={isLoggedIn} />
+        <Navbar isLoggedIn={isLoggedIn} user={userData} />
         <Routes>
           <Route
             path={pageAddress.home}
@@ -88,16 +91,19 @@ function App() {
           />
           <Route path="/home" element={<Home />} />
           <Route path="/forum" element={<Forum />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/saved" element={<Saved />} />
 {/*           <Route path="/fileupload" element={<Fileupload />} /> */}
           <Route 
             path="/post/:postId" 
-            element={<FullPostPage />} 
+            element={<FullPostPage 
+            user={userData} />} 
           />
           <Route
             path="/component-test"
-            element={<Test />}
+            element={
+              <>
+                <Test />
+              </>
+            }
           />
           <Route 
             path="/post/create" 
@@ -105,9 +111,12 @@ function App() {
           />
           <Route
             path="/user/:userId"
-            element={<User />}
+            element={<User visitor={userData._id} />}
           />
-          {/* placeholder create comment route, change when appropriate */}
+          <Route 
+            path="/user/:userId/saved" 
+            element={<Saved user={userData} />}
+         />
           <Route 
             path="/post/:postId/comment"
             element={<CreateComment />}

@@ -1,16 +1,16 @@
 .welcome {
     padding: 1.5rem;
     border-radius: 10px;
-    margin: 20px auto;
+    margin: 80px auto 10px;
     background: url('../assets/img/welcome.png') no-repeat center / cover;
     color: var(--font-color);
-    width: 100%;
-    max-width: 600px;
+    width: 50%;
+    min-width: 600px;
     box-sizing: border-box;
 }
 
 .welcome h1 {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 0.25rem;
 }
@@ -18,16 +18,16 @@
 .welcome p {
     font-size: 0.8rem;
     font-weight: lighter;
-    line-height: 1.2;
+    line-height: 1.5;
 }
 
 .dashboard {
-    margin: 50px auto;
+    margin: 20px auto;
     background-color: var(--background-color);
     border-radius: 10px;
     color: var(--font-color);
-    width: 100%;
-    max-width: 600px;
+    width: 50%;
+    min-width: 600px;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -50,5 +50,5 @@
 .dashboard h1 {
     font-size: 1.2rem;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
 }

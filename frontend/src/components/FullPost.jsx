@@ -2,23 +2,25 @@
 import React, { useEffect, useState } from "react";
 import { CSSTransition } from 'react-transition-group';
 import ellipsis from "../utils/ellipsis.js";
+import { ToastContainer, toast } from "react-toastify";
 
 // import components
 import Avatar from "./Avatar.jsx";
-import Vote from "./Vote.jsx"
+import Vote from "./Vote.jsx";
 import FileItem from "./FileItem.jsx";
 import Tag from './Tag.jsx';
 import CodeViewer from "./CodeViewer.jsx";
+import FileUpload from "./FileUpload.jsx";
 
 // import assets
 import HashIcon from '../assets/hash.png';
-import CodeIcon from '../assets/code-symbol.svg'
+import CodeIcon from '../assets/code-symbol.svg';
 import SaveIcon from '../assets/save.svg';
 import ShareIcon from '../assets/share.svg';
 import TerminalIcon from '../assets/terminal.svg';
-import FolderIcon from '../assets/folder.svg'
-import FilledSaveIcon from '../assets/save-filled.svg'
-import AcceptedIcon from '../assets/tick.svg'
+import FolderIcon from '../assets/folder.svg';
+import FilledSaveIcon from '../assets/save-filled.svg';
+import AcceptedIcon from '../assets/tick.svg';
 import TriangleIcon from '../assets/vote.svg';
 
 // import style
@@ -28,19 +30,23 @@ export default function FullPost({
     postId, 
     isComment, 
     isAccepted, 
-    isSaved, 
     timeSincePost, 
     author, 
+    authorId,
     postTags, 
     postTitle, 
     voteCount, 
     postContent, 
     codeContent, 
-    folderContent 
+    files,
+    fetchFileContent,
+    folderContent,
+    user,
 }){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
-    const [saveButtonActive, setSaveButtonActive] = useState(false);
+    const [saveButtonActive, setSaveButtonActive] = useState(user && user.savedPosts ? user.savedPosts.includes(postId) : false);
     const [isCodeExpanded, setIsCodeExpanded] = useState(false);
+    const [isFileViewerExpanded, setIsFileViewerExpanded] = useState(false);  
 
     if (folderContent){
         folderContent.sort((a, b) => {
@@ -52,14 +58,58 @@ export default function FullPost({
             } else {
                 return 0;
             }
-        })
+        });
     }
 
-    
+    // Copy URL to clipboard
+    const copyUrl = () => {
+        navigator.clipboard.writeText(window.location.href);
+        toast.success("URL copied to clipboard!");
+    };
 
+    // Save or unsave post
+    const toggleSavePost = async () => {
+        if (!user) {
+            toast.error("You must be logged in to save posts.");
+            return;
+        }
+    
+        try {
+            const action = saveButtonActive ? 'unsave' : 'save';
+            
+            const response = await fetch(`http://localhost:3000/post/${postId}/${action}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId: user._id })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to update saved posts in the backend.');
+            }
+    
+            if (saveButtonActive) {
+                user.savedPosts = user.savedPosts.filter((savedPost) => savedPost !== postId);
+                toast.success("Post unsaved.");
+            } else {
+                user.savedPosts.push(postId);
+                toast.success("Post saved.");
+            }
+    
+            setSaveButtonActive(!saveButtonActive);
+        } catch (error) {
+            toast.error("Error updating saved posts.");
+            console.error('Error:', error);
+        }
+    };
+    
+    
+    
     return (
         <>
-            <div className="app-window" id="post-window">
+            <ToastContainer theme="dark" closeOnClick stacked toastClassName={() => "custom-toast"} />
+            <div className={`app-window ${isComment ? "is-comment" : "is-post"}`} id="post-window">
                 {!isComment ? (
                     <div className="post-header" id="post-header">
                         <span className="header-icon">
@@ -77,17 +127,17 @@ export default function FullPost({
                     </div>
                     {!isComment ? (
                         <div className="share-save-container">
-                            <button className="share-button">
+                            {/* Share button */}
+                            <button className="share-button" onClick={copyUrl}>
                                 <span className="share-icon"><img src={ShareIcon} ></img></span>
                                 <span className="share-title">share</span>
                             </button>
+                            {/* Save button */}
                             <button className={`${saveButtonActive ? "saved" : "save" }-button`}
-                                    onClick={() => {
-                                        setSaveButtonActive(!saveButtonActive);
-                                    }}>
-                                    <span className="save-icon">
-                                        <img src={saveButtonActive ? FilledSaveIcon : SaveIcon} ></img>
-                                    </span>
+                                    onClick={toggleSavePost}>
+                                <span className="save-icon">
+                                    <img src={saveButtonActive ? FilledSaveIcon : SaveIcon} ></img>
+                                </span>
                                 <span className="save-title">{saveButtonActive ? "saved" : "save" }</span>
                             </button>
                         </div>
@@ -96,7 +146,9 @@ export default function FullPost({
                 <div className="post-body">
                     <div className="post-properties-side">
                         <div className="post-user-container">
-                            <Avatar user=""/>
+                            <a href={`../user/${authorId}`} className="avatar-container">
+                                <Avatar id={authorId} name={author} />      
+                            </a>
                             <p className="username">{author}</p>
                         </div>
                         {(isComment && isAccepted) ? (
@@ -107,20 +159,20 @@ export default function FullPost({
                                 <span className="accepted-text">accepted</span>
                             </div>
                         ):("")}
-                        {!isComment && <div className="vote-container">
+                        <div className="vote-container">
                             <Vote voteCount={voteCount}/>
-                        </div>}
+                        </div>
                         {(!isComment && postTags) ? (
                             <div className="tag-container">
                                 {postTags.map((tag, index) => {
                                     if (tag) {
-                                        return <Tag tagName={ellipsis(tag, (tagHoverIndex === index ? 8 : 6))}/>
+                                        return <Tag key={index} tagName={ellipsis(tag, (tagHoverIndex === index ? 8 : 6))}/>
                                     }
                                 })}
                             </div>
                         ) : ("")}
                     </div>
-                    <div className={`${!isComment ? "post" : "comment"}-content`}>
+                    <div className="post-content">
                         <div className="desc-content">
                             <div className="content-header">
                                 <span className="content-header-logo">
@@ -141,7 +193,7 @@ export default function FullPost({
                                         <img src={CodeIcon}></img>
                                     </span>
                                     <span className="code-header-text">code</span>
-                                    {!isCodeExpanded ? (
+                                    {isCodeExpanded ? (
                                         <button className="code-toggle code-hidden"
                                             onClick={() => setIsCodeExpanded(!isCodeExpanded)}
                                         >
@@ -174,7 +226,7 @@ export default function FullPost({
                                     )}
                                 </div>
                                     <CSSTransition
-                                        in={!isCodeExpanded}
+                                        in={isCodeExpanded}
                                         classNames={"code-content"}
                                         timeout={200}
                                         mountOnEnter
@@ -190,25 +242,61 @@ export default function FullPost({
                                     </CSSTransition>
                             </div>
                         ) : ("")}
-                        {(folderContent ? (
-                            <div className="folder">
+                        {files ? (
+                            <div className="post-files-view-container">
                                 <div className="folder-header">
                                     <span className="folder-header-logo">
                                         <img src={FolderIcon}></img>
                                     </span>
                                     <span className="folder-header-text">folder</span>
+                                    {isFileViewerExpanded ? (
+                                        <button className="folder-toggle folder-hidden"
+                                                onClick={() => setIsFileViewerExpanded(false)}
+                                        >
+                                            <span className="folder-toggle-text">hide files</span>
+                                            <span className="folder-toggle-logo">
+                                                <img src={TriangleIcon} 
+                                                    style={{
+                                                        "rotate":"0.5turn",
+                                                        "transition":"all ease-in-out 0.1s"
+                                                    }}
+                                                >
+                                                </img>
+                                            </span>
+                                        </button>
+                                    ) : (
+                                        <button className="folder-toggle"
+                                            onClick={() => setIsFileViewerExpanded(true)}
+                                        >                                         
+                                            <span className="folder-toggle-text">show files</span>
+                                            <span className="folder-toggle-logo">
+                                                <img src={TriangleIcon} 
+                                                    style={{
+                                                        "rotate":"0.25turn",
+                                                        "transition":"all ease-in-out 0.2s"
+                                                    }}
+                                                >
+                                                </img>
+                                            </span>
+                                        </button>
+                                    )}
                                 </div>
-                                <div className="folder-content">
-                                    {fileMetadataArr.map((file, index) => {
-                                        return <FileItem 
-                                                    isFolder={file.isFolder}
-                                                    fileName={file.fileName}
-                                                    fileType={file.fileType}
-                                                />
-                                    })}
-                                </div>
+                                <CSSTransition
+                                    in={isFileViewerExpanded}
+                                    timeout={300}
+                                    classNames={"files-view-transition"}
+                                    mountOnEnter
+                                    unmountOnExit
+                                >
+                                    <div className="post-files-view">
+                                        <FileUpload viewMode
+                                            existingFilesArr={files} 
+                                            viewModeFetchContent={fetchFileContent}
+                                        />
+                                    </div>
+                                </CSSTransition>
                             </div>
-                        ) : (""))}
+                        ) : ("")}
                     </div>
 
                 </div>
