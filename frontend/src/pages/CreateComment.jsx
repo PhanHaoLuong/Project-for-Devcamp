@@ -21,13 +21,16 @@ import "../styles/CreateComment.css";
 function CreateComment() {
     const [parentPost, setParentPost] = useState(null);
 
-    const [contentText, setContentText] = useState(0);
+    const [contentText, setContentText] = useState("");
+    const [isContentEmptyErr, setIsContentEmptyErr] = useState(false);
+
     const [codeLanguage, setCodeLanguage] = useState("");
     const [codeContent, setCodeContent] = useState("");
+    
     const [lineCount, setLineCount] = useState(0);
     
     const [isCodeEdit, setCodeEdit] = useState(false);
-    const [submitLoading, setSubmitLoading] = useState(false);
+    const [IsSubmitLoading, setSubmitLoading] = useState(false);
     const [confirmRmDialog, setConfirmRmDialog] = useState(false);
     
     const navigate = useNavigate();
@@ -71,7 +74,7 @@ function CreateComment() {
             if (response.status === 201) {
                 navigate(`/post/${data.redirect}`);
             } else {
-                setSubmitLoading(false);
+                setTimeout(() => setSubmitLoading(false), 2000);
             }
         } catch (error) {
             console.error(error);
@@ -83,6 +86,14 @@ function CreateComment() {
             setContentText(contentText.substring(0, 2048));
         }
     }, [contentText]);
+
+
+    useEffect(() => {
+        if (contentText && isContentEmptyErr) {
+            setIsContentEmptyErr(false);
+        }
+    }, [contentText])
+
 
     const getTimeSincePost = (createdAt) => {
         const now = new Date();
@@ -147,14 +158,31 @@ function CreateComment() {
                                         className="content-textarea"
                                         onChange={handleContentChange}
                                         value={contentText || ""}
-                                    ></textarea>
-                                    <div
-                                        className="char-limit"
-                                        style={
-                                            contentText.length >= 2048 ? {color: "#e03f42",} : {}
-                                        }
+                                        style={isContentEmptyErr ? {
+                                            outline: "none",
+                                            border: "#e03f42 solid 1px",
+                                            transition: "all 0.2s"
+                                        } : {
+                                            outline: "none",
+                                            transition: "all 0.2s"
+                                        }}
+                                    />
+                                    <div 
+                                        style={{
+                                            display: "flex",
+                                            
+                                        }}
+                                    
                                     >
-                                        {contentText.length || 0}/2048
+                                        {isContentEmptyErr ? <div className="error-message">content is required</div> : ""}
+                                        <div
+                                            className="char-limit"
+                                            style={
+                                                contentText.length >= 2048 ? {color: "#e03f42",} : {}
+                                            }
+                                        >
+                                            {contentText.length || 0}/2048
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -191,29 +219,24 @@ function CreateComment() {
                                         remove code
                                     </button>
                                 )}
-                                {submitLoading ? (
-                                    <button className={`submit-button loading`}
-                                        disabled
-                                    >
-                                        <span className="submit-button-logo">
-                                            <img src={LoadingIcon}></img>
-                                        </span>
-                                        <span className="submit-button-title">
-                                            posting...
-                                        </span>
-                                    </button>
-                                ) : (
-                                    <button className={`submit-button`}
+                                <button className="submit-button"
                                     onClick={() => {
-                                        setSubmitLoading(true);
-                                        handleSubmit();
+                                        if (contentText) {
+                                            setSubmitLoading(true);
+                                            handleSubmit();
+                                        } else {
+                                            if (!contentText) setIsContentEmptyErr(true);
+                                        }
                                     }}
-                                    >
-                                        <span className="submit-button-title">
-                                            comment
-                                        </span>
-                                    </button>
-                                )}
+                                    disabled={IsSubmitLoading}
+                                >
+                                    {IsSubmitLoading ? <img src={LoadingIcon} 
+                                        style={{height: "16px"}}
+                                    /> : ""}
+                                    <span className="submit-button-title">
+                                        {IsSubmitLoading ? "posting..." : "post"}
+                                    </span>
+                                </button>
                             </div>
                         </div>
                     </div>

@@ -115,6 +115,8 @@ function CreatePost() {
             if (response.status === 201) {
                 setSubmitLoading(false);
                 navigate(`/post/${data.redirect}`);
+            } else {
+                setTimeout(() => setSubmitLoading(false), 2000);
             }
         } catch (error) {
             console.error(error);
