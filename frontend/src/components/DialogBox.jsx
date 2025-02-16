@@ -5,7 +5,14 @@ import TerminalIcon from '../assets/terminal.svg';
 
 import '../styles/DialogBox.css';
 
-const DialogBox = ({ mode='info', message, header, visible, onConfirm, onClose }) => {
+const DialogBox = ({ 
+    mode='info', 
+    message, 
+    header, 
+    visible, 
+    onConfirm, 
+    onClose 
+}) => {
     const [dialogMode, setDialogMode] = useState(mode);
     const [dialogOptions, setDialogOptions] = useState(['ok']);
 
@@ -21,7 +28,7 @@ const DialogBox = ({ mode='info', message, header, visible, onConfirm, onClose }
         <>
             <CSSTransition
                 in={visible}
-                timeout={300}
+                timeout={400}
                 classNames="dialog"
                 mountOnEnter
                 unmountOnExit

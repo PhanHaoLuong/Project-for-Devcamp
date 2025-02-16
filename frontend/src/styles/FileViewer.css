@@ -1,0 +1,130 @@
+.image-viewer-transition-enter {
+    opacity: 0;
+    z-index: 999;
+}
+
+.image-viewer-transition-enter-active {
+    opacity: 1;
+    transition: all 0.1s;
+    z-index: 999;
+}
+
+.image-viewer-transition-exit {
+    opacity: 1;
+    z-index: 999;
+}
+
+.image-viewer-transition-exit-active {
+    opacity: 0;
+    transition: all 0.2s;
+    z-index: 999;
+}
+
+.image-viewer, .file-viewer, .file-viewer .code-viewer-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(177, 177, 255, 0.2);
+    z-index: 999;
+    margin: 0;
+}
+
+.file-viewer {
+    overflow: hidden;
+}
+
+.file-viewer .code-content, .file-viewer .code-viewer.container {
+    background: none;
+    overflow-y: auto;
+}
+
+.file-viewer .code-content {
+    align-items: center;
+    justify-content: center;
+}
+
+.file-viewer .code-viewer-container {
+    flex-direction: column;
+    height: 100%;
+}
+
+.file-viewer .code-viewer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #192233;
+    color:#BBC7DD;
+    width: 70%;
+    padding: 10px 20px;
+    border-bottom: #BBC7DD 1px solid;
+    border-radius: 15px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.file-viewer .code-viewer-bottom-padding {
+    background-color: #192233;
+    color:#BBC7DD;
+    width: 70%;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.file-code-viewer-container {
+    background-color: #131925;
+    width: 70%;
+    height: 70%;
+    overflow-y: scroll;
+}
+
+.file-viewer .editor-panel {
+    height: 100%;
+}
+
+
+.image-viewer img {
+    transform: translateY(25px);
+    border-radius: 10px;
+    height: 80%;
+    width: auto;
+    max-width: 80%;
+    object-fit: contain;
+    box-shadow: -1px -1px 15px 2px rgba(0, 0, 0, 0.3);
+}
+
+.image-viewer {
+    flex-direction: column;
+}
+
+.file-viewer .close-button {
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.file-viewer .close-button img {
+    height: 35px;
+    width: 35px;
+    transition: all 0.2s;
+}
+
+.file-viewer .close-button img:hover {
+    transition: all 0.2s;
+}
+
+.file-viewer .file-name {
+    height: auto;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.viewer-scroll-container {
+    overflow: scroll;
+}

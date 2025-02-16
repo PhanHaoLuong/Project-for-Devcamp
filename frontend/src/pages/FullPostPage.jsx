@@ -15,10 +15,43 @@ import '../styles/FullPostPage.css'
 const FullPostPage = ({user}) => {
     const [postData, setPostData] = useState(null);
     const [commentData, setCommentData] = useState(null);
+    const [fetchedFiles, setFetchedFiles] = useState([]);
 
     const navigate = useNavigate();
     const userData = useAuthStore((state) => state.userData);
     const { postId } = useParams();
+
+    const fetchFileData = async () => {
+        let fetchedData = [];
+
+        try {
+            const response = await fetch(`http://localhost:3000/file/${postId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    files_metadata: postData.files_metadata
+                })
+            })
+            if (response.ok) {
+                fetchedData = await response.json();
+            }
+        } catch (err) {
+            console.error(err)
+        }
+
+        const fetchedFilesWithContent = fetchedFiles.map(file => {
+            const fileData = fetchedData.find(data => data._id === file.id);
+            return {
+                ...file,
+                content: fileData.data /* pre-read text data */
+            };
+        });
+
+        setFetchedFiles(fetchedFilesWithContent);
+
+    }
 
     useEffect(() => {
  
@@ -36,7 +69,7 @@ const FullPostPage = ({user}) => {
                     }
                     return null;
                 } else {
-                    const data = await response.json()
+                    const data = await response.json();
                     return data;
                 }
             } catch (error) {
@@ -59,7 +92,20 @@ const FullPostPage = ({user}) => {
 
         getPostData();
     }, [])
-    
+
+    useEffect(() => {
+        if (postData && postData.files_metadata) {
+            setFetchedFiles(postData?.files_metadata.map(file => {
+                const parsedFileMetadata = JSON.parse(file.metadata);
+                return {
+                    id: file._id,
+                    ...parsedFileMetadata
+                };
+            }));
+        }
+    }, [postData]);
+
+
     const getTimeSincePost = (createdAt) => {
         const now = new Date();
         const creationTime = new Date(createdAt);
@@ -77,20 +123,23 @@ const FullPostPage = ({user}) => {
     return (
         <>
             <div className="post-container">
-                {postData ? (<FullPost 
-                    postId={postId || null}
-                    isComment={false} 
-                    author={postData.author.name || null}
-                    authorId={postData.author._id || null} 
-                    postTitle={postData.title || null}
-                    timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
-                    voteCount={postData.votes} 
-                    postTags={null} /* placeholder */
-                    postContent={postData.content || null}
-                    codeContent={postData.code || null}
-                    folderContent={null} /* placeholder */
-                    user={user}
-                />) : ("")}
+                {postData && fetchedFiles ? (
+                    <FullPost 
+                        postId={postId || null}
+                        isComment={false} 
+                        author={postData.author.name || null} 
+                        authorId={postData.author._id || null}
+                        postTitle={postData.title || null}
+                        timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
+                        voteCount={postData.votes} 
+                        postTags={null} /* placeholder */
+                        postContent={postData.content || null}
+                        codeContent={postData.code || null}
+                        files={fetchedFiles.length && fetchedFiles}
+                        fetchFileContent={fetchFileData}
+                        user={user}
+                    />
+                ) : ("")}
                 {commentData && commentData.acceptedComments ? (
                     commentData.acceptedComments.map((comment) => {
                         return (

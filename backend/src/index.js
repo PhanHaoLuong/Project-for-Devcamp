@@ -12,6 +12,7 @@ import postRoute from "./routes/post.route.js";
 import userRoute from "./routes/user.route.js";
 import avatarRoute from "./routes/avatar.route.js"; 
 import searchRoute from "./routes/search.route.js";
+import fileRoute from "./routes/file.route.js"
 
 import file from "./models/file.model.js"
 import code from "./models/code.model.js"
@@ -40,23 +41,14 @@ app.use('/user', userRoute);
 app.use('/avatar', avatarRoute);
 app.use('/search', searchRoute);
 app.use('/uploads', express.static('src/uploads'));
+app.use('/file', fileRoute)
 
 app.get('/forum', get_forum_posts);
 
 app.post('/code', async (req, res) => {
-  const { author, language, data } = req.body;
-  const newCode = new code({ author, language, data });
-  await newCode.save();
-  res.status(200).send('Code saved successfully');
-});
+    const {author, language, data} = req.body
+    const newCode = new code({author, language, data})
+    await newCode.save()
+    res.status(200).send('Code saved successfully')
+})
 
-app.post('/fileupload', fileUpload({ createParentPath: true }), async (req, res) => {
-  const files = req.files;
-  console.log(files.file.data);
-  const save = { 'author': '6778ad96d751b1b21cfb06cc', 'data': files.file.data };
-    
-  const newFile = new file(save);
-  await newFile.save();
-
-  res.status(200).json({ message: 'file uploaded successfully' });
-});
