@@ -125,7 +125,7 @@ const FullPostPage = ({user}) => {
             <div className="post-container">
                 {postData && fetchedFiles ? (
                     <FullPost 
-                        postId={postId || null}
+                        _id={postId || null}
                         isComment={false} 
                         author={postData.author.name || null} 
                         authorId={postData.author._id || null}
@@ -144,6 +144,7 @@ const FullPostPage = ({user}) => {
                     commentData.acceptedComments.map((comment) => {
                         return (
                             <FullPost 
+                                _id={comment._id || null}
                                 isComment={true} 
                                 isAccepted={true}
                                 author={comment.author.name || "N/A"} 
@@ -163,6 +164,7 @@ const FullPostPage = ({user}) => {
                         commentData.comments.map((comment) => {
                             return (
                                 <FullPost 
+                                    _id={comment._id || null}
                                     isComment={true} 
                                     isAccepted={false}
                                     author={comment.author.name || "N/A"} 
