@@ -11,3 +11,15 @@
   cursor: pointer;
 }
 
+.custom-toast {
+  padding: 20px 15px;
+  border-radius: 10px;
+  background-color: #23304a;
+  color: #BBC7DD;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+

@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import displayTime from "../utils/displayTime";
+import { useAuthStore } from "../store/authStore";
+import { toast } from "react-toastify";
 
 //import components
 import FullPost from "../components/FullPost";
@@ -16,6 +18,7 @@ const FullPostPage = ({user}) => {
     const [fetchedFiles, setFetchedFiles] = useState([]);
 
     const navigate = useNavigate();
+    const userData = useAuthStore((state) => state.userData);
     const { postId } = useParams();
 
     const fetchFileData = async () => {
@@ -108,6 +111,15 @@ const FullPostPage = ({user}) => {
         const creationTime = new Date(createdAt);
         return (now.getTime() - creationTime.getTime()) / 1000;
     }
+
+    const handleCreateCommentClick = () => {
+        if (!userData) {
+            toast.error("You have to log in first!");
+        } else {
+            navigate("./comment", {state: {postData: postData}});
+        }
+    };
+
     return (
         <>
             <div className="post-container">
@@ -171,7 +183,7 @@ const FullPostPage = ({user}) => {
                 
             </div>
             <button className="comment-button"
-                onClick={() => {navigate("./comment", {state: {postData: postData}})}}
+                onClick={handleCreateCommentClick}
             >
                 <span className="comment-logo">
                     <img src={AddIcon}></img>

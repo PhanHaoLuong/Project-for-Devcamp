@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import displayNum from "../utils/displayNum";
 import { useQuery } from "@tanstack/react-query";
+import { useAuthStore } from "../store/authStore";
+import { toast } from "react-toastify";
 
 // import assets
 import VoteIcon from '../assets/vote.svg';
@@ -18,6 +20,7 @@ const Vote = ({ voteCount }) => {
     const [currVoteCount, updateVoteCount] = useState(voteCount);
 
     const {data: authUser} = useQuery({ queryKey: ["authUser"]});
+    const user = useAuthStore((state) => state.userData);
 
     const { postId } = useParams();
 
@@ -130,12 +133,12 @@ const Vote = ({ voteCount }) => {
             <div className="vote">
                 <img className="vote-button" id="upvote" 
                     src={isUpvote ? UpvoteIcon : VoteIcon} 
-                    onClick={() => handleUpvote()}
+                    onClick={() => user ? handleUpvote() : toast.error("You have to log in first!")}
                 ></img>
                 <span className="vote-count">{displayNum(currVoteCount)}</span>
                 <img className="vote-button" id="downvote" 
                     src={isDownvote ? DownvoteIcon : VoteIcon}
-                    onClick={() => handleDownvote()}
+                    onClick={() => user ? handleDownvote() : toast.error("You have to log in first!")}
                 ></img>
             </div>
         </>

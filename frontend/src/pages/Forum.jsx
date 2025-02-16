@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import displayTime from "../utils/displayTime";
+import { useAuthStore } from "../store/authStore";
+import { toast } from "react-toastify";
 
 // import components
 import MiniPost from "../components/MiniPost";
@@ -22,8 +24,7 @@ const Forum = () => {
     const [hasMore, setHasMore] = useState(true);
 
     const navigate = useNavigate();
-    const url = "/forum";
-
+    const userData = useAuthStore((state) => state.userData);
 
     const fetchForum = async () => {
         const response = await fetch(`http://localhost:3000/forum?page=${fetchPage}`, {
@@ -62,6 +63,14 @@ const Forum = () => {
         return (now.getTime() - creationTime.getTime()) / 1000;
     };
 
+    const handleCreatePostClick = () => {
+        if (!userData) {
+            toast.error("You have to log in first!");
+        } else {
+            navigate("/post/create");
+        }
+    };
+
     return (
         <div className="page-content">
             <div className="forum-content">
@@ -72,47 +81,12 @@ const Forum = () => {
                     <span className="header-title">sharing</span>
                 </div>
                 <div className="post-options">
-                    <button className="create-post-button" onClick={() => navigate('/post/create')}>
+                    <button className="create-post-button" onClick={handleCreatePostClick}>
                         <span className="create-post-button-logo">
                             <img src={AddIcon}></img>
                         </span>
-                        <span className="create-post-button-title" onClick={() => navigate('/post/create')}>create post</span>
+                        <span className="create-post-button-title" >create post</span>
                     </button>
-                    <div className="post-sort-buttons">
-                        <button
-                            className={`sort-post-button${
-                                sortButtonActive === "recent" ? "-active" : ""
-                            }`}
-                            id="sort-by-recent"
-                            onClick={() => {
-                                setSortButtonActive("recent");
-                            }}
-                        >
-                            recent
-                        </button>
-                        <button
-                            className={`sort-post-button${
-                                sortButtonActive === "relevant" ? "-active" : ""
-                            }`}
-                            id="sort-by-relevant"
-                            onClick={() => {
-                                setSortButtonActive("relevant");
-                            }}
-                        >
-                            relevant
-                        </button>
-                        <button
-                            className={`sort-post-button${
-                                sortButtonActive === "upvotes" ? "-active" : ""
-                            }`}
-                            id="sort-by-upvotes"
-                            onClick={() => {
-                                setSortButtonActive("upvotes");
-                            }}
-                        >
-                            upvotes
-                        </button>
-                    </div>
                 </div>
                 
                     {forumPostData ? (

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { CSSTransition } from 'react-transition-group';
 import ellipsis from "../utils/ellipsis.js";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 // import components
 import Avatar from "./Avatar.jsx";
@@ -64,13 +64,13 @@ export default function FullPost({
     // Copy URL to clipboard
     const copyUrl = () => {
         navigator.clipboard.writeText(window.location.href);
-        toast.success("URL copied to clipboard!");
+        toast.success("Copied link to clipboard!");
     };
 
     // Save or unsave post
     const toggleSavePost = async () => {
         if (!user) {
-            toast.error("You must be logged in to save posts.");
+            toast.error("You have to log in first!");
             return;
         }
     
@@ -108,7 +108,6 @@ export default function FullPost({
     
     return (
         <>
-            <ToastContainer theme="dark" closeOnClick stacked toastClassName={() => "custom-toast"} />
             <div className={`app-window ${isComment ? "is-comment" : "is-post"}`} id="post-window">
                 {!isComment ? (
                     <div className="post-header" id="post-header">

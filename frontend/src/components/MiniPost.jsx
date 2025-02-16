@@ -10,11 +10,6 @@ import FileItem from "./FileItem";
 import FullPost from "./FullPost"
 
 // import assets
-import HashIcon from '../assets/hash.png';
-import SaveIcon from '../assets/save.svg';
-import ShareIcon from '../assets/share.svg';
-import TerminalIcon from '../assets/terminal.svg';
-import VoteIcon from '../assets/vote.svg';
 import ArrowIcon from '../assets/arrow-icon.svg'
 
 // import style
@@ -48,9 +43,6 @@ export default function MiniPost({
             <div className={`minipost-container ${isExpanded ? "expanded" : ""}`} >
                 <div className="header-bar" onClick={onClick}>
                     <div className="header-content">
-                        <span className="header-logo">
-                            <img src={TerminalIcon} alt="T"></img>
-                        </span>
                         <span className="header-text">
                             <p className="minipost-title">
                                 {postTitle || "defaultTitle"}
