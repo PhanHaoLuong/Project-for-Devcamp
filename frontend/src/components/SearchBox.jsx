@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useAuthStore } from "../store/authStore";
+
 import '../styles/SearchBox.css';
 
 import Avatar from './Avatar';
@@ -6,7 +8,7 @@ import Avatar from './Avatar';
 import ellipsis from "../utils/ellipsis";
 import displayTime from "../utils/displayTime";
 
-const SearchBox = ({ currentUser }) => {
+const SearchBox = () => {
   const [query, setQuery] = useState('');
   const [usersResult, setUsersResult] = useState([]);
   const [postsResult, setPostsResult] = useState([]);
@@ -14,6 +16,8 @@ const SearchBox = ({ currentUser }) => {
   const [isActive, setIsActive] = useState(false);
 
   const DEBOUNCE_DELAY = 300;
+
+  const currentUser = useAuthStore((state) => state.userData);
 
   useEffect(() => {
     const close = (e) => {
@@ -100,7 +104,7 @@ const SearchBox = ({ currentUser }) => {
                   <a href={`/user/${user._id}`} className="search-result-link">
                     <Avatar id={user._id} name={user.name} />
                     <p className="left" key={user._id}>{user.name}</p>
-                    {(user._id === currentUser._id) ? <p className="note right">you</p> : <p></p>}
+                    {currentUser && (user._id === currentUser._id) ? <p className="note right">you</p> : <p></p>}
                   </a>
                 </li>
               ))}
@@ -120,7 +124,7 @@ const SearchBox = ({ currentUser }) => {
                       <p className="left" key={post._id}>{post.title}</p>
                       <div className="left description">{ellipsis(post.content || "No description", 111)}</div>
                     </div>
-                    <p className={`author date right ${post.author.name}`}>by {(post.author._id === currentUser._id) ? 'you' : post.author.name} 
+                    <p className={`author date right ${post.author.name}`}>{(currentUser && post.author._id === currentUser._id) ? 'by you' : `by ${post.author.name}`}
                       <br /> 
                       {displayTime(getTimeSincePost(post.createdAt))} ago
                     </p>

@@ -62,7 +62,7 @@
 .content-textarea {
   font-family: inherit;
   background-color: #222E44;
-  outline: 1px #BBC7DD solid;
+  border: 1px #BBC7DD solid;
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: lighter;
@@ -84,10 +84,8 @@
   letter-spacing: 0.5px;
 }
 
-.char-limit {
-  position: absolute;
-  right: 0;
-  margin: 5px 10px;
+.create-comment-body .char-limit {
+  margin-left: auto;
 }
 
 .code-lang-view-container {
@@ -166,7 +164,7 @@
   transition: all 0.2s;
 }
 
-.submit-button {
+.create-comment-body .submit-button {
   display: flex;
   align-items: center;
   justify-content: center;

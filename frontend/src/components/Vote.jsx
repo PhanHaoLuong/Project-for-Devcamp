@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import displayNum from "../utils/displayNum";
 import { useQuery } from "@tanstack/react-query";
+import { useAuthStore } from "../store/authStore";
+import { toast } from "react-toastify";
 
 // import assets
 import VoteIcon from '../assets/vote.svg';
@@ -12,18 +14,17 @@ import UpvoteIcon from '../assets/upvote.svg'
 // import styles
 import '../styles/Vote.css'
 
-const Vote = ({ voteCount }) => {
+const Vote = ({ voteCount, _id }) => {
     const [isUpvote, setUpvote] = useState(false);
     const [isDownvote, setDownvote] = useState(false);
     const [currVoteCount, updateVoteCount] = useState(voteCount);
 
     const {data: authUser} = useQuery({ queryKey: ["authUser"]});
-
-    const { postId } = useParams();
+    const user = useAuthStore((state) => state.userData);
 
     const getVote = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/post/${postId}/voted`, {
+            const response = await fetch(`http://localhost:3000/post/${_id}/voted`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",},
@@ -83,7 +84,7 @@ const Vote = ({ voteCount }) => {
 
 
     const handleVote = async (voteMethod) => {
-        const res = await fetch(`http://localhost:3000/post/${postId}/${voteMethod}`, {
+        const res = await fetch(`http://localhost:3000/post/${_id}/${voteMethod}`, {
             method: "POST",
             credentials: "include",
         })
@@ -130,12 +131,12 @@ const Vote = ({ voteCount }) => {
             <div className="vote">
                 <img className="vote-button" id="upvote" 
                     src={isUpvote ? UpvoteIcon : VoteIcon} 
-                    onClick={() => handleUpvote()}
+                    onClick={() => user ? handleUpvote() : toast.error("You have to log in first!")}
                 ></img>
                 <span className="vote-count">{displayNum(currVoteCount)}</span>
                 <img className="vote-button" id="downvote" 
                     src={isDownvote ? DownvoteIcon : VoteIcon}
-                    onClick={() => handleDownvote()}
+                    onClick={() => user ? handleDownvote() : toast.error("You have to log in first!")}
                 ></img>
             </div>
         </>

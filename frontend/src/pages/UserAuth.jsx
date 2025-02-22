@@ -1,9 +1,7 @@
-
 /*import modules */
 import React, { useState, useEffect } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
 import { useNavigate } from 'react-router-dom';
-import * as pageAddress from './page-address.json';
 import { valName, valPw } from '../utils/validateInput';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -17,9 +15,6 @@ import RevealedPw from '../assets/eye.png';
 
 /* import style */
 import '../styles/UserAuth.css';
-
-const url = `${pageAddress.login}`;
-
 
 const UserAuth = ({}) => {
     const [name, setName] = useState("");
@@ -105,6 +100,7 @@ const UserAuth = ({}) => {
                 if (response.status === 200) {
                     setWrongPw(false);
                     setAuth(true);
+                    window.location.reload();
                 }
 
             } else {
@@ -211,7 +207,7 @@ const UserAuth = ({}) => {
                     <div className="login-extra">
                         <div className="signup-container">
                             <p id="new-user-text">new user?</p>
-                            <a href={pageAddress.signup} id="signup-link">create new account!</a>
+                            <a href="/auth/signup" id="signup-link">create new account!</a>
                         </div>
                     </div>
                 </div>

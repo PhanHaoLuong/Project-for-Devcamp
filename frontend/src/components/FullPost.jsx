@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { CSSTransition } from 'react-transition-group';
 import ellipsis from "../utils/ellipsis.js";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 // import components
 import Avatar from "./Avatar.jsx";
@@ -27,7 +27,7 @@ import TriangleIcon from '../assets/vote.svg';
 import '../styles/FullPost.css';
 
 export default function FullPost({ 
-    postId, 
+    _id, 
     isComment, 
     isAccepted, 
     timeSincePost, 
@@ -44,7 +44,7 @@ export default function FullPost({
     user,
 }){
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
-    const [saveButtonActive, setSaveButtonActive] = useState(user && user.savedPosts ? user.savedPosts.includes(postId) : false);
+    const [saveButtonActive, setSaveButtonActive] = useState(user && user.savedPosts ? user.savedPosts.includes(_id) : false);
     const [isCodeExpanded, setIsCodeExpanded] = useState(false);
     const [isFileViewerExpanded, setIsFileViewerExpanded] = useState(false);  
 
@@ -64,20 +64,20 @@ export default function FullPost({
     // Copy URL to clipboard
     const copyUrl = () => {
         navigator.clipboard.writeText(window.location.href);
-        toast.success("URL copied to clipboard!");
+        toast.success("Copied link to clipboard!");
     };
 
     // Save or unsave post
     const toggleSavePost = async () => {
         if (!user) {
-            toast.error("You must be logged in to save posts.");
+            toast.error("You have to log in first!");
             return;
         }
     
         try {
             const action = saveButtonActive ? 'unsave' : 'save';
             
-            const response = await fetch(`http://localhost:3000/post/${postId}/${action}`, {
+            const response = await fetch(`http://localhost:3000/post/${_id}/${action}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -90,10 +90,10 @@ export default function FullPost({
             }
     
             if (saveButtonActive) {
-                user.savedPosts = user.savedPosts.filter((savedPost) => savedPost !== postId);
+                user.savedPosts = user.savedPosts.filter((savedPost) => savedPost !== _id);
                 toast.success("Post unsaved.");
             } else {
-                user.savedPosts.push(postId);
+                user.savedPosts.push(_id);
                 toast.success("Post saved.");
             }
     
@@ -108,7 +108,6 @@ export default function FullPost({
     
     return (
         <>
-            <ToastContainer theme="dark" closeOnClick stacked toastClassName={() => "custom-toast"} />
             <div className={`app-window ${isComment ? "is-comment" : "is-post"}`} id="post-window">
                 {!isComment ? (
                     <div className="post-header" id="post-header">
@@ -160,7 +159,7 @@ export default function FullPost({
                             </div>
                         ):("")}
                         <div className="vote-container">
-                            <Vote voteCount={voteCount}/>
+                            <Vote voteCount={voteCount} _id={_id}/>
                         </div>
                         {(!isComment && postTags) ? (
                             <div className="tag-container">

@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import displayTime from "../utils/displayTime";
+import { useAuthStore } from "../store/authStore";
+import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 //import components
@@ -23,6 +25,7 @@ const FullPostPage = ({user}) => {
     const [fetchedFiles, setFetchedFiles] = useState([]);
 
     const navigate = useNavigate();
+    const userData = useAuthStore((state) => state.userData);
     const { postId } = useParams();
 
     const fetchFileData = async () => {
@@ -57,8 +60,6 @@ const FullPostPage = ({user}) => {
 
     }
 
-    useEffect(() => {
- 
         const fetchPost = async () => {
             try {
                 const response = await fetch(`http://localhost:3000/post/${postId}?page=${fetchPage}`, {
@@ -76,16 +77,13 @@ const FullPostPage = ({user}) => {
                     const data = await response.json();
                     return data;
                 }
+            } catch (error) {
+                console.log('cannot fetch posts. error: ', error);
                 return null;
-            } else {
-                const data = await response.json()
-                return data;
             }
-        } catch (error) {
-            console.log('cannot fetch posts. error: ', error);
-            return null;
         }
-    }
+
+    
 
     const getPostData = async () => {
         let page = fetchPage;
@@ -129,12 +127,21 @@ const FullPostPage = ({user}) => {
         const creationTime = new Date(createdAt);
         return (now.getTime() - creationTime.getTime()) / 1000;
     }
+
+    const handleCreateCommentClick = () => {
+        if (!userData) {
+            toast.error("You have to log in first!");
+        } else {
+            navigate("./comment", {state: {postData: postData}});
+        }
+    };
+
     return (
         <>
             <div className="fullpost-window" id="fullpost-window">
                 <div className="fullpost-container">
-                    {postData ? (<FullPost isComment={false} 
-                        postId={postId || null}
+                    {postData ? (<FullPost
+                        _id={postId || null}
                         isComment={false} 
                         author={postData.author.name || null} 
                         authorId={postData.author._id || null}
@@ -165,6 +172,8 @@ const FullPostPage = ({user}) => {
                     >
                             {acceptedComment.length ? (
                                 <FullPost isComment={true} isAccepted={true}
+                                    _id={acceptedComment._id || null}
+                                    voteCount={acceptedComment.votes || "N/A"}
                                     author={acceptedComment?.author?.name || "N/A"} 
                                     postTitle={acceptedComment.title || "N/A"}
                                     timeSincePost={displayTime(getTimeSincePost(acceptedComment.createdAt))}
@@ -173,12 +182,14 @@ const FullPostPage = ({user}) => {
                                     codeContent={acceptedComment.code || null}
                                     user={user}
                                 />
-                            ) : ("")} 
+                            ) : ("")}
                             
                             {commentData.length ? (
                                 commentData.map((comment) => {
                                     return (
                                         <FullPost isComment={true} isAccepted={false}
+                                            _id={comment._id || null}
+                                            voteCount={comment.votes || "N/A"}
                                             author={comment.author.name || "N/A"} 
                                             postTitle={comment.title || "N/A"}
                                             timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
@@ -203,7 +214,7 @@ const FullPostPage = ({user}) => {
                 </button>
             </div>
         </>
-    )
+    );
 }
 
 export default FullPostPage;
