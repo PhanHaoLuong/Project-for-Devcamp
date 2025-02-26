@@ -189,7 +189,7 @@ const FullPostPage = ({user}) => {
                                     return (
                                         <FullPost isComment={true} isAccepted={false}
                                             _id={comment._id || null}
-                                            voteCount={comment.votes || "N/A"}
+                                            voteCount={comment.votes}
                                             author={comment.author.name || "N/A"} 
                                             postTitle={comment.title || "N/A"}
                                             timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}

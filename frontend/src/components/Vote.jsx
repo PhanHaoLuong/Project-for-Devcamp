@@ -19,7 +19,6 @@ const Vote = ({ voteCount, _id }) => {
     const [isDownvote, setDownvote] = useState(false);
     const [currVoteCount, updateVoteCount] = useState(voteCount);
 
-    const {data: authUser} = useQuery({ queryKey: ["authUser"]});
     const user = useAuthStore((state) => state.userData);
 
     const getVote = async () => {
@@ -44,44 +43,10 @@ const Vote = ({ voteCount, _id }) => {
         }
     };
     useEffect(() => {
-        if (authUser) {
+        if (user) {
             getVote();
         }
     }, []);
-
-    // useEffect(() => {
-    //     if (isUpvote && isDownvote) { 
-    //         setDownvote(false); 
-    //     }
-
-    //     if (voteCount || voteCount === 0) {
-    //         if (isUpvote) {
-    //             updateVoteCount(voteCount + 1);
-    //         } else if (isDownvote) {
-    //             updateVoteCount(voteCount - 1);
-    //         } else {
-    //             updateVoteCount(voteCount)
-    //         }
-    //     }
-    // }, [isUpvote]);
-      
-    // useEffect(() => {
-    //     updateVoteCount(voteCount);
-    //     if (isUpvote && isDownvote) { 
-    //         setUpvote(false); 
-    //     }
-
-    //     if (voteCount || voteCount === 0) {
-    //         if (isUpvote) {
-    //             updateVoteCount(voteCount + 1);
-    //         } else if (isDownvote) {
-    //             updateVoteCount(voteCount - 1);
-    //         } else {
-    //             updateVoteCount(voteCount);
-    //         }
-    //     }
-    // }, [isDownvote]);
-
 
     const handleVote = async (voteMethod) => {
         const res = await fetch(`http://localhost:3000/post/${_id}/${voteMethod}`, {

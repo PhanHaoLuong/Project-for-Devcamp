@@ -46,13 +46,16 @@
 }
 
 .minipost-title {
-    text-overflow: ellipsis;
     font-weight: 600;
     font-size: 1.2rem;
 }
 
 .minipost-meta {
     display: flex;
+}
+
+.time-since-post {
+    padding-top: 1%;
 }
 
 .minipost-author {
@@ -88,6 +91,7 @@
 
 .minipost-description {
     font-size: 0.9rem;
+    overflow: hidden;
 }
 
 .minipost-description .app-window {
@@ -157,4 +161,32 @@
 .minipost-vote-count {
     display: flex;
     margin-left: auto;
+}
+
+@media (max-width: 600px){
+    .minipost-title {
+        font-size: 1rem;
+    }
+
+    .minipost-description {
+        font-size: 0.7rem;
+    }
+
+    .minipost-container {
+        padding: 0.5rem 0.5rem;
+    }
+
+    .minipost-tag-container > .tag {
+        height: 15px;
+        width: 80px;
+    }
+
+    .minipost-tag-container > .tag:hover {
+        font-size: 0.6rem;
+        width: 100px;
+    }
+
+    .minipost-vote-count {
+        font-size: 0.6rem;
+    }
 }
