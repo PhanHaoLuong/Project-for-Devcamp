@@ -4,17 +4,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import displayTime from "../utils/displayTime";
 import { useAuthStore } from "../store/authStore";
 import { toast } from "react-toastify";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 //import components
 import FullPost from "../components/FullPost";
 import AddIcon from "../assets/add.svg";
+import Loader from "../components/Loader";
 
 // import styles
 import '../styles/FullPostPage.css'
 
 const FullPostPage = ({user}) => {
+    // states for inf scroll
+    const [hasMore, setHasMore] = useState(true);
+    const [fetchPage, setFetchPage] = useState(1);
+
     const [postData, setPostData] = useState(null);
-    const [commentData, setCommentData] = useState(null);
+    const [commentData, setCommentData] = useState([]);
+    const [acceptedComment, setAcceptedComment] = useState([])
     const [fetchedFiles, setFetchedFiles] = useState([]);
 
     const navigate = useNavigate();
@@ -53,11 +60,9 @@ const FullPostPage = ({user}) => {
 
     }
 
-    useEffect(() => {
- 
         const fetchPost = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/post/${postId}`, {
+                const response = await fetch(`http://localhost:3000/post/${postId}?page=${fetchPage}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -78,18 +83,29 @@ const FullPostPage = ({user}) => {
             }
         }
 
-        const getPostData = async () => {
-            const data = await fetchPost();
-            
-            setPostData(data.post);
-            if (data.accepted_comment || data.comments) {
-                setCommentData({
-                    acceptedComments: data.accepted_comment,
-                    comments: data.comments
-                });
-            }
-        }
+    
 
+    const getPostData = async () => {
+        let page = fetchPage;
+        const data = await fetchPost();
+            if (page === 1) {
+                setPostData(data.post);
+                if (data.accepted_comment) {
+                    setAcceptedComment(data.accepted_comment);
+                }
+            }
+        
+            const newComments = data.comments || [];
+            setCommentData([...(commentData || []), ...newComments]);
+            if (newComments.length < 5) {
+                setHasMore(false);
+            }
+            page++;
+            setFetchPage(page);
+        console.log(newComments)
+    }
+
+    useEffect(() => {
         getPostData();
     }, [])
 
@@ -122,9 +138,9 @@ const FullPostPage = ({user}) => {
 
     return (
         <>
-            <div className="post-container">
-                {postData && fetchedFiles ? (
-                    <FullPost 
+            <div className="fullpost-window" id="fullpost-window">
+                <div className="fullpost-container">
+                    {postData ? (<FullPost
                         _id={postId || null}
                         isComment={false} 
                         author={postData.author.name || null} 
@@ -140,60 +156,65 @@ const FullPostPage = ({user}) => {
                         user={user}
                     />
                 ) : ("")}
-                {commentData && commentData.acceptedComments ? (
-                    commentData.acceptedComments.map((comment) => {
-                        return (
-                            <FullPost 
-                                _id={comment._id || null}
-                                isComment={true} 
-                                isAccepted={true}
-                                author={comment.author.name || "N/A"} 
-                                postTitle={comment.title || "N/A"}
-                                timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
-                                voteCount={comment.votes} 
-                                postTags={null} // placeholder 
-                                postContent={comment.content || null}
-                                codeContent={comment.code || null}
-                                folderContent={null} // placeholder 
-                                user={user}
-                            />
-                        )
-                    })
-                ) : ("")} 
-                {commentData && commentData.comments ? (
-                        commentData.comments.map((comment) => {
-                            return (
-                                <FullPost 
-                                    _id={comment._id || null}
-                                    isComment={true} 
-                                    isAccepted={false}
-                                    author={comment.author.name || "N/A"} 
-                                    authorId={comment.author._id || null}
-                                    postTitle={comment.title || "N/A"}
-                                    timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
-                                    voteCount={comment.votes} 
+                    <InfiniteScroll
+                        dataLength={
+                            (commentData?.length || 0) + (acceptedComment?.length || 0)
+                        }
+                        next={() => setTimeout(() => getPostData(), 1000)}
+                        hasMore={hasMore}
+                        scrollThreshold={0.99}
+                        loader={<Loader />}
+                        endMessage={
+                            <div className="end-message">
+                                you've reached the end! come back later for more
+                            </div>
+                        }
+                    >
+                            {acceptedComment.length ? (
+                                <FullPost isComment={true} isAccepted={true}
+                                    _id={acceptedComment._id || null}
+                                    voteCount={acceptedComment.votes || "N/A"}
+                                    author={acceptedComment?.author?.name || "N/A"} 
+                                    postTitle={acceptedComment.title || "N/A"}
+                                    timeSincePost={displayTime(getTimeSincePost(acceptedComment.createdAt))}
                                     postTags={null} // placeholder 
-                                    postContent={comment.content || null}
-                                    codeContent={comment.code || null}
-                                    folderContent={null} // placeholder 
+                                    postContent={acceptedComment.content || null}
+                                    codeContent={acceptedComment.code || null}
                                     user={user}
                                 />
-                            )
-                        })
-                ) : ("")} 
+                            ) : ("")}
+                            
+                            {commentData.length ? (
+                                commentData.map((comment) => {
+                                    return (
+                                        <FullPost isComment={true} isAccepted={false}
+                                            _id={comment._id || null}
+                                            voteCount={comment.votes || "N/A"}
+                                            author={comment.author.name || "N/A"} 
+                                            postTitle={comment.title || "N/A"}
+                                            timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}
+                                            postTags={null} // placeholder 
+                                            postContent={comment.content || null}
+                                            codeContent={comment.code || null}
+                                            folderContent={null} // placeholder 
+                                        />
+                                    )
+                                })
+                        ) : ("")} 
+                    </InfiniteScroll>
                     
-                
+                </div>
+                <button className="comment-button"
+                    onClick={() => {navigate("./comment", {state: {postData: postData}})}}
+                >
+                    <span className="comment-logo">
+                        <img src={AddIcon}></img>
+                    </span>
+                    <span className="comment-button-title">comment</span>
+                </button>
             </div>
-            <button className="comment-button"
-                onClick={handleCreateCommentClick}
-            >
-                <span className="comment-logo">
-                    <img src={AddIcon}></img>
-                </span>
-                <span className="comment-button-title">comment</span>
-            </button>
         </>
-    )
+    );
 }
 
 export default FullPostPage;

@@ -36,6 +36,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    width: 100%;
     padding: 0 20px;
 }
 
@@ -156,42 +157,6 @@
 .sort-post-button:hover {
     background-color: #344870;   
     transition: all 0.1s; 
-}
-
-.loading-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 95%;
-    height: 200px;
-    min-height: 100px;
-    background-color: #222E44;
-    border-radius: 15px;
-    padding: 20px 15px;
-    margin-top: 10px;
-}
-
-.loading-header {
-    display: flex;
-    gap: 20px
-}
-
-.loading-header * {
-    color:#BBC7DD;
-    font-size: 1.5rem;
-    letter-spacing: 1px;
-    font-weight: bold;
-}
-
-.loading-icon {
-    height: 30px;
-    width: 30px;
-}
-
-.loading-icon img {
-    height: 100%;
-    width: 100%;
 }
 
 .end-message {
