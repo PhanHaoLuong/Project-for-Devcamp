@@ -338,3 +338,18 @@
     left:0;
     top: 30%;
 }
+
+.pw-conditions ul {
+    margin-top: 0.5rem;
+}
+.pw-conditions li {
+    list-style-type: none;
+    line-height: 1.2;
+    margin-bottom: 5px;
+}
+
+.pw-conditions img {
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.4rem -0.25rem 0;
+}

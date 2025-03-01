@@ -14,6 +14,8 @@ import Input from '../components/Input';
 /* import assets */
 import HiddenPw from '../assets/eye-off.png';
 import RevealedPw from '../assets/eye.png';
+import Cross from '../assets/close-icon.svg';
+import Check from '../assets/tick.svg';
 
 /* import style */
 import '../styles/UserSignUp.css';
@@ -85,6 +87,7 @@ const UserSignUp = () => {
 
     useEffect(() => {
         setHasInvalInput([isInvalEmail, isInvalName, isInvalPw, isUnmatchedPw].some((isErr) => isErr === true));
+        console.log(isInvalEmail, isInvalName, isInvalPw, isUnmatchedPw);
     }, [isInvalEmail, isInvalName, isInvalPw, isUnmatchedPw])
 
     useEffect(() => {
@@ -103,49 +106,56 @@ const UserSignUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        try {
-            const response = await fetch('http://localhost:3000/auth/signup', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                credentials: 'include',
-                body: JSON.stringify({ email, name, pw })
-              });
-            if (response) {
-                const { message } =  await response.json();
-                setAuthMsg(message.toLowerCase());
-                if (!response.ok) {
-                    setHasSignupErr(true);
-                    setAuth(false);
-                    if (response.status === 409) {
-                        setUserExists(true);
-                    }
-                }
-                if (response.status === 201) {
-                    setHasSignupErr(false);
-                    setAuth(true);
-                    window.location.reload();
-                }
-            } else {
-                setAuthMsg('No response received.');
-            }
-        } catch (error) {
-            console.error('Error signing up: ', error);
+    
+        if (!valEmail(email)) {
+            setAuthMsg("Please enter a valid email.");
+            setHasSignupErr(true);
+            return;
         }
-    };
+    
+        if (!valPw(pw)) {
+            setAuthMsg("Password must be at least 8 characters with uppercase, lowercase, number, and special character.");
+            setHasSignupErr(true);
+            return;
+        }
+    
+        try {
+            const response = await fetch("http://localhost:3000/auth/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({ email, name, pw }),
+            });
+    
+            const { message } = await response.json();
+            setAuthMsg(message.toLowerCase());
+    
+            if (!response.ok) {
+                setHasSignupErr(true);
+                setAuth(false);
+                return;
+            }
+    
+            setHasSignupErr(false);
+            setAuth(true);
+            window.location.reload();
+        } catch (error) {
+            console.error("Error signing up:", error);
+        }
+    };    
 
     return (
         <>
             <div className="page-content">
-                {/* <Navbar /> */}
                 <div className="signup-window">
                     <form onSubmit={()=>{}} className="signup-form" autoComplete="off">
                         <div className="signup-body">
                             <div className="signup-title">
                                 <h1 id="signup-title">create new account</h1>
                             </div>
+
                             <div className="input-container">
                                 <span className="field-title">
                                     <h2 id="email-title">email</h2>
@@ -156,14 +166,15 @@ const UserSignUp = () => {
                                     "boxShadow": "0 0 4px #e03f42",
                                     "transition": "all 0.2s ease-in-out"
                                 } : {}}>
-                                    <Input type="email" id="email-input" className="input-field" value={email} onChange={(n) => { setEmail(sanitizeInput(n.target.value))}}/>
+                                    <Input required type="email" id="email-input" className="input-field" value={email} onChange={(n) => { setEmail(sanitizeInput(n.target.value))}}/>
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
                                     {isInvalEmail ? 
-                                        (<p className="error-message" id="invalid-email">emails must be a valid email address.</p>) : ('')
+                                        (<p className="error-message" id="invalid-email">email must be a valid email address.</p>) : ('')
                                     }
                                 </div>
                             </div>
+
                             <div className="input-container">
                                 <span className="field-title">
                                     <h2 id="user-title">username</h2>
@@ -174,14 +185,15 @@ const UserSignUp = () => {
                                     "boxShadow": "0 0 4px #e03f42",
                                     "transition": "all 0.2s ease-in-out"
                                 } : {}}>
-                                    <Input type="text" id="user-input" className="input-field" value={name} onChange={(n) => { setName(sanitizeInput(n.target.value)) }} />
+                                    <Input required type="text" id="user-input" className="input-field" value={name} onChange={(n) => { setName(sanitizeInput(n.target.value)) }} />
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
                                     {isInvalName ? 
-                                        (<p className="error-message" id="invalid-email">usernames must be 4-16 characters long and must not contain special characters.</p>) : ('')
+                                        (<p className="error-message" id="invalid-email">usernames must be 4-16 characters long and must not contain special characters except underscores.</p>) : ('')
                                     }
                                 </div>
                             </div>
+
                             <div className="input-container">
                                 <span className="field-title">
                                     <h2 id="user-title">password</h2>
@@ -192,11 +204,11 @@ const UserSignUp = () => {
                                     "boxShadow": "0 0 4px #e03f42",
                                     "transition": "all 0.2s ease-in-out"
                                 } : {}}>
-                                    <Input type="password" id="pw-input" className="input-field" value={pw} onChange={(n) => { setPw(sanitizeInput(n.target.value)) }} />
+                                    <Input required type="password" id="pw-input" className="input-field" value={pw} onChange={(n) => { setPw(sanitizeInput(n.target.value)) }} />
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
                                     {isInvalPw ? 
-                                        (<p className="error-message" id="invalid-email">passwords must be 8-64 characters long and must not contain special characters.</p>) : ('')
+                                        (<p className="error-message" id="invalid-email">passwords must be 8-64 characters long.</p>) : ('')
                                     }
                                 </div>
                             </div>
@@ -210,7 +222,7 @@ const UserSignUp = () => {
                                     "boxShadow": "0 0 4px #e03f42",
                                     "transition": "all 0.2s ease-in-out"
                                 } : {}}>
-                                    <Input type="password" id="cfpw-input" className="input-field" value={cfpw} onChange={(n) => { setCfpw(sanitizeInput(n.target.value)) }} />
+                                    <Input required type="password" id="cfpw-input" className="input-field" value={cfpw} onChange={(n) => { setCfpw(sanitizeInput(n.target.value)) }} />
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
                                     {isUnmatchedPw ? 
@@ -218,6 +230,18 @@ const UserSignUp = () => {
                                     }
                                 </div>
                             </div>
+
+                            <div className="pw-conditions">
+                                <h4 className="condition-title">password condition</h4>
+                                <ul>
+                                    <li><img src={Check}></img>password must be 8-64 characters long </li>
+                                    <li><img src={Check}></img>password must contain at least one uppercase and one lowercase letter</li>
+                                    <li><img src={Check}></img>password must contain at least one numeral </li>
+                                    <li><img src={Check}></img>password must contain at least one special character</li>
+                                    <li><img src={Check}></img>password must not contain space</li>
+                                </ul>
+                            </div>
+                            
                             {isAuth || hasSignupErr ? (
                                 <div className="global-msg-container" id={`${isAuth ? "success" : "error"}-container`}>
                                     <p className="global-msg" id={`global-${isAuth ? "success" : "error"}-message`}>
