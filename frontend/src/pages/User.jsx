@@ -1,6 +1,7 @@
 /* import modules */
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
 
 /* import styles */
 import "../styles/User.css";
@@ -11,18 +12,18 @@ import Avatar from "../components/Avatar";
 import MiniPost from "../components/MiniPost";
 import ChangeAvatar from "../components/ChangeAvatar";
 
-import displayNum from "../utils/displayNum";
 import displayTime from '../utils/displayTime'; 
 
 import LoadingIcon from "../assets/loading-circle.gif";
 
-const User = ({ visitor }) => {
+const User = () => {
   const [userData, setUserData] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false);
   const [authUser, setAuthUser] = useState(true);
   const [onEdit, setOnEdit] = useState(false);
 
+  const visitor = useAuthStore((state) => state.userData)._id;
   const userId = useParams().userId;
   const navigate = useNavigate();
 

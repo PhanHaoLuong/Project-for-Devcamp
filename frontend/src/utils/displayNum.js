@@ -17,6 +17,4 @@ const displayNum = (num) => {
     }
 }
 
-console.log(displayNum(0))
-
 export default displayNum;

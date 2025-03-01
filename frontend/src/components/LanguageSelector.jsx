@@ -66,7 +66,6 @@ function LanguageSelector({ setCodeLanguage }) {
                     transition={{ delay: index * 0.1 }}
                     className="list-item"
                   >
-                    {console.log(lang)}
                     <button
                       className={`list-item-button ${language === lang.id ? "selected" : ""}`}
                       onClick={() => handleLanguageSelect(lang.id)}

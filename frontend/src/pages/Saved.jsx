@@ -1,5 +1,6 @@
 /* import modules */
 import React, { useEffect, useState } from 'react';
+import { useAuthStore } from "../store/authStore";
 
 /* import styles */
 import '../styles/Saved.css';
@@ -13,9 +14,11 @@ import displayTime from '../utils/displayTime';
 // import assets
 import LoadingIcon from "../assets/loading-circle.gif";
 
-const Saved = ({ user }) => {
+const Saved = () => {
   const [userData, setUserData] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const user = useAuthStore((state) => state.userData);
 
   const userId = user._id;
 
