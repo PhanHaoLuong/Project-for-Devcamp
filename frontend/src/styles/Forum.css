@@ -69,7 +69,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-
 }
 
 .header-icon {
@@ -169,9 +168,9 @@
     margin-top: 40px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 600px ) {
     .forum-content {
-        width: 100%;
+        width: 95%;
         min-width: unset;
     }
 

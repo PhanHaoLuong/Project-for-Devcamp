@@ -24,7 +24,6 @@
 .dashboard {
     margin: 20px auto;
     background-color: var(--background-color);
-    border-radius: 10px;
     color: var(--font-color);
     width: 50%;
     min-width: 600px;
@@ -51,4 +50,21 @@
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 0.25rem;
+}
+
+@media (max-width: 600px) {
+    .dashboard {
+        width: 95%;
+        min-width: unset;
+    }
+
+    .welcome {
+        width: 95%;
+        min-width: unset;
+    }
+
+    .dashboard .body {
+        padding: 0.5rem 0.5rem;
+        height: auto;
+    }
 }
