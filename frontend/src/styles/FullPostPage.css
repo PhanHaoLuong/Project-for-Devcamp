@@ -53,14 +53,12 @@
 .fullpost-container .loading-container {
     background-color: #161E2C;
     width: 50%;
-    min-width: 37.5rem;
 }
 
 .fullpost-container .end-message {
     text-align: center;
     width: 50%;
     margin: 1.25rem;
-    min-width: 37.5rem;
 }
 
 
