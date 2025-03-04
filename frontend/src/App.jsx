@@ -3,6 +3,7 @@ import React, { useEffect, useState, memo } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from "./store/authStore";
 import { ToastContainer } from "react-toastify";
+import { axiosInstance } from "./lib/axios";
 import "react-toastify/dist/ReactToastify.css";
 
 /* import components */
@@ -32,13 +33,9 @@ function App() {
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth/verify", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        });
-        if (response.ok) {
-          const data = await response.json();
+        const response = await axiosInstance.post("/auth/verify");
+        if (response.status === 200) {
+          const data = await response.data;
           setAuthState(data);
         } else {
           setAuthState(null);
@@ -65,7 +62,6 @@ function App() {
         <Route path="/auth/signup" element={!userData ? <UserSignUp /> : <Navigate to="/" />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/post/:postId" element={<FullPostPage user={userData} />} />
-        <Route path="/component-test" element={<Test />} />
         <Route path="/post/create" element={<CreatePost />} />
         <Route path="/user/:userId" element={<User visitor={userData?._id} />} />
         <Route path="/user/:userId/saved" element={<Saved user={userData} />} />

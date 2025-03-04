@@ -1,6 +1,7 @@
 /* import modules */
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { axiosInstance } from "../lib/axios";
 
 /* import styles */
 import "../styles/User.css";
@@ -36,11 +37,11 @@ const User = ({ visitor }) => {
       }
   
       try {
-        const response = await fetch(`http://localhost:3000/user/${userId}`);
-        if (!response.ok) {
+        const response = await axiosInstance.post(`/user/${userId}`);
+        if (response.status !== 200) {
           throw new Error(`Failed to fetch user data. Status: ${response.status}`);
         }
-        const data = await response.json();
+        const data = await response.data;
         setUserData(data);
       } catch (error) {
         console.error("Error fetching user data:", error);

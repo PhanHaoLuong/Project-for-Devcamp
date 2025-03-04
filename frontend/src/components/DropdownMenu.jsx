@@ -2,18 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
 import "../styles/DropdownMenu.css";
+import { axiosInstance } from "../lib/axios";
 
 const DropdownMenu = ({ user, display }) => {
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:3000/auth/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-      if (response.ok) {
+      const response = await axiosInstance.post("/auth/logout",);
+      if (response.status === 200) {
         window.location.href = "/";
       } else {
         console.error("Failed to logout");

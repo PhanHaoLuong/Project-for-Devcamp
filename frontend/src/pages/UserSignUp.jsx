@@ -5,6 +5,8 @@ import sanitizeInput from '../utils/sanitizeInput';
 import { valEmail, valName, valPw } from '../utils/validateInput';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import { useAuthStore } from "../store/authStore";
+import { axiosInstance } from '../lib/axios';
 
 /* import Components */
 import Navbar from '../components/Navbar';
@@ -40,7 +42,7 @@ const UserSignUp = () => {
 
     // auth state
     const [authMsg, setAuthMsg] = useState("");
-    const [isAuth, setAuth] = useState(false);
+    const { userData, setAuthState } = useAuthStore();
 
     const navigate = useNavigate();
 
@@ -91,42 +93,29 @@ const UserSignUp = () => {
         setUserExists(false);
     }, [name])
 
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            if (isAuth){
-                navigate("/");
-                queryClient.invalidateQueries({queryKey: ['authUser']});
-            }
-        }, 2000);
-        return () => {clearTimeout(timeoutId)};
-    }, [isAuth]);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:3000/auth/signup', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                credentials: 'include',
-                body: JSON.stringify({ email, name, pw })
+            const response = await axiosInstance.post('/auth/signup', {
+                email: email,
+                name: name,
+                pw: pw,
               });
             if (response) {
-                const { message } =  await response.json();
+                const { message } =  await response.data;
                 setAuthMsg(message.toLowerCase());
-                if (!response.ok) {
+                if (response.status !== 201) {
                     setHasSignupErr(true);
-                    setAuth(false);
+                    setAuthState(null);
                     if (response.status === 409) {
                         setUserExists(true);
                     }
                 }
                 if (response.status === 201) {
                     setHasSignupErr(false);
-                    setAuth(true);
-                    window.location.reload();
+                    setAuthState(response.data.user);
+                    navigate("/");
                 }
             } else {
                 setAuthMsg('No response received.');

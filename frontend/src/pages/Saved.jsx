@@ -1,5 +1,6 @@
 /* import modules */
 import React, { useEffect, useState } from 'react';
+import { axiosInstance } from '../lib/axios';
 
 /* import styles */
 import '../styles/Saved.css';
@@ -23,11 +24,11 @@ const Saved = ({ user }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/user/${userId}/saved`);
-        if (!response.ok) {
+        const response = await axiosInstance.post(`/user/${userId}/saved`);
+        if (response.status !== 200) {
           throw new Error(`Failed to fetch user data. Status: ${response.status}`);
         }
-        const data = await response.json();
+        const data = await response.data;
         setUserData(data);
       } catch (error) {
         console.error("Error fetching user data:", error);

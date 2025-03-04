@@ -4,6 +4,7 @@ import sanitizeInput from '../utils/sanitizeInput';
 import { useNavigate } from 'react-router-dom';
 import { valName, valPw } from '../utils/validateInput';
 import { useQueryClient } from '@tanstack/react-query';
+import { useAuthStore } from '../store/authStore';
 
 /* import Components */
 import Button from '../components/Button';
@@ -15,6 +16,7 @@ import RevealedPw from '../assets/eye.png';
 
 /* import style */
 import '../styles/UserAuth.css';
+import { axiosInstance } from '../lib/axios';
 
 const UserAuth = ({}) => {
     const [name, setName] = useState("");
@@ -32,7 +34,7 @@ const UserAuth = ({}) => {
 
     // authenticate state
     const [authMsg, setAuthMsg] = useState("");
-
+    const { userData, setAuthState } = useAuthStore();
     const [isAuth, setAuth] = useState(false);
     const navigate = useNavigate();
 
@@ -63,44 +65,31 @@ const UserAuth = ({}) => {
         return () => {clearTimeout(timeoutId)};
     }, [name, pw]);
 
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            if (isAuth) {
-                navigate("/");
-                queryClient.invalidateQueries({queryKey: ['authUser']});
-            }
-        }, 2000)
-        return (() => {clearTimeout(timeoutId)});
-    }, [isAuth])
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:3000/auth/login', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                credentials: 'include',
-                body: JSON.stringify({ name, pw })
+            const response = await axiosInstance.post('/auth/login', {
+                name: name,
+                pw: pw,
               });
+            console.log(response.data)
             if (response) {
-                const { message } =  await response.json();
+                const { message } =  await response.data;
                 setAuthMsg(message.toLowerCase());
-                if (!response.ok) {
+                if (response.status !== 200) {
                     setAuth(false);
                     if (response.status === 404) {
                         setUserExists(false);
                     }
-                    if (pw && response.status === 400) {
+                    else if (pw && response.status === 400) {
                         setWrongPw(true);
                     }
                 }
-                if (response.status === 200) {
+                else {
                     setWrongPw(false);
-                    setAuth(true);
-                    window.location.reload();
+                    setAuthState(response.data.user);
+                    navigate("/");
                 }
 
             } else {

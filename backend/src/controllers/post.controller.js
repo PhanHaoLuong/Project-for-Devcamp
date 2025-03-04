@@ -204,7 +204,7 @@ export const recentPost = async (req, res) => {
         const page = req.query.page
         const limit = 10
         const skip = (page - 1) * limit
-    
+
         const posts = await post.find(
             {parent_post_id: { $exists: 0 }},{},
             {skip: skip, limit: limit, sort: {createdAt: -1}}

@@ -7,6 +7,7 @@ import Avatar from './Avatar';
 
 import ellipsis from "../utils/ellipsis";
 import displayTime from "../utils/displayTime";
+import { axiosInstance } from '../lib/axios';
 
 const SearchBox = () => {
   const [query, setQuery] = useState('');
@@ -49,15 +50,15 @@ const SearchBox = () => {
     try {
       setError(null);
 
-      const usersResult = await fetch(`http://localhost:3000/search/users?q=${query}`);
-      const postsResult = await fetch(`http://localhost:3000/search/posts?q=${query}`);
+      const usersResult = await axiosInstance.get(`/search/users?q=${query}`);
+      const postsResult = await axiosInstance.get(`/search/posts?q=${query}`);
+      
+      if (postsResult.status !== 200 || usersResult.status !== 200) throw new Error('Failed to fetch results');
 
-      if (!postsResult.ok || !usersResult.ok) throw new Error('Failed to fetch results');
-
-      const UsersData = await usersResult.json();
+      const UsersData = await usersResult.data;
       setUsersResult(UsersData);
 
-      const PostsData = await postsResult.json();
+      const PostsData = await postsResult.data;
       setPostsResult(PostsData);
       
     } catch (err) {
