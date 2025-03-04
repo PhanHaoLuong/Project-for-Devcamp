@@ -1,4 +1,4 @@
-import '../styles/statistics.css';
+import '../styles/Statistics.css';
 
 const Statistics = ({ iconClass, label, description, value }) => {
   return (
