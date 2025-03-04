@@ -281,7 +281,6 @@ const FileUpload = ({ viewModeFetchContent, existingFilesArr, viewMode, setParen
         } else {
             setIsEmpty(false);
         }
-        console.log(filesArr)
     }, [filesArr]);
 
     useEffect(() => {
@@ -301,9 +300,7 @@ const FileUpload = ({ viewModeFetchContent, existingFilesArr, viewMode, setParen
             if (scrollWidth > offsetWidth) {
                 setHiddenDirParts(prevHiddenParts => [...prevHiddenParts, dirPartsToDisplay[0]]);
                 setDirPartsToDisplay(prevDisplay => prevDisplay.slice(1));
-                console.log("overflowing");
             } else {
-                console.log("not overflowing");
             }
         }
     }, [dirPartsToDisplay]);

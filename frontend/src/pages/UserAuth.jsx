@@ -35,10 +35,7 @@ const UserAuth = ({}) => {
     // authenticate state
     const [authMsg, setAuthMsg] = useState("");
     const { userData, setAuthState } = useAuthStore();
-    const [isAuth, setAuth] = useState(false);
     const navigate = useNavigate();
-
-    const queryClient = useQueryClient();
 
     useEffect(() => {
         if (name && pw){ 
@@ -168,7 +165,7 @@ const UserAuth = ({}) => {
                                     </div>
                                 </div>
                             </div>
-                            {isAuth ? (
+                            {userData ? (
                                 <div className="global-msg-container" id="success-containe">
                                     <p className="global-msg" id="global-success-message">
                                         login successful. redirecting...

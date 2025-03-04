@@ -43,6 +43,8 @@
 
 .infinite-scroll-component>.post-container {
     gap: 10px;
+    width: 100%;
+    overflow:hidden;
 }
 
 .infinite-scroll-component__outerdiv {
@@ -67,7 +69,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-
 }
 
 .header-icon {
@@ -165,4 +166,45 @@
     letter-spacing: 1px;
     font-weight: bold;
     margin-top: 40px;
+}
+
+@media (max-width: 600px ) {
+    .forum-content {
+        width: 100%;
+        min-width: unset;
+        border-radius: 0;
+        margin: 6rem;
+        padding: 0 0 1rem;
+    }
+
+    .post-container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .header-title {
+        font-size: 1rem;
+    }
+
+    .post-options {
+        padding: 0.5rem;
+    }
+
+    .create-post-button {
+        width: fit-content;
+        padding: 5px 10px;
+    }
+
+    .sort-post-button,
+    .sort-post-button-active {
+        padding: 5px 10px;
+    }
+
+    .end-message{
+        font-size: 0.8rem;
+        width: 100%;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        text-align: center;
+    }
 }

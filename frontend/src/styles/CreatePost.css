@@ -174,9 +174,7 @@
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: lighter;
-  min-height: 200px;
   height: auto;
-  min-width: 500px;
   width: 100%;
   padding: 15px;
   resize: none;
@@ -490,4 +488,65 @@
 .confirm-button:hover {
   background-color: #008B8B;
   transition: ease-in-out 0.1s;
+}
+
+@media (max-width: 600px){
+  .create-post-container {
+    width: 100%;
+    min-width: unset;
+    margin-top: 6rem;
+  }
+
+  .create-post-header {
+    border-radius: 0;
+  }
+
+  .create-post-body {
+    border-radius: 0;
+  }
+
+  .create-content-container{
+    width: 100%;
+  }
+
+  .add-tag{
+    width: fit-content;
+  }
+
+  .add-code-button-title{
+    font-size: 0.8rem;
+    margin: auto;
+  }
+
+  .add-file-button {
+    width: fit-content;
+  }
+
+  .add-file-button p {
+    font-size: 0.8rem;
+    margin: auto;
+  }
+
+  .add-code-button {
+    width: fit-content;
+  }
+
+  .add-code-button-title {
+    font-size: 0.8rem;
+    margin: auto;
+  }
+
+  .add-code-button-logo {
+    margin: auto;
+  }
+
+  .submit-button {
+    width: fit-content;
+  }
+
+  .submit-button span {
+    font-size: 0.8rem;
+    margin: auto;
+  }
+
 }

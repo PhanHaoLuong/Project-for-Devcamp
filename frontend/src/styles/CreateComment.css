@@ -68,7 +68,6 @@
   font-weight: lighter;
   min-height: 200px;
   height: auto;
-  min-width: 500px;
   width: 100%;
   padding: 15px;
   resize: none;
@@ -234,4 +233,21 @@
 .submit-code-button:hover {
   background-color: #008B8B;
   transition: all 0.1s;
+}
+
+@media (max-width: 600px) {
+  .create-comment-container {
+    margin-top: 6rem;
+    width: 100%;
+  }
+
+  .create-comment-header {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+
+  .create-comment-body {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }

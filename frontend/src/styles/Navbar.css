@@ -93,7 +93,7 @@
 .navbar-actions {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.5em;
 }
 
 .hamburger-menu {
@@ -147,6 +147,10 @@
         width: 100%;
     }
 
+    .navbar-logo a{
+        font-size: 1rem;
+    }
+
     .navbar-links {
         display: none;
         flex-direction: column;
@@ -177,7 +181,7 @@
     }
 
     .navbar-actions {
-        gap: 1rem;
+        gap: 0.5rem;
     }
 
     .profile-circle {
@@ -185,4 +189,3 @@
         height: 30px;
     }
 }
-  

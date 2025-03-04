@@ -46,8 +46,6 @@ const UserSignUp = () => {
 
     const navigate = useNavigate();
 
-    const queryClient = useQueryClient();
-
     // validation handling
     useEffect(() => {
         setHasSignupErr(false);
@@ -207,10 +205,10 @@ const UserSignUp = () => {
                                     }
                                 </div>
                             </div>
-                            {isAuth || hasSignupErr ? (
-                                <div className="global-msg-container" id={`${isAuth ? "success" : "error"}-container`}>
-                                    <p className="global-msg" id={`global-${isAuth ? "success" : "error"}-message`}>
-                                        {`${isAuth ? "sign up successful. redirecting..." : authMsg}`}
+                            {userData || hasSignupErr ? (
+                                <div className="global-msg-container" id={`${userData ? "success" : "error"}-container`}>
+                                    <p className="global-msg" id={`global-${userData ? "success" : "error"}-message`}>
+                                        {`${userData ? "sign up successful. redirecting..." : authMsg}`}
                                     </p>
                                 </div>
                             ) : ("")}

@@ -20,7 +20,6 @@
     gap: 15px;
     border-radius: 15px;
     width: 100%;
-    min-width: 700px;
     padding: 20px 20px;
     background-color:  rgb(34, 46, 68);
     overflow: hidden;
@@ -339,3 +338,39 @@
 .no-scroll {
     overflow: hidden; 
   }
+
+@media (max-width: 600px) {
+    .file-panel{
+        width: 100%;
+    }
+
+    .file-container{
+        border-radius: 0;
+        padding: 1rem;
+    }
+
+    .upload-select-container{
+        gap: 0.5rem;
+    }
+
+    .upload-button{
+        width: fit-content;
+    }
+
+    .upload-button span{
+        font-size: 0.8rem;
+    }
+
+    .upload-type-select{
+        width: fit-content;
+    }
+
+    .upload-type-select span{
+        font-size: 0.8rem;
+    }
+
+    .button-container .remove-file{
+        width: fit-content;
+        font-size:0.8rem;
+    }
+}
