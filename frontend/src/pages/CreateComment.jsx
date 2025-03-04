@@ -15,6 +15,7 @@ import MiniPost from "../components/MiniPost";
 
 // import styles
 import "../styles/CreateComment.css";
+import { axiosInstance } from "../lib/axios";
 
 function CreateComment() {
     const [parentPost, setParentPost] = useState(null);
@@ -53,22 +54,15 @@ function CreateComment() {
 
     const handleSubmit = async () => { 
         try {
-            const response = await fetch(`http://localhost:3000/post/${postId}/comment`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify({
+            const response = await axiosInstance.post(`/post/${postId}/comment`, {
                     content: contentText,
                     codeData: {
                         language: codeLanguage,
                         data: codeContent,
                         lines: lineCount,
                     },
-                }), 
-            });
-            const data = await response.json();
+                }); 
+            const data = await response.data;
             if (response.status === 201) {
                 navigate(`/post/${data.redirect}`);
             } else {

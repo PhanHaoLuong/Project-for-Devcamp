@@ -12,7 +12,7 @@ router.post('/create', protected_route, create_post)
 //WIP
 router.delete('/delete/:postid', delete_post)
 
-router.get('/:postid', get_post, get_post_comments)
+router.post('/:postid', get_post, get_post_comments)
 
 //WIP
 router.post('/:postid/accept_comment', accept_comment)
@@ -32,6 +32,6 @@ router.post('/:postId/save', savePost)
 router.post('/:postId/unsave', unsavePost)
 
 // Get recent posts for home page
-router.post('/recent', recentPost)
+router.get('/recent', recentPost)
 
 export default router

@@ -5,6 +5,7 @@ import displayNum from "../utils/displayNum";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "../store/authStore";
 import { toast } from "react-toastify";
+import { axiosInstance } from "../lib/axios";
 
 // import assets
 import VoteIcon from '../assets/vote.svg';
@@ -19,18 +20,12 @@ const Vote = ({ voteCount, _id }) => {
     const [isDownvote, setDownvote] = useState(false);
     const [currVoteCount, updateVoteCount] = useState(voteCount);
 
-    const {data: authUser} = useQuery({ queryKey: ["authUser"]});
     const user = useAuthStore((state) => state.userData);
 
     const getVote = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/post/${_id}/voted`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",},
-                credentials: "include",
-            })
-            const responseJson = await response.json();
+            const response = await axiosInstance.get(`/post/${_id}/voted`)
+            const responseJson = await response.data;
             updateVoteCount(voteCount);
             if (responseJson === "upvote") {
                 setUpvote(true);
@@ -44,7 +39,7 @@ const Vote = ({ voteCount, _id }) => {
         }
     };
     useEffect(() => {
-        if (authUser) {
+        if (user) {
             getVote();
         }
     }, []);
@@ -84,10 +79,7 @@ const Vote = ({ voteCount, _id }) => {
 
 
     const handleVote = async (voteMethod) => {
-        const res = await fetch(`http://localhost:3000/post/${_id}/${voteMethod}`, {
-            method: "POST",
-            credentials: "include",
-        })
+        const res = await axiosInstance.post(`/post/${_id}/${voteMethod}`)
     };
 
     //Needs optimization

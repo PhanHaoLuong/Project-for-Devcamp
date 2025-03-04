@@ -78,8 +78,8 @@ export const login = async (req, res) => {
         }
 
         generateAndSetToken(res, existingUser._id);
-
-        res.status(200).json({ message: 'User logged in successfully', user: existingUser.name });
+        const userData = await user.findById(existingUser._id).select('-password');
+        res.status(200).json({ message: 'User logged in successfully', user: userData });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

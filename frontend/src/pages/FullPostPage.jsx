@@ -5,6 +5,7 @@ import displayTime from "../utils/displayTime";
 import { useAuthStore } from "../store/authStore";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { axiosInstance } from "../lib/axios";
 
 //import components
 import FullPost from "../components/FullPost";
@@ -32,17 +33,11 @@ const FullPostPage = ({user}) => {
         let fetchedData = [];
 
         try {
-            const response = await fetch(`http://localhost:3000/file/${postId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
+            const response = await axiosInstance.post(`/file/${postId}`, {
                     files_metadata: postData.files_metadata
                 })
-            })
-            if (response.ok) {
-                fetchedData = await response.json();
+            if (response.status === 200) {
+                fetchedData = await response.data;
             }
         } catch (err) {
             console.error(err)
@@ -62,19 +57,14 @@ const FullPostPage = ({user}) => {
 
         const fetchPost = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/post/${postId}?page=${fetchPage}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (!response.ok) {
+                const response = await axiosInstance.post(`/post/${postId}?page=${fetchPage}`);
+                if (response.status !== 200) {
                     if (response.status === 404) {
                         console.log('post not found')
                     }
                     return null;
                 } else {
-                    const data = await response.json();
+                    const data = response.data;
                     return data;
                 }
             } catch (error) {
@@ -102,7 +92,6 @@ const FullPostPage = ({user}) => {
             }
             page++;
             setFetchPage(page);
-        console.log(newComments)
     }
 
     useEffect(() => {
@@ -173,6 +162,7 @@ const FullPostPage = ({user}) => {
                             {acceptedComment.length ? (
                                 <FullPost isComment={true} isAccepted={true}
                                     _id={acceptedComment._id || null}
+                                    authorId={acceptedComment.author._id || null}
                                     voteCount={acceptedComment.votes || "N/A"}
                                     author={acceptedComment?.author?.name || "N/A"} 
                                     postTitle={acceptedComment.title || "N/A"}
@@ -189,6 +179,7 @@ const FullPostPage = ({user}) => {
                                     return (
                                         <FullPost isComment={true} isAccepted={false}
                                             _id={comment._id || null}
+                                            authorId={comment.author._id || null}
                                             voteCount={comment.votes || "N/A"}
                                             author={comment.author.name || "N/A"} 
                                             postTitle={comment.title || "N/A"}

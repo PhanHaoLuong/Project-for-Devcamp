@@ -1,3 +1,4 @@
+import { axiosInstance } from '../lib/axios.js';
 import React, { useEffect, useState } from 'react';
 
 /* import components */
@@ -21,13 +22,8 @@ const Home = ({ }) => {
   // Fetch 10 recent posts
   const getRecentPosts = async () => {
     try {
-      const response = await fetch('http://localhost:3000/post/recent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
+      const response = await axiosInstance.get('/post/recent');
+      const data = response.data;
       return data;
     } catch (error) {
       console.error('Error:', error);

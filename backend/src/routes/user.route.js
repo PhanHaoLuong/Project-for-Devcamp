@@ -5,7 +5,7 @@ import { editUserProfile, updateVisits } from '../controllers/user.controller.js
 
 const router = express.Router();
 
-router.get('/:userid', async (req, res) => {
+router.post('/:userid', async (req, res) => {
     try {
         const userid = req.params.userid;
         const userinfo = await user.findOne({ _id: userid },{password:0})
@@ -16,7 +16,7 @@ router.get('/:userid', async (req, res) => {
     }
 });
 
-router.get('/:userid/saved', async (req, res) => {
+router.post('/:userid/saved', async (req, res) => {
     try {
         const userid = req.params.userid;
         const userinfo = await user.findOne({ _id: userid },{password:0})
