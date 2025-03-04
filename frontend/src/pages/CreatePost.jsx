@@ -106,10 +106,10 @@ function CreatePost() {
                     },
                     files_metadata: files_metadata
                 });
-            const data = await response.json();
+            const { redirect } = await response.data;
             if (response.status === 201) {
                 setSubmitLoading(false);
-                navigate(`/post/${data.redirect}`);
+                navigate(`/post/${redirect}`);
             } else {
                 setTimeout(() => setSubmitLoading(false), 2000);
             }

@@ -19,8 +19,6 @@ import Saved from "./pages/Saved";
 import FullPostPage from "./pages/FullPostPage";
 import CreatePost from "./pages/CreatePost";
 import CreateComment from "./pages/CreateComment";
-import Test from "./pages/Test";
-
 import "./App.css";
 
 

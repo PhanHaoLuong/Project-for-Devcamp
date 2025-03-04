@@ -163,7 +163,7 @@ const FullPostPage = ({user}) => {
                                 <FullPost isComment={true} isAccepted={true}
                                     _id={acceptedComment._id || null}
                                     authorId={acceptedComment.author._id || null}
-                                    voteCount={acceptedComment.votes || "0"}
+                                    voteCount={acceptedComment.votes || 0}
                                     author={acceptedComment?.author?.name || "N/A"} 
                                     postTitle={acceptedComment.title || "N/A"}
                                     timeSincePost={displayTime(getTimeSincePost(acceptedComment.createdAt))}
@@ -180,7 +180,7 @@ const FullPostPage = ({user}) => {
                                         <FullPost isComment={true} isAccepted={false}
                                             _id={comment._id || null}
                                             authorId={comment.author._id || null}
-                                            voteCount={comment.votes || "0"}
+                                            voteCount={comment.votes || 0}
                                             author={comment.author.name || "N/A"} 
                                             postTitle={comment.title || "N/A"}
                                             timeSincePost={displayTime(getTimeSincePost(comment.createdAt))}

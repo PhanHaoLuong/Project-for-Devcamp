@@ -68,14 +68,10 @@ const User = ({ visitor }) => {
     const updateVisits = async () => {
       if (!authUser && userData) {
         try {
-          const response = await fetch(`http://localhost:3000/user/${userId}/visit`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ visitorid: visitor }),
+          const response = await axiosInstance.post(`http://localhost:3000/user/${userId}/visit`, {
+            visitorid: visitor,
           });
-          if (!response.ok) {
+          if (response.status !== 200) {
             throw new Error(`Failed to update visits. Status: ${response.status}`);
           }
         } catch (error) {
@@ -97,14 +93,10 @@ const User = ({ visitor }) => {
     const bio = form.querySelector(".bio").value;
 
     try {
-      const response = await fetch(`http://localhost:3000/user/${userId}/edit`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, realname, email, bio }),
+      const response = await axiosInstance.post(`/user/${userId}/edit`, {
+        name, realname, email, bio
       });
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error(`Failed to update profile. Status: ${response.status}`);
       }
       const data = await response.json();
