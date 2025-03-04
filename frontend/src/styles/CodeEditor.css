@@ -10,3 +10,9 @@
 .editor-panel {
     width: 100%;
 }
+
+@media (max-width: 600px){
+    .editor-content {
+        width: 100%;
+    }
+}

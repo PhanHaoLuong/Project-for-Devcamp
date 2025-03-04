@@ -43,6 +43,7 @@
 .header-content {
     display: flex;
     gap: 5px;
+    overflow: hidden;
 }
 
 .minipost-title {

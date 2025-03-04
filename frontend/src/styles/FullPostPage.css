@@ -76,4 +76,12 @@
         height: 0.8rem;
         width: 0.8rem;
     }
+
+    .fullpost-container .loading-container {
+        width: 90%;
+    }
+
+    .fullpost-container .end-message {
+        width: 90%;
+    }
 }
