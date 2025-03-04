@@ -196,7 +196,7 @@ const FullPostPage = ({user}) => {
                     
                 </div>
                 <button className="comment-button"
-                    onClick={() => {navigate("./comment", {state: {postData: postData}})}}
+                    onClick={handleCreateCommentClick}
                 >
                     <span className="comment-logo">
                         <img src={AddIcon}></img>

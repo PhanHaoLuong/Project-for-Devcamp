@@ -70,19 +70,14 @@ const UserAuth = ({}) => {
                 name: name,
                 pw: pw,
               });
-            console.log(response.data)
             if (response) {
                 const { message } =  await response.data;
                 setAuthMsg(message.toLowerCase());
-                if (response.status !== 200) {
-                    setAuth(false);
-                    if (response.status === 404) {
+                if (response.status === 404) {
                         setUserExists(false);
-                    }
-                    else if (pw && response.status === 400) {
+                } else if (pw && response.status === 400) {
                         setWrongPw(true);
                     }
-                }
                 else {
                     setWrongPw(false);
                     setAuthState(response.data.user);

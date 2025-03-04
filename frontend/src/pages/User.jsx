@@ -68,7 +68,7 @@ const User = ({ visitor }) => {
     const updateVisits = async () => {
       if (!authUser && userData) {
         try {
-          const response = await axiosInstance.post(`http://localhost:3000/user/${userId}/visit`, {
+          const response = await axiosInstance.post(`/user/${userId}/visit`, {
             visitorid: visitor,
           });
           if (response.status !== 200) {
@@ -99,7 +99,7 @@ const User = ({ visitor }) => {
       if (response.status !== 200) {
         throw new Error(`Failed to update profile. Status: ${response.status}`);
       }
-      const data = await response.json();
+      const data = await response.data;
       setUserData(data);
       setOnEdit(false);
     } catch (error) {
