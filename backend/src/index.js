@@ -14,9 +14,6 @@ import avatarRoute from "./routes/avatar.route.js";
 import searchRoute from "./routes/search.route.js";
 import fileRoute from "./routes/file.route.js"
 
-import file from "./models/file.model.js"
-import code from "./models/code.model.js"
-
 dotenv.config();
 
 const app = express();
@@ -58,7 +55,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
   );
 }
-
 
 app.post('/forum', get_forum_posts);
 

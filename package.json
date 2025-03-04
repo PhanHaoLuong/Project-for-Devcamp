@@ -1,7 +1,7 @@
 {
   "name": "test-web",
   "version": "1.0.0",
-  "main": "./src/index.js",
+  "main": "backend/src/index.js",
   "scripts": {
     "dev": "nodemon ./backend/src/index.js",
     "start": "node ./backend/src/index.js",
