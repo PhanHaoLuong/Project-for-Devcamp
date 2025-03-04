@@ -17,6 +17,7 @@ import RevealedPw from '../assets/eye.png';
 /* import style */
 import '../styles/UserAuth.css';
 import { axiosInstance } from '../lib/axios';
+import { set } from 'mongoose';
 
 const UserAuth = ({}) => {
     const [name, setName] = useState("");
@@ -71,24 +72,21 @@ const UserAuth = ({}) => {
                 pw: pw,
               });
             if (response) {
-                const { message } =  await response.data;
-                setAuthMsg(message.toLowerCase());
-                if (response.status === 404) {
-                        setUserExists(false);
-                } else if (pw && response.status === 400) {
-                        setWrongPw(true);
-                    }
-                else {
                     setWrongPw(false);
                     setAuthState(response.data.user);
                     navigate("/");
                 }
-
-            } else {
+            else {
                 setAuthMsg('No response received.');
             }
         } catch (error) {
-            console.error('Error signing up: ', error);
+            if (error.status === 404) {
+                setUserExists(false);
+            } else if (pw && error.status === 400) {
+                setWrongPw(true);
+            } else {
+                setAuthMsg('An error occurred. Please try again.');
+            }
         }
     };
 
