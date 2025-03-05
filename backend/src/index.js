@@ -47,6 +47,7 @@ app.use('/avatar', avatarRoute);
 app.use('/search', searchRoute);
 app.use('/uploads', express.static('./backend/src/uploads'));
 app.use('/file', fileRoute)
+app.post('/forum', get_forum_posts);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/dist")));
@@ -56,5 +57,4 @@ if (process.env.NODE_ENV === "production") {
   );
 }
 
-app.post('/forum', get_forum_posts);
 
