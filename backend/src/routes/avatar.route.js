@@ -7,12 +7,11 @@ import Avatar from '../models/avatar.model.js';
 const router = express.Router();
 
 const storage = multer.memoryStorage()
-
 const upload = multer({
   storage: storage,
   limits: { fileSize: 1000000 },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(cpp|cs|py|js|jsx|ts|tsx|java|go|rs|swift|txt)$/)) {
+    if (!file.originalname.match(/\.(png|jpeg|jpg|PNG|JPEG|JPG)$/)) {
       return cb(new Error('File not supported'));
     }
     cb(undefined, true);
