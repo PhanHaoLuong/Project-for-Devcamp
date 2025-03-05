@@ -28,7 +28,7 @@ const Forum = () => {
     const userData = useAuthStore((state) => state.userData);
 
     const fetchForum = async () => {
-        const response = await fetch(`/forum?page=${fetchPage}`, {
+        const response = await fetch(`http://localhost:3000/forum?page=${fetchPage}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
