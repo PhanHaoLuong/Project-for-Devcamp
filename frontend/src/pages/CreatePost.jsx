@@ -53,7 +53,7 @@ function CreatePost() {
     // confirm state
     const [confirmRmCodeDialog, setConfirmRmCodeDialog] = useState(false);
     const [confirmRmFileDialog, setConfirmRmFileDialog] = useState(false);
-
+    
     const navigate = useNavigate();
 
     const handleTitleChange = (event) => {
@@ -196,12 +196,50 @@ function CreatePost() {
                             </div>
                             <div className="add-tag-container">
                                 <div className="add-tag-text">tags</div>
-                                <button className="add-tag">
+                                {!(selectedTags.length) ? (
+                                <button className="add-tag"
+                                    onClick={(() => toggleSelectTag(!selectTagMode))}
+                                >
                                     <span className="add-tag-logo">
-                                        <img src={AddIcon}></img>
+                                    <img src={AddIcon}></img>
                                     </span>
                                     <span className="add-tag-title">add tag</span>
                                 </button>
+                                ) : (
+                                <>
+                                    <button className="change-tag"
+                                    onClick={(() => toggleSelectTag(!selectTagMode))}
+                                    >
+                                    <span className="change-tag-logo">
+                                        <img src={AddIcon}></img>
+                                    </span>
+                                    <span className="change-tag-title">change tag</span>
+                                    </button>
+                                    <div className="selected-tags">
+                                    {selectedTags.map(tag => 
+                                        <Tag 
+                                        tagName={tag.tagName}
+                                        />
+                                    )}
+                                    </div>
+                                </>
+                                )}
+                                <CSSTransition
+                                    in={selectTagMode}
+                                    classNames="selector-transition"
+                                    timeout={300}
+                                    mountOnEnter
+                                    unmountOnExit
+                                >
+                                    <TagSelector 
+                                        onConfirm={() => toggleSelectTag(false)}
+                                        getSelectedTags={data => setSelectedTags(data)}
+                                        getTagOptions={data => setTagOptions(data)}
+                                        setVisible={() => toggleSelectTag()}
+                                        currSelectedTags={selectedTags}
+                                        currTagOptions={tagOptions}
+                                    />
+                                </CSSTransition>
                             </div>
                             <div className="create-content-container">
                                 <div className="content-create-text">content</div>

@@ -22,7 +22,7 @@ const TagSelector = ({
     currSelectedTags,
     currTagOptions
 }) => {
-    const [tagOptions, setTagOptions] = useState([])
+    const [tagOptions, setTagOptions] = useState([]);
 
     const [searchValue, setSearchValue] = useState("");    
     const [moreTagHover, setMoreTagHover] = useState(false);
@@ -58,8 +58,7 @@ const TagSelector = ({
             );
         }
     }
-
-
+    
     // sample data
     const sampleData = [
         {
@@ -71,7 +70,7 @@ const TagSelector = ({
             id: uuidv4()
         },
         {
-            tagName: "cpp",
+            tagName: "c#",
             id: uuidv4()
         },
         {
@@ -80,6 +79,26 @@ const TagSelector = ({
         },
         {
             tagName: "java",
+            id: uuidv4()
+        },
+        {
+            tagName: "go",
+            id: uuidv4()
+        },
+        {
+            tagName: "c++",
+            id: uuidv4()
+        },
+        {
+            tagName: "c",
+            id: uuidv4()
+        },
+        {
+            tagName: "matlab",
+            id: uuidv4()
+        },
+        {
+            tagName: "carbon",
             id: uuidv4()
         },
         {
@@ -105,14 +124,41 @@ const TagSelector = ({
         {
             tagName: "kotlin",
             id: uuidv4()
+        },
+        {
+            tagName: "scala",
+            id: uuidv4()
+        },
+        {
+            tagName: "elixir",
+            id: uuidv4()
         }
     ]
+
+    const handleSearchTag = (searchValue) => {
+        const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const matchPattern = new RegExp(escapedSearchValue, 'i');
+        return sampleData.filter(tag => matchPattern.test(tag.tagName));
+    };
+
+    useEffect(() => {
+        const unselectedTags = sampleData.filter(
+            tag => !selectedTags.some(selected => selected.tagName === tag.tagName)
+        );
+        const result = searchValue ? 
+            handleSearchTag(searchValue).filter(
+                tag => !selectedTags.some(selected => selected.tagName === tag.tagName)
+            ) : (
+                unselectedTags
+            );
+        setTagOptions(result);
+    }, [searchValue, selectedTags]);
 
     /* set sample list of tag objects */
     useEffect(() => {
         if (currSelectedTags.length) {
             setSelectedTags(currSelectedTags);
-            setTagOptions(currTagOptions)         
+            setTagOptions(currTagOptions)       
         } else {
             setSelectedTags([]);
             setTagOptions(sampleData);
