@@ -84,11 +84,8 @@ function CreatePost() {
                     uploadedAt: file.uploadedAt
                 }))
             })
-
             //Send a request containing the files to the server
-            const files_upload = await axiosInstance.post("/file", {
-                formData
-            }, {
+            const files_upload = await axiosInstance.post("/file", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }

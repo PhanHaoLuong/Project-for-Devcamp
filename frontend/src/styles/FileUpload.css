@@ -373,4 +373,13 @@
         width: fit-content;
         font-size:0.8rem;
     }
+
+    .drop-screen .drop-screen-text{
+        font-size: 0.8rem;
+    }
+
+    .drop-screen-icon img{
+        height: 20px;
+        width: 20px;
+    }
 }
