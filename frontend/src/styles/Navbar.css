@@ -24,20 +24,29 @@
 /* Logo */
 .navbar-logo {
     display: flex;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
     margin-right: auto;
     max-width: 150px;
+    gap: 0.5rem;
 }
 
 .navbar-logo a {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: bold;
+    margin: auto;
     color: var(--font-color);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 .navbar-logo a:hover {
     color: var(--hover-color);
+}
+
+.navbar-logo img {
+    width: 2em;
+    height: 2em;
+    margin: auto;
+    cursor: pointer;
 }
   
 /* Links */

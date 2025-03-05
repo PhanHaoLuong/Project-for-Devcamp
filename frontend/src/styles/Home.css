@@ -1,67 +1,119 @@
 .welcome {
     padding: 1.5rem;
     border-radius: 10px;
-    margin: 80px auto 10px;
+    margin: 7rem auto 10px;
     background: url('../assets/img/welcome.png') no-repeat center / cover;
     color: var(--font-color);
     width: 50%;
     min-width: 600px;
     box-sizing: border-box;
+    display: block;
 }
 
 .welcome h1 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
+    margin: 0 auto 0.25rem;
+    width: 20em;
+    text-align: center;
+}
+
+.welcome h2 {
+    font-size: 1.2rem;
+    font-weight: 250;
+    margin-top: 0.5rem;
     margin-bottom: 0.25rem;
+    margin: 0.5rem auto 0.25rem;
+    width: 20em;
+    text-align: center;
 }
 
-.welcome p {
-    font-size: 0.8rem;
-    font-weight: lighter;
-    line-height: 1.5;
+.welcome .Logo {
+    width: fit-content;
+    margin: 0 auto;
 }
 
-.dashboard {
-    margin: 20px auto;
-    background-color: var(--background-color);
+.welcome img {
+    width: 6em;
+    height: 6em;
+}
+
+.join-forum {
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: #0a111f;
+    margin: 3rem auto 10px;
+    background: url('../assets/img/welcome2.png') no-repeat center / cover;
     color: var(--font-color);
     width: 50%;
     min-width: 600px;
-    box-sizing: border-box;
-    overflow: hidden;
+    display: block;
 }
 
-.dashboard .header {
-    min-height: 8%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    font-weight: bold;
+.website-name {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    margin-bottom: 1em;
+    gap: 0.3em;
 }
 
-.dashboard .body {
-    padding: 1rem;
-    background-color: var(--body-bg-color);
-}
-
-.dashboard h1 {
-    font-size: 1.2rem;
+.website-name h1 {
+    font-size: 1.8rem;
     font-weight: bold;
-    margin-bottom: 0.25rem;
+    align-self: center;
+}
+
+.join-forum img {
+    width: 4em;
+    height: 4em;
+}
+
+.join-forum .join-forum-desc {
+    display: flex;
+}
+
+.join-forum p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    text-align: left;
+    width: 70%;
+    color: var(--font-color);
+}
+
+.join-forum a {
+    background-color: var(--hover-color);
+    color: var(--font-color);
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: center;
+    width: fit-content;
+    height: fit-content;
+    padding: 0.5rem;
+    border-radius: 8px;
+    align-self: center;
+    margin-left: auto;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
 }
 
 @media (max-width: 600px) {
-    .dashboard {
-        width: 100%;
-        min-width: unset;
-        margin-bottom: 0;
-    }
-
     .welcome {
         width: 95%;
         min-width: unset;
+    }
+
+    .welcome h1 {
+        font-size: 1.2rem;
+    }
+
+    .welcome h2 {
+        font-size: 0.8rem;
+    }
+
+    .welcome img {
+        width: 4em;
+        height: 4em;
     }
 
     .dashboard .body {

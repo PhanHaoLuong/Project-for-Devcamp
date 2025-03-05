@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 import Avatar from "./Avatar";
 import DropdownMenu from "./DropdownMenu";
 import SearchBox from "./SearchBox";
 
+import Logo from "../assets/img/favicon.ico";
+
 const Navbar = ({ user }) => {
+  const navigate = useNavigate();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation(); 
@@ -47,6 +51,7 @@ const Navbar = ({ user }) => {
 
       {/* App name */}
       <div className="navbar-logo">
+        <img src={Logo} alt="favicon" className="navbar-favicon" onClick={() => navigate("/")} />
         <a href="/">CodeSharing</a>
       </div>
 
