@@ -23,6 +23,7 @@ const Forum = () => {
     const [fetchPage, setFetchPage] = useState(1);
     const [sortButtonActive, setSortButtonActive] = useState("recent");
     const [hasMore, setHasMore] = useState(true);
+    const [isCreatePostCooldown, setCreatePostCooldown] = useState(false);
 
     const navigate = useNavigate();
     const userData = useAuthStore((state) => state.userData);
@@ -72,6 +73,8 @@ const Forum = () => {
         } else {
             navigate("/post/create");
         }
+
+        
     };
 
     return (
@@ -84,7 +87,18 @@ const Forum = () => {
                     <span className="header-title">sharing</span>
                 </div>
                 <div className="post-options">
-                    <button className="create-post-button" onClick={handleCreatePostClick}>
+                    <button className="create-post-button" 
+                        onClick={
+                            () => {
+                                handleCreatePostClick();
+                                setCreatePostCooldown(true);
+                                setTimeout(() => {
+                                    setCreatePostCooldown(false);
+                                }, 1000)
+                            }
+                        }
+                        disabled={isCreatePostCooldown}
+                    >
                         <span className="create-post-button-logo">
                             <img src={AddIcon}></img>
                         </span>

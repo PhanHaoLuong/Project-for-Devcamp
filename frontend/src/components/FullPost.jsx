@@ -47,7 +47,10 @@ export default function FullPost({
     const [tagHoverIndex, setTagHoverIndex] = useState(null);
     const [saveButtonActive, setSaveButtonActive] = useState(user && user.savedPosts ? user.savedPosts.includes(_id) : false);
     const [isCodeExpanded, setIsCodeExpanded] = useState(false);
-    const [isFileViewerExpanded, setIsFileViewerExpanded] = useState(false);  
+    const [isFileViewerExpanded, setIsFileViewerExpanded] = useState(false); 
+ 
+    const [isSaveButtonCooldown, setSaveButtonCooldown] = useState(false);
+    const [isShareButtonCooldown, setShareButtonCooldown] = useState(false);
 
     if (folderContent){
         folderContent.sort((a, b) => {
@@ -93,6 +96,7 @@ export default function FullPost({
                 user.savedPosts.push(_id);
                 toast.success("Post saved.");
             }
+            
     
             setSaveButtonActive(!saveButtonActive);
         } catch (error) {
@@ -124,13 +128,30 @@ export default function FullPost({
                     {!isComment ? (
                         <div className="share-save-container">
                             {/* Share button */}
-                            <button className="share-button" onClick={copyUrl}>
+                            <button className="share-button" 
+                                onClick={() => {
+                                    copyUrl();
+                                    setShareButtonCooldown(true);
+                                    setTimeout(() => {
+                                        setShareButtonCooldown(false);
+                                    }, 1000)
+                                }}
+                                disabled={isShareButtonCooldown}
+                                
+                            >
                                 <span className="share-icon"><img src={ShareIcon} ></img></span>
                                 <span className="share-title">share</span>
                             </button>
                             {/* Save button */}
                             <button className={`${saveButtonActive ? "saved" : "save" }-button`}
-                                    onClick={toggleSavePost}>
+                                    onClick={async () => {
+                                        await toggleSavePost();
+                                        setSaveButtonCooldown(true);
+                                        setTimeout(() => setSaveButtonCooldown(false), 800);
+                                    }
+                                }
+                                disabled={isSaveButtonCooldown}
+                            >
                                 <span className="save-icon">
                                     <img src={saveButtonActive ? FilledSaveIcon : SaveIcon} ></img>
                                 </span>
