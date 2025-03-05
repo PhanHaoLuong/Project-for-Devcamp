@@ -21,6 +21,10 @@ const avatarSchema = new mongoose.Schema({
     currentAvatar: {
         type: Boolean,
         default: true
+    },
+    url: {
+        type: String,
+        required: true
     }
 }, { timestamps: true });
 
