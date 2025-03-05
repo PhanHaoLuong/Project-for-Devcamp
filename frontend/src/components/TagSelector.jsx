@@ -145,12 +145,13 @@ const TagSelector = ({
         const unselectedTags = sampleData.filter(
             tag => !selectedTags.some(selected => selected.tagName === tag.tagName)
         );
-        const result = searchValue ? 
+        const result = searchValue ? (
             handleSearchTag(searchValue).filter(
                 tag => !selectedTags.some(selected => selected.tagName === tag.tagName)
-            ) : (
-                unselectedTags
-            );
+            )
+        ) : (
+            unselectedTags
+        );
         setTagOptions(result);
     }, [searchValue, selectedTags]);
 

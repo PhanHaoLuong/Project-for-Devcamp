@@ -201,55 +201,54 @@
     margin-left: auto;
 }
 
-.code-lang-view-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 10px;
-  margin-top: 0;
-  margin-bottom: 20px;
+.uploaded-code-view-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
-.code-lang {
-  position: relative;
-  letter-spacing: 2px;
-  display: flex;
-  justify-content: space-between;
-  background-color: #222E44;
-  border-radius: 12px;
-  font-size: 1rem;
-  width: 100%;
-  font-weight: lighter;
-  padding: 15px 30px;
-  border: 1px #BBC7DD solid;
+.add-code-button {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
 }
 
-.code-view {
-  cursor: pointer;
-  position: absolute;
-  right: 1px;
-  top: 0;
-  width: 40%;
-  letter-spacing: 1px;
-  text-align: center;
-  flex-grow: 1;
-  background-color: #344870;
-  padding: 15px 30px;
-  font-size: 1rem;
-  border-left: none;
-  border-radius: 12px;
-  transition: all 0.3s;
+.uploaded-code-view {
+    letter-spacing: 2px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #222E44;
+    border-radius: 12px;
+    font-size: 1rem;
+    width: 100%;
+    font-weight: lighter;
+    border: 1px #BBC7DD solid;
 }
 
-.code-view:hover {
-  background-color: #395180;
-  transition: all 0.1s;
+.uploaded-code-view p {
+    text-align: center;
+    padding: 15px 30px;
 }
 
-.code-title {
-  font-size: 1.2rem;
-  letter-spacing: 0.5px;
-}
+.view-code-button {
+    cursor: pointer;
+    width: 40%;
+    letter-spacing: 1px;
+    text-align: center;
+    background-color: #344870;
+    padding: 15px 30px;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: none;
+    transition: all 0.3s;
+  }
+  
+  .view-code-button:hover {
+    background-color: #395180;
+    transition: all 0.1s;
+  }
 
 .uploaded-file-view-container {
     display: flex;
@@ -408,6 +407,7 @@
 .code-editor-page {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 100px;
@@ -415,12 +415,24 @@
   animation: fadeSlideIn 0.5s;
 }
 
+.code-editor-page .top-buttons-container {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-left-code-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 60%; 
+}
+
 .return-button {
-  cursor: pointer;
-  position:absolute;
-  top: 0;
-  left: 20%;
-  padding: 10px 30px;
+    min-width: 80px;
+  width: 40%;
+  padding: 10px 20px;
   border-radius: 12px;
   border: none;
   color: #BBC7DD;
@@ -435,16 +447,15 @@
 
 .submit-code-button {
   cursor: pointer;
-  position:absolute;
-  top: 0;
-  left: calc(20% + 200px);
-  padding: 10px 30px;
+  padding: 10px 20px;
   border-radius: 12px;
   border: none;
   color: #BBC7DD;
   font-weight: bold;
   background-color: #007070;
   transition: all 0.3s;
+  width: 40%;
+  min-width: 80px;
 }
 
 .submit-code-button:hover {

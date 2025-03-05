@@ -497,16 +497,6 @@ const FileUpload = ({ viewModeFetchContent, existingFilesArr, viewMode, setParen
                                 </>
                             ) : ("")}
                         </div>
-                        {!isEmpty && !viewMode ?( 
-                            <button className="remove-file" 
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                    setClearConfirmVisible(true);
-                                }}
-                            >
-                                remove all files
-                            </button>
-                        ) : ("")}
                     </div>
                     <div className="navigate-dir">
                         <div className="navigate-dir-buttons">
