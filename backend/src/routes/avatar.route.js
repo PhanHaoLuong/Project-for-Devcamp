@@ -12,7 +12,7 @@ const upload = multer({
   storage: storage,
   limits: { fileSize: 1000000 },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|bmp)$/)) {
+    if (!file.originalname.match(/\.(cpp|cs|py|js|jsx|ts|tsx|java|go|rs|swift|txt)$/)) {
       return cb(new Error('File not supported'));
     }
     cb(undefined, true);

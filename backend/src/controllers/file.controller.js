@@ -1,15 +1,10 @@
-import fs from 'fs';
-import multer from 'multer';
-
 import fileDB from '../models/file.model.js';
-
-const unlinkAsync = fs.promises.unlink
 
 export const upload_files = async (req, res) => {
     try {
         //To return an array of metadatas
         let files_id = req.files.map(async (file, i) => {
-            const fileContent = fs.readFileSync(file.path);
+            const fileContent = file.buffer;
 
             const metadata = req.body.metadata[i];
             const newFile = await new fileDB({ data: fileContent, metadata: metadata }).save();
@@ -18,7 +13,6 @@ export const upload_files = async (req, res) => {
         });
         
         //To delete the files after saving them to the database
-        await Promise.all(req.files.map(file => unlinkAsync(file.path)));
 
         files_id = await Promise.all(files_id);
 
