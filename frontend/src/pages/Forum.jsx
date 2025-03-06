@@ -12,7 +12,8 @@ import Loader from "../components/Loader";
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
 import AddIcon from "../assets/add.svg";
-import LoadingIcon from "../assets/loading-circle.gif"
+import LoadingIcon from "../assets/loading-circle.gif";
+import SecretIcon from "../assets/samsung-chihuahua.webp"
 
 // import styles
 import "../styles/Forum.css";
@@ -23,6 +24,10 @@ const Forum = () => {
     const [fetchPage, setFetchPage] = useState(1);
     const [sortButtonActive, setSortButtonActive] = useState("recent");
     const [hasMore, setHasMore] = useState(true);
+
+    const [isEasterEggVisible, setEasterEggVisible] = useState(false);
+    const [isEasterEggDiscovered, setEasterEggDiscovered] = useState(false);
+    const [EEClickCount, setEEClickCount] = useState(0);
 
     const navigate = useNavigate();
     const userData = useAuthStore((state) => state.userData);
@@ -60,6 +65,13 @@ const Forum = () => {
         getForum();
     }, [])
 
+    useEffect(() => {
+        if (EEClickCount === 5) {
+            setEasterEggVisible(true);
+            setEasterEggDiscovered(true);
+        }
+    }, [EEClickCount]);
+
     const getTimeSincePost = (createdAt) => {
         const now = new Date();
         const creationTime = new Date(createdAt);
@@ -75,67 +87,99 @@ const Forum = () => {
     };
 
     return (
-        <div className="page-content">
-            <div className="forum-content">
-                <div className="post-header" id="post-header">
-                    <span className="header-icon">
-                        <img src={TerminalIcon} alt="T"></img>
-                    </span>
-                    <span className="header-title">sharing</span>
+        <>
+            {isEasterEggVisible ? (
+                <div 
+                    style={{
+                        position: "fixed",
+                        right: "100px",
+                        zIndex: "999"
+                    }}
+                >
+                    <img src={SecretIcon} alt="samsung-chihuahua.webp"
+                        className="rando-easter-egg"
+                        style={{
+                            height: "80vw",
+                            width: "80vw"
+                        }}
+                        onClick={() => {
+                            setEasterEggVisible(false)
+                        }}
+                    />
                 </div>
-                <div className="post-options">
-                    <button className="create-post-button" onClick={handleCreatePostClick}>
-                        <span className="create-post-button-logo">
-                            <img src={AddIcon}></img>
+            ) : ("")}
+            <div className="page-content">
+                <div className="forum-content">
+                    <div className="post-header" id="post-header">
+                        <span className="header-icon">
+                            <img src={TerminalIcon} alt="T"
+                                style={!isEasterEggDiscovered ? {
+                                    cursor: "pointer"
+                                } : {}}
+                                onClick={() => {
+                                    if (!isEasterEggDiscovered) {
+                                        setEEClickCount(count => count + 1); 
+                                    }
+                                    
+                                }}
+                            />
                         </span>
-                        <span className="create-post-button-title" >create post</span>
-                    </button>
-                </div>
-                
-                    {forumPostData ? (
-                        <InfiniteScroll
-                            dataLength={forumPostData.length}
-                            next={() => {
-                                setTimeout(() => getForum(), 200);
-                            }}
-                            hasMore={hasMore}
-                            scrollThreshold={0.99}
-                            loader={
-                                <Loader />
-                            }
-                            endMessage={
-                                <div className="end-message">
-                                    you've reached the end! come back later for more
+                        <span className="header-title">sharing</span>
+                    </div>
+                    <div className="post-options">
+                        <button className="create-post-button" onClick={handleCreatePostClick}>
+                            <span className="create-post-button-logo">
+                                <img src={AddIcon}></img>
+                            </span>
+                            <span className="create-post-button-title" >create post</span>
+                        </button>
+                    </div>
+                    
+                        {forumPostData ? (
+                            <InfiniteScroll
+                                dataLength={forumPostData.length}
+                                next={() => {
+                                    setTimeout(() => getForum(), 200);
+                                }}
+                                hasMore={hasMore}
+                                scrollThreshold={0.99}
+                                loader={
+                                    <Loader />
+                                }
+                                endMessage={
+                                    <div className="end-message">
+                                        you've reached the end! come back later for more
+                                    </div>
+                                }
+                            >
+                                <div className="post-container">
+                                    {forumPostData.map((forumPost) => {
+                                        return (
+                                            <MiniPost
+                                                key={forumPost._id}
+                                                postId={forumPost._id}
+                                                author={forumPost.author.name}
+                                                postTitle={forumPost.title}
+                                                timeSincePost={displayTime(
+                                                    getTimeSincePost(forumPost.createdAt)
+                                                )}
+                                                postTags={null}
+                                                postContent={forumPost.content}
+                                                codeLanguage={forumPost.code?.language}
+                                                voteCount={forumPost.votes}
+                                                topLevelFolder={null}
+                                            />
+                                        );
+                                    })}
+                                    
                                 </div>
-                            }
-                        >
-                            <div className="post-container">
-                                {forumPostData.map((forumPost) => {
-                                    return (
-                                        <MiniPost
-                                            key={forumPost._id}
-                                            postId={forumPost._id}
-                                            author={forumPost.author.name}
-                                            postTitle={forumPost.title}
-                                            timeSincePost={displayTime(
-                                                getTimeSincePost(forumPost.createdAt)
-                                            )}
-                                            postTags={null}
-                                            postContent={forumPost.content}
-                                            codeLanguage={forumPost.code?.language}
-                                            voteCount={forumPost.votes}
-                                            topLevelFolder={null}
-                                        />
-                                    );
-                                })}
-                                
-                            </div>
-                        </InfiniteScroll>
-                    ) : (
-                        <div>cannot find post</div>
-                    )}
+                            </InfiniteScroll>
+                        ) : (
+                            <div>cannot find post</div>
+                        )}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
