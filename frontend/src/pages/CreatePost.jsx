@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
 import * as configs from '../configs.json';
 import { axiosInstance } from "../lib/axios.js";
+import EditorPanel from "../components/EditorPanel"
+import LanguageSelector from "../components/LanguageSelector";
+import { useCodeEditorStore } from "../store/useCodeEditorStore";
 
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
@@ -53,6 +56,17 @@ function CreatePost() {
     // confirm state
     const [confirmRmCodeDialog, setConfirmRmCodeDialog] = useState(false);
     const [confirmRmFileDialog, setConfirmRmFileDialog] = useState(false);
+    
+    const [isNarrowScreen, setIsNarrowScreen] = useState(false);
+    
+    useEffect(() => {
+        const handleResize = () => {
+            setIsNarrowScreen(window.innerWidth < 600);
+        };
+        window.addEventListener("resize", handleResize);
+        handleResize();
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     const navigate = useNavigate();
 
@@ -114,6 +128,21 @@ function CreatePost() {
             console.error(error);
         }
 
+    };
+
+    const { getCode, editor } = useCodeEditorStore();
+
+    const handleCodeSubmit = async (e) => { 
+        e.preventDefault();
+
+        try {
+            const code = getCode();
+            setLineCount(editor.getModel().getLineCount());
+            setCodeContent(code);
+            setCodeEdit(false);
+        } catch (error) {
+            console.error('Error : ', error);
+        }
     };
 
     useEffect(() => {
@@ -193,12 +222,50 @@ function CreatePost() {
                             </div>
                             <div className="add-tag-container">
                                 <div className="add-tag-text">tags</div>
-                                <button className="add-tag">
+                                {!(selectedTags.length) ? (
+                                <button className="add-tag"
+                                    onClick={(() => toggleSelectTag(!selectTagMode))}
+                                >
                                     <span className="add-tag-logo">
-                                        <img src={AddIcon}></img>
+                                    <img src={AddIcon}></img>
                                     </span>
                                     <span className="add-tag-title">add tag</span>
                                 </button>
+                                ) : (
+                                <>
+                                    <button className="change-tag"
+                                    onClick={(() => toggleSelectTag(!selectTagMode))}
+                                    >
+                                    <span className="change-tag-logo">
+                                        <img src={AddIcon}></img>
+                                    </span>
+                                    <span className="change-tag-title">change tag</span>
+                                    </button>
+                                    <div className="selected-tags">
+                                    {selectedTags.map(tag => 
+                                        <Tag 
+                                        tagName={tag.tagName}
+                                        />
+                                    )}
+                                    </div>
+                                </>
+                                )}
+                                <CSSTransition
+                                    in={selectTagMode}
+                                    classNames="selector-transition"
+                                    timeout={300}
+                                    mountOnEnter
+                                    unmountOnExit
+                                >
+                                    <TagSelector 
+                                        onConfirm={() => toggleSelectTag(false)}
+                                        getSelectedTags={data => setSelectedTags(data)}
+                                        getTagOptions={data => setTagOptions(data)}
+                                        setVisible={() => toggleSelectTag()}
+                                        currSelectedTags={selectedTags}
+                                        currTagOptions={tagOptions}
+                                    />
+                                </CSSTransition>
                             </div>
                             <div className="create-content-container">
                                 <div className="content-create-text">content</div>
@@ -234,20 +301,26 @@ function CreatePost() {
                                 </div>
                             </div>
                             {codeContent ? (
-                                <div className="code-lang-view-container">
+                                <div className="uploaded-code-view-container">
                                     <div className="code-title">code</div>
-                                    <div className="code-lang-view">
-                                        <span className="code-lang">
-                                            {codeLanguage || "no language detected"}
-                                            <div
-                                                className="code-view"
-                                                onClick={() => setCodeEdit(true)}
-                                            >
-                                                view code
-                                            </div>
-                                        </span>
+                                    <div className="uploaded-code-view">
+                                        <div className="code-lang">
+                                            <p>{codeLanguage}</p>
+                                        </div>
+                                        <button className="view-code-button"
+                                            onClick={() => {
+                                                setCodeEdit(true);
+                                                window.scrollTo({
+                                                    top: 0,
+                                                    behavior: "smooth"
+                                                });
+                                            }}
+                                        >
+                                            {"view code"}
+                                        </button>
                                     </div>
                                 </div>
+                                
                             ) : ("")}
                             {filesContent.length ? (
                                 <div className="uploaded-file-view-container">
@@ -285,7 +358,13 @@ function CreatePost() {
                                 {!codeContent ? (
                                     <button
                                         className="add-code-button"
-                                        onClick={() => setCodeEdit(true)}
+                                        onClick={() => {
+                                            window.scrollTo({
+                                                top: 0,
+                                                behavior: "smooth"
+                                            });
+                                            setCodeEdit(true)
+                                        }}
                                     >
                                         <span className="add-code-button-logo">
                                             <img src={AddIcon}></img>
@@ -328,14 +407,30 @@ function CreatePost() {
                 </div>
             ) : (isCodeEdit ? (
                     <div className="code-editor-page">
-                        <button
-                            className="return-button"
-                            onClick={() => {
-                                setCodeEdit(false);
+                        <div className="top-buttons-container"
+                            style={!isNarrowScreen ? {
+                                width: "60%"
+                            } : {
+                                width: "100%"
                             }}
                         >
-                            &lt; return to post page
-                        </button>
+                            <div className="top-left-code-buttons">
+                                <button
+                                    className="return-button"
+                                    onClick={() => {
+                                        setCodeEdit(false);
+                                    }}
+                                >
+                                    return to post
+                                </button>
+                                <button className="submit-code-button" 
+                                    onClick={handleCodeSubmit}
+                                >
+                                    submit code
+                                </button>
+                            </div>
+                            <LanguageSelector setCodeLanguage={setCodeLanguage}/>
+                        </div>
 
                         <CodeEditor
                             setCodeContent={setCodeContent}

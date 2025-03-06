@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import displayTime from "../utils/displayTime";
 import { useAuthStore } from "../store/authStore";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"
 
 // import components
 import MiniPost from "../components/MiniPost";
@@ -39,14 +39,12 @@ const Forum = () => {
                 "Content-Type": "application/json",
             },
         });
-
         if (!response.ok) {
             if (response.status === 404) {
                 console.log("cannot fetch any post.");
             }
         } else {
-            const data = response.json();
-            return data;
+            return await response.json();
         }
     };
 
@@ -85,6 +83,7 @@ const Forum = () => {
             navigate("/post/create");
         }
     };
+
 
     return (
         <>

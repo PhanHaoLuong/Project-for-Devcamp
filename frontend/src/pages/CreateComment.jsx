@@ -87,6 +87,7 @@ function CreateComment() {
         }
     };
 
+    const { getCode, editor } = useCodeEditorStore();
     const handleCodeSubmit = async (e) => { 
         e.preventDefault();
 
@@ -206,16 +207,26 @@ function CreateComment() {
                                 </div>
                             </div>
                             {codeContent ? (
-                                <div className="code-lang-view-container">
+                                <div className="uploaded-code-view-container">
                                     <div className="code-title">code</div>
-                                    <div className="code-lang-view">
-                                        <span className="code-lang">{codeLanguage || "no language detected"}
-                                            <div className="code-view"
-                                                    onClick={() => setCodeEdit(true)}>view code
-                                            </div>
-                                        </span>
+                                    <div className="uploaded-code-view">
+                                        <div className="code-lang">
+                                            <p>{codeLanguage}</p>
+                                        </div>
+                                        <button className="view-code-button"
+                                            onClick={() => {
+                                                setCodeEdit(true);
+                                                window.scrollTo({
+                                                    top: 0,
+                                                    behavior: "smooth"
+                                                });
+                                            }}
+                                        >
+                                            {"view code"}
+                                        </button>
                                     </div>
                                 </div>
+                                
                             ) : ("")}
                             <div className="buttons-container">
                                 {!codeContent ? (

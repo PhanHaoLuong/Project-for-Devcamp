@@ -24,6 +24,7 @@ const FullPostPage = ({user}) => {
     const [commentData, setCommentData] = useState([]);
     const [acceptedComment, setAcceptedComment] = useState([])
     const [fetchedFiles, setFetchedFiles] = useState([]);
+    const [isCommentButtonCooldown, setCommentButtonCooldown] = useState(false);
 
     const navigate = useNavigate();
     const userData = useAuthStore((state) => state.userData);
@@ -196,7 +197,12 @@ const FullPostPage = ({user}) => {
                     
                 </div>
                 <button className="comment-button"
-                    onClick={handleCreateCommentClick}
+                    onClick={() =>{ 
+                        handleCreateCommentClick();
+                        setCommentButtonCooldown(true);
+                        setTimeout(() => setCommentButtonCooldown(false), 1000)
+                    }}
+                    disabled={isCommentButtonCooldown}
                 >
                     <span className="comment-logo">
                         <img src={AddIcon}></img>
