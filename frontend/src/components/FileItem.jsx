@@ -22,6 +22,17 @@ const FileItem = ({
 }) => {
     
     const [confirmRemove, setConfirmRemove] = useState(false);
+    const [isNarrowScreen, setIsNarrowScreen] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsNarrowScreen(window.innerWidth < 600);
+        };
+        window.addEventListener("resize", handleResize);
+        handleResize();
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     const fileItemRef = useRef(null);
 
     const setFocus = (ref) => {
@@ -44,8 +55,8 @@ const FileItem = ({
             />
             <div className="file-item-container">
                 <button className="file-item" 
-                    onDoubleClick={openFile}
-                    onClick={() => setFocus(fileItemRef)}
+                    onDoubleClick={!isNarrowScreen ? openFile : () => {}}
+                    onClick={!isNarrowScreen ? () => setFocus(fileItemRef) : openFile}
                     ref={fileItemRef}
                 >
                     <div className="file-name-container">

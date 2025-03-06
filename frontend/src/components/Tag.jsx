@@ -8,6 +8,9 @@ const Tag = ({ tagName, onClick }) => {
     return (
         <div className="tag" 
             onClick={onClick}
+            style={{
+                userSelect: 'none'
+            }}
         >
             {tagName}
         </div>

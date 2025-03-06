@@ -28,6 +28,7 @@ const Forum = () => {
     const [isEasterEggVisible, setEasterEggVisible] = useState(false);
     const [isEasterEggDiscovered, setEasterEggDiscovered] = useState(false);
     const [EEClickCount, setEEClickCount] = useState(0);
+    const [isCreatePostCooldown, setCreatePostCooldown] = useState(false);
 
     const navigate = useNavigate();
     const userData = useAuthStore((state) => state.userData);
@@ -84,6 +85,8 @@ const Forum = () => {
         } else {
             navigate("/post/create");
         }
+
+        
     };
 
     return (
@@ -124,7 +127,18 @@ const Forum = () => {
                         <span className="header-title">sharing</span>
                     </div>
                     <div className="post-options">
-                        <button className="create-post-button" onClick={handleCreatePostClick}>
+                        <button className="create-post-button" 
+                        onClick={
+                            () => {
+                                handleCreatePostClick();
+                                setCreatePostCooldown(true);
+                                setTimeout(() => {
+                                    setCreatePostCooldown(false);
+                                }, 1000)
+                            }
+                        }
+                        disabled={isCreatePostCooldown}
+                    >
                             <span className="create-post-button-logo">
                                 <img src={AddIcon}></img>
                             </span>
