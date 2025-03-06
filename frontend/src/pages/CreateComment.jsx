@@ -12,6 +12,9 @@ import LoadingIcon from "../assets/loading-circle.gif"
 import CodeEditor from "./CodeEditor";
 import DialogBox from "../components/DialogBox";
 import MiniPost from "../components/MiniPost";
+import LanguageSelector from "../components/LanguageSelector";
+import { useCodeEditorStore } from "../store/useCodeEditorStore";
+
 
 // import styles
 import "../styles/CreateComment.css";
@@ -32,6 +35,17 @@ function CreateComment() {
     const [IsSubmitLoading, setSubmitLoading] = useState(false);
     const [confirmRmDialog, setConfirmRmDialog] = useState(false);
     
+    const [isNarrowScreen, setIsNarrowScreen] = useState(false);
+    
+    useEffect(() => {
+        const handleResize = () => {
+            setIsNarrowScreen(window.innerWidth < 600);
+        };
+        window.addEventListener("resize", handleResize);
+        handleResize();
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     const navigate = useNavigate();
     const { postId } = useParams();
     const { state } = useLocation();
@@ -70,6 +84,19 @@ function CreateComment() {
             }
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const handleCodeSubmit = async (e) => { 
+        e.preventDefault();
+
+        try {
+            const code = getCode();
+            setLineCount(editor.getModel().getLineCount());
+            setCodeContent(code);
+            setCodeEdit(false);
+        } catch (error) {
+            console.error('Error : ', error);
         }
     };
 
@@ -235,14 +262,30 @@ function CreateComment() {
                 </div>
             ) : (
                 <div className="code-editor-page">
-                    <button
-                        className="return-button"
-                        onClick={() => {
-                            setCodeEdit(false);
+                    <div className="top-buttons-container"
+                        style={!isNarrowScreen ? {
+                            width: "60%"
+                        } : {
+                            width: "100%"
                         }}
                     >
-                        &lt; return to comment page
-                    </button>
+                        <div className="top-left-code-buttons">
+                            <button
+                                className="return-button"
+                                onClick={() => {
+                                    setCodeEdit(false);
+                                }}
+                            >
+                                return to post
+                            </button>
+                            <button className="submit-code-button" 
+                                onClick={handleCodeSubmit}
+                            >
+                                submit code
+                            </button>
+                        </div>
+                        <LanguageSelector setCodeLanguage={setCodeLanguage}/>
+                    </div>
 
                     <CodeEditor
                         setCodeContent={setCodeContent}

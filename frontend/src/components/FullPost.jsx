@@ -228,7 +228,9 @@ export default function FullPost({
                                         mountOnEnter
                                         unmountOnExit
                                     >
-                                        <div className="code-content">
+                                        <div className="code-content"
+                                            style={{backgroundColor: "rgb(19, 25, 37)"}}
+                                        >
                                             <CodeViewer
                                                 codeContent={codeContent.data} 
                                                 codeLanguage={codeContent.language} 
