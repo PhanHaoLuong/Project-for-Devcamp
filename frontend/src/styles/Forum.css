@@ -41,7 +41,17 @@
 }
 
 .rando-easter-egg {
-    
+    cursor: pointer;
+    opacity: 1;
+    transition: all 0.6s;
+    height: 90vw;
+    width: 50vw;
+    align-content: center;
+}
+
+.rando-easter-egg:hover {
+    opacity: 0.1;
+    transition: all 0.3s;
 }
 
 

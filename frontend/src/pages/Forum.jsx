@@ -66,7 +66,7 @@ const Forum = () => {
     }, [])
 
     useEffect(() => {
-        if (EEClickCount === 5) {
+        if (EEClickCount === 7) {
             setEasterEggVisible(true);
             setEasterEggDiscovered(true);
         }
@@ -91,17 +91,14 @@ const Forum = () => {
             {isEasterEggVisible ? (
                 <div 
                     style={{
-                        position: "fixed",
-                        right: "100px",
+                        position: "absolute",
+
                         zIndex: "999"
                     }}
                 >
                     <img src={SecretIcon} alt="samsung-chihuahua.webp"
                         className="rando-easter-egg"
-                        style={{
-                            height: "80vw",
-                            width: "80vw"
-                        }}
+                        
                         onClick={() => {
                             setEasterEggVisible(false)
                         }}
