@@ -138,7 +138,7 @@ const FullPostPage = ({user}) => {
                         postTitle={postData.title || null}
                         timeSincePost={displayTime(getTimeSincePost(postData.createdAt))}
                         voteCount={postData.votes} 
-                        postTags={null} /* placeholder */
+                        postTags={postData.tags || null} /* placeholder */
                         postContent={postData.content || null}
                         codeContent={postData.code || null}
                         files={fetchedFiles.length && fetchedFiles}

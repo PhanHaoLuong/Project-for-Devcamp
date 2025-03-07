@@ -38,7 +38,7 @@ export default function FullPost({
     postTitle, 
     voteCount, 
     postContent, 
-    codeContent, 
+    codeContent,
     files,
     fetchFileContent,
     folderContent,

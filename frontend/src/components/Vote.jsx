@@ -93,11 +93,9 @@ const Vote = ({ voteCount, _id }) => {
                 <img className="vote-button" id="upvote" 
                     src={isUpvote ? UpvoteIcon : VoteIcon} 
                     onClick={() => {
-                        isUpvoteButtonCooldown && (user ? (
+                        user ? (isUpvoteButtonCooldown && (
                             handleUpvote()
-                        ) : (
-                            toast.error("You have to log in first!")
-                        ))
+                        )) : (toast.error("You have to log in first!"))
                         setUpvoteButtonCooldown(true);
                         setTimeout(() => setUpvoteButtonCooldown(false), 500);
                     }}
@@ -106,11 +104,9 @@ const Vote = ({ voteCount, _id }) => {
                 <img className="vote-button" id="downvote" 
                     src={isDownvote ? DownvoteIcon : VoteIcon}
                     onClick={() => {
-                        isDownvoteButtonCooldown && (user ? (
+                        user ? (isDownvoteButtonCooldown && (
                             handleDownvote()
-                        ) : (
-                            toast.error("You have to log in first!")
-                        ))
+                        )) : (toast.error("You have to log in first!"))
                         setDownvoteButtonCooldown(true);
                         setTimeout(() => setDownvoteButtonCooldown(false), 500);
                     }}
