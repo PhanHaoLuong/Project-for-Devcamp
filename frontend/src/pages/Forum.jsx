@@ -46,7 +46,7 @@ const Forum = () => {
     };
 
     const getForum = async () => {
-        const data = await fetchForum();
+        const data = await Promise.all(fetchForum());
         let page = fetchPage;        
         if (data.length < 10) {
             setHasMore(false);
