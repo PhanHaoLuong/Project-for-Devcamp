@@ -40,7 +40,7 @@ const Forum = () => {
                 console.log("cannot fetch any post.");
             }
         } else {
-            const data = response.json();
+            const data = await response.json();
             return data;
         }
     };
