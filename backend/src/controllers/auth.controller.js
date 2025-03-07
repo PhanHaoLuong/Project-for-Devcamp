@@ -8,21 +8,21 @@ dotenv.config();
 
 export const protected_route = async (req, res, next) => {
     try {
-        const token = req.cookies.accessToken
+        const token = req.cookies.accessToken;
         if (!token) {
-            return res.status(401).json({message:'Unauthorized'})
+            return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const decoded = jsonwebtoken.verify(token, process.env.secret_key)
+        const decoded = jsonwebtoken.verify(token, process.env.secret_key);
         if (!decoded) {
-            return res.status(401).json({message:'Unauthorized'})
+            return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const usr = await user.findById(decoded.userInfo).select('-password')
-        res.locals.user = usr
-        next()
+        const usr = await user.findById(decoded.userInfo).select('-password');
+        res.locals.user = usr;
+        next();
     } catch (error) {
-        res.status(500).json({message:error.message})
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -47,7 +47,6 @@ export const signup = async (req, res) => {
             return res.status(400).json({ message: "Invalid input" });
         }
 
-        // Check if email exists
         const isRealEmail = await verifyEmailExistence(email);
         if (!isRealEmail) {
             return res.status(400).json({ message: "Invalid or non-existent email." });
@@ -58,8 +57,7 @@ export const signup = async (req, res) => {
             return res.status(409).json({ message: "Email already in use." });
         }
 
-        // Strengthen password hashing
-        const salt = await bcryptjs.genSalt(12); // Use 12 rounds instead of 10 for more security
+        const salt = await bcryptjs.genSalt(12); 
         const hashedPass = await bcryptjs.hash(pw, salt);
 
         const newUser = new user({ name, password: hashedPass, email });
@@ -75,13 +73,15 @@ export const signup = async (req, res) => {
 
 const verifyEmailExistence = async (email) => {
     try {
-        const response = await fetch(`https://emailrep.io/${email}`);
+        console.log(email);
+        console.log(process.env.ABSTRACT_API_KEY);
+        const response = await fetch(`https://emailvalidation.abstractapi.com/v1/?api_key=${process.env.ABSTRACT_API_KEY}&email=${email}`);
         if (!response.ok) {
             throw new Error("Failed to verify email.");
         }
 
         const data = await response.json();
-        return data.reputation !== "unknown";
+        return data.is_valid_format.value && data.deliverability === "DELIVERABLE";
     } catch (error) {
         console.error("Email verification failed:", error.message);
         return false;

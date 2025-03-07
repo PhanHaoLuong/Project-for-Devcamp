@@ -1,13 +1,12 @@
-
 /*import modules */
 import React, { useState, useEffect } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
 import { valEmail, valName, valPw } from '../utils/validateInput';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import { toast } from "react-toastify";
 
 /* import Components */
-import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import Input from '../components/Input';
 
@@ -16,6 +15,7 @@ import HiddenPw from '../assets/eye-off.png';
 import RevealedPw from '../assets/eye.png';
 import Cross from '../assets/close-icon.svg';
 import Check from '../assets/tick.svg';
+import Arrow from '../assets/arrow-icon.svg';
 
 /* import style */
 import '../styles/UserSignUp.css';
@@ -69,8 +69,10 @@ const UserSignUp = () => {
                 setInvalName(false);
             }
 
-            if (pw && !valPw(pw)) {
+            const pwErrorMessage = valPw(pw);
+            if (pwErrorMessage) {
                 setInvalPw(true);
+                setAuthMsg(pwErrorMessage);
             } else {
                 setInvalPw(false);
             }
@@ -87,7 +89,6 @@ const UserSignUp = () => {
 
     useEffect(() => {
         setHasInvalInput([isInvalEmail, isInvalName, isInvalPw, isUnmatchedPw].some((isErr) => isErr === true));
-        console.log(isInvalEmail, isInvalName, isInvalPw, isUnmatchedPw);
     }, [isInvalEmail, isInvalName, isInvalPw, isUnmatchedPw])
 
     useEffect(() => {
@@ -109,12 +110,15 @@ const UserSignUp = () => {
     
         if (!valEmail(email)) {
             setAuthMsg("Please enter a valid email.");
+            toast.error(authMsg);
             setHasSignupErr(true);
             return;
         }
     
-        if (!valPw(pw)) {
-            setAuthMsg("Password must be at least 8 characters with uppercase, lowercase, number, and special character.");
+        const pwErrorMessage = valPw(pw);
+        if (pwErrorMessage) {
+            setAuthMsg(pwErrorMessage);
+            toast.error(authMsg);
             setHasSignupErr(true);
             return;
         }
@@ -133,6 +137,8 @@ const UserSignUp = () => {
             setAuthMsg(message.toLowerCase());
     
             if (!response.ok) {
+                toast.error(message);
+                setInvalEmail(true);
                 setHasSignupErr(true);
                 setAuth(false);
                 return;
@@ -150,7 +156,7 @@ const UserSignUp = () => {
         <>
             <div className="page-content">
                 <div className="signup-window">
-                    <form onSubmit={()=>{}} className="signup-form" autoComplete="off">
+                    <form onSubmit={handleSubmit} className="signup-form" autoComplete="off">
                         <div className="signup-body">
                             <div className="signup-title">
                                 <h1 id="signup-title">create new account</h1>
@@ -160,8 +166,7 @@ const UserSignUp = () => {
                                 <span className="field-title">
                                     <h2 id="email-title">email</h2>
                                 </span>
-                                <div className="input-box" style={
-                                isInvalEmail ? {
+                                <div className="input-box" style={isInvalEmail ? {
                                     "outline": "1px solid #e03f42",
                                     "boxShadow": "0 0 4px #e03f42",
                                     "transition": "all 0.2s ease-in-out"
@@ -170,7 +175,7 @@ const UserSignUp = () => {
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
                                     {isInvalEmail ? 
-                                        (<p className="error-message" id="invalid-email">email must be a valid email address.</p>) : ('')
+                                        (<p className="error-message" id="invalid-email">{`${isAuth ? "sign up successful. redirecting..." : authMsg}`}</p>) : ('')
                                     }
                                 </div>
                             </div>
@@ -179,8 +184,7 @@ const UserSignUp = () => {
                                 <span className="field-title">
                                     <h2 id="user-title">username</h2>
                                 </span>
-                                <div className="input-box" style={
-                                (isInvalName || userExists) ? {
+                                <div className="input-box" style={(isInvalName || userExists) ? {
                                     "outline": "1px solid #e03f42",
                                     "boxShadow": "0 0 4px #e03f42",
                                     "transition": "all 0.2s ease-in-out"
@@ -198,8 +202,7 @@ const UserSignUp = () => {
                                 <span className="field-title">
                                     <h2 id="user-title">password</h2>
                                 </span>
-                                <div className="input-box" style={
-                                isInvalPw ? {
+                                <div className="input-box" style={isInvalPw ? {
                                     "outline": "1px solid #e03f42",
                                     "boxShadow": "0 0 4px #e03f42",
                                     "transition": "all 0.2s ease-in-out"
@@ -208,7 +211,7 @@ const UserSignUp = () => {
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
                                     {isInvalPw ? 
-                                        (<p className="error-message" id="invalid-email">passwords must be 8-64 characters long.</p>) : ('')
+                                        (<p className="error-message" id="invalid-email">{authMsg}</p>) : ('')
                                     }
                                 </div>
                             </div>
@@ -216,8 +219,7 @@ const UserSignUp = () => {
                                 <span className="field-title">
                                     <h2 id="user-title">confirm password</h2>
                                 </span>
-                                <div className="input-box" style={
-                                isUnmatchedPw ? {
+                                <div className="input-box" style={isUnmatchedPw ? {
                                     "outline": "1px solid #e03f42",
                                     "boxShadow": "0 0 4px #e03f42",
                                     "transition": "all 0.2s ease-in-out"
@@ -230,25 +232,15 @@ const UserSignUp = () => {
                                     }
                                 </div>
                             </div>
-
-                            <div className="pw-conditions">
-                                <h4 className="condition-title">password condition</h4>
-                                <ul>
-                                    <li><img src={Check}></img>password must be 8-64 characters long </li>
-                                    <li><img src={Check}></img>password must contain at least one uppercase and one lowercase letter</li>
-                                    <li><img src={Check}></img>password must contain at least one numeral </li>
-                                    <li><img src={Check}></img>password must contain at least one special character</li>
-                                    <li><img src={Check}></img>password must not contain space</li>
-                                </ul>
-                            </div>
                             
-                            {isAuth || hasSignupErr ? (
+                            {isAuth ? (
                                 <div className="global-msg-container" id={`${isAuth ? "success" : "error"}-container`}>
                                     <p className="global-msg" id={`global-${isAuth ? "success" : "error"}-message`}>
                                         {`${isAuth ? "sign up successful. redirecting..." : authMsg}`}
                                     </p>
                                 </div>
                             ) : ("")}
+
                             <div className="signup-button-container">
                                 <a href="/auth/login" id="to-login-button">&lt; back to login </a>
                                 <Button children="sign up" type="submit" id="signup-button" onClick={
