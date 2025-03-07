@@ -49,7 +49,7 @@
 .language-selector-dropdown {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: -130%;
   margin-top: 8px;
   min-width: 222px;
   background-color: #2f3e5c;

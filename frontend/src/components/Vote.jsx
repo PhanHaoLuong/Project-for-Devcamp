@@ -19,7 +19,10 @@ const Vote = ({ voteCount, _id }) => {
     const [isUpvote, setUpvote] = useState(false);
     const [isDownvote, setDownvote] = useState(false);
     const [currVoteCount, updateVoteCount] = useState(voteCount);
+    const [isUpvoteButtonCooldown, setUpvoteButtonCooldown] = useState(false);
+    const [isDownvoteButtonCooldown, setDownvoteButtonCooldown] = useState(false);
 
+    
     const user = useAuthStore((state) => state.userData);
 
     const getVote = async () => {
@@ -89,12 +92,24 @@ const Vote = ({ voteCount, _id }) => {
             <div className="vote">
                 <img className="vote-button" id="upvote" 
                     src={isUpvote ? UpvoteIcon : VoteIcon} 
-                    onClick={() => user ? handleUpvote() : toast.error("You have to log in first!")}
+                    onClick={() => {
+                        user ? (isUpvoteButtonCooldown && (
+                            handleUpvote()
+                        )) : (toast.error("You have to log in first!"))
+                        setUpvoteButtonCooldown(true);
+                        setTimeout(() => setUpvoteButtonCooldown(false), 500);
+                    }}
                 ></img>
                 <span className="vote-count">{displayNum(currVoteCount)}</span>
                 <img className="vote-button" id="downvote" 
                     src={isDownvote ? DownvoteIcon : VoteIcon}
-                    onClick={() => user ? handleDownvote() : toast.error("You have to log in first!")}
+                    onClick={() => {
+                        user ? (isDownvoteButtonCooldown && (
+                            handleDownvote()
+                        )) : (toast.error("You have to log in first!"))
+                        setDownvoteButtonCooldown(true);
+                        setTimeout(() => setDownvoteButtonCooldown(false), 500);
+                    }}
                 ></img>
             </div>
         </>

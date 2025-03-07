@@ -48,7 +48,7 @@ export default function MiniPost({
                                 {postTitle || "defaultTitle"}
                             </p>
                             <div className="minipost-meta">
-                                <span className="minipost-author">{author || "defaultUser123"}・</span>
+                                <p className="minipost-author">{author || "defaultUser123"}・</p>
                                 <p className="time-since-post">
                                     {timeSincePost? `${timeSincePost} ago` : "N/A"}
                                 </p>

@@ -34,6 +34,8 @@
 .upload-select-container {
     display: flex;
     gap: 20px;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
 .button-container .remove-file {

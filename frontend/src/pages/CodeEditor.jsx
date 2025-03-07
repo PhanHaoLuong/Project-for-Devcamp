@@ -21,13 +21,7 @@ const CodeEditor = ({ setCodeContent, setCodeEdit ,codeContent, setCodeLanguage,
     }
     return (
         <>
-            <button className="submit-code-button" 
-                onClick={handleSubmit}
-            >
-                submit code
-            </button>
             <div className="editor-content">
-                <LanguageSelector setCodeLanguage={setCodeLanguage}/>
                 <EditorPanel codeContent={codeContent}/>
             </div>
         </>

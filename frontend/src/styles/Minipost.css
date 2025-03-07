@@ -47,19 +47,28 @@
 }
 
 .minipost-title {
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    display: -webkit-box; 
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical; 
+    word-break: break-all;
     font-weight: 600;
     font-size: 1.2rem;
 }
 
 .minipost-meta {
+    padding-top: 5px;
     display: flex;
+    align-items: center;
 }
 
 .time-since-post {
-    padding-top: 1%;
+    font-size: 0.8rem;
 }
 
 .minipost-author {
+    font-size: 0.8rem;
     color: #008B8B;
 }
 
@@ -91,8 +100,12 @@
 }
 
 .minipost-description {
+    word-break: break-all;
+    text-overflow: ellipsis; 
+    display: -webkit-box; 
+    -webkit-line-clamp: 5; 
+    -webkit-box-orient: vertical; 
     font-size: 0.9rem;
-    overflow: hidden;
 }
 
 .minipost-description .app-window {
