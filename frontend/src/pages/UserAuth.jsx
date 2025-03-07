@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
 import { useNavigate } from 'react-router-dom';
 import { valName, valPw } from '../utils/validateInput';
-import { useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '../store/authStore';
+import { axiosInstance } from '../lib/axios';
 
 /* import Components */
 import Button from '../components/Button';
@@ -16,8 +16,6 @@ import RevealedPw from '../assets/eye.png';
 
 /* import style */
 import '../styles/UserAuth.css';
-import { axiosInstance } from '../lib/axios';
-import { set } from 'mongoose';
 
 const UserAuth = ({}) => {
     const [name, setName] = useState("");
@@ -126,7 +124,7 @@ const UserAuth = ({}) => {
                                     <h2 id="pw-title">password</h2>
                                 </span>
                                 <div className="input-box" style={
-                                 (isInvalPw || isWrongPw) ? {
+                                 (isWrongPw) ? {
                                     "outline": "1px solid #e03f42",
                                     "boxShadow": "0 0 4px #e03f42",
                                     "transition": "all 0.2s ease-in-out"
@@ -137,16 +135,13 @@ const UserAuth = ({}) => {
                                     </span>
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
-                                    {isInvalPw ? 
-                                        (<p className="error-message" id="invalid-pw">passwords must be 8-64 characters long and must not contain special characters.</p>) : ('')
-                                    }
                                     {isWrongPw ? 
                                         (<p className="error-message" id="invalid-pw">incorrect password</p>) : ('')
                                     }
                                 </div>
 
                             </div>
-                            <div className="login-options-container">
+                            {/* <div className="login-options-container">
                                 <div className="login-options">
                                     <div className="rmb-container">
                                         <input type="checkbox" id="rmb-checkbox" value="" onClick={() => {setRmbMe(true)}}></input>
@@ -157,7 +152,7 @@ const UserAuth = ({}) => {
                                         <a href="" id="forgot-pw">forgot password?</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             {userData ? (
                                 <div className="global-msg-container" id="success-containe">
                                     <p className="global-msg" id="global-success-message">

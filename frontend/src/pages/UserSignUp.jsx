@@ -3,21 +3,13 @@ import React, { useState, useEffect } from 'react';
 import sanitizeInput from '../utils/sanitizeInput';
 import { valEmail, valName, valPw } from '../utils/validateInput';
 import { useNavigate } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
 import { toast } from "react-toastify";
-import { useAuthStore } from "../store/authStore";
 import { axiosInstance } from '../lib/axios';
+import { useQueryClient } from '@tanstack/react-query';
 
 /* import Components */
 import Button from '../components/Button';
 import Input from '../components/Input';
-
-/* import assets */
-import HiddenPw from '../assets/eye-off.png';
-import RevealedPw from '../assets/eye.png';
-import Cross from '../assets/close-icon.svg';
-import Check from '../assets/tick.svg';
-import Arrow from '../assets/arrow-icon.svg';
 
 /* import style */
 import '../styles/UserSignUp.css';
@@ -44,9 +36,11 @@ const UserSignUp = () => {
 
     // auth state
     const [authMsg, setAuthMsg] = useState("");
-    const { userData, setAuthState } = useAuthStore();
+    const [isAuth, setAuth] = useState(false);
 
     const navigate = useNavigate();
+
+    const queryClient = useQueryClient();
 
     // validation handling
     useEffect(() => {
@@ -95,9 +89,19 @@ const UserSignUp = () => {
         setUserExists(false);
     }, [name])
 
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if (isAuth){
+                navigate("/");
+                queryClient.invalidateQueries(['authUser']);
+            }
+        }, 2000);
+        return () => {clearTimeout(timeoutId)};
+    }, [isAuth]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+        
         if (!valEmail(email)) {
             setAuthMsg("Please enter a valid email.");
             toast.error(authMsg);
@@ -112,29 +116,31 @@ const UserSignUp = () => {
             setHasSignupErr(true);
             return;
         }
-    
+
         try {
-            const response = await axiosInstance.post("http://localhost:3000/auth/signup", {
-                email, name, pw,
+            const response = await axiosInstance.post('/auth/signup', {
+                email: email,
+                name: name,
+                pw: pw,
             });
-    
-            const { message } = await response.data;
+            if (response.status === 201) {
+                setHasSignupErr(false);
+                setAuth(true);
+                window.location.reload();
+                navigate("/");
+            }
+        } catch (error) {
+            const { message } =  await error.response.data;
             setAuthMsg(message.toLowerCase());
-    
-            if (!response.ok) {
+            if(error.status === 409) {
                 toast.error(message);
                 setInvalEmail(true);
                 setHasSignupErr(true);
                 setAuth(false);
-                return;
             }
-    
-            setHasSignupErr(false);
-            setAuth(true);
-            window.location.reload();
-        } catch (error) {
-            console.error("Error signing up:", error);
+            console.error('Error signing up: ', error);
         }
+
     };    
 
     return (

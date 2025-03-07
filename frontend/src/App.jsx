@@ -60,7 +60,6 @@ function App() {
         <Route path="/auth/signup" element={!userData ? <UserSignUp /> : <Navigate to="/" />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/post/:postId" element={<FullPostPage />} />
-        <Route path="/component-test" element={<Test />} />
         <Route path="/post/create" element={<CreatePost />} />
         <Route path="/user/:userId" element={<User />} />
         <Route path="/user/:userId/saved" element={<Saved />} />
