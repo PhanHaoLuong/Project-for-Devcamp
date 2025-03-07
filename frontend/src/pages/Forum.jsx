@@ -27,8 +27,8 @@ const Forum = () => {
     const navigate = useNavigate();
     const userData = useAuthStore((state) => state.userData);
 
-    const fetchForum = async () => {
-        const response = await fetch(`/forum?page=${fetchPage}`, {
+    const fetchForum = async (page) => {
+        const response = await fetch(`/forum?page=${page}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -46,14 +46,13 @@ const Forum = () => {
     };
 
     const getForum = async () => {
-        const data = await Promise.all(fetchForum());
+        const data = await fetchForum(fetchPage);
         let page = fetchPage;        
         if (data.length < 10) {
             setHasMore(false);
         }
-        page++;
         setForumPostData(forumPostData.concat(data));
-        setFetchPage(page);
+        setFetchPage(fetchPage + 1);
     };
 
     useEffect (() => {
