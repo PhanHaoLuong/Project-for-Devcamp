@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import displayTime from "../utils/displayTime";
 import { useAuthStore } from "../store/authStore";
 import { toast } from "react-toastify";
+import { axiosInstance } from "../lib/axios";
 
 // import components
 import MiniPost from "../components/MiniPost";
 import Loader from "../components/Loader";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
@@ -16,7 +18,7 @@ import LoadingIcon from "../assets/loading-circle.gif"
 
 // import styles
 import "../styles/Forum.css";
-import InfiniteScroll from "react-infinite-scroll-component";
+
 
 const Forum = () => {
     const [forumPostData, setForumPostData] = useState([]);
@@ -28,19 +30,14 @@ const Forum = () => {
     const userData = useAuthStore((state) => state.userData);
 
     const fetchForum = async () => {
-        const response = await fetch(`/forum?page=${fetchPage}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+        const response = await axiosInstance.post(`/forum?page=${fetchPage}`)
 
-        if (!response.ok) {
+        if (response.status !== 200) {
             if (response.status === 404) {
                 console.log("cannot fetch any post.");
             }
         } else {
-            const data = response.json();
+            const data = response.data;
             return data;
         }
     };
