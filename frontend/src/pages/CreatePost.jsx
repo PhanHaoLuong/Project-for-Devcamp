@@ -220,7 +220,7 @@ function CreatePost() {
                                 {isTitleEmptyErr && !titleText ? 
                                     <div className="error-message">title is required</div> : ""}
                             </div>
-                            <div className="add-tag-container">
+                            {/* <div className="add-tag-container">
                                 <div className="add-tag-text">tags</div>
                                 {!(selectedTags.length) ? (
                                 <button className="add-tag"
@@ -266,7 +266,7 @@ function CreatePost() {
                                         currTagOptions={tagOptions}
                                     />
                                 </CSSTransition>
-                            </div>
+                            </div> */}
                             <div className="create-content-container">
                                 <div className="content-create-text">content</div>
                                 <div className="content-area-container">
