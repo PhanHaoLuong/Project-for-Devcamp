@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
 import * as configs from '../configs.json';
+import { axiosInstance } from "../lib/axios.js";
 
 // import assets
 import TerminalIcon from "../assets/terminal.svg";
@@ -83,24 +84,16 @@ function CreatePost() {
                     uploadedAt: file.uploadedAt
                 }))
             })
-
             //Send a request containing the files to the server
-            const files_upload = await fetch("http://localhost:3000/file", {
-                method: "POST",
-                credentials: "include",
-                contentType: "multipart/form-data",
-                body: formData
-            })
-            const files_metadata = await files_upload.json(); //Getting the metadata + _id of the files uploaded
-
-
-            const response = await fetch("http://localhost:3000/post/create", {
-                method: "POST",
+            const files_upload = await axiosInstance.post("/file", formData, {
                 headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify({
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+            const files_metadata = await files_upload.data; //Getting the metadata + _id of the files uploaded
+
+
+            const response = await axiosInstance.post("/post/create", {
                     title: titleText,
                     content: contentText,
                     codeData: {
@@ -109,12 +102,11 @@ function CreatePost() {
                         lines: lineCount,
                     },
                     files_metadata: files_metadata
-                })
-            });
-            const data = await response.json();
+                });
+            const { redirect } = await response.data;
             if (response.status === 201) {
                 setSubmitLoading(false);
-                navigate(`/post/${data.redirect}`);
+                navigate(`/post/${redirect}`);
             } else {
                 setTimeout(() => setSubmitLoading(false), 2000);
             }

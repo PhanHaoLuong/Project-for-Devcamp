@@ -4,6 +4,7 @@ import sanitizeInput from '../utils/sanitizeInput';
 import { useNavigate } from 'react-router-dom';
 import { valName, valPw } from '../utils/validateInput';
 import { useQueryClient } from '@tanstack/react-query';
+import { useAuthStore } from '../store/authStore';
 
 /* import Components */
 import Button from '../components/Button';
@@ -15,6 +16,8 @@ import RevealedPw from '../assets/eye.png';
 
 /* import style */
 import '../styles/UserAuth.css';
+import { axiosInstance } from '../lib/axios';
+import { set } from 'mongoose';
 
 const UserAuth = ({}) => {
     const [name, setName] = useState("");
@@ -32,11 +35,8 @@ const UserAuth = ({}) => {
 
     // authenticate state
     const [authMsg, setAuthMsg] = useState("");
-
-    const [isAuth, setAuth] = useState(false);
+    const { userData, setAuthState } = useAuthStore();
     const navigate = useNavigate();
-
-    const queryClient = useQueryClient();
 
     useEffect(() => {
         if (name && pw){ 
@@ -63,51 +63,30 @@ const UserAuth = ({}) => {
         return () => {clearTimeout(timeoutId)};
     }, [name, pw]);
 
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            if (isAuth) {
-                navigate("/");
-                queryClient.invalidateQueries({queryKey: ['authUser']});
-            }
-        }, 2000)
-        return (() => {clearTimeout(timeoutId)});
-    }, [isAuth])
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:3000/auth/login', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                credentials: 'include',
-                body: JSON.stringify({ name, pw })
+            const response = await axiosInstance.post('/auth/login', {
+                name: name,
+                pw: pw,
               });
             if (response) {
-                const { message } =  await response.json();
-                setAuthMsg(message.toLowerCase());
-                if (!response.ok) {
-                    setAuth(false);
-                    if (response.status === 404) {
-                        setUserExists(false);
-                    }
-                    if (pw && response.status === 400) {
-                        setWrongPw(true);
-                    }
-                }
-                if (response.status === 200) {
                     setWrongPw(false);
-                    setAuth(true);
-                    window.location.reload();
+                    setAuthState(response.data.user);
+                    navigate("/");
                 }
-
-            } else {
+            else {
                 setAuthMsg('No response received.');
             }
         } catch (error) {
-            console.error('Error signing up: ', error);
+            if (error.status === 404) {
+                setUserExists(false);
+            } else if (pw && error.status === 400) {
+                setWrongPw(true);
+            } else {
+                setAuthMsg('An error occurred. Please try again.');
+            }
         }
     };
 
@@ -179,7 +158,7 @@ const UserAuth = ({}) => {
                                     </div>
                                 </div>
                             </div>
-                            {isAuth ? (
+                            {userData ? (
                                 <div className="global-msg-container" id="success-containe">
                                     <p className="global-msg" id="global-success-message">
                                         login successful. redirecting...

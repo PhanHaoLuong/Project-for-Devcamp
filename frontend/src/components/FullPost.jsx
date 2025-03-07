@@ -25,6 +25,7 @@ import TriangleIcon from '../assets/vote.svg';
 
 // import style
 import '../styles/FullPost.css';
+import { axiosInstance } from "../lib/axios.js";
 
 export default function FullPost({ 
     _id, 
@@ -77,15 +78,11 @@ export default function FullPost({
         try {
             const action = saveButtonActive ? 'unsave' : 'save';
             
-            const response = await fetch(`http://localhost:3000/post/${_id}/${action}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userId: user._id })
+            const response = await axiosInstance.post(`/post/${_id}/${action}`, {
+                userId: user._id
             });
     
-            if (!response.ok) {
+            if (response.status !== 200) {
                 throw new Error('Failed to update saved posts in the backend.');
             }
     

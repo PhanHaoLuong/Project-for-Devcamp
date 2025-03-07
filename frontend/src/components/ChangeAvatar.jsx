@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';      
 import '../styles/ChangeAvatar.css';
+import { axiosInstance } from '../lib/axios';
 
 const ChangeAvatar = ({ user, isAvatarPopupOpen, setIsAvatarPopupOpen }) => {
   const [selectedFile, setSelectedFile] = useState();
@@ -37,7 +37,7 @@ const ChangeAvatar = ({ user, isAvatarPopupOpen, setIsAvatarPopupOpen }) => {
     formData.append('avatar', selectedFile);
 
     try {
-      const response = await axios.post('http://localhost:3000/avatar/upload', formData,);
+      const response = await axiosInstance.post('/avatar/upload', formData,);
       setIsAvatarPopupOpen(false);
     } catch (error) {
       console.error('Error updating avatar:', error);

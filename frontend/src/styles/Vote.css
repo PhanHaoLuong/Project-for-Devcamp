@@ -20,7 +20,6 @@
     height: 2rem;
     gap: 5%;
     max-width: 50%;
-    min-width: 100px;
 }
 
 .vote-count {
@@ -48,4 +47,16 @@
 
 #downvote {
     transform: rotate(180deg);
+}
+
+@media (max-width: 600px) {
+    .vote {
+        max-width: 100%;
+        width: 80%;
+        height: 1.6rem;
+    }
+
+    .vote-count {
+        font-size: 0.5rem;
+    }
 }

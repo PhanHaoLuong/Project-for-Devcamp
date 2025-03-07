@@ -16,7 +16,7 @@ const Navbar = () => {
   const toggleMenu = (e) => {
     if (menuOpen && !e.target.closest(".navbar-links-container")) {
       setMenuOpen(false);
-    }
+    } 
   };
 
   const toggleDropdown = (e) => {
@@ -27,7 +27,6 @@ const Navbar = () => {
 
   document.addEventListener("mousedown", toggleMenu);
   document.addEventListener("mousedown", toggleDropdown);
-  
   }, [menuOpen, dropdownOpen]);
 
   // Check if the link is active
@@ -38,7 +37,7 @@ const Navbar = () => {
     }
     return currentPath === path;
   };
-  
+
   return (
     <nav className="navbar">
       {/* Hamburger menu */}

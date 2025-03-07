@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { axiosInstance } from '../lib/axios';
 import '../styles/Avatar.css';
 
 const Avatar = ({ id, name }) => {
@@ -9,11 +10,11 @@ const Avatar = ({ id, name }) => {
   useEffect(() => {
     const fetchAvatar = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/avatar/${id}`);
-        const data = await res.json();
+        const res = await axiosInstance.get(`/avatar/${id}`);
+        const data = await res.data;
         
-        if (data.avatarName) {
-          setAvatar(data.avatarName);
+        if (data.url) {
+          setAvatar(data.url);
         } else {
           setAvatar(defaultAvatar);
         }        
@@ -33,10 +34,10 @@ const Avatar = ({ id, name }) => {
   return (
     <img
       className="avatar"
-      src={`http://localhost:3000/uploads/avatars/${avatar}`}
+      src={`${avatar}`}
       alt={`${name || "User"}'s avatar`}
       onError={(e) => {
-        e.target.src = "http://localhost:3000/uploads/avatars/default.png";
+        e.target.src = "/uploads/avatars/default.png";
       }} 
     />
   );

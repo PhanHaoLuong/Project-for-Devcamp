@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
+import { axiosInstance } from "../lib/axios";
 
 /* import styles */
 import "../styles/User.css";
@@ -37,11 +38,11 @@ const User = () => {
       }
   
       try {
-        const response = await fetch(`http://localhost:3000/user/${userId}`);
-        if (!response.ok) {
+        const response = await axiosInstance.post(`/user/${userId}`);
+        if (response.status !== 200) {
           throw new Error(`Failed to fetch user data. Status: ${response.status}`);
         }
-        const data = await response.json();
+        const data = await response.data;
         setUserData(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -68,14 +69,10 @@ const User = () => {
     const updateVisits = async () => {
       if (!authUser && userData) {
         try {
-          const response = await fetch(`http://localhost:3000/user/${userId}/visit`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ visitorid: visitor }),
+          const response = await axiosInstance.post(`/user/${userId}/visit`, {
+            visitorid: visitor,
           });
-          if (!response.ok) {
+          if (response.status !== 200) {
             throw new Error(`Failed to update visits. Status: ${response.status}`);
           }
         } catch (error) {
@@ -97,17 +94,13 @@ const User = () => {
     const bio = form.querySelector(".bio").value;
 
     try {
-      const response = await fetch(`http://localhost:3000/user/${userId}/edit`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, realname, email, bio }),
+      const response = await axiosInstance.post(`/user/${userId}/edit`, {
+        name, realname, email, bio
       });
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error(`Failed to update profile. Status: ${response.status}`);
       }
-      const data = await response.json();
+      const data = await response.data;
       setUserData(data);
       setOnEdit(false);
     } catch (error) {

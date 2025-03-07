@@ -128,3 +128,10 @@
 .viewer-scroll-container {
     overflow: scroll;
 }
+
+@media (max-width: 600px) {
+    .file-viewer .code-viewer-header, .file-viewer .code-viewer-bottom-padding, .file-code-viewer-container {
+        width: 90%;
+    }
+    
+}

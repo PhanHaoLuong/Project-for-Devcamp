@@ -5,6 +5,8 @@ import { valEmail, valName, valPw } from '../utils/validateInput';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from "react-toastify";
+import { useAuthStore } from "../store/authStore";
+import { axiosInstance } from '../lib/axios';
 
 /* import Components */
 import Button from '../components/Button';
@@ -42,11 +44,9 @@ const UserSignUp = () => {
 
     // auth state
     const [authMsg, setAuthMsg] = useState("");
-    const [isAuth, setAuth] = useState(false);
+    const { userData, setAuthState } = useAuthStore();
 
     const navigate = useNavigate();
-
-    const queryClient = useQueryClient();
 
     // validation handling
     useEffect(() => {
@@ -95,16 +95,6 @@ const UserSignUp = () => {
         setUserExists(false);
     }, [name])
 
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            if (isAuth){
-                navigate("/");
-                queryClient.invalidateQueries({queryKey: ['authUser']});
-            }
-        }, 2000);
-        return () => {clearTimeout(timeoutId)};
-    }, [isAuth]);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
     
@@ -124,16 +114,11 @@ const UserSignUp = () => {
         }
     
         try {
-            const response = await fetch("http://localhost:3000/auth/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify({ email, name, pw }),
+            const response = await axiosInstance.post("http://localhost:3000/auth/signup", {
+                email, name, pw,
             });
     
-            const { message } = await response.json();
+            const { message } = await response.data;
             setAuthMsg(message.toLowerCase());
     
             if (!response.ok) {
