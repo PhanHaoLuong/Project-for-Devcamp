@@ -15,7 +15,7 @@ import Loader from "../components/Loader";
 // import styles
 import '../styles/FullPostPage.css'
 
-const FullPostPage = ({user}) => {
+const FullPostPage = () => {
     // states for inf scroll
     const [hasMore, setHasMore] = useState(true);
     const [fetchPage, setFetchPage] = useState(1);
@@ -143,7 +143,7 @@ const FullPostPage = ({user}) => {
                         codeContent={postData.code || null}
                         files={fetchedFiles.length && fetchedFiles}
                         fetchFileContent={fetchFileData}
-                        user={user}
+                        user={userData}
                     />
                 ) : ("")}
                     <InfiniteScroll
@@ -171,7 +171,7 @@ const FullPostPage = ({user}) => {
                                     postTags={null} // placeholder 
                                     postContent={acceptedComment.content || null}
                                     codeContent={acceptedComment.code || null}
-                                    user={user}
+                                    user={userData}
                                 />
                             ) : ("")}
                             

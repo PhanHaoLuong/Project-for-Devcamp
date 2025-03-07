@@ -53,16 +53,17 @@ function App() {
 
   return (
     <Router>
-      <MemoizedNavbar user={userData} />
+      <MemoizedNavbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth/login" element={!userData ? <UserAuth /> : <Navigate to="/" />} />
         <Route path="/auth/signup" element={!userData ? <UserSignUp /> : <Navigate to="/" />} />
         <Route path="/forum" element={<Forum />} />
-        <Route path="/post/:postId" element={<FullPostPage user={userData} />} />
+        <Route path="/post/:postId" element={<FullPostPage />} />
+        <Route path="/component-test" element={<Test />} />
         <Route path="/post/create" element={<CreatePost />} />
-        <Route path="/user/:userId" element={<User visitor={userData?._id} />} />
-        <Route path="/user/:userId/saved" element={<Saved user={userData} />} />
+        <Route path="/user/:userId" element={<User />} />
+        <Route path="/user/:userId/saved" element={<Saved />} />
         <Route path="/post/:postId/comment" element={<CreateComment />} />
       </Routes>
       <ToastContainer theme="dark" closeOnClick stacked toastClassName={() => "custom-toast"} />

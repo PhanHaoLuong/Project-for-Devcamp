@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
 import "../styles/Navbar.css";
 import Avatar from "./Avatar";
 import DropdownMenu from "./DropdownMenu";
 import SearchBox from "./SearchBox";
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation(); 
+  const user = useAuthStore((state) => state.userData);
 
   useEffect(() => {
   const toggleMenu = (e) => {
