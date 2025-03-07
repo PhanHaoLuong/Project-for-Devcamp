@@ -8,21 +8,21 @@ dotenv.config();
 
 export const protected_route = async (req, res, next) => {
     try {
-        const token = req.cookies.accessToken
+        const token = req.cookies.accessToken;
         if (!token) {
-            return res.status(401).json({message:'Unauthorized'})
+            return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const decoded = jsonwebtoken.verify(token, process.env.secret_key)
+        const decoded = jsonwebtoken.verify(token, process.env.secret_key);
         if (!decoded) {
-            return res.status(401).json({message:'Unauthorized'})
+            return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const usr = await user.findById(decoded.userInfo).select('-password')
-        res.locals.user = usr
-        next()
+        const usr = await user.findById(decoded.userInfo).select('-password');
+        res.locals.user = usr;
+        next();
     } catch (error) {
-        res.status(500).json({message:error.message})
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -41,27 +41,50 @@ const generateAndSetToken = (res, userId) => {
 // Signup controller
 export const signup = async (req, res) => {
     const { name, pw, email } = req.body;
+
     try {
         if (!name || !pw || name.length < 4 || pw.length < 8) {
-            return res.status(400).json({ message: 'Invalid input' });
+            return res.status(400).json({ message: "Invalid input" });
         }
 
-        const existingUser = await user.findOne({ name });
+        const isRealEmail = await verifyEmailExistence(email);
+        if (!isRealEmail) {
+            return res.status(400).json({ message: "Invalid or non-existent email." });
+        }
+
+        const existingUser = await user.findOne({ email });
         if (existingUser) {
-            return res.status(409).json({ message: 'User already exists' });
+            return res.status(409).json({ message: "Email already in use." });
         }
 
-        const hashedPass = await bcryptjs.hash(pw, 10);
+        const salt = await bcryptjs.genSalt(12); 
+        const hashedPass = await bcryptjs.hash(pw, salt);
+
         const newUser = new user({ name, password: hashedPass, email });
         await newUser.save();
 
         generateAndSetToken(res, newUser._id);
 
-        res.status(201).json({ message: 'User created successfully', user: newUser.name });
+        res.status(201).json({ message: "User created successfully", user: newUser.name });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+};
+
+const verifyEmailExistence = async (email) => {
+    try {
+        const response = await fetch(`https://emailvalidation.abstractapi.com/v1/?api_key=${process.env.ABSTRACT_API_KEY}&email=${email}`);
+        if (!response.ok) {
+            throw new Error("Failed to verify email.");
+        }
+
+        const data = await response.json();
+        return data.is_valid_format.value && data.deliverability === "DELIVERABLE";
+    } catch (error) {
+        console.error("Email verification failed:", error.message);
+        return false;
+    }
+};
 
 // Login controller
 export const login = async (req, res) => {
