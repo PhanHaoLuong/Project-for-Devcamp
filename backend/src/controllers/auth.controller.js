@@ -73,8 +73,6 @@ export const signup = async (req, res) => {
 
 const verifyEmailExistence = async (email) => {
     try {
-        console.log(email);
-        console.log(process.env.ABSTRACT_API_KEY);
         const response = await fetch(`https://emailvalidation.abstractapi.com/v1/?api_key=${process.env.ABSTRACT_API_KEY}&email=${email}`);
         if (!response.ok) {
             throw new Error("Failed to verify email.");
