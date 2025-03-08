@@ -100,7 +100,8 @@
 }
 
 .minipost-description {
-    word-break: normal;
+    word-break: break-all;
+    word-wrap: normal;
     text-overflow: ellipsis; 
     display: -webkit-box; 
     -webkit-line-clamp: 5; 
