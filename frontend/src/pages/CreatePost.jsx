@@ -106,6 +106,8 @@ function CreatePost() {
             })
             const files_metadata = await files_upload.data; //Getting the metadata + _id of the files uploaded
 
+            let tags = [];
+            selectedTags.forEach(tag => { tags.push(tag.tagName) });
 
             const response = await axiosInstance.post("/post/create", {
                     title: titleText,
@@ -116,7 +118,7 @@ function CreatePost() {
                         lines: lineCount,
                     },
                     files_metadata: files_metadata,
-                    tags: selectedTags
+                    tags: tags
                 });
             const { redirect } = await response.data;
             if (response.status === 201) {
