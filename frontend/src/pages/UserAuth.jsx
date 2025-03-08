@@ -34,26 +34,32 @@ const UserAuth = ({}) => {
     // authenticate state
     const [authMsg, setAuthMsg] = useState("");
     const { userData, setAuthState } = useAuthStore();
+    const [isClicked, setClicked] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
+        setInvalName(false);
+        setInvalPw(false);
+        setUserExists(true);
+        setWrongPw(false);
+
         if (name && pw){ 
             setHasEmptyRequired(false);
         } else {
             setHasEmptyRequired(true);
         }
-        setInvalPw(false);
-        setWrongPw(false);
-        setInvalName(false);
-        setUserExists(true);
         const timeoutId = setTimeout(() => {
             if (name && !valName(name)){
                 setInvalName(true);
             } else {
                 setInvalName(false);
             }
-            if (pw && !valPw(pw)){
+
+            const pwErrorMessage = valPw(pw);
+            if (pwErrorMessage || !pw) {
                 setInvalPw(true);
+                setAuthMsg(pwErrorMessage);
             } else {
                 setInvalPw(false);
             }
@@ -63,6 +69,13 @@ const UserAuth = ({}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const pwErrorMessage = valPw(pw);
+            if (pwErrorMessage) {
+                setAuthMsg(pwErrorMessage);
+                setInvalPw(true);
+                return;
+            }
 
         try {
             const response = await axiosInstance.post('/auth/login', {
@@ -82,6 +95,8 @@ const UserAuth = ({}) => {
                 setUserExists(false);
             } else if (pw && error.status === 400) {
                 setWrongPw(true);
+                setInvalPw(true);
+                setAuthMsg('Incorrect password.');
             } else {
                 setAuthMsg('An error occurred. Please try again.');
             }
@@ -124,7 +139,7 @@ const UserAuth = ({}) => {
                                     <h2 id="pw-title">password</h2>
                                 </span>
                                 <div className="input-box" style={
-                                 (isWrongPw) ? {
+                                 (isWrongPw || isInvalPw) ? {
                                     "outline": "1px solid #e03f42",
                                     "boxShadow": "0 0 4px #e03f42",
                                     "transition": "all 0.2s ease-in-out"
@@ -135,24 +150,12 @@ const UserAuth = ({}) => {
                                     </span>
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
-                                    {isWrongPw ? 
-                                        (<p className="error-message" id="invalid-pw">incorrect password</p>) : ('')
+                                    {isInvalPw ? 
+                                        (<p className="error-message" id="invalid-email">{authMsg}</p>) : ('')
                                     }
                                 </div>
 
                             </div>
-                            {/* <div className="login-options-container">
-                                <div className="login-options">
-                                    <div className="rmb-container">
-                                        <input type="checkbox" id="rmb-checkbox" value="" onClick={() => {setRmbMe(true)}}></input>
-                                        <span className="checkmark"></span>
-                                        <label id="rmb-label">remember me</label>
-                                    </div>
-                                    <div>
-                                        <a href="" id="forgot-pw">forgot password?</a>
-                                    </div>
-                                </div>
-                            </div> */}
                             {userData ? (
                                 <div className="global-msg-container" id="success-containe">
                                     <p className="global-msg" id="global-success-message">
@@ -163,11 +166,11 @@ const UserAuth = ({}) => {
                             <div className="login-button-container">
                                 <Button children="log in" type="submit" id={`login-button`}
                                 onClick={
-                                    !(hasEmptyRequired) ? handleSubmit : (event) => {
+                                    !(hasEmptyRequired || isInvalName || isInvalPw || isClicked) ? handleSubmit : (event) => {
                                         event.preventDefault();
                                     }
                                 }
-                                style={(hasEmptyRequired || isInvalName || isInvalPw) ? {
+                                style={(hasEmptyRequired || isInvalName || isInvalPw || isClicked) ? {
                                     "backgroundColor":"grey",
                                     "color": "#282828",
                                     "cursor": "not-allowed",

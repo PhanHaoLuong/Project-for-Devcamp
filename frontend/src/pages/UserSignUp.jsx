@@ -33,9 +33,11 @@ const UserSignUp = () => {
 
     // gray-out signup button state
     const [isHover, setHover] = useState(true); 
+    const [isClicked, setClicked] = useState(false);
 
     // auth state
-    const [authMsg, setAuthMsg] = useState("");
+    const [authPwMsg, setAuthPwMsg] = useState("");
+    const [authEmailMsg, setAuthEmailMsg] = useState("");
     const [isAuth, setAuth] = useState(false);
 
     const navigate = useNavigate();
@@ -53,6 +55,7 @@ const UserSignUp = () => {
         const timeoutId = setTimeout(() => {
             if (email && !valEmail(email)) {
                 setInvalEmail(true);
+                setAuthEmailMsg("Please enter a valid email.");
              } else {
                 setInvalEmail(false);
             }
@@ -66,7 +69,7 @@ const UserSignUp = () => {
             const pwErrorMessage = valPw(pw);
             if (pwErrorMessage) {
                 setInvalPw(true);
-                setAuthMsg(pwErrorMessage);
+                setAuthPwMsg(pwErrorMessage);
             } else {
                 setInvalPw(false);
             }
@@ -101,18 +104,22 @@ const UserSignUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setClicked(true);
         
         if (!valEmail(email)) {
-            setAuthMsg("Please enter a valid email.");
-            toast.error(authMsg);
+            setAuthEmailMsg("Please enter a valid email.");
+            toast.error(authEmailMsg);
+            setInvalEmail(true);
             setHasSignupErr(true);
             return;
         }
     
         const pwErrorMessage = valPw(pw);
         if (pwErrorMessage) {
-            setAuthMsg(pwErrorMessage);
-            toast.error(authMsg);
+            setAuthPwMsg(pwErrorMessage);
+            console.log(authPwMsg);
+            toast.error(authPwMsg);
+            setInvalPw(true);
             setHasSignupErr(true);
             return;
         }
@@ -131,12 +138,19 @@ const UserSignUp = () => {
             }
         } catch (error) {
             const { message } =  await error.response.data;
-            setAuthMsg(message.toLowerCase());
-            if(error.status === 409) {
+            setAuthEmailMsg(message.toLowerCase());
+            if(error.status === 400) {
                 toast.error(message);
                 setInvalEmail(true);
                 setHasSignupErr(true);
                 setAuth(false);
+                setClicked(false);
+            } else if (error.status === 409) {
+                toast.error(message);
+                setInvalEmail(true);
+                setHasSignupErr(true);
+                setAuth(false);
+                setClicked(false);
             }
             console.error('Error signing up: ', error);
         }
@@ -166,7 +180,7 @@ const UserSignUp = () => {
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
                                     {isInvalEmail ? 
-                                        (<p className="error-message" id="invalid-email">{`${isAuth ? "sign up successful. redirecting..." : authMsg}`}</p>) : ('')
+                                        (<p className="error-message" id="invalid-email">{`${isAuth ? "sign up successful. redirecting..." : authEmailMsg}`}</p>) : ('')
                                     }
                                 </div>
                             </div>
@@ -202,7 +216,7 @@ const UserSignUp = () => {
                                 </div>
                                 <div className="error-container" id="invalid-email-container">
                                     {isInvalPw ? 
-                                        (<p className="error-message" id="invalid-email">{authMsg}</p>) : ('')
+                                        (<p className="error-message" id="invalid-email">{authPwMsg}</p>) : ('')
                                     }
                                 </div>
                             </div>
@@ -227,7 +241,7 @@ const UserSignUp = () => {
                             {isAuth ? (
                                 <div className="global-msg-container" id={`${isAuth ? "success" : "error"}-container`}>
                                     <p className="global-msg" id={`global-${isAuth ? "success" : "error"}-message`}>
-                                        {`${isAuth ? "sign up successful. redirecting..." : authMsg}`}
+                                        {`${isAuth ? "sign up successful. redirecting..." : authPwMsg}`}
                                     </p>
                                 </div>
                             ) : ("")}
@@ -235,12 +249,12 @@ const UserSignUp = () => {
                             <div className="signup-button-container">
                                 <a href="/auth/login" id="to-login-button">&lt; back to login </a>
                                 <Button children="sign up" type="submit" id="signup-button" onClick={
-                                    !(hasInvalInput || hasEmptyRequired) ? handleSubmit : (event) => {
+                                    !(hasInvalInput || hasEmptyRequired || isClicked) ? handleSubmit : (event) => {
                                         event.preventDefault();
                                     }
                                 }
                                 onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} 
-                                style={(hasEmptyRequired || hasInvalInput) ? {
+                                style={(hasEmptyRequired || hasInvalInput || isClicked) ? {
                                     "backgroundColor":"grey",
                                     "color": "#262626",
                                     "cursor": "not-allowed",
