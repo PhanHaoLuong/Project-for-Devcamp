@@ -119,7 +119,7 @@ const Forum = () => {
                                             timeSincePost={displayTime(
                                                 getTimeSincePost(forumPost.createdAt)
                                             )}
-                                            postTags={null}
+                                            postTags={forumPost.tags}
                                             postContent={forumPost.content}
                                             codeLanguage={forumPost.code?.language}
                                             voteCount={forumPost.votes}
