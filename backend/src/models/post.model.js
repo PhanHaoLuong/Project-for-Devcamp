@@ -45,35 +45,7 @@ const postSchema = new mongoose.Schema({
     tags: {
         type: [{
             type: String,
-            enum : [
-                "projects",
-                "database",
-                "react",
-                "client-side",
-                "server-side",
-                "llm",
-                "digital systems",
-                "computer architecture",
-                "computer networks",
-                "computer engineering",
-                "python",
-                "javascript",
-                "c#",
-                "rust",
-                "java",
-                "go",
-                "c++",
-                "c",
-                "matlab",
-                "carbon",
-                "typescript",
-                "ruby",
-                "php",
-                "swift",
-                "kotlin",
-                "scala",
-                "elixir"
-            ]
+            enum : ["projects", "digital systems", "computer architecture", "computer networks", "computer engineering", "python", "javascript", "c#", "rust", "java", "go", "c++", "c", "matlab", "carbon", "typescript", "ruby", "php", "swift", "kotlin", "scala", "elixir"]
         }],
         default: []
     },

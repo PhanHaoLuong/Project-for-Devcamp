@@ -93,6 +93,10 @@
   border: none;
 }
 
+.selected-tags .tag {
+    height: 40px;
+}
+
 .change-tag {
   width: 150px;
 }
