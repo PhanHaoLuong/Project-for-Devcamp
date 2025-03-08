@@ -16,6 +16,7 @@ import RevealedPw from '../assets/eye.png';
 
 /* import style */
 import '../styles/UserAuth.css';
+import { set } from 'mongoose';
 
 const UserAuth = ({}) => {
     const [name, setName] = useState("");
@@ -69,6 +70,7 @@ const UserAuth = ({}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setClicked(true);
 
         const pwErrorMessage = valPw(pw);
             if (pwErrorMessage) {
@@ -93,9 +95,11 @@ const UserAuth = ({}) => {
         } catch (error) {
             if (error.status === 404) {
                 setUserExists(false);
+                setClicked(false);
             } else if (pw && error.status === 400) {
                 setWrongPw(true);
                 setInvalPw(true);
+                setClicked(false);
                 setAuthMsg('Incorrect password.');
             } else {
                 setAuthMsg('An error occurred. Please try again.');
