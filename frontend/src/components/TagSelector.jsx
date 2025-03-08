@@ -62,7 +62,6 @@ const TagSelector = ({
     // sample data
     const sampleData = [
         "projects",
-        "physics 1 (btl)",
         "database",
         "react",
         "client-side",
