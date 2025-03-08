@@ -62,76 +62,76 @@ const TagSelector = ({
     // sample data
     const sampleData = [
         {
-            tagName:"python",
-            id: uuidv4()
+            tagName: "projects"
         },
         {
-            tagName: "javascript",
-            id: uuidv4()
+            tagName: "software engineering"
+        }, 
+        {
+            tagName: "dsa"
         },
         {
-            tagName: "c#",
-            id: uuidv4()
+            tagName: "digital systems"
         },
         {
-            tagName: "rust",
-            id: uuidv4()
+            tagName: "computer architecture"
         },
         {
-            tagName: "java",
-            id: uuidv4()
+            tagName: "computer networks"
         },
         {
-            tagName: "go",
-            id: uuidv4()
+            tagName:"python"
         },
         {
-            tagName: "c++",
-            id: uuidv4()
+            tagName: "javascript"
         },
         {
-            tagName: "c",
-            id: uuidv4()
+            tagName: "c#"
         },
         {
-            tagName: "matlab",
-            id: uuidv4()
+            tagName: "rust"
         },
         {
-            tagName: "carbon",
-            id: uuidv4()
+            tagName: "java"
         },
         {
-            tagName: "go",
-            id: uuidv4()
+            tagName: "go"
         },
         {
-            tagName: "typescript",
-            id: uuidv4()
+            tagName: "c++"
         },
         {
-            tagName: "ruby",
-            id: uuidv4()
+            tagName: "c"
         },
         {
-            tagName: "php",
-            id: uuidv4()
+            tagName: "matlab"
         },
         {
-            tagName: "swift",
-            id: uuidv4()
+            tagName: "carbon"
         },
         {
-            tagName: "kotlin",
-            id: uuidv4()
+            tagName: "go"
         },
         {
-            tagName: "scala",
-            id: uuidv4()
+            tagName: "typescript"
         },
         {
-            tagName: "elixir",
-            id: uuidv4()
+            tagName: "ruby"
+        },
+        {
+            tagName: "php"
+        },
+        {
+            tagName: "swift"
+        },
+        {
+            tagName: "kotlin"
+        },
+        {
+            tagName: "scala"
+        },
+        {
+            tagName: "elixir"
         }
     ]
 

@@ -42,7 +42,13 @@ const postSchema = new mongoose.Schema({
             metadata: String,
         }],
     },
-    // tags will be implemented in the future
+    tags: {
+        type: [{
+            type: String,
+            enum : ['projects', 'dsa', 'software engineering', 'digital systems', 'computer architecture', 'computer networks', 'python', 'java', 'c++', 'javascript', 'c#', 'rust', 'go', 'c', 'matlab', 'carbon', 'elixir', 'typescript', 'ruby', 'php', 'swift', 'scala']
+        }],
+        default: []
+    },
 }, {timestamps: true}
 )
 
