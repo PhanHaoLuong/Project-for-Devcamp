@@ -9,7 +9,9 @@ const Tag = ({ tagName, onClick }) => {
         <div className="tag" 
             onClick={onClick}
             style={{
-                userSelect: 'none'
+                userSelect: 'none',
+                borderRadius: "10px",
+                minHeight: "30px",
             }}
         >
             {tagName}

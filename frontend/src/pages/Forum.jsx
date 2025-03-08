@@ -28,7 +28,7 @@ const Forum = () => {
     const userData = useAuthStore((state) => state.userData);
 
     const fetchForum = async (page) => {
-        const response = await fetch(`/forum?page=${page}`, {
+        const response = await fetch(`http://localhost:3000/forum?page=${page}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -119,7 +119,7 @@ const Forum = () => {
                                             timeSincePost={displayTime(
                                                 getTimeSincePost(forumPost.createdAt)
                                             )}
-                                            postTags={null}
+                                            postTags={forumPost.tags}
                                             postContent={forumPost.content}
                                             codeLanguage={forumPost.code?.language}
                                             voteCount={forumPost.votes}

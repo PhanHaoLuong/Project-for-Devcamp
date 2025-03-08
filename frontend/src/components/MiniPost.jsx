@@ -93,8 +93,8 @@ export default function MiniPost({
                 }
                 {postTags ? (
                     <div className="minipost-tag-container">
-                        {postTags.map((tagName) => {
-                            return <Tag tagName={tagName}/>
+                        {postTags.map((tag) => {
+                            return <Tag tagName={tag}/>
                         })}
                     </div>
                 ) : ("")}

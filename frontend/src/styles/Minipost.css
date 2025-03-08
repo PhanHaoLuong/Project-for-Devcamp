@@ -52,7 +52,7 @@
     display: -webkit-box; 
     -webkit-line-clamp: 3; 
     -webkit-box-orient: vertical; 
-    word-break: break-all;
+    word-break:normal;
     font-weight: 600;
     font-size: 1.2rem;
 }
@@ -101,6 +101,7 @@
 
 .minipost-description {
     word-break: break-all;
+    word-wrap: normal;
     text-overflow: ellipsis; 
     display: -webkit-box; 
     -webkit-line-clamp: 5; 

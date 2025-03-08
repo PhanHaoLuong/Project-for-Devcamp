@@ -252,20 +252,20 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin: 0.3125rem 0.3125rem;
-    padding: 0.25rem 0.0625rem;
+    padding: 0.25rem 1rem;
     background-color: #334566;
     border-radius: 0.4375rem;
     width: 60%;
-    min-width: 4.375rem;
+    min-width: 7rem;
     font-size: 0.75rem;
     font-weight: 100;
-    transition: all ease-in-out 0.25s;
+    transition: all ease-in-out 0.3s;
 }
 
 .tag:hover {
     font-size: 0.86rem;
     width: 70%;
-    background-color: #385c9b;
+    background-color: #008B8B;
     transition: all ease-in-out 0.1s;
 }
 

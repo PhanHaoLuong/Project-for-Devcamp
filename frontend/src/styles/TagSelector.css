@@ -79,6 +79,8 @@
     justify-content: flex-start;
     background-color: #243148;
     border-radius: 10px;
+    
+    
 }
 
 .tag-collapsible-selector-bar {
@@ -120,11 +122,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     padding: 8px 10px;
-    row-gap: 10px
+    row-gap: 10px;
 }
 
 .tag-box.collapsed {
-    height: 70px;
+    height: 110px;
 }
 
 .tag-selector .tag {
@@ -132,10 +134,13 @@
     align-items: center;
     justify-content: center;
     margin: 0;
+    padding: 20px;
     height: 20px;
     min-width: 0;
     width: 23%; 
     font-size: 0.7rem;
+    text-wrap: wrap;
+    font-weight: bold;
 }
 
 .tag-selector .tag:hover {

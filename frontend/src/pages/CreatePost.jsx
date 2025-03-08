@@ -106,7 +106,6 @@ function CreatePost() {
             })
             const files_metadata = await files_upload.data; //Getting the metadata + _id of the files uploaded
 
-
             const response = await axiosInstance.post("/post/create", {
                     title: titleText,
                     content: contentText,
@@ -115,7 +114,8 @@ function CreatePost() {
                         data: codeContent,
                         lines: lineCount,
                     },
-                    files_metadata: files_metadata
+                    files_metadata: files_metadata,
+                    tags: selectedTags
                 });
             const { redirect } = await response.data;
             if (response.status === 201) {
@@ -220,7 +220,7 @@ function CreatePost() {
                                 {isTitleEmptyErr && !titleText ? 
                                     <div className="error-message">title is required</div> : ""}
                             </div>
-                            {/* <div className="add-tag-container">
+                            {<div className="add-tag-container">
                                 <div className="add-tag-text">tags</div>
                                 {!(selectedTags.length) ? (
                                 <button className="add-tag"
@@ -243,9 +243,7 @@ function CreatePost() {
                                     </button>
                                     <div className="selected-tags">
                                     {selectedTags.map(tag => 
-                                        <Tag 
-                                        tagName={tag.tagName}
-                                        />
+                                        <Tag tagName={tag}/>
                                     )}
                                     </div>
                                 </>
@@ -266,7 +264,7 @@ function CreatePost() {
                                         currTagOptions={tagOptions}
                                     />
                                 </CSSTransition>
-                            </div> */}
+                            </div>}
                             <div className="create-content-container">
                                 <div className="content-create-text">content</div>
                                 <div className="content-area-container">

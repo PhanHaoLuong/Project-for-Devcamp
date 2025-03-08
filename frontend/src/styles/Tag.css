@@ -1,4 +1,7 @@
 .tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     text-wrap: wrap;
     text-align: center;
@@ -7,7 +10,6 @@
     margin: 5px 5px;
     padding: 4px 1px;
     background-color: #334566;
-    border-radius: 7px;
     min-width: 70px;
     max-width: 200px;
     font-size: 0.75rem;

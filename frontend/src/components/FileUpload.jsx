@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import Dropzone, { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from "uuid";
+import ellipsis from "../utils/ellipsis";
 
 // import components
 import FileItem from "./FileItem";
@@ -430,7 +431,7 @@ const FileUpload = ({ viewModeFetchContent, existingFilesArr, viewMode, setParen
                     rejectedFilesArr?.length !== 1 ? (
                         `${rejectedFilesArr.length} files are unsupported and were not uploaded.`
                     ) : (
-                        `the file "${rejectedFilesArr[0].file.name}" is unsupported and was not uploaded.`
+                        `the file "${ellipsis(rejectedFilesArr[0].file.name, 64)}" is unsupported and was not uploaded.`
                     )
                 }
                 visible={fileRejectedErr}

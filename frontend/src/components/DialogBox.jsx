@@ -43,7 +43,11 @@ const DialogBox = ({
                         </div>
                         <div className="dialog-box-body">
                             <div className="dialog-message-container">
-                                <p className="dialog-message">{message || null}</p>
+                                <p className="dialog-message"
+                                    style={{wordBreak: "break-all"}}
+                                >
+                                    {message || null}
+                                </p>
                             </div>
                             <div className="dialog-options">
                                 <button id="option-1" onClick={onClose}>
