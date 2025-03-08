@@ -39,9 +39,9 @@ const TagSelector = ({
         setSearchValue(e.target.value);
     }
 
-    const handleTagSelect = (id) => {
-        const selected = selectedTags.find(tag => tag?.id === id);
-        const unselected = tagOptions.find(tag => tag?.id === id);
+    const handleTagSelect = (targetTag) => {
+        const selected = selectedTags.find(tag => tag === targetTag);
+        const unselected = tagOptions.find(tag => tag === targetTag);
         if (unselected) {
             setSelectedTags(prevSelectedTags => 
                 [unselected, ...prevSelectedTags]
@@ -61,93 +61,50 @@ const TagSelector = ({
     
     // sample data
     const sampleData = [
-        {
-            tagName: "projects"
-        },
-        {
-            tagName: "software engineering"
-        }, 
-        {
-            tagName: "dsa"
-        },
-        {
-            tagName: "digital systems"
-        },
-        {
-            tagName: "computer architecture"
-        },
-        {
-            tagName: "computer networks"
-        },
-        {
-            tagName:"python"
-        },
-        {
-            tagName: "javascript"
-        },
-        {
-            tagName: "c#"
-        },
-        {
-            tagName: "rust"
-        },
-        {
-            tagName: "java"
-        },
-        {
-            tagName: "go"
-        },
-        {
-            tagName: "c++"
-        },
-        {
-            tagName: "c"
-        },
-        {
-            tagName: "matlab"
-        },
-        {
-            tagName: "carbon"
-        },
-        {
-            tagName: "go"
-        },
-        {
-            tagName: "typescript"
-        },
-        {
-            tagName: "ruby"
-        },
-        {
-            tagName: "php"
-        },
-        {
-            tagName: "swift"
-        },
-        {
-            tagName: "kotlin"
-        },
-        {
-            tagName: "scala"
-        },
-        {
-            tagName: "elixir"
-        }
-    ]
+        "projects",
+        "physics 1 (btl)",
+        "database",
+        "react",
+        "client-side",
+        "server-side",
+        "llm",
+        "digital systems",
+        "computer architecture",
+        "computer networks",
+        "computer engineering",
+        "python",
+        "javascript",
+        "c#",
+        "rust",
+        "java",
+        "go",
+        "c++",
+        "c",
+        "matlab",
+        "carbon",
+        "go",
+        "typescript",
+        "ruby",
+        "php",
+        "swift",
+        "kotlin",
+        "scala",
+        "elixir"
+    ];
 
     const handleSearchTag = (searchValue) => {
         const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const matchPattern = new RegExp(escapedSearchValue, 'i');
-        return sampleData.filter(tag => matchPattern.test(tag.tagName));
+        return sampleData.filter(tag => matchPattern.test(tag));
     };
 
     useEffect(() => {
         const unselectedTags = sampleData.filter(
-            tag => !selectedTags.some(selected => selected.tagName === tag.tagName)
+            tag => !selectedTags.some(selected => selected === tag)
         );
         const result = searchValue ? (
             handleSearchTag(searchValue).filter(
-                tag => !selectedTags.some(selected => selected.tagName === tag.tagName)
+                tag => !selectedTags.some(selected => selected === tag)
             )
         ) : (
             unselectedTags
@@ -223,16 +180,16 @@ const TagSelector = ({
                         selected tags
                     </p>
                     <p className="selected-tag-limit">
-                        {`${selectedTags.length}/8`}
+                        {`${selectedTags.length}/${configs.tagsLimit}`}
                     </p>
                 </p>
                 <div className="selected-tag-box">
                     {!selectedTags.length ? "no tag selected." : (
                         <>
                         {selectedTags.map((tag) => 
-                            <Tag tagName={tag.tagName || "N/a"}
+                            <Tag tagName={tag || "N/a"}
                                 onClick={() => {
-                                    handleTagSelect(tag.id)
+                                    handleTagSelect(tag)
                                 }}
                             />
                         )}
@@ -275,18 +232,18 @@ const TagSelector = ({
                     {tagOptions.length ? (isCollapsed ? (
                         tagOptions.slice(0, 8).map((tag) =>
                             <Tag 
-                                tagName={tag?.tagName || "N/A"}
+                                tagName={tag || "N/A"}
                                 onClick={() => {
-                                    if (selectedTags.length < configs.tagsLimit) handleTagSelect(tag.id);
+                                    if (selectedTags.length < configs.tagsLimit) handleTagSelect(tag);
                                 }}
                             />
                         )
                     ) : (
                         tagOptions.map((tag) =>
                             <Tag 
-                                tagName={tag?.tagName || "N/A"}
+                                tagName={tag || "N/A"}
                                 onClick={() => {
-                                    if (selectedTags.length < configs.tagsLimit) handleTagSelect(tag.id);
+                                    if (selectedTags.length < configs.tagsLimit) handleTagSelect(tag);
                                 }}
                             />
                         )

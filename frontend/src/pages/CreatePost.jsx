@@ -244,9 +244,7 @@ function CreatePost() {
                                     </button>
                                     <div className="selected-tags">
                                     {selectedTags.map(tag => 
-                                        <Tag 
-                                        tagName={tag.tagName}
-                                        />
+                                        <Tag tagName={tag}/>
                                     )}
                                     </div>
                                 </>

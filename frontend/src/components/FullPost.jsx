@@ -183,7 +183,7 @@ export default function FullPost({
                             <div className="tag-container">
                                 {postTags.map((tag, index) => {
                                     if (tag) {
-                                        return <Tag key={index} tagName={tag.tagName || "N/A"}/>
+                                        return <Tag key={index} tagName={tag || "N/A"}/>
                                     }
                                 })}
                             </div>
